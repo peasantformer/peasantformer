@@ -124,10 +124,13 @@ struct Member {
 	MemberType type;
 };
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> parent of 7b37877... Section/Level design. Actualy, bad one. Will be replaced by vectors.
 int main(int argc, char **argv) {
 	return 0;
 }
