@@ -56,10 +56,6 @@ inline Vector2 operator*(Vector2 l, float r) {
 	return Vector2(l.x*r, l.y*r);
 }
 
-inline Vector2 operator*(float l, Vector2 r) {
-	return Vector2(r.x*l, r.y*l);
-}
-
 inline Vector2 operator/(Vector2 l, float r) {
 	return Vector2(l.x/r, l.y/r);
 }
@@ -79,14 +75,6 @@ inline Vector2 operator+(Vector2 l, Vector2 r) {
 inline Vector2 operator-(Vector2 l, Vector2 r) {
 	return Vector2(l.x-r.x, l.y-r.y);
 }
-bool operator==(Vector2 l, Vector2 r) {
-	return 	l.x == r.x &&  l.y == r.y;
-}
-
-bool operator!=(Vector2 l, Vector2 r) {
-	return 	l.x != r.x ||  l.y != r.y;
-}
-
 
 int main(int argc, char **argv) {
 
