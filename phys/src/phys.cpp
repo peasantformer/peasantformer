@@ -88,7 +88,6 @@ class Particle {
 	public:
 		Vector2 position;
 		Vector2 speed;
-		float x,y;
 		float width;
 		float height;
 		float inv_mass;
@@ -181,10 +180,6 @@ class Section {
 			this->members = NULL;
 		}
 		~Section() {
-			for (int i=0; i < this->allocated; i++) {
-				free(this->members[i]);
-				this->members[i] = NULL;
-			}
 			free(this->members);
 			this->members = NULL;
 		}
@@ -198,7 +193,6 @@ class Section {
 			if (this->count > this->allocated) {
 				this->allocated++;
 				this->members = (Particle **)realloc(this->members, this->allocated * sizeof(Particle *));
-//				this->members[this->count-1] = (Particle *)malloc(sizeof (Particle));
 			}
 
 			this->members[this->count-1] = particle;
@@ -258,6 +252,10 @@ class Level {
 					this->sections[cnt++] = Section(x,y,s_w,s_h);
 				}
 			}
+			
+			pt_count = 0;
+			pt_allocated = 0;
+			particles = NULL;
 
 		}
 		~Level() {
@@ -270,6 +268,16 @@ class Level {
 		}
 	public:
 		void add_obj(Particle pt) {
+			pt_count++;
+			if (this->pt_count > this->pt_allocated) {
+				this->pt_allocated++;
+				this->particles = (Particle *)realloc(this->particles, this->pt_allocated * sizeof (Particle));
+			}
+			
+			this->particles[this->pt_count-1] = pt;
+			int x = (int)pt.position.x/section_width;
+			int y = (int)pt.position.y/section_height;
+			
 			
 		}
 		void del_obj(int sec, int i) {
@@ -333,6 +341,8 @@ int main(int argc, char **argv) {
 
 	World world;
 	world.add(0,0,800,600,100,100);
+	
+	world[0]->add_obj(Particle(Vector2(	150,150), Vector2(0,0), 10, 10, 1, 1, false));
 	
 	printf("%d\n",world[0]->sec_size());
 
