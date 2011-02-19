@@ -1,5 +1,9 @@
 #include <stdio.h>
+#include <math.h>
 #include "SDL/SDL.h"
+
+class Vector2;
+Vector2 operator*(Vector2, float);
 
 class Vector2 {
 	public:
@@ -47,6 +51,42 @@ class Vector2 {
 			return ((*this)	 * inv_length);	
 		}
 };
+
+inline Vector2 operator*(Vector2 l, float r) {
+	return Vector2(l.x*r, l.y*r);
+}
+
+inline Vector2 operator*(float l, Vector2 r) {
+	return Vector2(r.x*l, r.y*l);
+}
+
+inline Vector2 operator/(Vector2 l, float r) {
+	return Vector2(l.x/r, l.y/r);
+}
+
+inline Vector2 operator*(Vector2 l, Vector2 r) {
+	return Vector2(l.x*r.x, l.y*r.y);
+}
+
+inline Vector2 operator/(Vector2 l, Vector2 r) {
+	return Vector2(l.x/r.x, l.y/r.y);
+}
+
+inline Vector2 operator+(Vector2 l, Vector2 r) {
+	return Vector2(l.x+r.x, l.y+r.y);
+}
+
+inline Vector2 operator-(Vector2 l, Vector2 r) {
+	return Vector2(l.x-r.x, l.y-r.y);
+}
+bool operator==(Vector2 l, Vector2 r) {
+	return 	l.x == r.x &&  l.y == r.y;
+}
+
+bool operator!=(Vector2 l, Vector2 r) {
+	return 	l.x != r.x ||  l.y != r.y;
+}
+
 
 int main(int argc, char **argv) {
 
