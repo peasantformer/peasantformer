@@ -1,5 +1,6 @@
-																																												#include <stdio.h>
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 #include "SDL/SDL.h"
 
 class Vector2;
@@ -153,12 +154,15 @@ class Section {
 			return this->members[i];
 		}
 	public:
-		void add(Member member) {
+		void add(Particle particle, MemberType type) {
 			this->count++;
 			if (this->count > this->allocated) {
 				this->allocated++;
 				this->members = (Member *)realloc(this->members, this->allocated * sizeof(Member));
 			}
+			Member member;
+			member.particle = particle;
+			member.type = type;
 			this->members[this->count-1] = member;
 		}
 		void del(int i) {
@@ -200,17 +204,17 @@ class Level {
 			this->sections = NULL;
 		}
 	public:
-		Section operator[](int i) {
-			return this->sections[i];
+		Section *operator[](int i) {
+			return &this->sections[i];
 		}
 	public:
-		void add(Section section) {
+		void add(int x, int y, int width, int height) {
 			this->count++;
 			if (this->count > this->allocated) {
 				this->allocated++;
 				this->sections = (Section *)realloc(this->sections, this->allocated * sizeof(Section));
 			}
-			this->sections[this->count-1] = section;
+			this->sections[this->count-1] = Section(x,y,width,height);
 		}
 		void del(int i) {
 			if (this->count == 0) return;
@@ -224,8 +228,63 @@ class Level {
 		
 };
 
+class World {
+	private:
+		int count;
+		int allocated;
+		Level *levels;
+	public:
+		World() {
+			this->count = 0;
+			this->allocated = 0;
+			this->levels = NULL;
+		}
+		~World() {
+			free(this->levels);
+			this->levels = NULL;
+		}
+	public:
+		Level *operator[](int i) {
+			return &this->levels[i];
+		}
+	public:
+		void add(int x, int y, int width, int height) {
+			this->count++;
+			if (this->count > this->allocated) {
+				this->allocated++;
+				this->levels = (Level *)realloc(this->levels, this->allocated * sizeof(Level));
+			}
+			this->levels[this->count-1] = Level(x,y,width,height);
+		}
+		void del(int i) {
+			if (this->count == 0) return;
+			this->count--;
+			if (this->count == i) return;
+			this->levels[i] = this->levels[this->count];
+		}
+		int size() {
+			return this->count;
+		}
+		
+};
+
 
 int main(int argc, char **argv) {
+	int level_width = 800;
+	int level_height = 600;
+	int section_width = 100;
+	int section_height = 100;
 
+	World world;
+	world.add(0,0,800,600);
+
+	return 0;
+	for (int i=0, x=0; i < level_width; i += section_width, x++) {
+		for (int n=0, y=0; n < level_height; n += section_height, y++) {
+			world[0]->add(x,y,i,n);
+		}
+	}
+
+	
 	return 0;
 }
