@@ -1,4 +1,4 @@
-#include <stdio.h>
+																																												#include <stdio.h>
 #include <math.h>
 #include "SDL/SDL.h"
 
@@ -75,6 +75,53 @@ inline Vector2 operator+(Vector2 l, Vector2 r) {
 inline Vector2 operator-(Vector2 l, Vector2 r) {
 	return Vector2(l.x-r.x, l.y-r.y);
 }
+
+
+
+class Particle {
+	public:
+		Vector2 position;
+		Vector2 speed;
+		float width;
+		float height;
+		float inv_mass;
+		float bounceness;
+		bool pinned;
+	public:
+		Particle() {
+			this->position = Vector2(0,0);
+			this->speed = Vector2(0,0);
+			this->width = 1;
+			this->height = 1;
+			this->inv_mass = 1;
+			this->bounceness = 1;
+			this->pinned = false;
+		}
+		Particle(Vector2 p, Vector2 s, float w, float h, float m, float b, bool pinned) {
+			this->position = p;
+			this->speed = s;
+			this->width = w;
+			this->height = h;
+			this->inv_mass = m;
+			this->bounceness = b;
+			this->pinned = pinned;
+		}
+	public:
+		void draw() {
+			if (position.x < 0 || position.y < 0) return;
+		}
+		
+};
+
+enum MemberType {
+	FULL,
+	PARTIAL
+};
+
+struct Member {
+	Particle particle;
+	MemberType type;
+};
 
 int main(int argc, char **argv) {
 
