@@ -123,6 +123,108 @@ struct Member {
 	MemberType type;
 };
 
+class Section {
+	private:
+		int count;
+		int allocated;
+		Member *members;
+	public:
+		int x;
+		int y;
+		int width;
+		int height;
+	public:
+		Section(int x, int y, int width, int height) {
+			this->x = x;
+			this->y = y;
+			this->width = width;
+			this->height = height;
+			
+			this->count = 0;
+			this->allocated = 0;
+			this->members = NULL;
+		}
+		~Section() {
+			free(this->members);
+			this->members = NULL;
+		}
+	public:
+		Member operator[](int i) {
+			return this->members[i];
+		}
+	public:
+		void add(Member member) {
+			this->count++;
+			if (this->count > this->allocated) {
+				this->allocated++;
+				this->members = (Member *)realloc(this->members, this->allocated * sizeof(Member));
+			}
+			this->members[this->count-1] = member;
+		}
+		void del(int i) {
+			if (this->count == 0) return;
+			this->count--;
+			if (this->count == i) return;
+			this->members[i] = this->members[this->count];
+		}
+		int size() {
+			return this->count;
+		}
+		
+};
+
+
+class Level {
+	private:
+		int count;
+		int allocated;
+		Section *sections;
+	public:
+		int x;
+		int y;
+		int width;
+		int height;
+	public:
+		Level(int x, int y, int width, int height) {
+			this->x = x;
+			this->y = y;
+			this->width = width;
+			this->height = height;
+			
+			this->count = 0;
+			this->allocated = 0;
+			this->sections = NULL;
+		}
+		~Level() {
+			free(this->sections);
+			this->sections = NULL;
+		}
+	public:
+		Section operator[](int i) {
+			return this->sections[i];
+		}
+	public:
+		void add(Section section) {
+			this->count++;
+			if (this->count > this->allocated) {
+				this->allocated++;
+				this->sections = (Section *)realloc(this->sections, this->allocated * sizeof(Section));
+			}
+			this->sections[this->count-1] = section;
+		}
+		void del(int i) {
+			if (this->count == 0) return;
+			this->count--;
+			if (this->count == i) return;
+			this->sections[i] = this->sections[this->count];
+		}
+		int size() {
+			return this->count;
+		}
+		
+};
+
+
 int main(int argc, char **argv) {
 
 	return 0;
