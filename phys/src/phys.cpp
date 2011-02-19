@@ -166,14 +166,10 @@ class Section {
 	public:
 		int x;
 		int y;
-		int width;
-		int height;
 	public:
-		Section(int x, int y, int width, int height) {
+		Section(int x, int y) {
 			this->x = x;
 			this->y = y;
-			this->width = width;
-			this->height = height;
 			
 			this->count = 0;
 			this->allocated = 0;
@@ -217,119 +213,67 @@ class Level {
 		Section *sections;
 		
 		int pt_count;
-		int pt_allocated;
+		int pt_alloc;
 		Particle *particles;
-		
 	public:
-		int x;
-		int y;
-		int width;
-		int height;
-		int abs_width;
-		int abs_height;
+		int x,y;
+		int width,height;
 		int section_width;
 		int section_height;
 	public:
-		Level(int x, int y, int width, int height, int s_w, int s_h) {
+		Level(int x, int y, int un_width, int un_height, int s_w, int s_h) {
 			this->x = x;
 			this->y = y;
-			this->abs_width = width;
-			this->abs_height = height;
-
-			this->width = (width/s_w) * s_w;
-			this->height = (height/s_h) * s_h;
-			
+			this->width = un_width/s_w;
+			this->height = un_height/s_h;
+			if (this->width == 0) this->width = 1;
+			if (this->height == 0) this->height = 1;
 			this->section_width = s_w;
 			this->section_height = s_h;
-
-			this->sec_count = (width/s_w) * (height/s_h);
-			
+			this->sec_count = this->width * this->height;
 			this->sections = (Section *)malloc(this->sec_count * sizeof(Section));
-			
+			this->pt_count = 0;
+			this->pt_alloc = 0;
+			this->particles = NULL;
+
 			int cnt=0;
-			for (int x=0; x < width/s_w; x++) {
-				for (int y=0; y < height/s_h; y++) {
-					this->sections[cnt++] = Section(x,y,s_w,s_h);
+			for (int x=0; x < this->width; x++) {
+				for (int y=0; y < this->height; y++) {
+					this->sections[cnt++] = Section(x,y);
 				}
 			}
-			
-			pt_count = 0;
-			pt_allocated = 0;
-			particles = NULL;
-
 		}
 		~Level() {
 			free(this->sections);
+			free(this->particles);
 			this->sections = NULL;
-		}
-	public:
-		Section *operator[](int i) {
-			return &this->sections[i];
+			this->particles = NULL;
 		}
 	public:
 		void add_obj(Particle pt) {
-			pt_count++;
-			if (this->pt_count > this->pt_allocated) {
-				this->pt_allocated++;
-				this->particles = (Particle *)realloc(this->particles, this->pt_allocated * sizeof (Particle));
+			int x = (int)pt.position.x/(int)section_width;
+			int y = (int)pt.position.y/(int)section_height;
+			
+			if (x >= this->width || y >= this->height) return;
+
+			this->pt_count++;
+
+			if (this->pt_count > this->pt_alloc) {
+				this->pt_alloc++;
+				this->particles = (Particle *)realloc(this->particles, this->pt_alloc * sizeof (Particle));
 			}
 			
 			this->particles[this->pt_count-1] = pt;
-			int x = (int)pt.position.x/section_width;
-			int y = (int)pt.position.y/section_height;
-			
-			
-		}
-		void del_obj(int sec, int i) {
 
-		}
-		void move_obj(int sec, int i) {
+			int cnt = height * x + y;
+			int s;
 			
+			
+//			s = this->sections[cnt].add(&this->particles[this->pt_count-1]);
+//			this->particles[this->pt_count-1].add_rev(cnt,s);
+			
+						
 		}
-		int sec_size() {
-			return this->sec_count;
-		}
-		
-};
-
-class World {
-	private:
-		int count;
-		int allocated;
-		Level *levels;
-	public:
-		World() {
-			this->count = 0;
-			this->allocated = 0;
-			this->levels = NULL;
-		}
-		~World() {
-			free(this->levels);
-			this->levels = NULL;
-		}
-	public:
-		Level *operator[](int i) {
-			return &this->levels[i];
-		}
-	public:
-		void add(int x, int y, int width, int height, int s_x, int s_y) {
-			this->count++;
-			if (this->count > this->allocated) {
-				this->allocated++;
-				this->levels = (Level *)realloc(this->levels, this->allocated * sizeof(Level));
-			}
-			this->levels[this->count-1] = Level(x,y,width,height,s_x,s_y);
-		}
-		void del(int i) {
-			if (this->count == 0) return;
-			this->count--;
-			if (this->count == i) return;
-			this->levels[i] = this->levels[this->count];
-		}
-		int size() {
-			return this->count;
-		}
-		
 };
 
 
@@ -339,6 +283,10 @@ int main(int argc, char **argv) {
 	int section_width = 100;
 	int section_height = 100;
 
+	Level lvl(0,0,200,800,100,100);
+	lvl.add_obj(Particle(Vector2(190,190), Vector2(0,0), 10, 10, 1, 1, false));
+//	s.add(Particle(Vector2(150,150), Vector2(0,0), 10, 10, 1, 1, false));
+/*
 	World world;
 	world.add(0,0,800,600,100,100);
 	
@@ -354,7 +302,7 @@ int main(int argc, char **argv) {
 	}
 	
 //	for (int i=0; i < world
-
+*/
 	
 	return 0;
 }
