@@ -84,22 +84,56 @@ class Array {
 		int count;
 		int alloc;
 		T *data;
+	private:
+		void swap(Array &s) throw () {
+			T *temp = this->data;
+			this->data = s.data;
+			s.data = temp;
+		}
 	public:
+		Array(const Array &copy) {
+			this->count = copy.get_count();
+			this->alloc = copy.get_alloc();
+			this->data = NULL;
+			if (get_alloc() > 0) {
+				this->data = (T *)malloc(this->alloc * sizeof (T));
+				memcpy(this->data,copy.get_data(),this->alloc * sizeof (T));
+			}
+		}
 		Array() {
 			this->count = 0;
 			this->alloc = 0;
 			this->data = NULL;
 		}
 		~Array() {
+			printf("%p\n",(void*)this->data);
 			this->count = 0;
 			this->alloc = 0;
 			free(this->data);
+			this->data = NULL;
 		}
 	public:
 		T operator[](int i) {
 			return this->data[i];
 		}
+		Array & operator=(Array const &r) {
+			if (this == &r) return *this;
+			this->count = r.get_count();
+			this->alloc = r.get_alloc();
+			Array copy(r);
+			copy.swap (*this);
+			return *this;
+		}
 	public:
+		int get_count() const {
+			return this->count;
+		}
+		int get_alloc() const {
+			return this->alloc;
+		}
+		T *get_data() const {
+			return this->data;
+		}
 		int add_item(T item) {
 			this->count++;
 			if (this->count > this->alloc) {
@@ -126,12 +160,33 @@ class Array {
 		}
 };
 
+
 struct RevSectIndex {
 	int section;
 	int index;
 };
-
-
+/*
+class RevSectIndex {
+	public:
+		int section;
+		int index;
+	public:
+		RevSectIndex() {
+			this->section = 0;
+			this->index = 0;
+		}
+	public:
+		RevSectIndex (const RevSectIndex &r) {
+			this->index = r.index;
+			this->section = r.section;
+		}
+		RevSectIndex& operator=(const RevSectIndex &r) {
+			this->index = r.index;
+			this->section = r.section;
+			return *this;
+		}
+};
+*/
 
 class Particle {
 	public:
@@ -144,6 +199,39 @@ class Particle {
 		bool pinned;
 		
 		Array<RevSectIndex> rev_sections;
+	public:
+		Particle (const Particle &r) {
+			this->position = r.position;
+			this->speed = r.speed;
+			this->width = r.width;
+			this->height = r.height;
+			this->inv_mass = r.inv_mass;
+			this->bounceness = r.bounceness;
+			this->pinned = r.pinned;
+			this->rev_sections = r.rev_sections;
+		}
+		Particle& operator=(const Particle &r) {
+			this->position = r.position;
+			this->speed = r.speed;
+			this->width = r.width;
+			this->height = r.height;
+			this->inv_mass = r.inv_mass;
+			this->bounceness = r.bounceness;
+			this->pinned = r.pinned;
+			Particle copy(r);
+			copy.swap(*this);
+//			this->rev_sections = r.rev_sections;
+			return *this;
+		}
+		void swap(Particle &s) throw () {
+			Array<RevSectIndex> temp = this->rev_sections;
+
+			this->rev_sections = s.rev_sections;
+			s.rev_sections = temp;
+//			Array<RevSectIndex> temp = this->data;
+//			this->data = s.data;
+//			s.data = temp;
+		}
 	public:
 		Particle() {
 			this->position = Vector2(0,0);
@@ -164,6 +252,9 @@ class Particle {
 			this->bounceness = b;
 			this->pinned = pinned;
 
+		}
+		~Particle() {
+			printf("particle decon\n");
 		}
 
 	public:
@@ -200,6 +291,12 @@ class Section {
 		Particle *operator[](int i) {
 			return this->members[i];
 		}
+		Section & operator=(const Section &r) {
+			this->x = r.x;
+			this->y = r.y;
+			this->members = r.members;
+			return *this;
+		}
 	public:
 		int add_member(Particle *pt) {
 			return this->members.add_item(pt);
@@ -234,9 +331,7 @@ class Level {
 			for (int x=0; x < this->width; x++) {
 				for (int y=0; y < this->height; y++) {
 					printf("%d sec %d %d\n",sections.size(),x,y);
-					Section *sec = (Section *) malloc(sizeof(Section));
-					*sec = Section(x,y);
-					this->sections.add_item(*sec);
+					this->sections.add_item(Section(x,y));
 				}
 			}
 			printf("%d\n",this->sections.size());
@@ -245,10 +340,22 @@ class Level {
 			printf("level decon\n");
 		}
 	public:
+		Level & operator=(const Level &r) {
+			this->sections = r.sections;
+			this->objects = r.objects;
+			this->x = r.x;
+			this->y = r.y;
+			this->width = r.width;
+			this->height = r.height;
+			this->sec_width = r.sec_width;
+			this->sec_height = r.sec_height;
+			return *this;
+		}
+	public:
 		void add_obj(Particle pt) {
 			int id;
 			id = this->objects.add_item(pt);
-			this->place_obj(id);
+//			this->place_obj(id);
 		}
 		void del_obj(int i) {
 			this->objects.del_item(i);
@@ -265,7 +372,7 @@ class Level {
 				for (int n=min_y; n <= max_y; n++) {
 					if (n >= this->height || n < 0) continue;
 					cnt = height * i + n;
-					
+					s = 10;
 //					this->sections[0].add_member(&objects[id]);
 //					printf("%f\n",this->objects[0].position.x);
 //					printf("%d\n",this->sections[0].size());
@@ -276,13 +383,30 @@ class Level {
 };
 
 int main(int argc, char **argv) {
-	int level_width = 800;
-	int level_height = 600;
-	int section_width = 100;
-	int section_height = 100;
+//	int level_width = 800;
+//	int level_height = 600;
+//	int section_width = 100;
+//	int section_height = 100;
+//	Particle pt1(Vector2(50,150), Vector2(0,0), 50, 50, 1, 1, false);
+//	pt1.add_rev(0,2);
+//	Particle pt2;
+//	
+//	pt2 = pt1;
+	
+	
+//	printf("%d\n",pt2.rev_sections[0].index);
 
-	Level lvl(0,0,200,200,100,100);
-	lvl.add_obj(Particle(Vector2(50,150), Vector2(0,0), 50, 50, 1, 1, false));
+//	Level lvl(0,0,200,200,100,100);
+//	Array<Section> sections;
+	
+//	sections.add_item(Section(0,0));
+	Array<Particle> pts;
+	
+	pts.add_item(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));
+	printf("|||||||||| %d\n",(int)pts[0].position.x);
+
+
+//	lvl.add_obj();
 //	printf("%d\n",lvl.sections[0].size());
 //	printf("%d\n",lvl.sections.members);
 //	lvl.add_obj(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));	
