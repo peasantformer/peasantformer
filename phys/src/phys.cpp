@@ -81,17 +81,17 @@ inline Vector2 operator-(Vector2 l, Vector2 r) {
 template <class T>
 class Array {
 	private:
-		int size;
+		int count;
 		int alloc;
 		T *data;
 	public:
 		Array() {
-			this->size = 0;
+			this->count = 0;
 			this->alloc = 0;
 			this->data = NULL;
 		}
 		~Array() {
-			this->size = 0;
+			this->count = 0;
 			this->alloc = 0;
 			free(this->data);
 		}
@@ -100,22 +100,26 @@ class Array {
 			return this->data[i];
 		}
 	public:
-		void add_item(T item) {
-			this->size++;
-			if (this->size > this->alloc) {
+		int add_item(T item) {
+			this->count++;
+			if (this->count > this->alloc) {
 				this->alloc++;
-				this->data = (T*)realloc(this->data,sizeof(T));
+				this->data = (T*)realloc(this->data,this->alloc * sizeof(T));
 			}
-			this->data[this->size-1] = item;
+			this->data[this->count-1] = item;
+			return this->count-1;
 		}
 		void del_item (int i) {
-			if (this->size == 0) return;
+			if (this->count == 0) return;
 			this->count--;
 			if (this->count == i) return;
 			this->data[i] = this->data[this->count];
 		}
+		int size() {
+			return this->count;
+		}
 		void clear() {
-			this->size = 0;
+			this->count = 0;
 			this->alloc = 0;
 			free(this->data);
 			this->data = NULL;	
@@ -181,22 +185,94 @@ class Particle {
 };
 
 class Section {
-	private:
-		std::list<Particle *> members;
 	public:
+		Array<Particle *> members;
 		int x,y;
 	public:
 		Section(int x, int y) {
 			this->x = x;
 			this->y = y;
 		}
+		~Section() {
+			printf("decon\n");
+		}
 	public:
 		Particle *operator[](int i) {
-			std::list<Particle *>::iterator it;
-			it = this->members.begin();
-			return *it;
+			return this->members[i];
 		}
+	public:
+		int add_member(Particle *pt) {
+			return this->members.add_item(pt);
+		}
+		void del_member(int i) {
+			this->members.del_item(i);
+		}
+		int size() {
+			return this->members.size();
+		}
+};
+
+class Level {
+	public:
+		Array<Section> sections;
+		Array<Particle> objects;
 		
+		int x,y;
+		int width,height;
+		int sec_width, sec_height;
+	public:
+		Level(int x, int y, int u_w, int u_h, int s_w, int s_h) {
+			this->x = x;
+			this->y = y;
+			this->width = u_w/s_w;
+			this->height = u_h/s_h;
+			if (this->width == 0) this->width = 1;
+			if (this->height == 0) this->height = 1;
+			this->sec_width = s_w;
+			this->sec_height = s_h;
+			
+			for (int x=0; x < this->width; x++) {
+				for (int y=0; y < this->height; y++) {
+					printf("%d sec %d %d\n",sections.size(),x,y);
+					Section *sec = (Section *) malloc(sizeof(Section));
+					*sec = Section(x,y);
+					this->sections.add_item(*sec);
+				}
+			}
+			printf("%d\n",this->sections.size());
+		}
+		~Level() {
+			printf("level decon\n");
+		}
+	public:
+		void add_obj(Particle pt) {
+			int id;
+			id = this->objects.add_item(pt);
+			this->place_obj(id);
+		}
+		void del_obj(int i) {
+			this->objects.del_item(i);
+		}
+		void place_obj(int id) {
+			int max_x = (this->objects[id].position.x + this->objects[id].width/2) / this->sec_width;
+			int min_x = (this->objects[id].position.x - this->objects[id].width/2) / this->sec_width;
+			int max_y = (this->objects[id].position.y + this->objects[id].height/2) / this->sec_height;
+			int min_y = (this->objects[id].position.y - this->objects[id].height/2) / this->sec_height;
+			
+			int s,cnt;
+			for (int i=min_x; i <= max_x; i++) {
+				if (i >= this->width || y < 0) continue;
+				for (int n=min_y; n <= max_y; n++) {
+					if (n >= this->height || n < 0) continue;
+					cnt = height * i + n;
+					
+//					this->sections[0].add_member(&objects[id]);
+//					printf("%f\n",this->objects[0].position.x);
+//					printf("%d\n",this->sections[0].size());
+//					printf("%d %d %p\n",cnt,id,&this->objects[id]);
+				}
+			}
+		}
 };
 
 int main(int argc, char **argv) {
@@ -205,8 +281,10 @@ int main(int argc, char **argv) {
 	int section_width = 100;
 	int section_height = 100;
 
-//	Level lvl(0,0,200,200,100,100);
-//	lvl.add_obj(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));
+	Level lvl(0,0,200,200,100,100);
+	lvl.add_obj(Particle(Vector2(50,150), Vector2(0,0), 50, 50, 1, 1, false));
+//	printf("%d\n",lvl.sections[0].size());
+//	printf("%d\n",lvl.sections.members);
 //	lvl.add_obj(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));	
 //	s.add(Particle(Vector2(150,150), Vector2(0,0), 10, 10, 1, 1, false));
 /*
