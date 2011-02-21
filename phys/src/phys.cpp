@@ -304,8 +304,10 @@ class Level {
 			rmove_obj(id);
 			size_t s,cnt;
 			bool was_asigned = false;
-			for (size_t i=min_x; i <= max_x && (i >= this->width || y < 0); i++) {
-				for (size_t n=min_y; n <= max_y && (n >= this->height || n < 0); n++) {
+			for (size_t i=min_x; i <= max_x; i++) {
+					if (i >= this->width || y < 0) continue;
+				for (size_t n=min_y; n <= max_y; n++) {
+					if (n >= this->height || n < 0) continue;
 					cnt = height * i + n;
 					s = this->sections[cnt].add_member(&objects[id]);
 					this->objects[id].add_rev(cnt,s);
@@ -335,18 +337,18 @@ void phys_engine(Level *lvl) {
 		Section *sec = lvl->get_sec(i);
 		for (size_t n=0; n < sec->size(); n++) {
 			for (size_t z=n+1;z < sec->size(); z++) {
-				if (lvl->get_obj(n)->pinned == true && lvl->get_obj(z)->pinned == true) continue;
-				Vector2 p1 = lvl->get_obj(n)->position;
-				Vector2 p2 = lvl->get_obj(z)->position;
-				printf("%f\n",(p2-p1).square_length());
-				if ((p2-p1).square_length() < (50*50 + 50*50)) {
-					printf("----------------------------\n");
+//				if (lvl->get_obj(n)->pinned == true && lvl->get_obj(z)->pinned == true) continue;
+//				Vector2 p1 = lvl->get_obj(n)->position;
+//				Vector2 p2 = lvl->get_obj(z)->position;
+//					printf("%f\n",(p2-p1).square_length());
+//				if ((p2-p1).square_length() < (5*5)) {
+//					SDL_Delay(1000);
 //					Vector2 pendir = (p2-p1).normalize();
 //					float pendep = 5 + 5 - (p2-p1).length();
-//					lvl->get_obj(n)->p += pendir * pendep * 0.01;
-//					lvl->get_obj(z)->p += pendir * pendep * 0.01;
+//					lvl->get_obj(n)->p -= pendir * pendep * 1;
+//					lvl->get_obj(z)->p += pendir * pendep * 1;
 					
-				}
+//				}
 			}
 		}
 	}
@@ -366,22 +368,22 @@ int main(int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
 
-	Level lvl(0,0,1200,800,500,500);
+	Level lvl(0,0,1200,800,5000,5000);
 	
-	for (size_t i=0; i < 1; i++) {
-		for (size_t n=0; n < 1; n++) {
-			lvl.add_obj(Particle(Vector2 (150+i*10,150+n*10), Vector2 (0,0), 50, 50, 1, 1, false));
+	for (size_t i=0; i < 100; i++) {
+		for (size_t n=0; n < 50; n++) {
+			lvl.add_obj(Particle(Vector2 (50+i*10,50+n*10), Vector2 (0,0), 5, 5, 1, 1, false));
 		}
 	}
 
-	for (size_t i=0; i < 1100/50; i++) {
-		lvl.add_obj(Particle(Vector2 (i*50,10), Vector2 (0,0), 50, 50, 1, 1, true));
-		lvl.add_obj(Particle(Vector2 (i*50,300), Vector2 (0,0), 50, 50, 1, 1, true));
+	for (size_t i=0; i < 1100/5; i++) {
+		lvl.add_obj(Particle(Vector2 (i*5,10), Vector2 (0,0), 5, 5, 1, 1, true));
+		lvl.add_obj(Particle(Vector2 (i*5,590), Vector2 (0,0), 5, 5, 1, 1, true));
 	}
 	
 	for (size_t i=0; i < 600/5; i++) {
-		lvl.add_obj(Particle(Vector2 (10,i*50), Vector2 (0,0), 50, 50, 1, 1, true));
-		lvl.add_obj(Particle(Vector2 (1090,i*50), Vector2 (0,0), 50, 50, 1, 1, true));
+		lvl.add_obj(Particle(Vector2 (10,i*5), Vector2 (0,0), 5, 5, 1, 1, true));
+		lvl.add_obj(Particle(Vector2 (1090,i*5), Vector2 (0,0), 5, 5, 1, 1, true));
 	}
 	
 //	exit(0);
