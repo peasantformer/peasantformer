@@ -1,8 +1,8 @@
-#include <math.h>
+#include <cmath>
 #include <vector>
-#include <string.h>
-#include <stdlib.h>
 #include "SDL/SDL.h"
+
+SDL_Surface *screen;
 
 class Vector2;
 Vector2 operator*(Vector2, float);
@@ -141,6 +141,7 @@ struct RevSectIndex {
 
 class Particle {
 	public:
+		size_t id;
 		Vector2 position;
 		Vector2 speed;
 		float width;
@@ -152,6 +153,7 @@ class Particle {
 		Array<RevSectIndex> rev_sections;
 	public:
 		Particle() {
+			this->id = 0;
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
 			this->width = 1;
@@ -162,6 +164,7 @@ class Particle {
 
 		}
 		Particle(Vector2 p, Vector2 s, float w, float h, float m, float b, bool pinned) {
+			this->id = 0;
 			this->position = p;
 			this->speed = s;
 			this->width = w;
@@ -192,6 +195,13 @@ class Particle {
 		
 		void draw() {
 			if (position.x < 0 || position.y < 0) return;
+			SDL_Rect rect;
+			rect.x = this->position.x - this->width/2;
+			rect.y = this->position.y - this->height/2;
+			rect.w = this->width;
+			rect.h = this->height;
+			Uint32 color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
+			SDL_FillRect(screen,&rect,color);
 		}
 };
 
@@ -210,10 +220,9 @@ class Section {
 			this->y = y;
 		}
 	public:
-		Particle *operator[](size_t i) {
+		Particle *get_member(size_t i) {
 			return this->members[i];
 		}
-	public:
 		size_t add_member(Particle *pt) {
 			return this->members.add_item(pt);
 		}
@@ -251,15 +260,15 @@ class Level {
 			}
 		}
 	public:
-		Section get_sec(size_t i) {
-			return this->sections[i];
+		Section *get_sec(size_t i) {
+			return &this->sections[i];
 		}
 		size_t size_sec() {
 			return this->sections.size();
 		}
 		
-		Particle get_obj(size_t i) {
-			return this->objects[i];
+		Particle *get_obj(size_t i) {
+			return &this->objects[i];
 		}
 		size_t size_obj() {
 			return this->objects.size();
@@ -267,7 +276,7 @@ class Level {
 		void add_obj(Particle pt) {
 			int id;
 			id = this->objects.add_item(pt);
-			this->place_obj(id);
+			this->objects[id].id = id;
 		}
 		void del_obj(int i) {
 			this->objects.del_item(i);
@@ -277,6 +286,11 @@ class Level {
 				this->sections[objects[id].get_rev(i).section].del_member(objects[id].get_rev(i).index);
 			}
 			this->objects[id].clear_rev();
+		}
+		void rebuild_obj_links() {
+			for (size_t i=0; i < this->objects.size(); i++) {
+				this->place_obj(i);
+			}			
 		}
 		void place_obj(size_t id) {
 			size_t max_x = (this->objects[id].position.x + this->objects[id].width/2) / this->sec_width;
@@ -304,49 +318,51 @@ class Level {
 };
 
 
+void phys_engine(Level *lvl) {
+	for (size_t i=0; i < lvl->size_sec(); i++) {
+		Section *sec = lvl->get_sec(i);
+		for (size_t n=0; n < sec->size(); n++) {
+			for (size_t z=n+1;z < sec->size(); z++) {
+			}
+		}
+	}
+}
+
 
 int main(int argc, char **argv) {
-//	int level_width = 800;
-//	int level_height = 600;
-//	int section_width = 100;
-//	int section_height = 100;
 
+	SDL_Init(SDL_INIT_EVERYTHING);
+	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
+
+	Level lvl(0,0,1100,600,10,10);
 	
-//	pt1.add_rev(0,2);
-
-//	
-
-	Level lvl(0,0,200,200,100,100);
-	lvl.add_obj(Particle(Vector2(50,100), Vector2(0,0), 50, 50, 1, 1, false));
-	lvl.place_obj(0);
-//	Array<Particle> pts;
-	
-//	pts.add_item(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));
-//	printf("|||||||||| %d\n",(int)pts[0].position.x);
-
-
-//	lvl.add_obj();
-//	printf("%d\n",lvl.sections[0].size());
-//	printf("%d\n",lvl.sections.members);
-//	lvl.add_obj(Particle(Vector2(150,150), Vector2(0,0), 100, 100, 1, 1, false));	
-//	s.add(Particle(Vector2(150,150), Vector2(0,0), 10, 10, 1, 1, false));
-/*
-	World world;
-	world.add(0,0,800,600,100,100);
-	
-	world[0]->add_obj(Particle(Vector2(	150,150), Vector2(0,0), 10, 10, 1, 1, false));
-	
-	printf("%d\n",world[0]->sec_size());
-
-	return 0;
-	for (int i=0, x=0; i < level_width; i += section_width, x++) {
-		for (int n=0, y=0; n < level_height; n += section_height, y++) {
-//			world[0]->add(x,y,i,n);
+	for (size_t i=0; i < 100; i++) {
+		for (size_t n=0; n < 50; n++) {
+			lvl.add_obj(Particle(Vector2 (50+i*10,50+n*10), Vector2 (0,0), 5, 5, 1, 1, false));
 		}
 	}
 	
-//	for (int i=0; i < world
-*/
+//		
+	lvl.rebuild_obj_links();
 	
+	
+	bool quit = false; 
+	SDL_Event event;
+	while (quit == false) {	
+		SDL_PollEvent(&event);
+		if (event.type == SDL_QUIT) quit = true;
+
+		int ticks = SDL_GetTicks();
+
+		phys_engine(&lvl);
+
+		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)lvl.size_obj());		
+		for (size_t i=0; i < lvl.size_obj(); i++) {
+			lvl.place_obj(i);
+			lvl.get_obj(i)->draw();
+		}
+		SDL_Flip(screen);
+	}
+	SDL_Quit();
 	return 0;
 }
