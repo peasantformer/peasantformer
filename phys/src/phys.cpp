@@ -331,27 +331,29 @@ void phys_engine(Level *lvl) {
 		if (lvl->get_obj(i)->pinned  == true) continue;
 		lvl->get_obj(i)->p = lvl->get_obj(i)->position + lvl->get_obj(i)->speed * dt;
 	}
-
 	
 	for (size_t i=0; i < lvl->size_sec(); i++) {
 		Section *sec = lvl->get_sec(i);
 		for (size_t n=0; n < sec->size(); n++) {
-			for (size_t z=n+1;z < sec->size(); z++) {
-//				if (lvl->get_obj(n)->pinned == true && lvl->get_obj(z)->pinned == true) continue;
-//				Vector2 p1 = lvl->get_obj(n)->position;
-//				Vector2 p2 = lvl->get_obj(z)->position;
-//					printf("%f\n",(p2-p1).square_length());
-//				if ((p2-p1).square_length() < (5*5)) {
-//					SDL_Delay(1000);
-//					Vector2 pendir = (p2-p1).normalize();
-//					float pendep = 5 + 5 - (p2-p1).length();
-//					lvl->get_obj(n)->p -= pendir * pendep * 1;
-//					lvl->get_obj(z)->p += pendir * pendep * 1;
-					
-//				}
+			for (size_t z=n+1; z < sec->size(); z++) {
+				if (sec->get_member(n) == sec->get_member(z)) {	
+//					printf("%d %d\n",i,z);
+//					exit(0);
+					continue;
+				}
+				if (sec->get_member(n)->pinned == true && sec->get_member(z)->pinned == true) continue;
+				if (sec->get_member(n)->pinned == true) continue;
+				Vector2 p1 = sec->get_member(n)->position;
+				Vector2 p2 = sec->get_member(z)->position;
+				
+				if ((p2-p1).square_length() < (5 * 5)) {
+					printf("----------------- %f\n",(p2-p1).square_length());
+//					SDL_Delay(100);
+				}
 			}
 		}
 	}
+
 //	printf("----------\n");
 	
 	for (size_t i=0; i < lvl->size_obj(); i++) {
@@ -368,7 +370,7 @@ int main(int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
 
-	Level lvl(0,0,1200,800,5000,5000);
+	Level lvl(0,0,1200,800,50,50);
 	
 	for (size_t i=0; i < 100; i++) {
 		for (size_t n=0; n < 50; n++) {
