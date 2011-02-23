@@ -145,6 +145,7 @@ class Particle {
 		Vector2 position;
 		Vector2 speed;
 		Vector2 p;
+		Uint32 color;
 		float width;
 		float height;
 		float inv_mass;
@@ -163,9 +164,10 @@ class Particle {
 			this->inv_mass = 1;
 			this->bounceness = 1;
 			this->pinned = false;
+			this->color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
 
 		}
-		Particle(Vector2 p, Vector2 s, float w, float h, float m, float b, bool pinned) {
+		Particle(Vector2 p, Vector2 s, float w, float h, float m, float b, bool pinned, Uint32 c = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF)) {
 			this->id = 0;
 			this->position = p;
 			this->p = p;
@@ -175,6 +177,7 @@ class Particle {
 			this->inv_mass = m;
 			this->bounceness = b;
 			this->pinned = pinned;
+			this->color = c;
 		}
 
 	public:
@@ -203,7 +206,6 @@ class Particle {
 			rect.y = this->position.y - this->height/2;
 			rect.w = this->width;
 			rect.h = this->height;
-			Uint32 color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
 			SDL_FillRect(screen,&rect,color);
 		}
 };
@@ -227,13 +229,20 @@ class Section {
 			return this->members[i];
 		}
 		size_t add_member(Particle *pt) {
+			if (members.size() > 0)
+				printf("%d %d | %d <=> %p\n",x,y,members.size(),pt);
 			return this->members.add_item(pt);
 		}
 		void del_member(size_t i) {
+			if (members.size() > 1)
+				printf("deleting %d which is %p\n",i,members[i]);
 			this->members.del_item(i);
 		}
 		size_t size() {
 			return this->members.size();
+		}
+		void clear() {
+			this->members.clear();
 		}
 };
 
@@ -262,7 +271,7 @@ class Level {
 				}
 			}
 		}
-	public:
+		
 		Section *get_sec(size_t i) {
 			return &this->sections[i];
 		}
@@ -276,6 +285,7 @@ class Level {
 		size_t size_obj() {
 			return this->objects.size();
 		}
+		
 		void add_obj(Particle pt) {
 			int id;
 			id = this->objects.add_item(pt);
@@ -284,42 +294,64 @@ class Level {
 		void del_obj(int i) {
 			this->objects.del_item(i);
 		}
-		void rmove_obj(size_t id) {
-			for (size_t i=0; i < this->objects[id].size_rev(); i++) {
-				this->sections[objects[id].get_rev(i).section].del_member(objects[id].get_rev(i).index);
-			}
-			this->objects[id].clear_rev();
-		}
+			
 		void rebuild_obj_links() {
 			for (size_t i=0; i < this->objects.size(); i++) {
 				this->place_obj(i);
-			}			
-		}
+			}
+		}	
 		void place_obj(size_t id) {
 			size_t max_x = (this->objects[id].position.x + this->objects[id].width/2) / this->sec_width;
 			size_t min_x = (this->objects[id].position.x - this->objects[id].width/2) / this->sec_width;
 			size_t max_y = (this->objects[id].position.y + this->objects[id].height/2) / this->sec_height;
 			size_t min_y = (this->objects[id].position.y - this->objects[id].height/2) / this->sec_height;
 			
-			rmove_obj(id);
 			size_t s,cnt;
-			bool was_asigned = false;
+			for (size_t i=0; i < objects[id].size_rev(); i++) {
+				RevSectIndex rev = objects[id].get_rev(i);
+				this->sections[rev.section].del_member(rev.index);
+			}
+			this->objects[id].clear_rev();
 			for (size_t i=min_x; i <= max_x; i++) {
-					if (i >= this->width || y < 0) continue;
+				if (i >= this->width || y < 0) continue;
 				for (size_t n=min_y; n <= max_y; n++) {
 					if (n >= this->height || n < 0) continue;
+					
 					cnt = height * i + n;
 					s = this->sections[cnt].add_member(&objects[id]);
+					
 					this->objects[id].add_rev(cnt,s);
-					was_asigned = true;
 				}
 			}
+
+		}
+		void draw_sections() {
+			SDL_Rect rect;
+			Uint32 color;
+			for (size_t i=0; i < sections.size(); i++) {
+				rect.x = sections[i].x * sec_width;
+				rect.y = sections[i].y * sec_height;
+				rect.w = sec_width;
+				rect.h = sec_height;
+				switch (i%3) {
+					case 0:
+						color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
+						break;
+					case 1:
+						color = SDL_MapRGB(screen->format,0xaa,0xaa,0xaa);
+						break;
+					case 2:
+						color = SDL_MapRGB(screen->format,0xaa,0xff	,0xaa);
+						break;
+				}
+				SDL_FillRect(screen,&rect,color);
+			}		
 		}
 };
 
 
 void phys_engine(Level *lvl) {
-	Vector2 gravity(0,9.8f);
+	Vector2 gravity(0,0);
 	float dt = 0.01;
 
 	for (size_t i=0; i < lvl->size_obj(); i++) {
@@ -332,66 +364,48 @@ void phys_engine(Level *lvl) {
 		lvl->get_obj(i)->p = lvl->get_obj(i)->position + lvl->get_obj(i)->speed * dt;
 	}
 	
-	for (size_t i=0; i < lvl->size_sec(); i++) {
-		Section *sec = lvl->get_sec(i);
-		for (size_t n=0; n < sec->size(); n++) {
-			for (size_t z=n+1; z < sec->size(); z++) {
-				if (sec->get_member(n) == sec->get_member(z)) {	
-//					printf("%d %d\n",i,z);
-//					exit(0);
-					continue;
+	for (size_t z=0; z < lvl->size_sec(); z++) {
+		Section *sec = lvl->get_sec(z);
+		for (size_t i=0; i < sec->size(); i++) {
+			for (size_t n=i+1; n < sec->size(); n++) {
+			
+				printf(">>>>> ");
+				for (size_t k=0; k < sec->size(); k++) {
+					printf("%p ",sec->get_member(k));
 				}
-				if (sec->get_member(n)->pinned == true && sec->get_member(z)->pinned == true) continue;
-				if (sec->get_member(n)->pinned == true) continue;
-				Vector2 p1 = sec->get_member(n)->position;
-				Vector2 p2 = sec->get_member(z)->position;
-				
-				if ((p2-p1).square_length() < (5 * 5)) {
-					printf("----------------- %f\n",(p2-p1).square_length());
-//					SDL_Delay(100);
-				}
+				printf("\n");
+//				printf("%p\n",sec->get_member(3));
+//				SDL_Delay(100);
+//				printf("%p %p\n",sec->get_member(i),sec->get_member(n));
+//				Vector2 p1 = sec->get_member(i)->position;
+//				Vector2 p2 = sec->get_member(n)->position;
+//				printf("%f %f\n",p2.y,p1.y);
+//				SDL_Delay(100);
 			}
 		}
 	}
-
-//	printf("----------\n");
 	
 	for (size_t i=0; i < lvl->size_obj(); i++) {
 		if (lvl->get_obj(i)->pinned  == true) continue;
 		lvl->get_obj(i)->speed = (lvl->get_obj(i)->p - lvl->get_obj(i)->position) / dt;
 		lvl->get_obj(i)->position = lvl->get_obj(i)->p;
 	}
-		
 }
-
 
 int main(int argc, char **argv) {
 
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
+	
 
-	Level lvl(0,0,1200,800,50,50);
+	Level lvl(0,0,1000,500,100,100);	
 	
-	for (size_t i=0; i < 100; i++) {
-		for (size_t n=0; n < 50; n++) {
-			lvl.add_obj(Particle(Vector2 (50+i*10,50+n*10), Vector2 (0,0), 5, 5, 1, 1, false));
-		}
-	}
-
-	for (size_t i=0; i < 1100/5; i++) {
-		lvl.add_obj(Particle(Vector2 (i*5,10), Vector2 (0,0), 5, 5, 1, 1, true));
-		lvl.add_obj(Particle(Vector2 (i*5,590), Vector2 (0,0), 5, 5, 1, 1, true));
-	}
+	lvl.add_obj(Particle(Vector2 (50,50), Vector2 (0,10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
 	
-	for (size_t i=0; i < 600/5; i++) {
-		lvl.add_obj(Particle(Vector2 (10,i*5), Vector2 (0,0), 5, 5, 1, 1, true));
-		lvl.add_obj(Particle(Vector2 (1090,i*5), Vector2 (0,0), 5, 5, 1, 1, true));
-	}
+	lvl.add_obj(Particle(Vector2 (50,350), Vector2 (0,-20), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
 	
-//	exit(0);
-//		
 	lvl.rebuild_obj_links();
-	
 	
 	bool quit = false; 
 	SDL_Event event;
@@ -405,13 +419,16 @@ int main(int argc, char **argv) {
 
 		lvl.rebuild_obj_links();
 
-
 		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)lvl.size_obj());		
 
 		SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));		
+		
+		lvl.draw_sections();
+		
 		for (size_t i=0; i < lvl.size_obj(); i++) {
 			lvl.get_obj(i)->draw();
 		}
+
 		SDL_Flip(screen);
 	}
 	SDL_Quit();
