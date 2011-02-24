@@ -200,7 +200,7 @@ class Particle {
 		}
 		
 		void draw() {
-			if (position.x < 0 || position.y < 0) return;
+//			if (position.x < 0 || position.y < 0) return;
 			SDL_Rect rect;
 			rect.x = this->position.x - this->width/2;
 			rect.y = this->position.y - this->height/2;
@@ -229,13 +229,9 @@ class Section {
 			return this->members[i];
 		}
 		size_t add_member(Particle *pt) {
-			if (members.size() > 0)
-				printf("%d %d | %d <=> %p\n",x,y,members.size(),pt);
 			return this->members.add_item(pt);
 		}
 		void del_member(size_t i) {
-			if (members.size() > 1)
-				printf("deleting %d which is %p\n",i,members[i]);
 			this->members.del_item(i);
 		}
 		size_t size() {
@@ -296,21 +292,28 @@ class Level {
 		}
 			
 		void rebuild_obj_links() {
+			for (size_t id=0; id < this->objects.size(); id++) {
+				for (size_t i=0; i < objects[id].size_rev(); i++) {
+					RevSectIndex rev = objects[id].get_rev(i);
+					this->sections[rev.section].del_member(rev.index);
+				}
+			}
+			
 			for (size_t i=0; i < this->objects.size(); i++) {
 				this->place_obj(i);
 			}
 		}	
 		void place_obj(size_t id) {
+			if (this->objects[id].position.x < 0) return;
+			if (this->objects[id].position.y < 0) return;
 			size_t max_x = (this->objects[id].position.x + this->objects[id].width/2) / this->sec_width;
 			size_t min_x = (this->objects[id].position.x - this->objects[id].width/2) / this->sec_width;
 			size_t max_y = (this->objects[id].position.y + this->objects[id].height/2) / this->sec_height;
 			size_t min_y = (this->objects[id].position.y - this->objects[id].height/2) / this->sec_height;
 			
 			size_t s,cnt;
-			for (size_t i=0; i < objects[id].size_rev(); i++) {
-				RevSectIndex rev = objects[id].get_rev(i);
-				this->sections[rev.section].del_member(rev.index);
-			}
+			bool was_placed = false;
+
 			this->objects[id].clear_rev();
 			for (size_t i=min_x; i <= max_x; i++) {
 				if (i >= this->width || y < 0) continue;
@@ -321,7 +324,11 @@ class Level {
 					s = this->sections[cnt].add_member(&objects[id]);
 					
 					this->objects[id].add_rev(cnt,s);
+					was_placed = true;
 				}
+			}
+			if (was_placed == false) {
+				del_obj(id);
 			}
 
 		}
@@ -351,7 +358,8 @@ class Level {
 
 
 void phys_engine(Level *lvl) {
-	Vector2 gravity(0,0);
+	Vector2 gravity(0,9.8);
+//	Vector2 gravity(0,0);
 	float dt = 0.01;
 
 	for (size_t i=0; i < lvl->size_obj(); i++) {
@@ -369,18 +377,20 @@ void phys_engine(Level *lvl) {
 		for (size_t i=0; i < sec->size(); i++) {
 			for (size_t n=i+1; n < sec->size(); n++) {
 			
-				printf(">>>>> ");
-				for (size_t k=0; k < sec->size(); k++) {
-					printf("%p ",sec->get_member(k));
+				if (sec->get_member(n)->pinned == true) continue;
+				
+				Vector2 p1 = sec->get_member(i)->position;
+				Vector2 p2 = sec->get_member(n)->position;
+				
+				float r1 = sec->get_member(i)->width/2;
+				float r2 = sec->get_member(n)->width/2;
+				if ((p2-p1).square_length() < (r1+r2)*(r1+r2)) {
+					Vector2 pendir = (p2-p1).normalize();
+					float pendep = (r1+r2) - (p2-p1).length();
+					sec->get_member(i)->p -= pendir * pendep * 0.5;
+					sec->get_member(n)->p += pendir * pendep * 0.5;
 				}
-				printf("\n");
-//				printf("%p\n",sec->get_member(3));
-//				SDL_Delay(100);
-//				printf("%p %p\n",sec->get_member(i),sec->get_member(n));
-//				Vector2 p1 = sec->get_member(i)->position;
-//				Vector2 p2 = sec->get_member(n)->position;
-//				printf("%f %f\n",p2.y,p1.y);
-//				SDL_Delay(100);
+
 			}
 		}
 	}
@@ -399,11 +409,31 @@ int main(int argc, char **argv) {
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
 	
 
-	Level lvl(0,0,1000,500,100,100);	
+	Level lvl(0,0,1000,500,10,10);
+/*
+	lvl.add_obj(Particle(Vector2 (100,100), Vector2 (0,10), 50, 50, 1, 1, true	,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
 	
-	lvl.add_obj(Particle(Vector2 (50,50), Vector2 (0,10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-	
-	lvl.add_obj(Particle(Vector2 (50,350), Vector2 (0,-20), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
+	for (int i=0; i < 100; i++) {
+		lvl.add_obj(Particle(Vector2 (50+i*10,400), Vector2 (0,-20), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+	}
+*/	
+
+	for (size_t i=0; i < 1000/5; i++) {
+		lvl.add_obj(Particle(Vector2 (10+i*5,10), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+		lvl.add_obj(Particle(Vector2 (10+i*5,490), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+	}
+	for (size_t i=0; i < 600/5; i++) {
+		lvl.add_obj(Particle(Vector2 (10,10+i*5), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+		lvl.add_obj(Particle(Vector2 (990,10+i*5), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+	}
+
+	for (size_t i=0; i < 100; i++) {
+		for (size_t n=0; n < 50; n++) {
+			lvl.add_obj(Particle(Vector2 (20+i*9,20+n*9), Vector2 (0,0), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
+		}
+	}
+		
+
 	
 	lvl.rebuild_obj_links();
 	
