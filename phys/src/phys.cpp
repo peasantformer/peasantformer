@@ -372,7 +372,7 @@ class Level {
 };
 
 
-void phys_engine(Level *lvl) {
+void phys_engine(Level *lvl, size_t threads_number) {
 	Vector2 gravity(0,9.8);
 //	Vector2 gravity(0,0);
 	float dt = 0.01;
@@ -432,7 +432,7 @@ int main(int argc, char **argv) {
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
 	
 
-	Level lvl(0,0,1000,500,10,10);
+	Level lvl(0,0,1000,500,20,20);
 /*
 	lvl.add_obj(Particle(Vector2 (100,100), Vector2 (0,10), 50, 50, 1, 1, true	,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
 	
@@ -442,7 +442,7 @@ int main(int argc, char **argv) {
 */	
 	for (size_t i=0; i < 1000/20; i++) {
 		lvl.add_obj(Particle(Vector2 (10+i*20,10), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-		lvl.add_obj(Particle(Vector2 (10+i*20,490), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+		lvl.add_obj(Particle(Vector2 (10+i*20,450), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
 	}
 	for (size_t i=0; i < 600/20; i++) {
 		lvl.add_obj(Particle(Vector2 (10,10+i*20), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
@@ -478,7 +478,7 @@ int main(int argc, char **argv) {
 
 		int ticks = SDL_GetTicks();
 
-		phys_engine(&lvl);
+		phys_engine(&lvl,4);
 
 		lvl.rebuild_obj_links();
 
