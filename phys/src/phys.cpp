@@ -153,6 +153,7 @@ class Particle {
 		bool pinned;
 		
 		Array<RevSectIndex> rev_sections;
+		Array<size_t> collides;
 	public:
 		Particle() {
 			this->id = 0;
@@ -197,6 +198,19 @@ class Particle {
 		
 		size_t size_rev() {
 			return this->rev_sections.size();
+		}
+		
+		void add_col(size_t id) {
+			this->collides.add_item(id);
+		}
+		void clear_col() {
+			this->collides.clear();
+		}
+		bool test_col(size_t id) {
+			for (size_t i=0; i < this->collides.size(); i++) {
+				if (this->collides[i] == id) return true;
+			}
+			return false;
 		}
 		
 		void draw() {
@@ -324,6 +338,7 @@ class Level {
 					s = this->sections[cnt].add_member(&objects[id]);
 					
 					this->objects[id].add_rev(cnt,s);
+					this->objects[id].id = id;
 					was_placed = true;
 				}
 			}
@@ -378,6 +393,10 @@ void phys_engine(Level *lvl) {
 			for (size_t n=i+1; n < sec->size(); n++) {
 			
 				if (sec->get_member(n)->pinned == true) continue;
+				size_t iid = sec->get_member(i)->id;
+				size_t nid = sec->get_member(n)->id;
+				
+				if (sec->get_member(i)->test_col(nid) && sec->get_member(n)->test_col(iid)) continue;
 				
 				Vector2 p1 = sec->get_member(i)->position;
 				Vector2 p2 = sec->get_member(n)->position;
@@ -387,8 +406,10 @@ void phys_engine(Level *lvl) {
 				if ((p2-p1).square_length() < (r1+r2)*(r1+r2)) {
 					Vector2 pendir = (p2-p1).normalize();
 					float pendep = (r1+r2) - (p2-p1).length();
-					sec->get_member(i)->p -= pendir * pendep * 0.5;
-					sec->get_member(n)->p += pendir * pendep * 0.5;
+					sec->get_member(i)->p -= pendir * pendep * 0.1;
+					sec->get_member(n)->p += pendir * pendep * 0.1;
+					sec->get_member(i)->add_col(nid);
+					sec->get_member(n)->add_col(iid);
 				}
 
 			}
@@ -398,7 +419,9 @@ void phys_engine(Level *lvl) {
 	for (size_t i=0; i < lvl->size_obj(); i++) {
 		if (lvl->get_obj(i)->pinned  == true) continue;
 		lvl->get_obj(i)->speed = (lvl->get_obj(i)->p - lvl->get_obj(i)->position) / dt;
+//		printf ("id:%d num:%d %f\n",(int)lvl->get_obj(i)->id,(int)lvl->get_obj(i)->collides.size(),lvl->get_obj(i)->speed.y);
 		lvl->get_obj(i)->position = lvl->get_obj(i)->p;
+		lvl->get_obj(i)->clear_col();
 	}
 }
 
@@ -417,19 +440,29 @@ int main(int argc, char **argv) {
 		lvl.add_obj(Particle(Vector2 (50+i*10,400), Vector2 (0,-20), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
 	}
 */	
+	for (size_t i=0; i < 1000/20; i++) {
+		lvl.add_obj(Particle(Vector2 (10+i*20,10), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+		lvl.add_obj(Particle(Vector2 (10+i*20,490), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+	}
+	for (size_t i=0; i < 600/20; i++) {
+		lvl.add_obj(Particle(Vector2 (10,10+i*20), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+		lvl.add_obj(Particle(Vector2 (990,10+i*20), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
+	}
 
-	for (size_t i=0; i < 1000/5; i++) {
-		lvl.add_obj(Particle(Vector2 (10+i*5,10), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-		lvl.add_obj(Particle(Vector2 (10+i*5,490), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-	}
-	for (size_t i=0; i < 600/5; i++) {
-		lvl.add_obj(Particle(Vector2 (10,10+i*5), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-		lvl.add_obj(Particle(Vector2 (990,10+i*5), Vector2 (0,0), 5, 5, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-	}
+
+
+//	lvl.add_obj(Particle(Vector2 (100,100), Vector2 (0,10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
+//	lvl.add_obj(Particle(Vector2 (100,400), Vector2 (0,-10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+/*
+	lvl.add_obj(Particle(Vector2 (500,10), Vector2 (0,0), 1000, 20, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+	lvl.add_obj(Particle(Vector2 (500,490), Vector2 (0,0), 1000, 20, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+	lvl.add_obj(Particle(Vector2 (10,300), Vector2 (0,0), 20, 600, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+	lvl.add_obj(Particle(Vector2 (1000,300), Vector2 (0,0), 20, 600, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
+*/
 
 	for (size_t i=0; i < 100; i++) {
 		for (size_t n=0; n < 50; n++) {
-			lvl.add_obj(Particle(Vector2 (20+i*9,20+n*9), Vector2 (0,0), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
+			lvl.add_obj(Particle(Vector2 (50+i*6,50+n*6), Vector2 (0,0), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
 		}
 	}
 		
