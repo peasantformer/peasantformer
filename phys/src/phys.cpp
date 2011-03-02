@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
 #include "SDL/SDL.h"
+#include "SDL/SDL_thread.h"
 
 SDL_Surface *screen;
 
@@ -256,6 +257,40 @@ class Section {
 		}
 };
 
+
+
+
+class World {
+	public:
+		Array<Section *> sections;
+		size_t x,y;
+	public:
+		World() {
+			this->x = 0;
+			this->y = 0;
+		}
+		World(size_t x, size_t y) {
+			this->x = x;
+			this->y = y;
+		}
+	public:
+		Section *get_sec(size_t i) {
+			return this->sections[i];
+		}
+		size_t add_sec(Section *sec) {
+			return this->sections.add_item(sec);
+		}
+		void del_sec(size_t i) {
+			this->sections.del_item(i);
+		}
+		size_t size() {
+			return this->sections.size();
+		}
+		void clear() {
+			this->sections.clear();
+		}
+};
+
 class Level {
 	public:
 		Array<Section> sections;
@@ -264,8 +299,10 @@ class Level {
 		size_t x,y;
 		size_t width,height;
 		int sec_width, sec_height;
+		World *world;
 	public:
-		Level(size_t x, size_t y, size_t u_w, size_t u_h, size_t s_w, size_t s_h) {
+		Level(World *world, size_t x, size_t y, size_t u_w, size_t u_h, size_t s_w, size_t s_h) {
+			this->world = world;
 			this->x = x;
 			this->y = y;
 			this->width = u_w/s_w;
@@ -278,6 +315,7 @@ class Level {
 			for (size_t x=0; x < this->width; x++) {
 				for (size_t y=0; y < this->height; y++) {
 					this->sections.add_item(Section(x,y));
+					this->world->add_sec(&this->sections[this->sections.size()-1]);
 				}
 			}
 		}
@@ -372,74 +410,133 @@ class Level {
 };
 
 
-void phys_engine(Level *lvl, size_t threads_number) {
-	Vector2 gravity(0,9.8);
-//	Vector2 gravity(0,0);
-	float dt = 0.01;
 
-	for (size_t i=0; i < lvl->size_obj(); i++) {
-		if (lvl->get_obj(i)->pinned  == true) continue;
-		lvl->get_obj(i)->speed += gravity * dt;
-	}
-	
-	for (size_t i=0; i < lvl->size_obj(); i++) {
-		if (lvl->get_obj(i)->pinned  == true) continue;
-		lvl->get_obj(i)->p = lvl->get_obj(i)->position + lvl->get_obj(i)->speed * dt;
-	}
-	
-	for (size_t z=0; z < lvl->size_sec(); z++) {
-		Section *sec = lvl->get_sec(z);
-		for (size_t i=0; i < sec->size(); i++) {
-			for (size_t n=i+1; n < sec->size(); n++) {
-			
-				if (sec->get_member(n)->pinned == true) continue;
-				size_t iid = sec->get_member(i)->id;
-				size_t nid = sec->get_member(n)->id;
-				
-				if (sec->get_member(i)->test_col(nid) && sec->get_member(n)->test_col(iid)) continue;
-				
-				Vector2 p1 = sec->get_member(i)->position;
-				Vector2 p2 = sec->get_member(n)->position;
-				
-				float r1 = sec->get_member(i)->width/2;
-				float r2 = sec->get_member(n)->width/2;
-				if ((p2-p1).square_length() < (r1+r2)*(r1+r2)) {
-					Vector2 pendir = (p2-p1).normalize();
-					float pendep = (r1+r2) - (p2-p1).length();
-					sec->get_member(i)->p -= pendir * pendep * 0.1;
-					sec->get_member(n)->p += pendir * pendep * 0.1;
-					sec->get_member(i)->add_col(nid);
-					sec->get_member(n)->add_col(iid);
-				}
 
+class Computor;
+
+struct thread_data {
+	Computor *obj;
+	size_t id;
+	size_t begin;
+	size_t end;
+};
+
+class Computor {
+	public:
+		std::vector<SDL_Thread *> threads;
+		std::vector<bool> thread_over;
+		std::vector<bool> active;
+		size_t no_of_threads;
+		SDL_sem *got_it;
+		SDL_sem *ready;
+		size_t slice;
+		World *world;
+	public:
+		Computor(World *world, int no) {
+			this->world = world;
+			this->slice = this->world->size() / no;
+			if (this->world->size() % no) {	
+				slice += no / (this->world->size() % no);
+			}	
+//			printf("%d\n",slice);
+			this->no_of_threads = no;
+			this->got_it = SDL_CreateSemaphore(0);
+			this->ready = SDL_CreateSemaphore(0);
+			this->thread_gen();
+		}
+		~Computor() {
+			for (size_t i=0; i < this->no_of_threads; i++) {
+				SDL_KillThread(threads[i]);
+			}
+			SDL_DestroySemaphore(this->got_it);
+			SDL_DestroySemaphore(this->ready);
+		}
+	public:
+		void thread_gen() {
+			active.clear();
+			threads.clear();
+			for (size_t i=0; i < this->no_of_threads; i++) {
+				thread_data td;
+				td.obj = this;
+				td.id = i;
+				td.begin = i * this->slice;
+				td.end = i * this->slice + this->slice - 1;
+				if (td.end >= this->world->size()) td.end = this->world->size() - 1;
+				active.push_back(false);
+				thread_over.push_back(true);
+				threads.push_back(SDL_CreateThread(this->thread,&td));
+				SDL_SemWait(this->ready);
 			}
 		}
-	}
+		void iterate() {
+			for (size_t i=0; i < this->no_of_threads; i++){
+				this->active[i] = true;
+				this->thread_over[i] = false;
+				SDL_SemWait(this->got_it);
+			}
+			for (size_t i=0; i < this->no_of_threads; i++){
+				while (this->thread_over[i] == false)
+					SDL_Delay(1);
+			}
+		}
+	public:
+		void i_got_it(size_t i) {
+			this->active[i] = false;
+			SDL_SemPost(this->got_it);	
+		}
+		void i_ready() {
+			SDL_SemPost(this->ready);
+		}
+		void i_came(size_t i) {
+			this->thread_over[i] = true;
+		}
+		bool is_active(size_t i) {
+			if (i < 0 || i >= this->active.size()) // Q: why do i need this ?
+				return false;                  // A: to handle impossible case.
+			return this->active[i];
+		}
+		Section *get_data(size_t i) {
+			return this->world->get_sec(i);	
+		}
+	public:
+		static int thread(void *data) {
+			thread_data *parent_touch = (thread_data *)data;
+			Computor *parent = parent_touch->obj;
+			size_t id = parent_touch->id;
+			size_t begin = parent_touch->begin;
+			size_t end = parent_touch->end;
+			parent->i_ready();
+			while (true) {
+				if (parent->is_active(id)) {
+					parent->i_got_it(id);
+					for (size_t i=begin; i <= end; i++) {
+//						size_t c = parent->get_data(i);
+//						printf("thread #%d - %d\n",id,i);
+//						factorial(c);
+					}
+					parent->i_came(id);
+				}
+				SDL_Delay(1);
+			}
+			return 0;
+		}
 	
-	for (size_t i=0; i < lvl->size_obj(); i++) {
-		if (lvl->get_obj(i)->pinned  == true) continue;
-		lvl->get_obj(i)->speed = (lvl->get_obj(i)->p - lvl->get_obj(i)->position) / dt;
-//		printf ("id:%d num:%d %f\n",(int)lvl->get_obj(i)->id,(int)lvl->get_obj(i)->collides.size(),lvl->get_obj(i)->speed.y);
-		lvl->get_obj(i)->position = lvl->get_obj(i)->p;
-		lvl->get_obj(i)->clear_col();
-	}
-}
+};
+
+
 
 int main(int argc, char **argv) {
 
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
-	
 
-	Level lvl(0,0,1000,500,20,20);
-/*
-	lvl.add_obj(Particle(Vector2 (100,100), Vector2 (0,10), 50, 50, 1, 1, true	,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
+	World world;
+	Level lvl(&world,0,0,1000,500,20,20);
 	
-	for (int i=0; i < 100; i++) {
-		lvl.add_obj(Particle(Vector2 (50+i*10,400), Vector2 (0,-20), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-	}
-*/	
+	Computor cmpt(&world, 1);
+
+
 	for (size_t i=0; i < 1000/20; i++) {
 		lvl.add_obj(Particle(Vector2 (10+i*20,10), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
 		lvl.add_obj(Particle(Vector2 (10+i*20,450), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
@@ -451,21 +548,11 @@ int main(int argc, char **argv) {
 
 
 
-//	lvl.add_obj(Particle(Vector2 (100,100), Vector2 (0,10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
-//	lvl.add_obj(Particle(Vector2 (100,400), Vector2 (0,-10), 50, 50, 1, 1, false,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-/*
-	lvl.add_obj(Particle(Vector2 (500,10), Vector2 (0,0), 1000, 20, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-	lvl.add_obj(Particle(Vector2 (500,490), Vector2 (0,0), 1000, 20, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-	lvl.add_obj(Particle(Vector2 (10,300), Vector2 (0,0), 20, 600, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-	lvl.add_obj(Particle(Vector2 (1000,300), Vector2 (0,0), 20, 600, 1, 1, true,SDL_MapRGB(screen->format,0xAA,0x00,0x00)));
-*/
-
 	for (size_t i=0; i < 100; i++) {
 		for (size_t n=0; n < 50; n++) {
 			lvl.add_obj(Particle(Vector2 (50+i*6,50+n*6), Vector2 (0,0), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
 		}
 	}
-		
 
 	
 	lvl.rebuild_obj_links();
@@ -478,7 +565,8 @@ int main(int argc, char **argv) {
 
 		int ticks = SDL_GetTicks();
 
-		phys_engine(&lvl,4);
+//		phys_engine(&lvl,4);
+		cmpt.iterate();
 
 		lvl.rebuild_obj_links();
 
@@ -491,7 +579,6 @@ int main(int argc, char **argv) {
 		for (size_t i=0; i < lvl.size_obj(); i++) {
 			lvl.get_obj(i)->draw();
 		}
-
 		SDL_Flip(screen);
 	}
 	SDL_Quit();
