@@ -171,10 +171,9 @@ class Particle {
 			this->bounceness = 0;
 			this->is_pinned = false;
 		}
-		Particle(Vector2 position, Vector2 speed, Vector2 projected_positionmm, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
+		Particle(Vector2 position, Vector2 speed, Vector2 projected_position, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
 			this->p_lid = 0;
 			this->p_wid = 0;
-			
 			this->position = position;
 			this->speed = speed;
 			this->projected_position = projected_position;
@@ -211,6 +210,7 @@ class Particle {
 class Section {
 	private:
 		Array<Particle *> particles;
+		size_t level_id;
 		size_t x,y;
 	public:
 		Section() {
@@ -240,6 +240,7 @@ class Section {
 };
 
 class Level {
+
 	friend class World;
 	private:
 		Array<Particle *> particles;
@@ -295,6 +296,7 @@ class Level {
 		void del_section(size_t i) {
 			this->sections.del_item(i);
 		}
+
 };
 
 class World {
@@ -364,7 +366,6 @@ class World {
 		void del_section(size_t i) {
 			this->sections.del_item(i);
 		}
-		
 };
 
 class Universe {
@@ -393,10 +394,18 @@ class Universe {
 };
 
 int main(int argc, char **argv) {
+	SDL_Init(SDL_INIT_EVERYTHING);
+	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
 	Universe universe;
 	universe.add_world(World());
-	;
 	universe.get_world(0)->add_level(Level(0, 0, 500, 500, 20, 20));
+
+/*
+	Level level(0, 0, 500, 500, 20, 20);
+	Section sec(0,0);
+	Particle pt(Vector2(10,10), Vector2(10,10), Vector2(10,10),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 10, 10, 1, 0, false);
+	sec.add_particle(&pt);
+*/
 	
 	
 	return 0;	
