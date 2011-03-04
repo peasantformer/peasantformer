@@ -1,7 +1,7 @@
+#include <stdio.h>
 #include <cmath>
 #include <vector>
 #include "SDL/SDL.h"
-#include "SDL/SDL_thread.h"
 
 SDL_Surface *screen;
 
@@ -25,19 +25,19 @@ class Vector2 {
 			this->x += r.x;
 			this->y += r.y;
 			return (*this);
-			
+
 		}
 		inline const Vector2 operator-=(Vector2 r) {
 			this->x -= r.x;
 			this->y -= r.y;
 			return (*this);
-			
+
 		}
 		inline const Vector2 operator*=(Vector2 r) {
 			this->x *= r.x;
 			this->y *= r.y;
 			return (*this);
-			
+
 		}
 	public:
 		inline const float square_length() {
@@ -133,102 +133,84 @@ class Array {
 };
 
 
-struct RevSectIndex {
-	size_t section;
-	size_t index;
-	
+struct RevSection {
+	size_t s_wid;  // section world id
+	size_t s_p_id; // section's particle id
 };
-
 
 class Particle {
-	public:
-		size_t id;
+	friend class World;
+	private:
+		Array<size_t> collide_wids;
+		Array<RevSection> rev_sections;
+	
+		size_t p_lid;
+		size_t p_wid;
+		size_t level_id;
+
 		Vector2 position;
 		Vector2 speed;
-		Vector2 p;
+		Vector2 projected_position;
 		Uint32 color;
-		float width;
-		float height;
+		float width, height;
 		float inv_mass;
 		float bounceness;
-		bool pinned;
-		
-		Array<RevSectIndex> rev_sections;
-		Array<size_t> collides;
+		bool is_pinned;
 	public:
 		Particle() {
-			this->id = 0;
+			this->p_lid = 0;
+			this->p_wid = 0;
+			
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
-			this->p = Vector2(0,0);
-			this->width = 1;
-			this->height = 1;
-			this->inv_mass = 1;
-			this->bounceness = 1;
-			this->pinned = false;
+			this->projected_position = Vector2(0,0);
 			this->color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
-
+			this->width = 0;
+			this->height = 0;
+			this->inv_mass = 0;
+			this->bounceness = 0;
+			this->is_pinned = false;
 		}
-		Particle(Vector2 p, Vector2 s, float w, float h, float m, float b, bool pinned, Uint32 c = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF)) {
-			this->id = 0;
-			this->position = p;
-			this->p = p;
-			this->speed = s;
-			this->width = w;
-			this->height = h;
-			this->inv_mass = m;
-			this->bounceness = b;
-			this->pinned = pinned;
-			this->color = c;
+		Particle(Vector2 position, Vector2 speed, Vector2 projected_positionmm, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
+			this->p_lid = 0;
+			this->p_wid = 0;
+			
+			this->position = position;
+			this->speed = speed;
+			this->projected_position = projected_position;
+			this->color = color;
+			this->width = width;
+			this->height = height;
+			this->inv_mass = inv_mass;
+			this->bounceness = bounceness;
+			this->is_pinned = is_pinned;
 		}
-
 	public:
-		RevSectIndex get_rev(size_t i) {
-			return this->rev_sections[i];
+		size_t add_collide_wid(size_t i) {
+			return this->collide_wids.add_item(i);
 		}
-		void add_rev(size_t section, size_t index) {
-			RevSectIndex rsi;
-			rsi.section = section;
-			rsi.index = index;
-			this->rev_sections.add_item(rsi);
+		size_t add_rev_section(RevSection rsec) {
+			return this->rev_sections.add_item(rsec);
 		}
-		
-		void clear_rev() {
-			this->rev_sections.clear();
+	public:
+		size_t get_collide_wid_size() {
+			return this->collide_wids.size();
 		}
-		
-		size_t size_rev() {
+		size_t get_rev_section_size() {
 			return this->rev_sections.size();
 		}
-		
-		void add_col(size_t id) {
-			this->collides.add_item(id);
+	public:
+		size_t get_collide_wid(size_t i) {
+			return this->collide_wids[i];
 		}
-		void clear_col() {
-			this->collides.clear();
-		}
-		bool test_col(size_t id) {
-			for (size_t i=0; i < this->collides.size(); i++) {
-				if (this->collides[i] == id) return true;
-			}
-			return false;
-		}
-		
-		void draw() {
-//			if (position.x < 0 || position.y < 0) return;
-			SDL_Rect rect;
-			rect.x = this->position.x - this->width/2;
-			rect.y = this->position.y - this->height/2;
-			rect.w = this->width;
-			rect.h = this->height;
-			SDL_FillRect(screen,&rect,color);
+		RevSection get_rev_section(size_t i) {
+			return this->rev_sections[i];
 		}
 };
 
-
 class Section {
-	public:
-		Array<Particle *> members;
+	private:
+		Array<Particle *> particles;
 		size_t x,y;
 	public:
 		Section() {
@@ -240,347 +222,182 @@ class Section {
 			this->y = y;
 		}
 	public:
-		Particle *get_member(size_t i) {
-			return this->members[i];
-		}
-		size_t add_member(Particle *pt) {
-			return this->members.add_item(pt);
-		}
-		void del_member(size_t i) {
-			this->members.del_item(i);
-		}
-		size_t size() {
-			return this->members.size();
-		}
-		void clear() {
-			this->members.clear();
-		}
-};
-
-
-
-
-class World {
-	public:
-		Array<Section *> sections;
-		size_t x,y;
-	public:
-		World() {
-			this->x = 0;
-			this->y = 0;
-		}
-		World(size_t x, size_t y) {
-			this->x = x;
-			this->y = y;
+		size_t add_particle(Particle *pt) {
+			return this->particles.add_item(pt);
 		}
 	public:
-		Section *get_sec(size_t i) {
-			return this->sections[i];
+		size_t get_particle_size() {
+			return this->particles.size();
 		}
-		size_t add_sec(Section *sec) {
-			return this->sections.add_item(sec);
+	public:
+		Particle* get_particle(size_t i) {
+			return this->particles[i];
 		}
-		void del_sec(size_t i) {
-			this->sections.del_item(i);
-		}
-		size_t size() {
-			return this->sections.size();
-		}
-		void clear() {
-			this->sections.clear();
+	public:
+		void del_particle(size_t i) {
+			this->particles.del_item(i);
 		}
 };
 
 class Level {
-	public:
-		Array<Section> sections;
-		Array<Particle> objects;
+	friend class World;
+	private:
+		Array<Particle *> particles;
+		Array<Section *> sections;
 		
 		size_t x,y;
 		size_t width,height;
-		int sec_width, sec_height;
-		World *world;
+		size_t section_width, section_height;
 	public:
-		Level(World *world, size_t x, size_t y, size_t u_w, size_t u_h, size_t s_w, size_t s_h) {
-			this->world = world;
+		Level() {
+			this->x = 0;
+			this->y = 0;
+			this->width = 0;
+			this->height = 0;
+			this->section_width = 0;
+			this->section_height = 0;
+		}
+		Level(size_t x, size_t y, size_t width, size_t height, size_t section_width, size_t section_height) {
 			this->x = x;
 			this->y = y;
-			this->width = u_w/s_w;
-			this->height = u_h/s_h;
+			this->width = width/section_width;
+			this->height = height/section_height;
 			if (this->width == 0) this->width = 1;
 			if (this->height == 0) this->height = 1;
-			this->sec_width = s_w;
-			this->sec_height = s_h;
-			
-			for (size_t x=0; x < this->width; x++) {
-				for (size_t y=0; y < this->height; y++) {
-					this->sections.add_item(Section(x,y));
-					this->world->add_sec(&this->sections[this->sections.size()-1]);
-				}
-			}
+			this->section_width = section_width;
+			this->section_height = section_height;
 		}
-		
-		Section *get_sec(size_t i) {
-			return &this->sections[i];
+	public:
+		size_t add_particle(Particle *pt) {
+			return this->particles.add_item(pt);
 		}
-		size_t size_sec() {
+		size_t add_section(Section *sc) {
+			return this->sections.add_item(sc);
+		}
+	public:
+		size_t get_particle_size() {
+			return this->particles.size();
+		}
+		size_t get_section_size() {
 			return this->sections.size();
 		}
-		
-		Particle *get_obj(size_t i) {
-			return &this->objects[i];
+	public:
+		Particle* get_particle(size_t i) {
+			return this->particles[i];
 		}
-		size_t size_obj() {
-			return this->objects.size();
+		Section* get_section(size_t i) {
+			return this->sections[i];
 		}
-		
-		void add_obj(Particle pt) {
-			int id;
-			id = this->objects.add_item(pt);
-			this->objects[id].id = id;
+	public:
+		void del_particle(size_t i) {
+			this->particles.del_item(i);
 		}
-		void del_obj(int i) {
-			this->objects.del_item(i);
-		}
-			
-		void rebuild_obj_links() {
-			for (size_t id=0; id < this->objects.size(); id++) {
-				for (size_t i=0; i < objects[id].size_rev(); i++) {
-					RevSectIndex rev = objects[id].get_rev(i);
-					this->sections[rev.section].del_member(rev.index);
-				}
-			}
-			
-			for (size_t i=0; i < this->objects.size(); i++) {
-				this->place_obj(i);
-			}
-		}	
-		void place_obj(size_t id) {
-			if (this->objects[id].position.x < 0) return;
-			if (this->objects[id].position.y < 0) return;
-			size_t max_x = (this->objects[id].position.x + this->objects[id].width/2) / this->sec_width;
-			size_t min_x = (this->objects[id].position.x - this->objects[id].width/2) / this->sec_width;
-			size_t max_y = (this->objects[id].position.y + this->objects[id].height/2) / this->sec_height;
-			size_t min_y = (this->objects[id].position.y - this->objects[id].height/2) / this->sec_height;
-			
-			size_t s,cnt;
-			bool was_placed = false;
-
-			this->objects[id].clear_rev();
-			for (size_t i=min_x; i <= max_x; i++) {
-				if (i >= this->width || y < 0) continue;
-				for (size_t n=min_y; n <= max_y; n++) {
-					if (n >= this->height || n < 0) continue;
-					
-					cnt = height * i + n;
-					s = this->sections[cnt].add_member(&objects[id]);
-					
-					this->objects[id].add_rev(cnt,s);
-					this->objects[id].id = id;
-					was_placed = true;
-				}
-			}
-			if (was_placed == false) {
-				del_obj(id);
-			}
-
-		}
-		void draw_sections() {
-			SDL_Rect rect;
-			Uint32 color;
-			for (size_t i=0; i < sections.size(); i++) {
-				rect.x = sections[i].x * sec_width;
-				rect.y = sections[i].y * sec_height;
-				rect.w = sec_width;
-				rect.h = sec_height;
-				switch (i%3) {
-					case 0:
-						color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
-						break;
-					case 1:
-						color = SDL_MapRGB(screen->format,0xaa,0xaa,0xaa);
-						break;
-					case 2:
-						color = SDL_MapRGB(screen->format,0xaa,0xff	,0xaa);
-						break;
-				}
-				SDL_FillRect(screen,&rect,color);
-			}		
+		void del_section(size_t i) {
+			this->sections.del_item(i);
 		}
 };
 
-
-
-
-class Computor;
-
-struct thread_data {
-	Computor *obj;
-	size_t id;
-	size_t begin;
-	size_t end;
+class World {
+	private:
+		Array<Particle> particles;
+		Array<Section> sections;
+		Array<Level> levels;
+	public:
+		World() {
+		}
+	public:
+		size_t add_level(Level level) {
+			size_t level_id;
+			size_t section_id;
+			level_id = this->levels.add_item(level);
+			for (size_t x=0; x < level.width; x++) {
+				for (size_t y=0; y < level.height; y++) {
+					section_id = this->sections.add_item(Section(x,y));
+					this->levels[level_id].add_section(&this->sections[section_id]);
+				}
+			}
+			return level_id;
+		}
+		size_t add_particle(size_t level_id, Particle pt) {
+			size_t wid,lid;
+			wid = this->particles.add_item(pt);
+			lid = this->levels[level_id].add_particle(&this->particles[wid]);
+			this->particles[wid].p_wid = wid;
+			this->particles[wid].p_lid = lid;
+			this->particles[wid].level_id = level_id;
+			return wid;
+		}
+		size_t add_section(size_t level_id, Section sc) {
+			size_t wid;
+			wid = this->sections.add_item(sc);
+			this->levels[level_id].add_section(&this->sections[wid]);
+			return wid;
+		}
+	public:
+		size_t get_level_size() {
+			return this->levels.size();
+		}
+		size_t get_particle_size() {
+			return this->particles.size();
+		}
+		size_t get_section_size() {
+			return this->sections.size();
+		}
+	public:
+		Level* get_level(size_t i) {
+			return &this->levels[i];
+		}
+		Particle* get_particle(size_t i) {
+			return &this->particles[i];
+		}
+		Section* get_section(size_t i) {
+			return &this->sections[i];
+		}
+	public:
+		void del_level(size_t i) {
+			this->levels.del_item(i);
+		}
+		void del_particle(size_t i) {
+//			this->levels[this->particles[i].level_id].del_particle(this->particles[i].p_lid);
+			this->particles.del_item(i);
+		}
+		void del_section(size_t i) {
+			this->sections.del_item(i);
+		}
+		
 };
 
-class Computor {
+class Universe {
+	private:
+		Array <World> worlds;
 	public:
-		std::vector<SDL_Thread *> threads;
-		std::vector<bool> thread_over;
-		std::vector<bool> active;
-		size_t no_of_threads;
-		SDL_sem *got_it;
-		SDL_sem *ready;
-		size_t slice;
-		World *world;
-	public:
-		Computor(World *world, int no) {
-			this->world = world;
-			this->slice = this->world->size() / no;
-			if (this->world->size() % no) {	
-				slice += no / (this->world->size() % no);
-			}	
-//			printf("%d\n",slice);
-			this->no_of_threads = no;
-			this->got_it = SDL_CreateSemaphore(0);
-			this->ready = SDL_CreateSemaphore(0);
-			this->thread_gen();
-		}
-		~Computor() {
-			for (size_t i=0; i < this->no_of_threads; i++) {
-				SDL_KillThread(threads[i]);
-			}
-			SDL_DestroySemaphore(this->got_it);
-			SDL_DestroySemaphore(this->ready);
+		Universe() {
 		}
 	public:
-		void thread_gen() {
-			active.clear();
-			threads.clear();
-			for (size_t i=0; i < this->no_of_threads; i++) {
-				thread_data td;
-				td.obj = this;
-				td.id = i;
-				td.begin = i * this->slice;
-				td.end = i * this->slice + this->slice - 1;
-				if (td.end >= this->world->size()) td.end = this->world->size() - 1;
-				active.push_back(false);
-				thread_over.push_back(true);
-				threads.push_back(SDL_CreateThread(this->thread,&td));
-				SDL_SemWait(this->ready);
-			}
-		}
-		void iterate() {
-			for (size_t i=0; i < this->no_of_threads; i++){
-				this->active[i] = true;
-				this->thread_over[i] = false;
-				SDL_SemWait(this->got_it);
-			}
-			for (size_t i=0; i < this->no_of_threads; i++){
-				while (this->thread_over[i] == false)
-					SDL_Delay(1);
-			}
+		size_t add_world(World world) {
+			return this->worlds.add_item(world);
 		}
 	public:
-		void i_got_it(size_t i) {
-			this->active[i] = false;
-			SDL_SemPost(this->got_it);	
-		}
-		void i_ready() {
-			SDL_SemPost(this->ready);
-		}
-		void i_came(size_t i) {
-			this->thread_over[i] = true;
-		}
-		bool is_active(size_t i) {
-			if (i < 0 || i >= this->active.size()) // Q: why do i need this ?
-				return false;                  // A: to handle impossible case.
-			return this->active[i];
-		}
-		Section *get_data(size_t i) {
-			return this->world->get_sec(i);	
+		size_t get_world_size() {
+			return this->worlds.size();
 		}
 	public:
-		static int thread(void *data) {
-			thread_data *parent_touch = (thread_data *)data;
-			Computor *parent = parent_touch->obj;
-			size_t id = parent_touch->id;
-			size_t begin = parent_touch->begin;
-			size_t end = parent_touch->end;
-			parent->i_ready();
-			while (true) {
-				if (parent->is_active(id)) {
-					parent->i_got_it(id);
-					for (size_t i=begin; i <= end; i++) {
-//						size_t c = parent->get_data(i);
-//						printf("thread #%d - %d\n",id,i);
-//						factorial(c);
-					}
-					parent->i_came(id);
-				}
-				SDL_Delay(1);
-			}
-			return 0;
+		World *get_world(size_t i) {
+			return &this->worlds[i];
+		}
+	public:
+		void del_world(size_t i) {
+			this->worlds.del_item(i);
 		}
 	
 };
-
-
 
 int main(int argc, char **argv) {
-
-
-	SDL_Init(SDL_INIT_EVERYTHING);
-	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
-
-	World world;
-	Level lvl(&world,0,0,1000,500,20,20);
+	Universe universe;
+	universe.add_world(World());
+	;
+	universe.get_world(0)->add_level(Level(0, 0, 500, 500, 20, 20));
 	
-	Computor cmpt(&world, 1);
-
-
-	for (size_t i=0; i < 1000/20; i++) {
-		lvl.add_obj(Particle(Vector2 (10+i*20,10), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-		lvl.add_obj(Particle(Vector2 (10+i*20,450), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-	}
-	for (size_t i=0; i < 600/20; i++) {
-		lvl.add_obj(Particle(Vector2 (10,10+i*20), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-		lvl.add_obj(Particle(Vector2 (990,10+i*20), Vector2 (0,0), 20, 20, 1, 1, true,SDL_MapRGB(screen->format,0xFF,0x00,0x00)));
-	}
-
-
-
-	for (size_t i=0; i < 100; i++) {
-		for (size_t n=0; n < 50; n++) {
-			lvl.add_obj(Particle(Vector2 (50+i*6,50+n*6), Vector2 (0,0), 5, 5, 1, 1, false,SDL_MapRGB(screen->format,0x00,0x00,0xFF)));
-		}
-	}
-
 	
-	lvl.rebuild_obj_links();
-	
-	bool quit = false; 
-	SDL_Event event;
-	while (quit == false) {	
-		SDL_PollEvent(&event);
-		if (event.type == SDL_QUIT) quit = true;
-
-		int ticks = SDL_GetTicks();
-
-//		phys_engine(&lvl,4);
-		cmpt.iterate();
-
-		lvl.rebuild_obj_links();
-
-		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)lvl.size_obj());		
-
-		SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));		
-		
-		lvl.draw_sections();
-		
-		for (size_t i=0; i < lvl.size_obj(); i++) {
-			lvl.get_obj(i)->draw();
-		}
-		SDL_Flip(screen);
-	}
-	SDL_Quit();
-	return 0;
+	return 0;	
 }
