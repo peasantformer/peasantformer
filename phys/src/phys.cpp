@@ -132,21 +132,31 @@ class Array {
 		}
 };
 
-
-struct RevSection {
-	size_t s_wid;  // section world id
-	size_t s_p_id; // section's particle id
+class ReverseLink {
+	friend class World;
+	private:
+		size_t global_id;
+		size_t local_id;
+	public:
+		ReverseLink() {
+			this->global_id = 0;
+			this->local_id = 0;
+		}
+		ReverseLink(size_t global_id, size_t local_id) {
+			this->global_id = global_id;
+			this->local_id = local_id;
+		}
 };
 
 class Particle {
 	friend class World;
 	private:
-		Array<size_t> collide_wids;
-		Array<RevSection> rev_sections;
+		Array<size_t> collide_lids;
 	
-		size_t p_lid;
-		size_t p_wid;
+		size_t world_id;
 		size_t level_id;
+		Array<ReverseLink> rev_sections;
+		
 
 		Vector2 position;
 		Vector2 speed;
@@ -158,8 +168,8 @@ class Particle {
 		bool is_pinned;
 	public:
 		Particle() {
-			this->p_lid = 0;
-			this->p_wid = 0;
+			this->level_id = 0;
+			this->world_id = 0;
 			
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
@@ -172,8 +182,9 @@ class Particle {
 			this->is_pinned = false;
 		}
 		Particle(Vector2 position, Vector2 speed, Vector2 projected_position, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
-			this->p_lid = 0;
-			this->p_wid = 0;
+			this->level_id = 0;
+			this->world_id = 0;
+			
 			this->position = position;
 			this->speed = speed;
 			this->projected_position = projected_position;
@@ -185,31 +196,44 @@ class Particle {
 			this->is_pinned = is_pinned;
 		}
 	public:
-		size_t add_collide_wid(size_t i) {
-			return this->collide_wids.add_item(i);
+		size_t add_collide_lid(size_t i) {
+			return this->collide_lids.add_item(i);
 		}
-		size_t add_rev_section(RevSection rsec) {
+		size_t add_rev_section(ReverseLink rsec) {
 			return this->rev_sections.add_item(rsec);
 		}
 	public:
-		size_t get_collide_wid_size() {
-			return this->collide_wids.size();
+		size_t get_collide_lid_size() {
+			return this->collide_lids.size();
 		}
 		size_t get_rev_section_size() {
 			return this->rev_sections.size();
 		}
 	public:
-		size_t get_collide_wid(size_t i) {
-			return this->collide_wids[i];
+		size_t get_collide_lid(size_t i) {
+			return this->collide_lids[i];
 		}
-		RevSection get_rev_section(size_t i) {
+		ReverseLink get_rev_section(size_t i) {
 			return this->rev_sections[i];
+		}
+	public:
+		void del_collide_lid(size_t i) {
+			return this->collide_lids.del_item(i);
+		}
+		void del_rev_section(size_t i) {
+			return this->rev_sections.del_item(i);
+		}
+	public:
+		void clear_rev_section() {
+			this->rev_sections.clear();
 		}
 };
 
 class Section {
+	friend class World;
 	private:
-		Array<Particle *> particles;
+		Array<size_t> particles;
+		size_t world_id;
 		size_t level_id;
 		size_t x,y;
 	public:
@@ -222,15 +246,15 @@ class Section {
 			this->y = y;
 		}
 	public:
-		size_t add_particle(Particle *pt) {
-			return this->particles.add_item(pt);
+		size_t add_particle(size_t pti) {
+			return this->particles.add_item(pti);
 		}
 	public:
 		size_t get_particle_size() {
 			return this->particles.size();
 		}
 	public:
-		Particle* get_particle(size_t i) {
+		size_t get_particle(size_t i) {
 			return this->particles[i];
 		}
 	public:
@@ -238,19 +262,22 @@ class Section {
 			this->particles.del_item(i);
 		}
 };
-
 class Level {
-
 	friend class World;
 	private:
-		Array<Particle *> particles;
-		Array<Section *> sections;
+		Array<size_t> sections;
+		Array<size_t> particles;
+		
+		size_t world_id;
 		
 		size_t x,y;
 		size_t width,height;
 		size_t section_width, section_height;
+		
 	public:
 		Level() {
+			this->world_id = 0;
+		
 			this->x = 0;
 			this->y = 0;
 			this->width = 0;
@@ -259,6 +286,8 @@ class Level {
 			this->section_height = 0;
 		}
 		Level(size_t x, size_t y, size_t width, size_t height, size_t section_width, size_t section_height) {
+			this->world_id = 0;
+			
 			this->x = x;
 			this->y = y;
 			this->width = width/section_width;
@@ -269,10 +298,10 @@ class Level {
 			this->section_height = section_height;
 		}
 	public:
-		size_t add_particle(Particle *pt) {
+		size_t add_particle(size_t pt) {
 			return this->particles.add_item(pt);
 		}
-		size_t add_section(Section *sc) {
+		size_t add_section(size_t sc) {
 			return this->sections.add_item(sc);
 		}
 	public:
@@ -283,10 +312,10 @@ class Level {
 			return this->sections.size();
 		}
 	public:
-		Particle* get_particle(size_t i) {
+		size_t get_particle(size_t i) {
 			return this->particles[i];
 		}
-		Section* get_section(size_t i) {
+		size_t get_section(size_t i) {
 			return this->sections[i];
 		}
 	public:
@@ -296,43 +325,91 @@ class Level {
 		void del_section(size_t i) {
 			this->sections.del_item(i);
 		}
-
 };
 
 class World {
+	friend class Universe;
 	private:
 		Array<Particle> particles;
 		Array<Section> sections;
 		Array<Level> levels;
+		
+		size_t universe_id;
 	public:
 		World() {
+			this->universe_id = 0;
+		}
+	public:
+		void del_particle_rev(size_t i) {
+			Particle pt = this->particles[i];
+			for (size_t n=0; n < pt.get_rev_section_size(); n++) {
+				ReverseLink rev = pt.get_rev_section(i);
+				this->sections[rev.global_id].del_particle(rev.local_id);
+			}
+		}
+		void place_particle(size_t level_id, size_t id) {
+			Level lvl = this->levels[level_id];
+			Particle pt = this->particles[id];
+			
+			if (pt.position.x < 0 || pt.position.y < 0) return;
+			
+			size_t max_x = (pt.position.x + pt.width/2) / lvl.section_width;
+			size_t min_x = (pt.position.x - pt.width/2) / lvl.section_width;
+			size_t max_y = (pt.position.y + pt.height/2) / lvl.section_height;
+			size_t min_y = (pt.position.y - pt.height/2) / lvl.section_height;
+			
+			size_t sec_wid;
+			size_t par_sid;
+			for (size_t i=min_x; i <= max_x; i++) {
+				if (i >= lvl.width || i < 0) continue;
+				for (size_t n=min_y; n <= max_y; n++) {
+					if (n >= lvl.width || n < 0) continue;
+					sec_wid = lvl.height * i + n;
+					par_sid = this->sections[lvl.get_section(sec_wid)].add_particle(id);
+					this->particles[id].add_rev_section(ReverseLink(sec_wid,par_sid));
+				}
+			}
+		}
+		
+		void rebuild_obj_links(size_t level_id) {
+			size_t id;
+			for (size_t n=0; n < this->levels[level_id].get_particle_size(); n++) {
+				id = this->levels[level_id].get_particle(n);
+				this->del_particle_rev(id);
+				this->particles[id].clear_rev_section();
+				this->place_particle(level_id,id);
+			}
 		}
 	public:
 		size_t add_level(Level level) {
-			size_t level_id;
-			size_t section_id;
-			level_id = this->levels.add_item(level);
+			size_t wid;
+			wid = this->levels.add_item(level);
+			this->levels[wid].world_id = wid;
+
+			
+			size_t sid;
 			for (size_t x=0; x < level.width; x++) {
 				for (size_t y=0; y < level.height; y++) {
-					section_id = this->sections.add_item(Section(x,y));
-					this->levels[level_id].add_section(&this->sections[section_id]);
+					sid = this->sections.add_item(Section(x,y));
+					this->levels[wid].add_section(sid);
 				}
 			}
-			return level_id;
+			return wid;
 		}
 		size_t add_particle(size_t level_id, Particle pt) {
-			size_t wid,lid;
+			size_t lid, wid;
 			wid = this->particles.add_item(pt);
-			lid = this->levels[level_id].add_particle(&this->particles[wid]);
-			this->particles[wid].p_wid = wid;
-			this->particles[wid].p_lid = lid;
-			this->particles[wid].level_id = level_id;
+			lid = this->levels[level_id].add_particle(wid);
+			this->particles[wid].world_id = wid;
+			this->particles[wid].level_id = lid;
 			return wid;
 		}
 		size_t add_section(size_t level_id, Section sc) {
-			size_t wid;
+			size_t lid, wid;
 			wid = this->sections.add_item(sc);
-			this->levels[level_id].add_section(&this->sections[wid]);
+			lid = this->levels[level_id].add_section(wid);
+			this->sections[wid].world_id = wid;
+			this->sections[wid].level_id = lid;
 			return wid;
 		}
 	public:
@@ -357,14 +434,23 @@ class World {
 		}
 	public:
 		void del_level(size_t i) {
+			Level lvl = this->levels[i];
+			for (size_t n = 0; n< lvl.get_particle_size(); n++) {
+				this->del_particle(lvl.get_particle(n));
+			}
+			for (size_t n = 0; n< lvl.get_section_size(); n++) {
+				this->del_section(lvl.get_section(n));
+			}
 			this->levels.del_item(i);
 		}
-		void del_particle(size_t i) {
-//			this->levels[this->particles[i].level_id].del_particle(this->particles[i].p_lid);
-			this->particles.del_item(i);
-		}
-		void del_section(size_t i) {
+                // this function never should be used outisde of del_level(), 
+                // yet  it doesn't worth putting it into private state :P
+		void del_section(size_t i) { 
 			this->sections.del_item(i);
+		}
+		void del_particle(size_t i) {
+			this->del_particle_rev(i);
+			this->particles.del_item(i);
 		}
 };
 
@@ -376,7 +462,10 @@ class Universe {
 		}
 	public:
 		size_t add_world(World world) {
-			return this->worlds.add_item(world);
+			size_t universe_id;
+			universe_id = this->worlds.add_item(world);
+			this->worlds[universe_id].universe_id = universe_id;
+			return universe_id;
 		}
 	public:
 		size_t get_world_size() {
@@ -394,11 +483,15 @@ class Universe {
 };
 
 int main(int argc, char **argv) {
+	size_t world_id;
+	size_t level_id;
+	
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
+
 	Universe universe;
-	universe.add_world(World());
-	universe.get_world(0)->add_level(Level(0, 0, 500, 500, 20, 20));
+	world_id = universe.add_world(World());
+	level_id = universe.get_world(world_id)->add_level(Level(0, 0, 500, 500, 20, 20));
 
 /*
 	Level level(0, 0, 500, 500, 20, 20);
