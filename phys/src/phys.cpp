@@ -353,9 +353,7 @@ class World {
 		void del_particle_rev(size_t i) {
 			Particle pt = this->particles[i];
 			for (size_t n=0; n < pt.get_rev_section_size(); n++) {
-				printf("size: %d\n",this->particles[i].get_rev_section_size());
-				ReverseLink rev = pt.get_rev_section(i);
-				printf("| n=%d %ld - %ld\n",n,rev.local_id,rev.global_id);
+				ReverseLink rev = pt.get_rev_section(n);
 				this->sections[rev.global_id].del_particle(rev.local_id);
 			}
 		}
@@ -372,6 +370,7 @@ class World {
 		
 			size_t sec_wid;
 			size_t par_sid;
+
 			for (size_t i=min_x; i <= max_x; i++) {
 				if (i >= lvl.width || i < 0) continue;
 				for (size_t n=min_y; n <= max_y; n++) {
@@ -382,15 +381,15 @@ class World {
 				}
 			}
 		}
-		
+
 		void rebuild_links(size_t level_id) {
 			size_t id;
 			for (size_t n=0; n < this->levels[level_id].get_particle_size(); n++) {
 				id = this->levels[level_id].get_particle(n);
 				this->del_particle_rev(id);
-				this->particles[id].clear_rev_section();
-				this->place_particle(level_id,id);
+				this->place_particle(level_id,id);			
 			}
+
 		}
 	public:
 		size_t add_level(Level level) {
@@ -461,7 +460,7 @@ class World {
 			this->sections.del_item(i);
 		}
 		void del_particle(size_t i) {
-			this->del_particle_rev(i);
+//			this->del_particle_rev(i);
 			this->particles.del_item(i);
 		}
 };
@@ -493,48 +492,6 @@ class Universe {
 		}
 	
 };
-
-class PhysComputorS {
-	private:
-		World *world;
-		Vector2 gravity;
-		float dt;
-	public:
-		PhysComputorS() {
-			this->world = NULL;
-			this->gravity = Vector2(0,0);
-			this->dt = 0.01;
-		}
-		PhysComputorS(World *world) {
-			this->world = world;
-			this->gravity = Vector2(0,9.8);
-			this->dt = 0.01;
-		}
-	public:
-		void iterate() {
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed += gravity * dt;
-				world->get_particle(i)->projected_position = world->get_particle(i)->position + world->get_particle(i)->speed * dt;
-			}
-			
-			
-			for (size_t z=0; z < world->get_section_size(); z++) {
-				Section *sec = world->get_section(z);
-				for (size_t i=0; i < sec->get_particle_size(); i++) {
-					for (size_t n=i+1; n < sec->get_particle_size(); n++) {
-					}
-				}
-			}
-			
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed = (world->get_particle(i)->projected_position - world->get_particle(i)->position) / dt;
-				world->get_particle(i)->position  = world->get_particle(i)->projected_position;
-			}
-		}
-};
-
 int main(int argc, char **argv) {
 	size_t world_id;
 	size_t level_id;
@@ -549,17 +506,15 @@ int main(int argc, char **argv) {
 	level_id = world->add_level(Level(0, 0, 500, 500, 20, 20));
 	
 	world->add_particle(level_id,Particle(Vector2(10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-	world->add_particle(level_id,Particle(Vector2(11,11), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+	world->add_particle(level_id,Particle(Vector2(20,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+	world->add_particle(level_id,Particle(Vector2(30,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+//	world->add_particle(level_id,Particle(Vector2(20,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
 //	for (size_t i=0; i < 10; i++) {
 //		world->add_particle(level_id,Particle(Vector2(10+i*10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
 //	}
 	Level *level = world->get_level(level_id);
 
-	world->rebuild_links(level_id);
-	world->rebuild_links(level_id);
-	exit(0);
-	
-	PhysComputorS computor(world);	
+//	world->rebuild_links(level_id);
 
 //	printf("%d\n",(int)world->get_section_size());
 
@@ -572,8 +527,6 @@ int main(int argc, char **argv) {
 		
 		int ticks = SDL_GetTicks();
 
-		computor.iterate();		
-		
 		for (size_t i=0; i < world->get_level_size(); i++) {
 			world->rebuild_links(i);
 		}
