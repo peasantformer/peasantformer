@@ -523,7 +523,7 @@ class PhysComputorS {
 				Section *sec = world->get_section(z);
 				for (size_t i=0; i < sec->get_particle_size(); i++) {
 					for (size_t n=i+1; n < sec->get_particle_size(); n++) {
-					}
+					}	
 				}
 			}
 
@@ -545,15 +545,14 @@ int main(int argc, char **argv) {
 	world_id = universe.add_world(World());
 	World *world = universe.get_world(world_id);
 
-	level_id = world->add_level(Level(0, 0, 500, 500, 20, 20));
+	level_id = world->add_level(Level(0, 0, 1100, 600, 100, 100));
 	
-	world->add_particle(level_id,Particle(Vector2(10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-	world->add_particle(level_id,Particle(Vector2(20,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-	world->add_particle(level_id,Particle(Vector2(30,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
 //	world->add_particle(level_id,Particle(Vector2(20,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-//	for (size_t i=0; i < 10; i++) {
-//		world->add_particle(level_id,Particle(Vector2(10+i*10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-//	}
+	for (size_t i=0; i < 100; i++) {
+		for (size_t n=0; n < 50; n++) {
+			world->add_particle(level_id,Particle(Vector2(50+i*10,10+n*10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+		}
+	}
 	Level *level = world->get_level(level_id);
 
 	PhysComputorS computor(world);
