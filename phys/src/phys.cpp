@@ -492,6 +492,48 @@ class Universe {
 		}
 	
 };
+
+
+class PhysComputorS {
+	private:
+		World *world;
+		Vector2 gravity;
+		float dt;
+	public:
+		PhysComputorS() {
+			this->world = NULL;
+			this->gravity = Vector2(0,0);
+			this->dt = 0.01;
+		}
+		PhysComputorS(World *world) {
+			this->world = world;
+			this->gravity = Vector2(0,9.8);
+			this->dt = 0.01;
+		}
+	public:
+		void iterate() {
+			for (size_t i=0; i < world->get_particle_size(); i++) {
+				if (world->get_particle(i)->is_pinned == true) continue;
+				world->get_particle(i)->speed += gravity * dt;
+				world->get_particle(i)->projected_position = world->get_particle(i)->position + world->get_particle(i)->speed * dt;
+			}
+
+
+			for (size_t z=0; z < world->get_section_size(); z++) {
+				Section *sec = world->get_section(z);
+				for (size_t i=0; i < sec->get_particle_size(); i++) {
+					for (size_t n=i+1; n < sec->get_particle_size(); n++) {
+					}
+				}
+			}
+
+			for (size_t i=0; i < world->get_particle_size(); i++) {
+				if (world->get_particle(i)->is_pinned == true) continue;
+				world->get_particle(i)->speed = (world->get_particle(i)->projected_position - world->get_particle(i)->position) / dt;
+				world->get_particle(i)->position  = world->get_particle(i)->projected_position;
+			}
+		}
+};
 int main(int argc, char **argv) {
 	size_t world_id;
 	size_t level_id;
@@ -514,6 +556,8 @@ int main(int argc, char **argv) {
 //	}
 	Level *level = world->get_level(level_id);
 
+	PhysComputorS computor(world);
+
 //	world->rebuild_links(level_id);
 
 //	printf("%d\n",(int)world->get_section_size());
@@ -530,6 +574,8 @@ int main(int argc, char **argv) {
 		for (size_t i=0; i < world->get_level_size(); i++) {
 			world->rebuild_links(i);
 		}
+		
+		computor.iterate();
 	
 		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)level->get_particle_size());
 	
