@@ -351,32 +351,35 @@ class World {
 		}
 	public:
 		void del_particle_rev(size_t i) {
-			Particle pt = this->particles[i];
-			for (size_t n=0; n < pt.get_rev_section_size(); n++) {
-				ReverseLink rev = pt.get_rev_section(n);
+			Particle *pt = &this->particles[i];
+			for (size_t n=0; n < pt->get_rev_section_size(); n++) {
+				ReverseLink rev = pt->get_rev_section(n);
 				this->sections[rev.global_id].del_particle(rev.local_id);
 			}
+			pt->clear_rev_section();
 		}
 		void place_particle(size_t level_id, size_t id) {
-			Level lvl = this->levels[level_id];
-			Particle pt = this->particles[id];
-			if (pt.position.x < 0 || pt.position.y < 0) return;
-			
-			size_t max_x = (pt.position.x + pt.width/2) / lvl.section_width;
-			size_t min_x = (pt.position.x - pt.width/2) / lvl.section_width;
-			size_t max_y = (pt.position.y + pt.height/2) / lvl.section_height;
-			size_t min_y = (pt.position.y - pt.height/2) / lvl.section_height;
+			Level *lvl = &this->levels[level_id];
+			Particle *pt = &this->particles[id];
+			if (pt->position.x < 0 || pt->position.y < 0) return;
+			if (pt->position.x > lvl->width * lvl->section_width || pt->position.y > lvl->height * lvl->section_height) return;
+
+		
+			size_t max_x = (pt->position.x + pt->width/2) / lvl->section_width;
+			size_t min_x = (pt->position.x - pt->width/2) / lvl->section_width;
+			size_t max_y = (pt->position.y + pt->height/2) / lvl->section_height;
+			size_t min_y = (pt->position.y - pt->height/2) / lvl->section_height;
 
 		
 			size_t sec_wid;
 			size_t par_sid;
 
 			for (size_t i=min_x; i <= max_x; i++) {
-				if (i >= lvl.width || i < 0) continue;
+				if (i >= lvl->width || i < 0) continue;
 				for (size_t n=min_y; n <= max_y; n++) {
-					if (n >= lvl.width || n < 0) continue;
-					sec_wid = lvl.height * i + n;
-					par_sid = this->sections[lvl.get_section(sec_wid)].add_particle(id);
+					if (n >= lvl->width || n < 0) continue;
+					sec_wid = lvl->height * i + n;
+					par_sid = this->sections[lvl->get_section(sec_wid)].add_particle(id);
 					this->particles[id].add_rev_section(ReverseLink(sec_wid,par_sid));
 				}
 			}
