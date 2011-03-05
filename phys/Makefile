@@ -3,7 +3,7 @@ BINARY_NAME = test_01
 SRC_DIRS = src
 
 #FLAGS = -g -lSDL -mfpmath=sse -mtune=cpu-type=k8-sse3 -O3
-FLAGS = `sdl-config --libs --cflags` -pedantic -Wall
+FLAGS = -g `sdl-config --libs --cflags` -pedantic -Wall
 CXXFLAGS = -pedantic -Wall -O3
 
 SRC_OBJS = $(shell find $(SRC_DIRS) -type f -name '*.cpp' | sed 's/cpp$$/o/g')

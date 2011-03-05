@@ -150,6 +150,7 @@ class ReverseLink {
 
 class Particle {
 	friend class World;
+	friend class PhysComputorS;
 	private:
 		Array<size_t> collide_lids;
 	
@@ -181,13 +182,13 @@ class Particle {
 			this->bounceness = 0;
 			this->is_pinned = false;
 		}
-		Particle(Vector2 position, Vector2 speed, Vector2 projected_position, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
+		Particle(Vector2 position, Vector2 speed, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
 			this->level_id = 0;
 			this->world_id = 0;
 			
 			this->position = position;
 			this->speed = speed;
-			this->projected_position = projected_position;
+			this->projected_position = Vector2(0,0);
 			this->color = color;
 			this->width = width;
 			this->height = height;
@@ -226,6 +227,15 @@ class Particle {
 	public:
 		void clear_rev_section() {
 			this->rev_sections.clear();
+		}
+	public:
+		void draw() {
+			SDL_Rect rect;
+			rect.x = this->position.x - this->width/2;
+			rect.y = this->position.y - this->height/2;
+			rect.w = this->width;
+			rect.h = this->height;
+			SDL_FillRect(screen,&rect,color);
 		}
 };
 
@@ -343,21 +353,23 @@ class World {
 		void del_particle_rev(size_t i) {
 			Particle pt = this->particles[i];
 			for (size_t n=0; n < pt.get_rev_section_size(); n++) {
+				printf("size: %d\n",this->particles[i].get_rev_section_size());
 				ReverseLink rev = pt.get_rev_section(i);
+				printf("| n=%d %ld - %ld\n",n,rev.local_id,rev.global_id);
 				this->sections[rev.global_id].del_particle(rev.local_id);
 			}
 		}
 		void place_particle(size_t level_id, size_t id) {
 			Level lvl = this->levels[level_id];
 			Particle pt = this->particles[id];
-			
 			if (pt.position.x < 0 || pt.position.y < 0) return;
 			
 			size_t max_x = (pt.position.x + pt.width/2) / lvl.section_width;
 			size_t min_x = (pt.position.x - pt.width/2) / lvl.section_width;
 			size_t max_y = (pt.position.y + pt.height/2) / lvl.section_height;
 			size_t min_y = (pt.position.y - pt.height/2) / lvl.section_height;
-			
+
+		
 			size_t sec_wid;
 			size_t par_sid;
 			for (size_t i=min_x; i <= max_x; i++) {
@@ -371,7 +383,7 @@ class World {
 			}
 		}
 		
-		void rebuild_obj_links(size_t level_id) {
+		void rebuild_links(size_t level_id) {
 			size_t id;
 			for (size_t n=0; n < this->levels[level_id].get_particle_size(); n++) {
 				id = this->levels[level_id].get_particle(n);
@@ -482,6 +494,47 @@ class Universe {
 	
 };
 
+class PhysComputorS {
+	private:
+		World *world;
+		Vector2 gravity;
+		float dt;
+	public:
+		PhysComputorS() {
+			this->world = NULL;
+			this->gravity = Vector2(0,0);
+			this->dt = 0.01;
+		}
+		PhysComputorS(World *world) {
+			this->world = world;
+			this->gravity = Vector2(0,9.8);
+			this->dt = 0.01;
+		}
+	public:
+		void iterate() {
+			for (size_t i=0; i < world->get_particle_size(); i++) {
+				if (world->get_particle(i)->is_pinned == true) continue;
+				world->get_particle(i)->speed += gravity * dt;
+				world->get_particle(i)->projected_position = world->get_particle(i)->position + world->get_particle(i)->speed * dt;
+			}
+			
+			
+			for (size_t z=0; z < world->get_section_size(); z++) {
+				Section *sec = world->get_section(z);
+				for (size_t i=0; i < sec->get_particle_size(); i++) {
+					for (size_t n=i+1; n < sec->get_particle_size(); n++) {
+					}
+				}
+			}
+			
+			for (size_t i=0; i < world->get_particle_size(); i++) {
+				if (world->get_particle(i)->is_pinned == true) continue;
+				world->get_particle(i)->speed = (world->get_particle(i)->projected_position - world->get_particle(i)->position) / dt;
+				world->get_particle(i)->position  = world->get_particle(i)->projected_position;
+			}
+		}
+};
+
 int main(int argc, char **argv) {
 	size_t world_id;
 	size_t level_id;
@@ -491,15 +544,49 @@ int main(int argc, char **argv) {
 
 	Universe universe;
 	world_id = universe.add_world(World());
-	level_id = universe.get_world(world_id)->add_level(Level(0, 0, 500, 500, 20, 20));
+	World *world = universe.get_world(world_id);
 
-/*
-	Level level(0, 0, 500, 500, 20, 20);
-	Section sec(0,0);
-	Particle pt(Vector2(10,10), Vector2(10,10), Vector2(10,10),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 10, 10, 1, 0, false);
-	sec.add_particle(&pt);
-*/
+	level_id = world->add_level(Level(0, 0, 500, 500, 20, 20));
 	
+	world->add_particle(level_id,Particle(Vector2(10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+	world->add_particle(level_id,Particle(Vector2(11,11), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+//	for (size_t i=0; i < 10; i++) {
+//		world->add_particle(level_id,Particle(Vector2(10+i*10,10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
+//	}
+	Level *level = world->get_level(level_id);
+
+	world->rebuild_links(level_id);
+	world->rebuild_links(level_id);
+	exit(0);
 	
+	PhysComputorS computor(world);	
+
+//	printf("%d\n",(int)world->get_section_size());
+
+	bool quit = false; 
+	SDL_Event event;
+	
+	while  (quit == false) {
+		SDL_PollEvent(&event);
+		if (event.type == SDL_QUIT) quit = true;
+		
+		int ticks = SDL_GetTicks();
+
+		computor.iterate();		
+		
+		for (size_t i=0; i < world->get_level_size(); i++) {
+			world->rebuild_links(i);
+		}
+	
+		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)level->get_particle_size());
+	
+		SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));
+
+		for (size_t i=0; i < level->get_particle_size(); i++) {
+			world->get_particle(i)->draw();
+		}
+		
+		SDL_Flip(screen);
+	}
 	return 0;	
 }
