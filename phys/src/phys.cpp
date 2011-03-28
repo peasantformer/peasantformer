@@ -79,6 +79,10 @@ inline Vector2 operator-(Vector2 l, Vector2 r) {
 	return Vector2(l.x-r.x, l.y-r.y);
 }
 
+inline bool operator!=(Vector2 l, Vector2 r) {
+	return ((l.x != r.x) || (l.y != r.y));
+}
+
 template <class T>
 class Array {
 	private:
@@ -102,7 +106,7 @@ class Array {
 		Array & operator=(Array const &r) {
 			this->data.clear();
 			for (size_t i=0; i < r.size(); i++) {
-				this->data.push_back(r.data[i]);
+				this->add_item(r.data[i]);
 			}
 			return *this;
 		}
@@ -132,30 +136,43 @@ class Array {
 		}
 };
 
-class Particle {
-	friend class World;
-	friend class PhysComputorS;
-	friend class PhysComputor;
-	private:
-		Array<size_t> collide_lids;
-	
-		size_t world_id;
-		size_t level_id;
-		
+typedef long int MaybePeasantID;
+typedef unsigned int PeasantID;
+typedef unsigned int PeasantPos;
+typedef unsigned int PeasantSize;
 
-		Vector2 position;
-		Vector2 speed;
-		Vector2 projected_position;
-		Uint32 color;
-		float width, height;
-		float inv_mass;
-		float bounceness;
-		bool is_pinned;
+enum Direction {
+	NO_MOVE = 0x0,
+	MOVE_UP = 0x1,
+	MOVE_DOWN = 0x2,
+	MOVE_LEFT = 0x4,
+	MOVE_RIGHT = 0x8
+};
+
+struct ParticleMove {
+	PeasantID particle_world_id;
+	Vector2 amount;
+};
+
+class Particle {
+	private:
+			PeasantID level_id;
+			PeasantID world_id;
+			PeasantID levels_id;
+			PeasantID worlds_id;
+			Array <PeasantID> section_ids;
+			Array <PeasantID> computed_ids;
+			Vector2 position;
+			Vector2 speed;
+			Vector2 projected_position;
+			Uint32 color;
+			float width, height;
+			float inv_mass;
+			bool is_pinned;
 	public:
 		Particle() {
-			this->level_id = 0;
-			this->world_id = 0;
-			
+			this->levels_id = 0;
+			this->worlds_id = 0;
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
 			this->projected_position = Vector2(0,0);
@@ -163,13 +180,17 @@ class Particle {
 			this->width = 0;
 			this->height = 0;
 			this->inv_mass = 0;
-			this->bounceness = 0;
 			this->is_pinned = false;
 		}
-		Particle(Vector2 position, Vector2 speed, Uint32 color, float width, float height, float inv_mass, float bounceness, bool is_pinned) {
-			this->level_id = 0;
-			this->world_id = 0;
-			
+		Particle(Vector2 position
+		        ,Vector2 speed
+		        ,Uint32 color
+		        ,float width
+		        ,float height
+		        ,float inv_mass
+		        ,bool is_pinned) {
+			this->levels_id = 0;
+			this->worlds_id = 0;
 			this->position = position;
 			this->speed = speed;
 			this->projected_position = Vector2(0,0);
@@ -177,600 +198,791 @@ class Particle {
 			this->width = width;
 			this->height = height;
 			this->inv_mass = inv_mass;
-			this->bounceness = bounceness;
 			this->is_pinned = is_pinned;
 		}
 	public:
-		size_t add_collide_lid(size_t i) {
-			return this->collide_lids.add_item(i);
+		PeasantID add_section_id(PeasantID section_id) {
+			PeasantID particle_id;
+			particle_id = this->section_ids.add_item(section_id);
+			return particle_id;
+		}
+		PeasantID add_computed_id(PeasantID particle_id) {
+			PeasantID computed_id;
+			computed_id = this->computed_ids.add_item(particle_id);
+			return computed_id;
 		}
 	public:
-		size_t get_collide_lid_size() {
-			return this->collide_lids.size();
+		size_t get_section_ids_size() {
+			return this->section_ids.size();
+		}
+		size_t get_computed_ids_size() {
+			return this->computed_ids.size();
 		}
 	public:
-		size_t get_collide_lid(size_t i) {
-			return this->collide_lids[i];
+		PeasantID get_section_id(size_t id) {
+			return this->section_ids[id];
+		}
+		PeasantID get_computed_id(size_t id) {
+			return this->computed_ids[id];
 		}
 	public:
-		void del_collide_lid(size_t i) {
-			return this->collide_lids.del_item(i);
+		void clear_section_ids() {
+			this->section_ids.clear();
 		}
+		void clear_computed_ids() {
+			this->computed_ids.clear();
+		}
+
 	public:
-		void clear_collide_lid() {
-			this->collide_lids.clear();
+		void set_level_id(PeasantID value) {
+			this->level_id = value;
 		}
+		void set_world_id(PeasantID value) {
+			this->world_id = value;
+		}
+		void set_levels_id(PeasantID value) {
+			this->levels_id = value;
+		}
+		void set_worlds_id(PeasantID value) {
+			this->worlds_id = value;
+		}
+		void set_position(Vector2 value) {
+			this->position = value;
+		}
+		void set_speed(Vector2 value) {
+			this->speed = value;
+		}
+		void set_projected_position(Vector2 value) {
+			this->projected_position = value;
+		}
+		void set_color(Uint32 value) {
+			this->color = value;
+		}
+		void set_width(float value) {
+			this->width = value;
+		}
+		void set_height(float value) {
+			this->height = value;
+		}
+		void set_inv_mass(float value) {
+			this->inv_mass = value;
+		}
+		void set_is_pinned(bool value) {
+			this->is_pinned = value;
+		}
+
 	public:
-		bool test_col(size_t i) {
-			for (size_t n=0; n < this->collide_lids.size(); n++) {
-				if (this->collide_lids[n] == i) return true;
-			}
-			return false;
+		PeasantID get_level_id(void) {
+			return this->level_id;
 		}
-		void draw() {
-			SDL_Rect rect;
-			rect.x = this->position.x - this->width/2;
-			rect.y = this->position.y - this->height/2;
-			rect.w = this->width;
-			rect.h = this->height;
-			SDL_FillRect(screen,&rect,color);
+		PeasantID get_world_id(void) {
+			return this->world_id;
 		}
+		PeasantID get_levels_id(void) {
+			return this->levels_id;
+		}
+		PeasantID get_worlds_id(void) {
+			return this->worlds_id;
+		}
+		Vector2 get_position(void) {
+			return this->position;
+		}
+		Vector2 get_speed(void) {
+			return this->speed;
+		}
+		Vector2 get_projected_position(void) {
+			return this->projected_position;
+		}
+		Uint32 get_color(void) {
+			return this->color;
+		}
+		float get_width(void) {
+			return this->width;
+		}
+		float get_height(void) {
+			return this->height;
+		}
+		float get_inv_mass(void) {
+			return this->inv_mass;
+		}
+		bool get_is_pinned(void) {
+			return this->is_pinned;
+		}
+
 };
 
 class Section {
-	friend class World;
 	private:
-		Array<size_t> particles;
-		size_t world_id;
-		size_t level_id;
-		size_t x,y;
+		PeasantID level_id;
+		PeasantID world_id;
+		PeasantID levels_id;
+		PeasantID worlds_id;
+
+		Array <PeasantID> particle_ids;
+		PeasantPos x,y;
 	public:
 		Section() {
+			this->level_id = 0;
 			this->x = 0;
 			this->y = 0;
 		}
-		Section(size_t x, size_t y) {
+		Section(PeasantPos x
+		       ,PeasantPos y) {
+			this->level_id = 0;
 			this->x = x;
 			this->y = y;
 		}
 	public:
-		size_t add_particle(size_t pti) {
-			return this->particles.add_item(pti);
+		size_t get_particle_ids_size() {
+			return this->particle_ids.size();
 		}
 	public:
-		size_t get_particle_size() {
-			return this->particles.size();
+		PeasantID add_particle_id(PeasantID value) {
+			PeasantID section_id;
+			section_id = this->particle_ids.add_item(value);
+			return section_id;
 		}
 	public:
-		size_t get_particle(size_t i) {
-			return this->particles[i];
+		PeasantID get_particle_id(size_t value) {
+			return this->particle_ids[value];
 		}
 	public:
-		void del_particle(size_t i) {
-			this->particles.del_item(i);
+		void del_particle_by_id(size_t id) {
+			for (size_t i=0; i < this->particle_ids.size(); i++) {
+				if (particle_ids[i] == id) {
+					this->particle_ids.del_item(i);
+					printf(".\n");
+					return;
+				}
+			}
 		}
 	public:
-		void clear_particle() {
-			this->particles.clear();
+		void clear_particle_ids() {
+			this->particle_ids.clear();
 		}
+
+	public:
+		void set_level_id(PeasantID value) {
+			this->level_id = value;
+		}
+		void set_world_id(PeasantID value) {
+			this->world_id = value;
+		}
+		void set_levels_id(PeasantID value) {
+			this->levels_id = value;
+		}
+		void set_worlds_id(PeasantID value) {
+			this->worlds_id = value;
+		}
+		void set_x(PeasantPos value) {
+			this->x = value;
+		}
+		void set_y(PeasantPos value) {
+			this->y = value;
+		}
+
+	public:
+		PeasantID get_level_id(void) {
+			return this->level_id;
+		}
+		PeasantID get_world_id(void) {
+			return this->world_id;
+		}
+		PeasantID get_levels_id(void) {
+			return this->levels_id;
+		}
+		PeasantID get_worlds_id(void) {
+			return this->worlds_id;
+		}
+		PeasantPos get_x(void) {
+			return this->x;
+		}
+		PeasantPos get_y(void) {
+			return this->y;
+		}
+
 };
+
 class Level {
-	friend class World;
 	private:
-		Array<size_t> sections;
-		Array<size_t> particles;
+		PeasantID world_id;
+		PeasantID worlds_id;
+		Array <PeasantID> section_ids;
+		Array <PeasantID> particle_ids;
 		
-		size_t world_id;
-		
-		size_t x,y;
-		size_t width,height;
-		size_t section_width, section_height;
-		
+		PeasantPos x,y;
+		PeasantSize width,height;
+		PeasantSize section_width,section_height;
+		PeasantSize sections_x;
+		PeasantSize sections_y;
 	public:
 		Level() {
-			this->world_id = 0;
-		
+			this->worlds_id = 0;
 			this->x = 0;
 			this->y = 0;
 			this->width = 0;
 			this->height = 0;
 			this->section_width = 0;
 			this->section_height = 0;
+			this->sections_x = 0;
+			this->sections_y = 0;
 		}
-		Level(size_t x, size_t y, size_t width, size_t height, size_t section_width, size_t section_height) {
-			this->world_id = 0;
-			
+		Level(PeasantPos x
+		     ,PeasantPos y
+		     ,PeasantSize width
+		     ,PeasantSize height
+		     ,PeasantSize section_width
+		     ,PeasantSize section_height) {
+			this->worlds_id = 0;
 			this->x = x;
 			this->y = y;
-			this->width = width/section_width;
-			this->height = height/section_height;
-			if (this->width == 0) this->width = 1;
-			if (this->height == 0) this->height = 1;
+			this->width = width;
+			this->height = height;
 			this->section_width = section_width;
 			this->section_height = section_height;
+			this->sections_x = 0;
+			this->sections_y = 0;
 		}
 	public:
-		size_t add_particle(size_t pt) {
-			return this->particles.add_item(pt);
+		PeasantID add_section_id(PeasantID value) {
+			PeasantID level_id;
+			level_id = this->section_ids.add_item(value);
+			return level_id;
 		}
-		size_t add_section(size_t sc) {
-			return this->sections.add_item(sc);
-		}
-	public:
-		size_t get_particle_size() {
-			return this->particles.size();
-		}
-		size_t get_section_size() {
-			return this->sections.size();
+		PeasantID add_particle_id(PeasantID value) {
+			PeasantID level_id;
+			level_id = this->particle_ids.add_item(value);
+			return level_id;
 		}
 	public:
-		size_t get_particle(size_t i) {
-			return this->particles[i];
-		}
-		size_t get_section(size_t i) {
-			return this->sections[i];
+		void del_particle_at(size_t id) {
+			this->particle_ids.del_item(id);
 		}
 	public:
-		void del_particle(size_t i) {
-			this->particles.del_item(i);
+		size_t get_section_ids_size() {
+			return this->section_ids.size();
 		}
-		void del_section(size_t i) {
-			this->sections.del_item(i);
+		size_t get_particle_ids_size() {
+			return this->particle_ids.size();
 		}
+	public:
+		PeasantID get_section_id(size_t i) {
+			return this->section_ids[i];
+		}
+		PeasantID get_particle_id(size_t i) {
+			return this->particle_ids[i];
+		}
+	public:
+		bool  is_valid_particle_by_id(PeasantID id) {
+			for (PeasantID i=0; i < this->particle_ids.size(); i++) {
+				if (this->particle_ids[i] == id) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	public:
+		void set_world_id(PeasantID value) {
+			this->world_id = value;
+		}
+		void set_worlds_id(PeasantID value) {
+			this->worlds_id = value;
+		}
+		void set_x(PeasantPos value) {
+			this->x = value;
+		}
+		void set_y(PeasantPos value) {
+			this->y = value;
+		}
+		void set_width(PeasantSize value) {
+			this->width = value;
+		}
+		void set_height(PeasantSize value) {
+			this->height = value;
+		}
+		void set_section_width(PeasantSize value) {
+			this->section_width = value;
+		}
+		void set_section_height(PeasantSize value) {
+			this->section_height = value;
+		}
+		void set_sections_x(PeasantSize value) {
+			this->sections_x = value;
+		}
+		void set_sections_y(PeasantSize value) {
+			this->sections_y = value;
+		}
+
+	public:
+		PeasantID get_world_id(void) {
+			return this->world_id;
+		}
+		PeasantID get_worlds_id(void) {
+			return this->worlds_id;
+		}
+		PeasantPos get_x(void) {
+			return this->x;
+		}
+		PeasantPos get_y(void) {
+			return this->y;
+		}
+		PeasantSize get_width(void) {
+			return this->width;
+		}
+		PeasantSize get_height(void) {
+			return this->height;
+		}
+		PeasantSize get_section_width(void) {
+			return this->section_width;
+		}
+		PeasantSize get_section_height(void) {
+			return this->section_height;
+		}
+		PeasantSize get_sections_x(void) {
+			return this->sections_x;
+		}
+		PeasantSize get_sections_y(void) {
+			return this->sections_y;
+		}
+
 };
 
 class World {
-	friend class Universe;
 	private:
-		Array<Particle> particles;
-		Array<Section> sections;
-		Array<Level> levels;
-		
-		size_t universe_id;
+		PeasantID universe_id;
+		PeasantID universes_id;
+		Array <Particle> particles;
+		Array <Section> sections;
+		Array <Level> levels;
+		Array <PeasantID> computed_ids;
 	public:
 		World() {
 			this->universe_id = 0;
+			this->universes_id = 0;
 		}
 	public:
-		void del_particle_rev(size_t level_id) {
-			for (size_t n=0; n < this->levels[level_id].get_section_size(); n++) {
-				this->sections[this->levels[level_id].get_section(n)].clear_particle();
-			}
-		
-//			Particle *pt = &this->particles[i];
-//			for (size_t n=0; n < pt->get_rev_section_size(); n++) {
-//				ReverseLink rev = pt->get_rev_section(n);
-//				this->sections[rev.global_id].del_particle(rev.local_id);
-//			}
-//			pt->clear_rev_section();
-		}
-		void place_particle(size_t level_id, size_t id) {
-			Level *lvl = &this->levels[level_id];
-			Particle *pt = &this->particles[id];
-			if (pt->position.x < 0 || pt->position.y < 0) return;
-			if (pt->position.x >= (lvl->width * lvl->section_width) || pt->position.y >= (lvl->height * lvl->section_height)) return;
-
-		
-			size_t max_x = (pt->position.x + pt->width/2) / lvl->section_width;
-			size_t min_x = (pt->position.x - pt->width/2) / lvl->section_width;
-			size_t max_y = (pt->position.y + pt->height/2) / lvl->section_height;
-			size_t min_y = (pt->position.y - pt->height/2) / lvl->section_height;
-
-		
-			size_t sec_wid;
-			size_t par_sid;
-
-//			printf("place particle #%ld | min_x=%ld max_x=%ld ; min_y=%ld max_y=%ld\n",id,min_x,max_x,min_y,max_y);
-			for (size_t i=min_x; i <= max_x; i++) {
-				if (i >= lvl->width || i < 0) continue;
-				for (size_t n=min_y; n <= max_y; n++) {
-					if (n >= lvl->width || n < 0) continue;
-					sec_wid = lvl->height * i + n;
-					par_sid = this->sections[lvl->get_section(sec_wid)].add_particle(id);
-				}
-			}
-		}
-
-		void rebuild_links(size_t level_id) {
-			size_t id;
-			this->del_particle_rev(level_id);
-			for (size_t n=0; n < this->levels[level_id].get_particle_size(); n++) {
-				id = this->levels[level_id].get_particle(n);
-				this->place_particle(level_id,id);			
-			}
-
-		}
-	public:
-		size_t add_level(Level level) {
-			size_t wid;
-			wid = this->levels.add_item(level);
-			this->levels[wid].world_id = wid;
-
+		PeasantID add_particle(PeasantID level_id, Particle pt) {
+			PeasantID worlds_id;
+			worlds_id = this->particles.add_item(pt);
+			this->particles[worlds_id].set_worlds_id(worlds_id);
+			this->particles[worlds_id].set_world_id(this->universes_id);
+			return worlds_id;
 			
-			size_t sid;
-			for (size_t x=0; x < level.width; x++) {
-				for (size_t y=0; y < level.height; y++) {
-					sid = this->sections.add_item(Section(x,y));
-					this->levels[wid].add_section(sid);
-				}
-			}
-			return wid;
 		}
-		size_t add_particle(size_t level_id, Particle pt) {
-			size_t lid, wid;
-			wid = this->particles.add_item(pt);
-			lid = this->levels[level_id].add_particle(wid);
-			this->particles[wid].world_id = wid;
-			this->particles[wid].level_id = lid;
-			return wid;
+		PeasantID add_section(PeasantID level_id, Section sc) {
+			PeasantID worlds_id;
+			worlds_id = this->sections.add_item(sc);
+			this->sections[worlds_id].set_worlds_id(worlds_id);
+			this->sections[worlds_id].set_world_id(this->universes_id);
+			return worlds_id;
 		}
-		size_t add_section(size_t level_id, Section sc) {
-			size_t lid, wid;
-			wid = this->sections.add_item(sc);
-			lid = this->levels[level_id].add_section(wid);
-			this->sections[wid].world_id = wid;
-			this->sections[wid].level_id = lid;
-			return wid;
+		PeasantID add_level(Level lv) {
+			PeasantID worlds_id;
+			worlds_id = this->levels.add_item(lv);
+			this->levels[worlds_id].set_worlds_id(worlds_id);
+			this->levels[worlds_id].set_world_id(this->universes_id);
+			return worlds_id;
 		}
 	public:
-		size_t get_level_size() {
-			return this->levels.size();
-		}
-		size_t get_particle_size() {
+		size_t get_particles_size() {
 			return this->particles.size();
 		}
-		size_t get_section_size() {
+		size_t get_levels_size() {
+			return this->levels.size();
+		}
+		size_t get_sections_size() {
 			return this->sections.size();
 		}
 	public:
-		Level* get_level(size_t i) {
-			return &this->levels[i];
+		Particle *get_particle(PeasantID pt_id) {
+			return &this->particles[pt_id];
 		}
-		Particle* get_particle(size_t i) {
-			return &this->particles[i];
+		Level *get_level(PeasantID lvl_id) {
+			return &this->levels[lvl_id];
 		}
-		Section* get_section(size_t i) {
-			return &this->sections[i];
+		Section *get_section(PeasantID sc_id) {
+			return &this->sections[sc_id];
 		}
 	public:
-		void del_level(size_t i) {
-			Level lvl = this->levels[i];
-			for (size_t n = 0; n< lvl.get_particle_size(); n++) {
-				this->del_particle(lvl.get_particle(n));
+		bool  is_valid_level_by_id(PeasantID id) {
+			for (PeasantID i=0; i < this->levels.size(); i++) {
+				if (this->levels[i].get_worlds_id() == id) {
+					return true;
+				}
 			}
-			for (size_t n = 0; n< lvl.get_section_size(); n++) {
-				this->del_section(lvl.get_section(n));
+			return false;
+		}
+		bool  is_valid_section_by_id(PeasantID id) {
+			for (PeasantID i=0; i < this->sections.size(); i++) {
+				if (this->sections[i].get_worlds_id() == id) {
+					return true;
+				}
 			}
-			this->levels.del_item(i);
+			return false;
 		}
-                // this function never should be used outisde of del_level(), 
-                // yet  it doesn't worth putting it into private state :P
-		void del_section(size_t i) { 
-			this->sections.del_item(i);
+		bool  is_valid_particle_by_id(PeasantID id) {
+			for (PeasantID i=0; i < this->particles.size(); i++) {
+				if (this->particles[i].get_worlds_id() == id) {
+					return true;
+				}
+			}
+			return false;
 		}
-		void del_particle(size_t i) {
-//			this->del_particle_rev(i);
-			this->particles.del_item(i);
+	public:
+		MaybePeasantID link_section_with_level(PeasantID level_id, PeasantID section_id) {
+			/*
+			if (!this->is_valid_level_by_id(level_id) || !this->is_valid_section_by_id(section_id)) {
+				return -1;
+			}
+			*/
+			PeasantID levels_id;
+			levels_id = this->levels[level_id].add_section_id(section_id);
+			this->sections[levels_id].set_levels_id(levels_id);
+			this->sections[levels_id].set_level_id(level_id);
+			return levels_id;
 		}
+		MaybePeasantID link_particle_with_level(PeasantID level_id, PeasantID particle_id) {
+			/*
+			if (!this->is_valid_level_by_id(level_id) || !this->is_valid_particle_by_id(particle_id)) {
+				return -1;
+			}
+			*/
+			PeasantID levels_id;
+			levels_id = this->levels[level_id].add_particle_id(particle_id);
+			this->particles[levels_id].set_levels_id(levels_id);
+			this->particles[levels_id].set_level_id(level_id);
+			return levels_id;
+		}
+		MaybePeasantID link_particle_with_section(PeasantID section_id, PeasantID particle_id) {
+			/*
+			if (!this->is_valid_section_by_id(section_id) || !this->is_valid_particle_by_id(particle_id)) {
+				return -1;
+			}
+			*/
+			PeasantID sections_id;
+			sections_id = this->sections[section_id].add_particle_id(particle_id);
+			this->particles[sections_id].add_section_id(sections_id);
+			return sections_id;
+		}
+	public:
+		bool unlink_particle_with_level(PeasantID level_id, PeasantID particle_level_id) {
+			this->levels[level_id].del_particle_at(particle_level_id);
+			return true;
+		}
+	public:
+		bool gen_sections_for_level(PeasantID level_id) {
+			PeasantSize sections_x = 0;
+			PeasantSize sections_y = 0;
+			PeasantSize level_width = this->levels[level_id].get_width();
+			PeasantSize level_height = this->levels[level_id].get_height();
+			PeasantSize level_section_width = this->levels[level_id].get_section_width();
+			PeasantSize level_section_height = this->levels[level_id].get_section_height();
+			
+			PeasantID section_id;
+			bool ret;
+			
+			sections_x = level_width / level_section_width;
+			sections_y = level_height / level_section_height;
+			
+			this->levels[level_id].set_sections_x(sections_x);
+			this->levels[level_id].set_sections_y(sections_y);
+			
+			/*
+			if (level_width % level_section_width) sections_x += 1;
+			if (level_height % level_section_height) sections_y += 1;
+			*/
+			
+			for (PeasantPos y=0; y < sections_y; y++) {
+				for (PeasantPos x=0; x < sections_x; x++) {
+					section_id = this->add_section(level_id,Section(x,y));
+					ret = this->link_section_with_level(level_id,section_id);
+					if (ret < 0) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		bool gen_particle_links_with_level_sections(PeasantID level_id, PeasantID particle_id) {
+			Particle *pt = &this->particles[particle_id];
+			Level *lvl = &this->levels[level_id];
+			if (!lvl->is_valid_particle_by_id(particle_id)) {
+				return false;
+			}
+			Vector2 pt_position = pt->get_position();
+			PeasantSize pt_width = pt->get_width();
+			PeasantSize pt_height = pt->get_height();
+			PeasantSize lvl_sec_width = lvl->get_section_width();
+			PeasantSize lvl_sec_height = lvl->get_section_height();
+			
+			/* absolute */
+			PeasantPos x_start_abs = (pt_position.x - (pt_width /2))  / lvl_sec_width;
+			PeasantPos y_start_abs = (pt_position.y - (pt_height/2))  / lvl_sec_height;
+			/* relative */
+			PeasantPos x_end_rel   = (pt_position.x + (pt_width /2))  / lvl_sec_width - x_start_abs;
+			PeasantPos y_end_rel   = (pt_position.y + (pt_height/2))  / lvl_sec_height - y_start_abs;
+			
+			size_t sc_level_id = 0;
+			PeasantID sc_id = 0;
+			
+			size_t offset = 0;
+			
+			bool found = false;
+			
+			size_t section_ids_size = lvl->get_section_ids_size();
+			for (size_t i=0; i < section_ids_size; i++) {
+				sc_id = lvl->get_section_id(i);
+				if (this->sections[sc_id].get_x() == x_start_abs && this->sections[sc_id].get_y() == y_start_abs) {
+					offset = i;
+					found = true;
+					break;
+				}
+			}
+			if (!found) return false;
+			
+			this->particles[particle_id].clear_section_ids();
+			
+			for (size_t y=0; y <= y_end_rel; y++) {
+				for (size_t x=0; x <= x_end_rel; x++) {
+					sc_level_id = offset + y * lvl->get_sections_y() + x;
+					sc_id = lvl->get_section_id(sc_level_id);
+					this->sections[sc_id].add_particle_id(particle_id);
+					this->particles[particle_id].add_section_id(sc_id);
+				}
+			}
+			return true;
+		}
+		bool clear_particle_section_links() {
+			for (size_t sec_id=0; sec_id < this->sections.size(); sec_id++) {
+				this->sections[sec_id].clear_particle_ids();
+			}
+			for (size_t pt_id=0; pt_id < this->particles.size(); pt_id++) {
+				this->particles[pt_id].clear_section_ids();
+			}
+			return true;
+		}
+		bool gen_particle_section_links() {
+			for (size_t lvl_id=0; lvl_id < this->levels.size(); lvl_id++) {
+				for (size_t pt_id=0; pt_id < this->levels[lvl_id].get_particle_ids_size(); pt_id++) {
+					this->gen_particle_links_with_level_sections(lvl_id,this->levels[lvl_id].get_particle_id(pt_id));
+				}
+			}
+			return true;
+		}
+		bool move_particle_section_links(Array <ParticleMove> moves, bool delete_on_outbounds = false) {
+			for (size_t i=0; i < moves.size(); i++) {
+				PeasantID pt_id = moves[i].particle_world_id;
+				Particle *pt = this->get_particle(pt_id);
+				PeasantID lvl_id = pt->get_level_id();
+				PeasantID lvls_id = pt->get_levels_id();
+				Level *lvl = this->get_level(lvl_id);
+				lvl->del_particle_at(lvls_id);
+				Vector2 pt_position = pt->get_position();
+				for (size_t i=0; i < pt->get_section_ids_size(); i++) {
+					PeasantID sc_id = pt->get_section_id(i);
+					Section *sc = &this->sections[sc_id];
+					sc->del_particle_by_id(pt_id);
+				}
+				
+				/*
+				
+				
+				
+				//lvl->del_particle_at(
+				
+				
+				if (moves[i].amount.x != 0) {
+					PeasantSize pt_width = pt->get_width();
+					PeasantSize lvl_sec_width = lvl->get_section_width();
+					PeasantPos x_start_abs = (pt_position.x - (pt_width /2))  / lvl_sec_width;
+					PeasantPos x_end_rel   = (pt_position.x + (pt_width /2))  / lvl_sec_width - x_start_abs;
+
+				}
+				if (moves[i].amount.y != 0) {
+				}
+				*/
+			}
+			//printf("%d\n",moves.size());	
+			/*
+			
+				if ((moves[i].direction & MOVE_UP) && (moves[i].direction & MOVE_DOWN)) {
+					return false;
+				}
+				if ((moves[i].direction & MOVE_LEFT) && (moves[i].direction & MOVE_RIGHT)) {
+					return false;
+				}
+			}
+			*/
+			return true;	
+		}
+	public:
+		void set_universe_id(PeasantID value) {
+			this->universe_id = value;
+		}	
+
+	public:
+		PeasantID get_universe_id(void) {
+			return this->universe_id;
+		}
+
 };
 
-class Universe {
+class SDLRenderer {
 	private:
-		Array <World> worlds;
+		SDL_Surface *screen;
 	public:
-		Universe() {
+		SDLRenderer(SDL_Surface *screen) {
+			this->screen = screen;
 		}
 	public:
-		size_t add_world(World world) {
-			size_t universe_id;
-			universe_id = this->worlds.add_item(world);
-			this->worlds[universe_id].universe_id = universe_id;
-			return universe_id;
+		void render(void) {
 		}
-	public:
-		size_t get_world_size() {
-			return this->worlds.size();
+		void render(Particle *pt) {
+			SDL_Rect rect;
+			rect.x = pt->get_position().x - pt->get_width()/2;
+			rect.y = pt->get_position().y - pt->get_height()/2;
+			rect.w = pt->get_width();
+			rect.h = pt->get_height();
+			SDL_FillRect(this->screen,&rect,pt->get_color());
 		}
-	public:
-		World *get_world(size_t i) {
-			return &this->worlds[i];
+		void redraw() {
+			SDL_FillRect(this->screen,&this->screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));
 		}
-	public:
-		void del_world(size_t i) {
-			this->worlds.del_item(i);
+		void flip() {
+			SDL_Flip(this->screen);
 		}
-	
 };
 
-
-class PhysComputorS {
+class SingleThreadedPhysComputor {
 	private:
 		World *world;
 		Vector2 gravity;
 		float dt;
 	public:
-		PhysComputorS() {
-			this->world = NULL;
-			this->gravity = Vector2(0,0);
-			this->dt = 0.001;
-		}
-		PhysComputorS(World *world) {
+		SingleThreadedPhysComputor(World *world) {
 			this->world = world;
-			this->gravity = Vector2(0,0);
+			this->gravity = Vector2(0,0.1);
 			this->dt = 0.01;
 		}
 	public:
-		void iterate() {
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed += gravity * dt;
-				world->get_particle(i)->projected_position = world->get_particle(i)->position + world->get_particle(i)->speed * dt;
+		Array <ParticleMove> compute() {
+			Array <ParticleMove> moves;
+			for (size_t i=0; i < this->world->get_particles_size(); i++) {
+				Particle *pt = this->world->get_particle(i);
+				if (pt->get_is_pinned()) continue;
+				pt->clear_computed_ids();
+				
+				Vector2 speed = pt->get_speed();
+				Vector2 position = pt->get_position();
+				Vector2 projected_position = pt->get_projected_position();
+				speed += gravity * dt;
+				projected_position = position + speed;
+				
+				pt->set_speed(speed);
+				pt->set_projected_position(projected_position);
 			}
-
-
-			for (size_t z=0; z < world->get_section_size(); z++) {
-				Section *sec = world->get_section(z);
-				for (size_t i=0; i < sec->get_particle_size(); i++) {
-					for (size_t n=i+1; n < sec->get_particle_size(); n++) {
-						size_t iid = sec->get_particle(i);
-						size_t nid = sec->get_particle(n);
-						Particle *pti = world->get_particle(iid);
-						Particle *ptn = world->get_particle(nid);
-						if (ptn->is_pinned == true) continue;
-
-						if (pti->test_col(nid) && ptn->test_col(iid)) continue;
-						Vector2 p1 = pti->position;
-						Vector2 p2 = ptn->position;
-						
-						float h1 = pti->height/2;
-						float h2 = ptn->height/2;
-						
-						float p1_top = p1.y - h1;
-						float p1_bottom = p1.y + h1;
-						float p2_top = p2.y - h2;
-						float p2_bottom = p2.y + h2;
-						
-						if (p2_top < p1_bottom) {
-							
-							pti->projected_position -= Vector2(0,(p1_bottom - p2_top));
-							ptn->projected_position += Vector2(0,(p1_bottom - p2_top));
-							//printf("%f\n",p1_bottom - p2_top);
-							
-							pti->add_collide_lid(nid);
-							ptn->add_collide_lid(iid);
-						}
-					}
+//					PeasantID lvl_id = sc->get_level_id();
+//					Level *lvl = this->world->get_level(lvl_id);
+/*
+			for (size_t i=0; i < this->world->get_sections_size(); i++) {
+				Section *sc = this->world->get_section(i);
+				for (size_t n=0; n < sc->get_particle_ids_size(); n++) {
+					PeasantID pt_id = sc->get_particle_id(n);
+					if (this->world->was_computed(pt_id)) continue;
+					Particle *pt = this->world->get_particle(pt_id);
+					Vector2 position = pt->get_position();
+					position.y += 1;
+					pt->set_position(position);
+					this->world->add_computed_id(pt_id);
 				}
 			}
-
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed = (world->get_particle(i)->projected_position - world->get_particle(i)->position) / dt;
-				world->get_particle(i)->position  = world->get_particle(i)->projected_position;
-				world->get_particle(i)->clear_collide_lid();
+*/
+			for (size_t i=0; i < this->world->get_particles_size(); i++) {
+				Particle *pt = this->world->get_particle(i);
+				if (pt->get_is_pinned()) continue;
+				Vector2 speed = pt->get_speed();
+				Vector2 position = pt->get_position();
+				Vector2 projected_position = pt->get_projected_position();
+				speed = projected_position - position;
+				if (speed != Vector2(0,0)) {
+					ParticleMove move;
+					move.particle_world_id = pt->get_world_id();
+					move.amount = speed;
+					moves.add_item(move);
+				}
+				pt->set_speed(speed);
+				pt->set_position(projected_position);
 			}
+
+			return moves;
 		}
 };
 
 
-class PhysComputor;
-struct ThreadData {
-	PhysComputor *obj;
-	size_t id;
-	size_t begin;
-	size_t end;
-};
-
-class PhysComputor {
-	private:
-		World *world;
-		Vector2 gravity;
-		float dt;
-	
-		Array<SDL_Thread *> threads;
-		Array<char> thread_over;
-		Array<char> thread_active;
-		size_t no_of_threads;
-		SDL_sem *thread_got_it;
-		SDL_sem *thread_ready;
-		size_t slice;
-	public:
-		PhysComputor(World *world, size_t no_of_threads) {
-			this->world = world;
-			this->gravity = Vector2(0,0);
-			this->dt = 0.01;
-		
-			this->no_of_threads = no_of_threads;
-			this->slice = this->world->get_section_size() / this->no_of_threads;
-			if (this->world->get_section_size() % this->no_of_threads) {
-				this->slice += this->no_of_threads / (this->world->get_section_size() % this->no_of_threads);
-			}
-			this->thread_got_it = SDL_CreateSemaphore(0);
-			this->thread_ready = SDL_CreateSemaphore(0);
-			this->thread_gen();
-		}
-		~PhysComputor() {
-			for (size_t i=0; i < this->no_of_threads; i++) {
-				SDL_KillThread(threads[i]);
-			}
-			SDL_DestroySemaphore(this->thread_got_it);
-			SDL_DestroySemaphore(this->thread_ready);
-		}
-	public:
-		void thread_gen() {
-			for (size_t i=0; i < this->threads.size(); i++) {
-				SDL_KillThread(this->threads[i]);
-			}
-			this->threads.clear();
-			this->thread_over.clear();
-			this->thread_active.clear();
-			
-			for (size_t i=0; i < this->no_of_threads; i++) {
-				ThreadData td;
-				td.obj = this;
-				td.id = i;
-				td.begin = i * this->slice;
-				td.end = i * this->slice + this->slice - 1;
-				if (td.end >= this->world->get_section_size()) {
-					td.end = this->world->get_section_size() - 1;
-				}
-				this->thread_active.add_item(false);
-				this->thread_over.add_item(true);
-				this->threads.add_item(SDL_CreateThread(this->thread,&td));
-				SDL_SemWait(this->thread_ready);
-			}
-		}
-	public:
-		void i_ready() {
-			SDL_SemPost(this->thread_ready);
-		}
-		bool is_active(size_t id) {
-			return this->thread_active[id];
-		}
-		void i_got_it(size_t id) {
-			this->thread_active[id] = false;
-			SDL_SemPost(this->thread_got_it);
-		}
-		void i_came(size_t id) {
-			this->thread_over[id] = true;
-		}
-		Section* get_data(size_t id) {
-			return this->world->get_section(id);
-		}
-		void iterate() {
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed += gravity * dt;
-				world->get_particle(i)->projected_position = world->get_particle(i)->position + world->get_particle(i)->speed * dt;
-			}
-			
-			for (size_t i=0; i < this->threads.size(); i++){
-				this->thread_active[i] = true;
-				this->thread_over[i] = false;
-				SDL_SemWait(this->thread_got_it);
-			}
-			for (size_t i=0; i < this->threads.size(); i++){
-//				printf("before %ld of %ld | ",i,this->threads.size());
-//				for (size_t n=0; n < this->threads.size(); n++) {
-//					printf("%ld ",this->thread_over[i]);
-//				}
-//				printf("\n");
-				while (this->thread_over[i] == false)
-					SDL_Delay(0);
-//				printf("after\n");
-			}
-			
-			for (size_t i=0; i < world->get_particle_size(); i++) {
-				if (world->get_particle(i)->is_pinned == true) continue;
-				world->get_particle(i)->speed = (world->get_particle(i)->projected_position - world->get_particle(i)->position) / dt;
-				world->get_particle(i)->position  = world->get_particle(i)->projected_position;
-				world->get_particle(i)->clear_collide_lid();
-			}
-		}
-	public:
-		static int thread(void *data) {
-			ThreadData *parent_touch = (ThreadData *)data;
-			PhysComputor *parent = parent_touch->obj;
-			size_t id = parent_touch->id;
-			size_t begin = parent_touch->begin;
-			size_t end = parent_touch->end;
-			parent->i_ready();
-			while (true) {
-				if (parent->is_active(id)) {
-					parent->i_got_it(id);
-					printf("thread %ld got the job\n",id);
-					for (size_t z=begin; z <= end; z++) {
-						Section *sec = parent->get_data(z);
-						for (size_t i=0; i < sec->get_particle_size(); i++) {
-							for (size_t n=i+1; n < sec->get_particle_size(); n++) {
-								size_t iid = sec->get_particle(i);
-								size_t nid = sec->get_particle(n);
-								Particle *pti = parent->world->get_particle(iid);
-								Particle *ptn = parent->world->get_particle(nid);
-								if (ptn->is_pinned == true) continue;
-
-								if (pti->test_col(nid) && ptn->test_col(iid)) continue;
-								Vector2 p1 = pti->position;
-								Vector2 p2 = ptn->position;
-						
-								float h1 = pti->height/2;
-								float h2 = ptn->height/2;
-						
-								float p1_top = p1.y - h1;
-								float p1_bottom = p1.y + h1;
-								float p2_top = p2.y - h2;
-								float p2_bottom = p2.y + h2;
-						
-								if (p2_top < p1_bottom) {
-							
-									pti->projected_position -= Vector2(0,(p1_bottom - p2_top));
-									ptn->projected_position += Vector2(0,(p1_bottom - p2_top));
-									//printf("%f\n",p1_bottom - p2_top);
-							
-									pti->add_collide_lid(nid);
-									ptn->add_collide_lid(iid);
-								}
-							}
-						}
-					}
-					parent->i_came(id);
-					printf("thread over\n");
-				}
-				SDL_Delay(0);
-			}
-			return 0;
-		}
-};
 int main(int argc, char **argv) {
-	size_t world_id;
-	size_t level_id;
+	bool ret;
+	World world;
+	PeasantID level_id;
+	PeasantID particle_id;
+	SingleThreadedPhysComputor phys(&world);
+	Array <ParticleMove> moves;
 	
 	SDL_Init(SDL_INIT_EVERYTHING);
-	screen = SDL_SetVideoMode(1100,600,32,SDL_SWSURFACE);
-
-	Universe universe;
-	world_id = universe.add_world(World());
-	World *world = universe.get_world(world_id);
-
-	level_id = world->add_level(Level(0, 0, 1100, 600, 20, 20));
+	screen = SDL_SetVideoMode(1000,700,32,SDL_SWSURFACE);
+	SDLRenderer render(screen);
 	
-	world->add_particle(level_id,Particle(Vector2(120,10), Vector2(0,100),SDL_MapRGB(screen->format,0xFF,0xFF,0x00), 10, 10, 1, 0, false));
-	world->add_particle(level_id,Particle(Vector2(120,300), Vector2(0,-200),SDL_MapRGB(screen->format,0x00,0xFF,0xFF), 10, 10, 1, 0, false));
-//	for (size_t i=0; i < 100; i++) {
-//		for (size_t n=0; n < 50; n++) {
-//			world->add_particle(level_id,Particle(Vector2(50+i*10,10+n*10), Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0xFF,0xFF), 5, 5, 1, 0, false));
-//		}
-//	}
-	Level *level = world->get_level(level_id);
+	level_id = world.add_level(Level(0,0,1000,600,20,20));
+	
+	ret = world.gen_sections_for_level(level_id);
+	if (!ret) {
+		printf("Failed to generate sections for level\n");
+		return -1;
+	}
 
-//	PhysComputorS computor(world);
-	PhysComputor computor(world,4);
-
+	for (size_t y=0; y < 50; y++) {
+		for (size_t x=0; x < 100; x++) {
+			particle_id = world.add_particle(level_id,Particle(Vector2(10+x*7,100+y*7),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),5,5,1,false));
+			ret = (world.link_particle_with_level(level_id,particle_id) >= 0);
+			if (!ret) {
+				printf("Failed to link particle with level\n");
+				return -1;
+			}
+		}
+	}
+	
 	bool quit = false; 
 	SDL_Event event;
 	
-	while  (quit == false) {
+	printf("test\n");
+
+	world.clear_particle_section_links();
+	world.gen_particle_section_links();	
+
+	/* main loop */
+	while (quit == false) {
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT) quit = true;
-
-		int ticks = SDL_GetTicks();
-
-		for (size_t i=0; i < world->get_level_size(); i++) {
-			world->rebuild_links(i);
+		
+		Uint32 ticks = SDL_GetTicks();
+		moves = phys.compute();
+		
+		ret = world.move_particle_section_links(moves);
+		if (!ret) {
+			printf("Failed to move particles. Abroting\n");
+			exit(1);
 		}
-
-		computor.iterate();
-
-		printf("%d @ %d\n",SDL_GetTicks()-ticks,(int)level->get_particle_size());
-
-		SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));
-
-		for (size_t i=0; i < level->get_particle_size(); i++) {
-			world->get_particle(i)->draw();
+		printf("TICKS @ %d\n",SDL_GetTicks() - ticks);
+		
+		moves.clear();
+		
+		render.redraw();
+		for (size_t i=0; i < world.get_particles_size(); i++) {
+			render.render(world.get_particle(i));
 		}
-
-	
-		SDL_Flip(screen);
+		render.flip();
+		SDL_Delay(0);
 	}
-	return 0;	
+	
+	return 0;
 }
