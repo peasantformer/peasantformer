@@ -2,6 +2,7 @@
 #include <cmath>
 #include <vector>
 #include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
 
 SDL_Surface *screen;
 
@@ -140,9 +141,8 @@ class Array {
 		}
 };
 
-typedef long int MaybePeasantID;
 typedef long int PeasantPos;
-typedef unsigned int PeasantID;
+typedef int64_t PeasantID;
 typedef unsigned int PeasantSize;
 
 enum Direction {
@@ -153,11 +153,15 @@ enum Direction {
 	MOVE_RIGHT = 0x8
 };
 
+class Section;
+
 class Particle {
 	private:
-		PeasantID id_in_world;
-		PeasantID world_id;
-		PeasantID u,d,l,r;
+		PeasantID id;
+		PeasantID u;
+		PeasantID d;
+		PeasantID l;
+		PeasantID r;
 		Array <PeasantID> section_ids;
 		Array <PeasantID> particle_computed_ids;
 		Vector2 position;
@@ -169,12 +173,11 @@ class Particle {
 		bool is_pinned;
 	public:
 		Particle() {
+			this->id = 0;
 			this->u = 0;
 			this->d = 0;
 			this->l = 0;
 			this->r = 0;
-			this->id_in_world = 0;
-			this->world_id = 0;
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
 			this->projected_position = Vector2(0,0);
@@ -191,12 +194,11 @@ class Particle {
 		        ,float height
 		        ,float inv_mass
 		        ,bool is_pinned) {
+			this->id = 0;
 			this->u = 0;
 			this->d = 0;
 			this->l = 0;
 			this->r = 0;
-			this->id_in_world = 0;
-			this->world_id = 0;
 			this->position = position;
 			this->speed = speed;
 			this->projected_position = Vector2(0,0);
@@ -206,41 +208,11 @@ class Particle {
 			this->inv_mass = inv_mass;
 			this->is_pinned = is_pinned;
 		}
-	public:
-		size_t add_section_id(PeasantID value) {
-			return this->section_ids.add_item(value);
-		}
-		size_t add_particle_computed_id(PeasantID value) {
-			return this->particle_computed_ids.add_item(value);
-		}
-	public:
-		size_t get_section_id_size() {
-			return this->section_ids.size();
-		}
-		size_t get_particle_computed_id_size() {
-			return this->particle_computed_ids.size();
-		}
-	public:
-		PeasantID get_section_id(size_t i) {
-			return this->section_ids[i];
-		}
-		PeasantID get_particle_computed_id(size_t i) {
-			return this->particle_computed_ids[i];
-		}
-	public:
-		void clear_section_id(PeasantID value) {
-			this->section_ids.clear();
-		}
-		void clear_particle_computed_id(PeasantID value) {
-			this->particle_computed_ids.clear();
-		}
+
 
 	public:
-		void set_id_in_world(PeasantID value) {
-			this->id_in_world = value;
-		}
-		void set_world_id(PeasantID value) {
-			this->world_id = value;
+		void set_id(PeasantID value) {
+			this->id = value;
 		}
 		void set_u(PeasantID value) {
 			this->u = value;
@@ -280,11 +252,8 @@ class Particle {
 		}
 
 	public:
-		PeasantID get_id_in_world(void) {
-			return this->id_in_world;
-		}
-		PeasantID get_world_id(void) {
-			return this->world_id;
+		PeasantID get_id(void) {
+			return this->id;
 		}
 		PeasantID get_u(void) {
 			return this->u;
@@ -322,22 +291,32 @@ class Particle {
 		bool get_is_pinned(void) {
 			return this->is_pinned;
 		}
+
 };
+
 
 class Section {
 	private:
-		bool master_node;
-		PeasantPos x,y;
-		PeasantSize w,h;
-		MaybePeasantID u,d,l,r;
 		PeasantID id;
+		
+		PeasantPos x;
+		PeasantPos y;
+		PeasantSize w;
+		PeasantSize h;
+		
+		PeasantID u;
+		PeasantID d;
+		PeasantID l;
+		PeasantID r;
+		
 		Array <PeasantID> particle_ids;
 	public:
 		Section() {
-			this->master_node = false;
 			this->id = 0;
 			this->x = 0;
 			this->y = 0;
+			this->w = 0;
+			this->h = 0;
 			this->u = -1;
 			this->d = -1;
 			this->l = -1;
@@ -345,15 +324,15 @@ class Section {
 		}
 		Section(PeasantPos x
 		       ,PeasantPos y
-		       ,MaybePeasantID u = -1
-		       ,MaybePeasantID d = -1
-		       ,MaybePeasantID l = -1
-		       ,MaybePeasantID r = -1
-		       ,bool master_node = false) {
-			this->master_node = master_node;
+		       ,PeasantID u = -1
+		       ,PeasantID d = -1
+		       ,PeasantID l = -1
+		       ,PeasantID r = -1) {
 			this->id = 0;
 			this->x = x;
 			this->y = y;
+			this->w = 0;
+			this->h = 0;
 			this->u = u;
 			this->d = d;
 			this->l = l;
@@ -361,8 +340,8 @@ class Section {
 		}
 
 	public:
-		void set_master_node(bool value) {
-			this->master_node = value;
+		void set_id(PeasantID value) {
+			this->id = value;
 		}
 		void set_x(PeasantPos value) {
 			this->x = value;
@@ -376,25 +355,22 @@ class Section {
 		void set_h(PeasantSize value) {
 			this->h = value;
 		}
-		void set_u(MaybePeasantID value) {
+		void set_u(PeasantID value) {
 			this->u = value;
 		}
-		void set_d(MaybePeasantID value) {
+		void set_d(PeasantID value) {
 			this->d = value;
 		}
-		void set_l(MaybePeasantID value) {
+		void set_l(PeasantID value) {
 			this->l = value;
 		}
-		void set_r(MaybePeasantID value) {
+		void set_r(PeasantID value) {
 			this->r = value;
-		}
-		void set_id(PeasantID value) {
-			this->id = value;
 		}
 
 	public:
-		bool get_master_node(void) {
-			return this->master_node;
+		PeasantID get_id(void) {
+			return this->id;
 		}
 		PeasantPos get_x(void) {
 			return this->x;
@@ -408,349 +384,349 @@ class Section {
 		PeasantSize get_h(void) {
 			return this->h;
 		}
-		MaybePeasantID get_u(void) {
+		PeasantID get_u(void) {
 			return this->u;
 		}
-		MaybePeasantID get_d(void) {
+		PeasantID get_d(void) {
 			return this->d;
 		}
-		MaybePeasantID get_l(void) {
+		PeasantID get_l(void) {
 			return this->l;
 		}
-		MaybePeasantID get_r(void) {
+		PeasantID get_r(void) {
 			return this->r;
-		}
-		PeasantID get_id(void) {
-			return this->id;
 		}
 
 };
+
 
 class World {
 	private:
 		Array <Particle> particles;
 		Array <Section> sections;
-		PeasantSize section_width;
-		PeasantSize section_height;
-		PeasantPos max_x, max_y;
-		PeasantPos min_x, min_y;
-		PeasantID lu,ru,ld,rd;
-		bool lu_stright;
-		bool ru_stright;
-		bool ld_stright;
-		bool rd_stright;
+		PeasantSize s_w;
+		PeasantSize s_h;
+		PeasantID u;
+		PeasantID d;
+		PeasantID l;
+		PeasantID r;
 	public:
-	World(PeasantSize section_width, PeasantSize section_height) {
-			this->max_x = 0;
-			this->max_y = 0;
-			this->min_x = 0;
-			this->min_y = 0;
-			this->lu = 0;
-			this->ru = 0;
-			this->ld = 0;
-			this->rd = 0;
-			this->lu_stright = true;
-			this->ru_stright = true;
-			this->ld_stright = true;
-			this->rd_stright = true;
-			this->section_width = section_width;
-			this->section_height = section_height;
-			this->add_section(Section(0,0,-1,-1,-1,-1,true));
+		World(PeasantSize s_w, PeasantSize s_h) {
+			this->u = 0;
+			this->d = 0;
+			this->l = 0;
+			this->r = 0;
+			this->s_w = s_w;
+			this->s_h = s_h;
+			this->add_section(Section(0,0,-1,-1,-1,-1));
 		}
-	public:
-		size_t add_section(Section sc,PeasantSize sw = 0, PeasantSize sh = 0) {
-			if (sw == 0) sw = this->section_width;
-			if (sh == 0) sh = this->section_height;
-			sc.set_w(sw);
-			sc.set_h(sh);
 
-			return this->sections.add_item(sc);
+	public:
+		PeasantID add_section(Section sc) {
+			sc.set_w(s_w);
+			sc.set_h(s_h);
+			PeasantID id;
+			id = (PeasantID)this->sections.add_item(sc);
+			this->get_section(id)->set_id(id);
+			return (PeasantID)id;
 		}
-		size_t add_particle(Particle pt) {
-			pt.set_world_id(0);
-			pt.set_u(0);
-			pt.set_d(0);
-			pt.set_l(0);
-			pt.set_r(0);
-			PeasantID id_in_world;
-			id_in_world = this->particles.add_item(pt);
-			this->get_particle(id_in_world)->set_id_in_world(id_in_world);
-			return id_in_world;
+		PeasantID add_particle(Particle pt) {
+			PeasantID id;
+			id = (PeasantID)this->particles.add_item(pt);
+			this->get_particle(id)->set_id((PeasantID)id);
+			return (PeasantID)id;
 		}
 	public:
-		size_t get_sections_size() {
-			return this->sections.size();
+		PeasantID get_sections_size() {
+			return (PeasantID)this->sections.size();
 		}
-		size_t get_particles_size() {
-			return this->particles.size();
+		PeasantID get_particles_size() {
+			return (PeasantID)this->particles.size();
 		}
 	public:
 		Section *get_section(PeasantID id) {
-			return &this->sections[id];
+			return &this->sections[(size_t)id];
 		}
 		Particle *get_particle(PeasantID id) {
-			return &this->particles[id];
+			return &this->particles[(size_t)id];
 		}
 	public:
 		bool move_particles() {
-			for (size_t i=0; i < this->get_particles_size(); i++) {
+			for (PeasantID i=0; i < this->get_particles_size(); i++) {
 				Particle *pt = this->get_particle(i);
 				Vector2 position = pt->get_position();
 				Vector2 projected_position = pt->get_projected_position();
 				if (position == projected_position) {
 					continue;
 				}
+				PeasantSize pt_width = pt->get_width();				
+				PeasantSize pt_height = pt->get_height();
+
+				PeasantID u_id = this->get_u();
+				PeasantID d_id = this->get_d();
+				PeasantID l_id = this->get_l();
+				PeasantID r_id = this->get_r();
+				Section *sc_u = this->get_section(u_id);
+				Section *sc_d = this->get_section(d_id);
+				Section *sc_l = this->get_section(l_id);
+				Section *sc_r = this->get_section(r_id);
+				PeasantPos section_max_x = sc_r->get_x();
+				PeasantPos section_min_x = sc_l->get_x();
+				PeasantPos section_min_y = sc_u->get_y();
+				PeasantPos section_max_y = sc_d->get_y();
+				
+				PeasantID p_u_id = pt->get_u();
+				PeasantID p_d_id = pt->get_d();
+				PeasantID p_l_id = pt->get_l();
+				PeasantID p_r_id = pt->get_r();				
+				Section *pt_sc_u = this->get_section(p_u_id);
+				Section *pt_sc_d = this->get_section(p_d_id);
+				Section *pt_sc_l = this->get_section(p_l_id);
+				Section *pt_sc_r = this->get_section(p_r_id);
+				PeasantPos p_section_max_x = pt_sc_r->get_x();
+				PeasantPos p_section_min_x = pt_sc_l->get_x();
+				PeasantPos p_section_min_y = pt_sc_u->get_y();
+				PeasantPos p_section_max_y = pt_sc_d->get_y();
+				
+				
 				if (position.x != projected_position.x) {
-					MaybePeasantID l_id = pt->get_l();
-					MaybePeasantID r_id = pt->get_r();
-					Section *sc_l = this->get_section(l_id);
-					Section *sc_r = this->get_section(r_id);
-					
-					PeasantSize pt_width = pt->get_width();				
-					PeasantPos section_max_x = sc_r->get_x();
-					PeasantPos section_min_x = sc_l->get_x();
-					
-					while ((projected_position.x + pt_width/2) > ((section_max_x+1) * this->section_width)) {
+					while ((projected_position.x + pt_width/2) > ((section_max_x+1) * this->s_w)) {
 						if (sc_r->get_r() < 0) {
 							r_id = gen_new_section(r_id,MOVE_RIGHT);
+							if (r_id < 0) {
+								break;
+							}
+							sc_r = this->get_section(r_id);
+							section_max_x = sc_r->get_x();
+							this->set_r(r_id);
 						}
-						if (r_id < 0) {
-							break;
-						}
-						sc_r = this->get_section(r_id);
-						section_max_x = sc_r->get_x();
-						pt->set_r(r_id);
+						
 					}
 					
-					while ((projected_position.x - pt_width/2) > ((section_min_x+1) * this->section_width)) {
-						if (sc_l->get_r() < 0) break;
-						l_id = sc_l->get_r();
-						sc_l = this->get_section(l_id);
-						section_min_x = sc_l->get_x();
-					}
-					
-					
-					while ((projected_position.x - pt_width/2) < ((section_min_x) * this->section_width)) {
+					while ((projected_position.x - pt_width/2) < ((section_min_x) * this->s_w)) {
 						if (sc_l->get_l() < 0) {
 							l_id = gen_new_section(l_id,MOVE_LEFT);
+							if (l_id < 0) {
+								break;
+							}
+							sc_l = this->get_section(l_id);
+							section_min_x = sc_l->get_x();
+							this->set_l(l_id);
 						}
-						if (l_id < 0) {
-							break;
-						}
-						sc_l = this->get_section(l_id);
-						section_min_x = sc_l->get_x();
-						pt->set_l(l_id);
 					}
 					
-					
-					while ((projected_position.x + pt_width/2) < ((section_max_x) * this->section_width)) {
-						if (sc_r->get_l() < 0) break;
-						r_id = sc_r->get_l();
-						sc_r = this->get_section(r_id);
-						section_max_x = sc_r->get_x();
+					while ((projected_position.x + pt_width/2) > ((p_section_max_x+1) * this->s_w)) {
+						if (pt_sc_r->get_r() < 0) break;
+						p_r_id = pt_sc_r->get_r();
+						pt_sc_r = this->get_section(p_r_id);
+						p_section_max_x = pt_sc_r->get_x();
+						pt->set_r(p_r_id);
 					}
-					printf("H: %ld - %ld\n",l_id,r_id);
+					while ((projected_position.x + pt_width/2) < ((p_section_max_x) * this->s_w)) {
+						if (pt_sc_r->get_l() < 0) break;
+						p_r_id = pt_sc_r->get_l();
+						pt_sc_r = this->get_section(p_r_id);
+						p_section_max_x = pt_sc_r->get_x();
+						pt->set_r(p_r_id);
+					}
+					
+					while ((projected_position.x - pt_width/2) < ((p_section_min_x) * this->s_w)) {
+						if (pt_sc_l->get_l() < 0) break;
+						p_l_id = pt_sc_l->get_l();
+						pt_sc_l = this->get_section(p_l_id);
+						p_section_min_x = pt_sc_l->get_x();
+						pt->set_l(p_l_id);
+					}
+					
+					while ((projected_position.x - pt_width/2) > ((p_section_min_x+1) * this->s_w)) {
+						if (pt_sc_l->get_r() < 0) break;
+						p_l_id = pt_sc_l->get_r();
+						pt_sc_l = this->get_section(p_l_id);
+						p_section_min_x = pt_sc_l->get_x();
+						pt->set_l(p_l_id);
+					}
+					
+
+					
 				}
 				if (position.y != projected_position.y) {
-					MaybePeasantID u_id = pt->get_u();
-					MaybePeasantID d_id = pt->get_d();
-					Section *sc_u = this->get_section(u_id);
-					Section *sc_d = this->get_section(d_id);
-					
-					PeasantSize pt_height = pt->get_height();
-					PeasantPos section_min_y = sc_u->get_y();
-					PeasantPos section_max_y = sc_d->get_y();
-					
-					
-					while ((projected_position.y - pt_height/2) < ((section_min_y) * this->section_height)) {
+					while ((projected_position.y - pt_height/2) < ((section_min_y) * this->s_h)) {
 						if (sc_u->get_u() < 0) {
 							u_id = gen_new_section(u_id,MOVE_UP);
-						} if (u_id < 0) {
-							break;
+							 if (u_id < 0) {
+								break;
+							}
+							sc_u = this->get_section(u_id);
+							section_min_y = sc_u->get_y();
+							this->set_u(u_id);
 						}
-						sc_u = this->get_section(u_id);
-						section_min_y = sc_u->get_y();
-						pt->set_u(u_id);
 					}
 					
-					while ((projected_position.y + pt_height/2) < ((section_max_y) * this->section_height)) {
-						if (sc_d->get_u() < 0) break;
-						d_id = sc_d->get_u();
-						sc_d = this->get_section(d_id);
-						section_max_y = sc_d->get_y();
-					}
-					
-					
-					while ((projected_position.y + pt_height/2) > ((section_max_y+1) * this->section_height)) {
+					while ((projected_position.y + pt_height/2) > ((section_max_y+1) * this->s_h)) {
 						if (sc_d->get_d() < 0) {
 							d_id = gen_new_section(d_id,MOVE_DOWN);
+							if (d_id < 0) {
+								break;
+							}
+							sc_d = this->get_section(d_id);
+							section_max_y = sc_d->get_y();
+							this->set_d(d_id);
 						}
-						if (d_id < 0) {
-							break;
-						}
-						sc_d = this->get_section(d_id);
-						section_max_y = sc_d->get_y();
-						pt->set_d(d_id);
+						
 					}
 					
-					while ((projected_position.y - pt_height/2) > ((section_min_y+1) * this->section_height)) {
-						if (sc_u->get_d() < 0) break;
-						u_id = sc_u->get_d();
-						sc_u = this->get_section(u_id);
-						section_min_y = sc_u->get_y();
+					while ((projected_position.y - pt_height/2) < ((p_section_min_y) * this->s_h)) {
+						if (pt_sc_u->get_u() < 0) break;
+						p_u_id = pt_sc_u->get_u();
+						pt_sc_u = this->get_section(p_u_id);
+						p_section_min_y = pt_sc_u->get_y();
+						pt->set_u(p_u_id);
+						p_r_id = pt_sc_r->get_u();
+						p_l_id = pt_sc_l->get_u();
+						pt->set_r(p_r_id);
+						pt->set_l(p_l_id);						
 					}
-					printf("V: %ld - %ld\n",u_id,d_id);
+					
+					while ((projected_position.y - pt_height/2) > ((p_section_min_y+1) * this->s_h)) {
+						if (pt_sc_u->get_d() < 0) break;
+						p_u_id = pt_sc_u->get_d();
+						pt_sc_u = this->get_section(p_u_id);
+						p_section_min_y = pt_sc_u->get_y();
+						pt->set_u(p_u_id);
+						p_r_id = pt_sc_r->get_d();
+						p_l_id = pt_sc_l->get_d();
+						pt->set_r(p_r_id);
+						pt->set_l(p_l_id);
+					}
+					
+					while ((projected_position.y + pt_height/2) > ((p_section_max_y+1) * this->s_h)) {
+						if (pt_sc_d->get_d() < 0) break;
+						p_d_id = pt_sc_d->get_d();
+						pt_sc_d = this->get_section(p_d_id);
+						p_section_max_y = pt_sc_d->get_y();
+						pt->set_d(p_d_id);
+						p_r_id = pt_sc_r->get_d();
+						p_l_id = pt_sc_l->get_d();
+						pt->set_r(p_r_id);
+						pt->set_l(p_l_id);
+					}
+					
+					while ((projected_position.y + pt_height/2) < ((p_section_max_y) * this->s_h)) {
+						if (pt_sc_d->get_u() < 0) break;
+						p_d_id = pt_sc_d->get_u();
+						pt_sc_d = this->get_section(p_d_id);
+						p_section_max_y = pt_sc_d->get_y();
+						pt->set_d(p_d_id);
+						p_r_id = pt_sc_r->get_u();
+						p_l_id = pt_sc_l->get_u();
+						pt->set_r(p_r_id);
+						pt->set_l(p_l_id);
+					}
+					
 				}
 				pt->set_position(projected_position);
+				printf("%d - %d - %d - %d\n",p_l_id,p_r_id,p_u_id,p_d_id);
 			}
 			return true;
 		}
-		bool place_particle(PeasantID id) {
-			return true;
-		}
-		MaybePeasantID gen_new_section(PeasantID section_id, Direction direction, bool gen = false) {
-			Section *current_section = this->get_section(section_id);
-			PeasantPos x=0,y=0;
-			MaybePeasantID u=0,d=0,l=0,r=0;
-			PeasantID id=0,newid=0;
-			x = current_section->get_x();
-			y = current_section->get_y();
-			u = current_section->get_u();
-			d = current_section->get_d();
-			l = current_section->get_l();
-			r = current_section->get_r();
-			id = current_section->get_id();
+		PeasantID gen_new_section(PeasantID cid, Direction direction, bool gen = false) {
+			Section *current_section = this->get_section(cid);
+			PeasantPos x = current_section->get_x();
+			PeasantPos y = current_section->get_y();
 			Section sc(x,y);
 			switch (direction) {
 				case INVALID:
 					return -1;
 					break;
-				case MOVE_UP:				
+				case MOVE_UP:
 					if (current_section->get_u() != -1) {
-						printf("u reject with %d\n",current_section->get_u());
 						return -1;
 					}
 					sc.set_y(y-1);
-					sc.set_d(id);
+					sc.set_d(cid);
 					break;
 				case MOVE_DOWN:
 					if (current_section->get_d() != -1) {
-						printf("d reject\n");
 						return -1;
 					}
 					sc.set_y(y+1);
-					sc.set_u(id);
+					sc.set_u(cid);
 					break;
 				case MOVE_LEFT:
 					if (current_section->get_l() != -1) {
-						printf("l reject\n");
 						return -1;
 					}
 					sc.set_x(x-1);
-					sc.set_r(id);
+					sc.set_r(cid);
 					break;
 				case MOVE_RIGHT:
 					if (current_section->get_r() != -1) {
-						printf("r reject\n");
 						return -1;
 					}
 					sc.set_x(x+1);
-					sc.set_l(id);
+					sc.set_l(cid);
 					break;
 			}
-			newid = this->add_section(sc);
+			
+			PeasantID newid = this->add_section(sc);
 			// we have to aquire NEW pointer to current section, because
 			// of vector behaviour - previous values are invalid due to
 			// insertion.
-			current_section = this->get_section(section_id);
-			this->get_section(newid)->set_id(newid);
+			current_section = this->get_section(cid);
+			PeasantID sect_id;
+			PeasantID neigh_id;
+			Section *neigh;
+			Section *sect;
+			
 			switch (direction) {
 				case INVALID:
 					return -1;
 					break;
 				case MOVE_UP:
-					if (gen == false) {
-						this->min_y--;
-						if (abs(this->min_y) > abs(this->min_x) && min_x >= 0) {
-							this->lu = newid;
-							this->lu_stright = false;
-						}
-						if (abs(this->min_y) > abs(this->max_x) && max_x <= 0) {
-							this->ru = newid;
-							this->ru_stright = false;
-						}	
-						MaybePeasantID sect_id = lu;
-						MaybePeasantID par_id = newid;
-						for (PeasantPos i=this->min_x; i <= this->max_x; i++) {
-							if (i == this->min_x && i != 0) {
-								if (this->min_x < 0) {
-									printf("left\n");
-									sect_id = gen_new_section(sect_id,MOVE_UP,true);
-									this->lu = sect_id;
-								}
-								continue;
-							}
-							if (i == 0) {
-								if (this->max_x > 0) {
-									sect_id = ru;
-									sect_id = gen_new_section(sect_id,MOVE_UP,true);
-									this->ru = sect_id;
-									if (this->max_x  == 1) {
-										this->get_section(section_id)->set_l(newid);
-									}
-								}
-								continue;
-							}
-							if (i < 0) {
-								printf("l %ld\n",i);
-								sect_id = gen_new_section(sect_id,MOVE_RIGHT,true);
-							} else {
-								sect_id = gen_new_section(sect_id,MOVE_LEFT,true);
-								printf("r %ld\n",i);
-							}
-						}
+					if (current_section->get_u() != -1) {
+						return -1;
 					}
 					current_section->set_u(newid);
+					if (gen == false) {
+						sect_id = newid;
+						neigh_id = current_section->get_l();
+						neigh = this->get_section(neigh_id);
+						while (neigh_id != -1) {
+							sect_id = gen_new_section(sect_id,MOVE_LEFT,true);
+							neigh->set_u(sect_id);
+							sect = this->get_section(sect_id);
+							sect->set_d(neigh_id);
+							neigh_id = neigh->get_l();
+							neigh = this->get_section(neigh_id);
+						}
+						sect_id = newid;
+						neigh_id = current_section->get_r();
+						neigh = this->get_section(neigh_id);
+						while (neigh_id != -1) {
+							sect_id = gen_new_section(sect_id,MOVE_RIGHT,true);
+							neigh->set_u(sect_id);
+							sect = this->get_section(sect_id);
+							sect->set_d(neigh_id);
+							neigh_id = neigh->get_r();
+							neigh = this->get_section(neigh_id);
+						}
+					}
 					break;
 				case MOVE_DOWN:
-					if (gen == false) {
-						this->max_y++;
-						if (abs(this->max_y) > abs(this->min_x)) {
-							this->ld = newid;
-							this->ld_stright = false;
-						}
-						if (abs(this->max_y) > abs(this->max_x)) {
-							this->rd = newid;
-							this->rd_stright = false;
-						}
+					if (current_section->get_d() != -1) {
+						return -1;
 					}
 					current_section->set_d(newid);
 					break;
 				case MOVE_LEFT:
-					if (gen == false) {
-						this->min_x--;
-						if (abs(this->min_x) >= abs(this->min_y)) {
-							this->lu = newid;
-							this->lu_stright = true;
-						}
-						if (abs(this->min_x) >= abs(this->max_y)) {
-							this->ld = newid;
-							this->ld_stright = true;
-						}
+					if (current_section->get_l() != -1) {
+						return -1;
 					}
 					current_section->set_l(newid);
 					break;
 				case MOVE_RIGHT:
-					if (gen == false) {
-						this->max_x++;
-						if (abs(this->max_x) >= abs(this->min_y)) {
-							this->ru = newid;
-							this->ru_stright = true;
-						}
-						if (abs(this->max_x) >= abs(this->max_y)) {
-							this->rd = newid;
-							this->rd_stright = true;
-						}
+					if (current_section->get_r() != -1) {
+						return -1;
 					}
 					current_section->set_r(newid);
 					break;
@@ -759,19 +735,31 @@ class World {
 		}
 
 	public:
-		void set_section_width(PeasantSize value) {
-			this->section_width = value;
+		void set_u(PeasantID value) {
+			this->u = value;
 		}
-		void set_section_height(PeasantSize value) {
-			this->section_height = value;
+		void set_d(PeasantID value) {
+			this->d = value;
+		}
+		void set_l(PeasantID value) {
+			this->l = value;
+		}
+		void set_r(PeasantID value) {
+			this->r = value;
 		}
 
 	public:
-		PeasantSize get_section_width(void) {
-			return this->section_width;
+		PeasantID get_u(void) {
+			return this->u;
 		}
-		PeasantSize get_section_height(void) {
-			return this->section_height;
+		PeasantID get_d(void) {
+			return this->d;
+		}
+		PeasantID get_l(void) {
+			return this->l;
+		}
+		PeasantID get_r(void) {
+			return this->r;
 		}
 
 };
@@ -782,16 +770,27 @@ class SDLRenderer {
 		SDL_Surface *screen;
 		PeasantSize xoffset;
 		PeasantSize yoffset;
+		TTF_Font *font ;
+		SDL_Color text_color;
+		
 	public:
 		SDLRenderer(SDL_Surface *screen, PeasantSize xoffset = 0, PeasantSize yoffset = 0) {
 			this->screen = screen;
 			this->xoffset = xoffset;
 			this->yoffset = yoffset;
+			this->font = TTF_OpenFont( "/usr/share/fonts/liberation-fonts/LiberationMono-Regular.ttf", 28 );
+			this->text_color.r=0xFF;
+			this->text_color.g=0xFF;
+			this->text_color.b=0xFF;
 		}
 	public:
 		void render(void) {
 		}
 		void render(Section *sc) {
+			SDL_Surface *message = NULL;
+			char number[1024];
+			snprintf(number,1023,"%d",sc->get_id());
+			message = TTF_RenderText_Solid( font, number, text_color );
 			SDL_Rect rect;
 			rect.x = sc->get_x() * sc->get_w() + xoffset;
 			rect.y = sc->get_y() * sc->get_h() + yoffset;
@@ -804,6 +803,10 @@ class SDLRenderer {
 			rect.w -= 4;
 			rect.h -= 4;
 			SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xAA, 0xAA, 0xFF));
+			rect.x += rect.w/2-strlen(number);
+			rect.y += rect.w/2-14;
+			SDL_BlitSurface(message, NULL, screen, &rect );
+			SDL_FreeSurface(message);
 		}
 		void render(Particle *pt) {
 			SDL_Rect rect;
@@ -822,19 +825,16 @@ class SDLRenderer {
 		}
 };
 
-
-
-
 int main(int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	screen = SDL_SetVideoMode(1000,700,32,SDL_SWSURFACE);
-	
+	TTF_Init();
+
 	World world(100,100);
 	SDLRenderer render(screen,500,500);
-	PeasantID pt_id;
 	
+	PeasantID pt_id;
 	pt_id = world.add_particle(Particle(Vector2(50,50),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
-	world.place_particle(pt_id);
 
 	bool quit = false; 
 	SDL_Event event;
@@ -847,7 +847,7 @@ int main(int argc, char **argv) {
 		if (event.type == SDL_QUIT) quit = true;
 
 		Vector2 position = pt->get_position();
-		
+
 		if (keystates[SDLK_UP]) {
 			position += Vector2(0,-1);
 		}
@@ -860,23 +860,22 @@ int main(int argc, char **argv) {
 		if (keystates[SDLK_RIGHT]) {
 			position += Vector2(1,0);
 		}
-		
+
 		pt->set_projected_position(position);
-		
+
 		world.move_particles();
-		
+
 		memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8));
-		
+
 		render.redraw();
-		for (size_t i=0; i < world.get_sections_size(); i++) {
+		for (PeasantID i=0; i < world.get_sections_size(); i++) {
 			render.render(world.get_section(i));
 		}
-		for (size_t i=0; i < world.get_particles_size(); i++) {
+		for (PeasantID i=0; i < world.get_particles_size(); i++) {
 			render.render(world.get_particle(i));
 		}
 		render.flip();
 		SDL_Delay(0);
 	}
-	
 	return 0;
 }

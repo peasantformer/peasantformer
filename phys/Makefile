@@ -4,8 +4,8 @@ SRC_DIRS = src
 
 OPT = 
 
-#FLAGS = -g -lSDL -mfpmath=sse -mtune=cpu-type=k8-sse3
-FLAGS = -g `sdl-config --libs --cflags` -pedantic -Wall -Wsign-conversion $(OPT)
+#FLAGS = -g -lSDL -lSDL_ttf -mfpmath=sse -mtune=cpu-type=k8-sse3
+FLAGS = -g `sdl-config --libs --cflags` -lSDL_ttf -pedantic -Wall -Wsign-conversion $(OPT)
 CXXFLAGS = -pedantic -Wall -g -Wsign-conversion $(OPT)
 
 SRC_OBJS = $(shell find $(SRC_DIRS) -type f -name '*.cpp' | sed 's/cpp$$/o/g')
