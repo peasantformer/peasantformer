@@ -489,7 +489,7 @@ class World {
 				PeasantPos p_section_dr_y = p_dr->get_y();
 				
 				if (position.x != projected_position.x) {
-					while ((projected_position.x + pt_width/2) > ((section_max_x+1) * this->s_w)) {
+					while ((projected_position.x + pt_width/2 + this->s_w/2) > ((section_max_x+1) * this->s_w)) {
 						if (sc_r->get_r() < 0) {
 							r_id = gen_new_section(r_id,MOVE_RIGHT);
 							if (r_id < 0) {
@@ -502,7 +502,7 @@ class World {
 						
 					}
 					
-					while ((projected_position.x - pt_width/2) < ((section_min_x) * this->s_w)) {
+					while ((projected_position.x - pt_width/2 - this->s_w/2) < ((section_min_x) * this->s_w)) {
 						if (sc_l->get_l() < 0) {
 							l_id = gen_new_section(l_id,MOVE_LEFT);
 							if (l_id < 0) {
@@ -515,19 +515,45 @@ class World {
 					}
 					
 					while ((projected_position.x + pt_width/2) > ((p_section_dr_x+1) * this->s_w)) {
-						if (p_dr->get_r() < 0) break;
 						p_dr_id = p_dr->get_r();
-						p_dr = this->get_section(p_dr_id);
-						p_section_dr_x = p_dr->get_x();
-						pt->set_dr(p_dr_id);
 						p_ur_id = p_ur->get_r();
+						pt->set_dr(p_dr_id);
 						pt->set_ur(p_ur_id);
+						p_dr = this->get_section(p_dr_id);
 						p_ur = this->get_section(p_ur_id);
+						p_section_dr_x = p_dr->get_x();
+					}
+					while ((projected_position.x + pt_width/2) < ((p_section_dr_x) * this->s_w)) {
+						p_dr_id = p_dr->get_l();
+						p_ur_id = p_ur->get_l();
+						pt->set_dr(p_dr_id);
+						pt->set_ur(p_ur_id);
+						p_dr = this->get_section(p_dr_id);
+						p_ur = this->get_section(p_ur_id);
+						p_section_dr_x = p_dr->get_x();
+					}
+					while ((projected_position.x - pt_width/2) < ((p_section_ul_x) * this->s_w)) {
+						p_ul_id = p_ul->get_l();
+						p_dl_id = p_dl->get_l();
+						pt->set_ul(p_ul_id);
+						pt->set_dl(p_dl_id);
+						p_ul = this->get_section(p_ul_id);
+						p_dl = this->get_section(p_dl_id);
+						p_section_ul_x = p_ul->get_x();
+					}
+					while ((projected_position.x - pt_width/2) > ((p_section_ul_x+1) * this->s_w)) {
+						p_ul_id = p_ul->get_r();
+						p_dl_id = p_dl->get_r();
+						pt->set_ul(p_ul_id);
+						pt->set_dl(p_dl_id);
+						p_ul = this->get_section(p_ul_id);
+						p_dl = this->get_section(p_dl_id);
+						p_section_ul_x = p_ul->get_x();
 					}
 					
 				}
 				if (position.y != projected_position.y) {
-					while ((projected_position.y - pt_height/2) < ((section_min_y) * this->s_h)) {
+					while ((projected_position.y - pt_height/2 - 100) < ((section_min_y) * this->s_h)) {
 						if (sc_u->get_u() < 0) {
 							u_id = gen_new_section(u_id,MOVE_UP);
 							 if (u_id < 0) {
@@ -539,7 +565,7 @@ class World {
 						}
 					}
 					
-					while ((projected_position.y + pt_height/2) > ((section_max_y+1) * this->s_h)) {
+					while ((projected_position.y + pt_height/2 + 100) > ((section_max_y+1) * this->s_h)) {
 						if (sc_d->get_d() < 0) {
 							d_id = gen_new_section(d_id,MOVE_DOWN);
 							if (d_id < 0) {
@@ -551,51 +577,42 @@ class World {
 						}
 						
 					}
-					
 					while ((projected_position.y - pt_height/2) < ((p_section_ul_y) * this->s_h)) {
-						if (p_ul->get_u() < 0) break;
 						p_ul_id = p_ul->get_u();
-						p_ul = this->get_section(p_ul_id);
-						p_section_ul_y = p_ul->get_y();
-						pt->set_ul(p_ul_id);
 						p_ur_id = p_ur->get_u();
-						pt->set_ur(p_ur_id);
-						p_ur = this->get_section(p_ur_id);
-					}
-					
-					while ((projected_position.y - pt_height/2) > ((p_section_ul_y+1) * this->s_h)) {
-						if (p_ul->get_d() < 0) break;
-						p_ul_id = p_ul->get_d();
-						p_ul = this->get_section(p_ul_id);
-						p_section_ul_y = p_ul->get_y();
 						pt->set_ul(p_ul_id);
-						p_ur_id = p_ur->get_d();
 						pt->set_ur(p_ur_id);
+						p_ul = this->get_section(p_ul_id);
 						p_ur = this->get_section(p_ur_id);
+						p_section_ul_y = p_ul->get_y();
 					}
-					
+					while ((projected_position.y - pt_height/2) > ((p_section_ul_y+1) * this->s_h)) {
+						p_ul_id = p_ul->get_d();
+						p_ur_id = p_ur->get_d();
+						pt->set_ul(p_ul_id);
+						pt->set_ur(p_ur_id);
+						p_ul = this->get_section(p_ul_id);
+						p_ur = this->get_section(p_ur_id);
+						p_section_ul_y = p_ul->get_y();
+					}
 					while ((projected_position.y + pt_height/2) > ((p_section_dr_y+1) * this->s_h)) {
-						if (p_dr->get_d() < 0) break;
 						p_dr_id = p_dr->get_d();
-						p_dr = this->get_section(p_dr_id);
-						p_section_dr_y = p_dr->get_y();
-						pt->set_dr(p_dr_id);
 						p_dl_id = p_dl->get_d();
-						pt->set_dl(p_dl_id);
-						p_dl = this->get_section(p_dl_id);
-					}
-					
-					while ((projected_position.y + pt_height/2) < ((p_section_dr_y) * this->s_h)) {
-						if (p_dr->get_u() < 0) break;
-						p_dr_id = p_dr->get_u();
-						p_dr = this->get_section(p_dr_id);
-						p_section_dr_y = p_dr->get_y();
 						pt->set_dr(p_dr_id);
-						p_dl_id = p_dl->get_u();
 						pt->set_dl(p_dl_id);
+						p_dr = this->get_section(p_dr_id);
 						p_dl = this->get_section(p_dl_id);
+						p_section_dr_y = p_dr->get_y();
 					}
-					
+					while ((projected_position.y + pt_height/2) < ((p_section_dr_y) * this->s_h)) {
+						p_dr_id = p_dr->get_u();
+						p_dl_id = p_dl->get_u();
+						pt->set_dr(p_dr_id);
+						pt->set_dl(p_dl_id);
+						p_dr = this->get_section(p_dr_id);
+						p_dl = this->get_section(p_dl_id);
+						p_section_dr_y = p_dr->get_y();
+					}
 				}
 				pt->set_position(projected_position);
 				printf("\n%d - %d\n%d - %d\n",p_ul_id,p_ur_id,p_dl_id,p_dr_id);
@@ -856,10 +873,6 @@ class SDLRenderer {
 		void render(void) {
 		}
 		void render(Section *sc) {
-			SDL_Surface *message = NULL;
-			char number[1024];
-			snprintf(number,1023,"%d",sc->get_id());
-			message = TTF_RenderText_Solid( font, number, text_color );
 			SDL_Rect rect;
 			rect.x = sc->get_x() * sc->get_w() + xoffset;
 			rect.y = sc->get_y() * sc->get_h() + yoffset;
@@ -872,6 +885,10 @@ class SDLRenderer {
 			rect.w -= 4;
 			rect.h -= 4;
 			SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xAA, 0xAA, 0xFF));
+			SDL_Surface *message = NULL;
+			char number[1024];
+			snprintf(number,1023,"%d",sc->get_id());
+			message = TTF_RenderText_Solid( font, number, text_color );	
 			rect.x += rect.w/2-(Sint16)strlen(number);
 			rect.y += rect.w/2-14;
 			SDL_BlitSurface(message, NULL, screen, &rect );
@@ -881,24 +898,24 @@ class SDLRenderer {
 			SDL_Rect rect;
 			rect.w = 10;
 			rect.h = 20;
-			if (sc->get_u() >= 0) {
+			if (sc->get_u() >= 0 && sc->get_u() < 100) {
 				rect.y = sc->get_y() * sc->get_h() + yoffset - sc->get_h()/2 + sc->get_h()/2 - 10;
 				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4;
 				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xFF, 0x00, 0x00));
 			}
-			if (sc->get_u() >= 0) {
-				rect.y = sc->get_y() * sc->get_h() + yoffset - sc->get_h()/2 + sc->get_h()/2 - 10;
+			if (sc->get_d() >= 0 && sc->get_d() < 100) {
+				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h() - 10;
 				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4*3;
 				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0xFF, 0x00));
 			}
 			rect.w = 20;
 			rect.h = 10;
-			if (sc->get_r() >= 0) {
+			if (sc->get_r() >= 0 && sc->get_r() < 100) {
 				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4;
 				rect.x = sc->get_x() * sc->get_w() + xoffset + sc->get_w() - 10;
 				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0x00, 0xFF));
 			}
-			if (sc->get_l() >= 0) {
+			if (sc->get_l() >= 0 && sc->get_l() < 100) {
 				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4*3;
 				rect.x = sc->get_x() * sc->get_w() + xoffset - 10;
 				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0xFF, 0xFF));
@@ -963,6 +980,7 @@ int main(int argc, char **argv) {
 
 		memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8));
 
+		
 		render.redraw();
 		for (PeasantID i=0; i < world.get_sections_size(); i++) {
 			render.render(world.get_section(i));
