@@ -7,14 +7,13 @@
 
 SDL_Surface *screen;
 
-class Vector2;
-class Section;
-class Particle;
-
-
 typedef long int PeasantPos;
 typedef int64_t PeasantID;
 typedef unsigned int PeasantSize;
+
+class Vector2;
+class Section;
+class Particle;
 
 enum Direction {
 	INVALID = 0x0,
@@ -72,6 +71,31 @@ class Vector2 {
 			float inv_length = 1.0f / len;
 			return ((*this)	 * inv_length);	
 		}
+		inline Vector2 abs_normalize() {
+			float len = this->length();
+			if (len == 0)
+				return Vector2(0,0);
+			float inv_length = 1.0f / len;
+			Vector2 norm = ((*this) * inv_length);
+			float bound = 0.7;
+//			printf("I: %f %f\n",norm.x,norm.y);
+			if (norm.y > 0) {
+				if (norm.y > bound) norm.y = 1;
+				if (norm.y < bound) norm.y = 0;
+
+			} else {
+				if (norm.y < -bound) norm.y = -1;
+				if (norm.y > -bound) norm.y = 0;
+			}
+			if (norm.x > 0) {
+				if (norm.x > bound) norm.x = 1;
+				if (norm.x < bound) norm.x = 0;
+			} else {
+				if (norm.x < -bound) norm.x = -1;
+				if (norm.x > -bound) norm.x = 0;
+			}
+			return norm;
+		}
 };
 
 inline Vector2 operator*(Vector2 l, float r) {
@@ -106,6 +130,30 @@ inline bool operator==(Vector2 l, Vector2 r) {
 	return ((l.x == r.x) && (l.y == r.y));
 }
 
+Vector2 lines_intersect(Vector2 p11, Vector2 p12, Vector2 p21, Vector2 p22, bool deep_check = false) {
+	float Z  = (p12.y-p11.y)*(p21.x-p22.x)-(p21.y-p22.y)*(p12.x-p11.x);
+	float Ca = (p12.y-p11.y)*(p21.x-p11.x)-(p21.y-p11.y)*(p12.x-p11.x);
+	float Cb = (p21.y-p11.y)*(p21.x-p22.x)-(p21.y-p22.y)*(p21.x-p11.x);
+	
+	if ((Z ==0) && (Ca == 0) && (Cb == 0)) {
+		return Vector2(-1,-1);
+	}
+	if (Z == 0) {
+		return Vector2(-1,-1);
+	}
+	
+	float Ua = Ca/Z;
+	float Ub = Cb/Z;
+	if ((0 <= Ua) && (Ua <= 1) && (0 <= Ub) && (Ub <= 1)) {
+		return Vector2(p11.x + (p12.x - p11.x) * Ub, p11.y + (p12.y - p11.y) * Ub);
+	} else {
+		if (deep_check) {
+			return Vector2(p11.x + (p12.x - p11.x) * Ub, p11.y + (p12.y - p11.y) * Ub);
+		}
+		
+	}
+	return Vector2(-1,-1);
+}
 
 template <class T>
 class Array {
@@ -166,6 +214,8 @@ class Particle {
 		float width, height;
 		float inv_mass;
 		bool is_pinned;
+		
+		std::list<Section *> sections;
 	public:
 		Particle() {
 			this->id = 0;
@@ -196,14 +246,29 @@ class Particle {
 			this->dr = NULL;
 			this->position = position;
 			this->speed = speed;
-			this->projected_position = Vector2(0,0);
+			this->projected_position = position;
 			this->color = color;
 			this->width = width;
 			this->height = height;
 			this->inv_mass = inv_mass;
 			this->is_pinned = is_pinned;
 		}
-
+	public:
+		void add_section_id(Section *sc) {
+			this->sections.push_back(sc);	
+		}
+		void del_section_id(size_t id); // have to be forward-declared
+		                                // and defined AFTER class Section.
+		
+		void clear_section_ids() {
+			this->sections.clear();
+		}
+		std::list<Section *>::iterator get_section_ids_begin() {
+			return this->sections.begin();
+		}
+		std::list<Section *>::iterator get_section_ids_end() {
+			return this->sections.end();
+		}
 	public:
 		void set_id(PeasantID value) {
 			this->id = value;
@@ -302,6 +367,31 @@ class Section {
 		Section *d;
 		Section *l;
 		Section *r;
+		
+		std::list<Particle *> particles;
+	public:
+		void add_particle_id(Particle *pt) {
+			this->particles.push_back(pt);
+		}
+		void del_particle_id(size_t id) {
+			for (std::list<Particle *>::iterator it=this->get_particle_ids_begin(); it != this->get_particle_ids_end(); it++) {
+				if ((size_t)(*it)->get_id() == id) {
+					this->particles.erase(it);
+					break;
+				}
+			}
+		}
+		
+		void clear_particle_ids() {
+			this->particles.clear();
+		}
+		std::list<Particle *>::iterator get_particle_ids_begin() {
+			return this->particles.begin();
+		}
+		std::list<Particle *>::iterator get_particle_ids_end() {
+			return this->particles.end();
+		}
+		
 	public:
 		Section() {
 			this->id = 0;
@@ -392,6 +482,15 @@ class Section {
 
 };
 
+void Particle::del_section_id(size_t id) {
+	for (std::list<Section *>::iterator it=this->get_section_ids_begin(); it != this->get_section_ids_end(); it++) {
+		if ((size_t)(*it)->get_id() == id) {
+			this->sections.erase(it);
+			break;
+		}
+	}
+}
+
 class World;
 
 class WorldData {
@@ -436,7 +535,7 @@ class World {
 			size_t id = this->data->sections.add_item(sc);
 			std::map<size_t,Section>::iterator it = this->data->sections.find((size_t)id);
 			this->sections.push_back(&it->second);
-			it->second.set_id(id);
+			it->second.set_id((PeasantID)id);
 			return &it->second;
 		}
 		Particle *add_particle(Particle pt) {
@@ -448,6 +547,7 @@ class World {
 			size_t id = this->data->particles.add_item(pt);
 			std::map<size_t,Particle>::iterator it  = this->data->particles.find((size_t)id);
 			this->particles.push_back(&it->second);
+			it->second.set_id((PeasantID)id);
 			return &it->second;
 		}
 	public:
@@ -473,7 +573,7 @@ class World {
 				if (position == projected_position && init == false) {
 					continue;
 				}
-				
+		
 				
 				PeasantSize pt_width = pt->get_width();				
 				PeasantSize pt_height = pt->get_height();
@@ -500,7 +600,7 @@ class World {
 				PeasantPos p_section_dr_x = p_dr->get_x();
 				PeasantPos p_section_dr_y = p_dr->get_y();
 				
-				if (position.x != projected_position.x) {
+				if (position.x != projected_position.x || init == true) {
 					while ((projected_position.x + pt_width/2 + this->s_w/2) > ((section_max_x+1) * this->s_w)) {
 						if (sc_r->get_r() == NULL) {
 							sc_r = gen_new_section(sc_r,MOVE_RIGHT);
@@ -547,7 +647,7 @@ class World {
 						p_section_ul_x = p_ul->get_x();
 					}
 				}
-				if (position.y != projected_position.y) {
+				if (position.y != projected_position.y || init == true) {
 					while ((projected_position.y - pt_height/2 - this->s_h/2) < ((section_min_y) * this->s_h)) {
 						if (sc_u->get_u() == NULL) {
 							sc_u = gen_new_section(sc_u,MOVE_UP);
@@ -593,7 +693,29 @@ class World {
 						p_section_dr_y = p_dr->get_y();
 					}
 				}
-				printf("\n%d - %d\n%d - %d\n",p_ul->get_id(),p_ur->get_id(),p_dl->get_id(),p_dr->get_id());
+				
+				//printf("\n%d - %d\n%d - %d\n",p_ul->get_id(),p_ur->get_id(),p_dl->get_id(),p_dr->get_id());
+				
+				for (std::list<Section *>::iterator it=pt->get_section_ids_begin(); it != pt->get_section_ids_end(); it++) {
+					(*it)->del_particle_id((size_t)pt->get_id());
+				}
+				
+				pt->clear_section_ids();
+				
+				Section *sc_y,*sc_x;
+				
+				sc_y = p_ul;
+				
+				for (PeasantPos y = p_ul->get_y(); y <= p_dr->get_y(); y++) {
+					sc_x = sc_y;
+					for (PeasantPos x = p_ul->get_x(); x <= p_dr->get_x(); x++) {
+						pt->add_section_id(sc_x);
+						sc_x->add_particle_id(pt);
+						sc_x = sc_x->get_r();
+					}
+					sc_y = sc_y->get_d();
+				}
+				
 				pt->set_position(projected_position);
 			}
 			return true;
@@ -849,7 +971,7 @@ class SDLRenderer {
 			rect.y = pt->get_position().y - pt->get_height()/2 + yoffset;
 			rect.w = pt->get_width();
 			rect.h = pt->get_height();
-			if (rect.x < 0 || rect.y < 0) return;
+			if (rect.x + rect.w < 0 || rect.y + rect.h < 0) return;
 			SDL_FillRect(this->screen,&rect,pt->get_color());
 		}
 		void redraw() {
@@ -860,6 +982,164 @@ class SDLRenderer {
 		}
 };
 
+class PhysEngineST {
+	private:
+		World *world;
+		Vector2 gravity;
+		float dt;
+	public:
+		PhysEngineST(World *world) {
+			this->world = world;
+			this->gravity = Vector2(0,0);
+			this->dt = 0.01;
+		}
+	public:
+		void compute() {
+			for (std::list<Particle *>::iterator i=this->world->get_particles_begin(); i != this->world->get_particles_end(); i++) {
+				Particle *pt = *i;
+				if (pt->get_is_pinned()) continue;
+				Vector2 speed = pt->get_speed();
+				Vector2 position = pt->get_position();
+				Vector2 projected_position = pt->get_projected_position();
+				speed += gravity * dt;
+				projected_position = position + speed;
+				
+				pt->set_speed(speed);
+				pt->set_projected_position(projected_position);
+			}
+			for (std::list<Section *>::iterator i=this->world->get_sections_begin(); i != this->world->get_sections_end(); i++) {
+				for (std::list<Particle *>::iterator ptit = (*i)->get_particle_ids_begin(); ptit != (*i)->get_particle_ids_end(); ptit++) {
+					ptit++;
+					for (std::list<Particle *>::iterator ptnt = ptit--; ptnt != (*i)->get_particle_ids_end(); ptnt++) {
+						Particle *pti = *ptit;
+						Particle *ptn = *ptnt;
+						
+						if (pti->get_is_pinned() && ptn->get_is_pinned()) continue;
+						
+						Vector2 p1 = pti->get_projected_position();
+						Vector2 p2 = ptn->get_projected_position();
+
+						float w1 = pti->get_inv_mass();
+						float w2 = ptn->get_inv_mass();
+						
+						
+						Vector2 pdiff = (p1-p2);
+						Vector2 pdiff_norm(0,0);
+					
+						float p1_width = pti->get_width();
+						float p1_height = pti->get_height();
+						float p2_width = ptn->get_width();
+						float p2_height = ptn->get_height();
+						
+					
+						Vector2 p1_ul(p1.x - p1_width/2,p1.y - p1_height/2);
+						Vector2 p1_ur(p1.x + p1_width/2,p1.y - p1_height/2);
+						Vector2 p1_dl(p1.x - p1_width/2,p1.y + p1_height/2);
+						Vector2 p1_dr(p1.x + p1_width/2,p1.y + p1_height/2);
+						
+						Vector2 p2_ul(p2.x - p2_width/2,p2.y - p2_height/2);
+						Vector2 p2_ur(p2.x + p2_width/2,p2.y - p2_height/2);
+						Vector2 p2_dl(p2.x - p2_width/2,p2.y + p2_height/2);
+						Vector2 p2_dr(p2.x + p2_width/2,p2.y + p2_height/2);
+						
+						Vector2 p1_u(p1.x,p1.y + p1_height/2);
+						Vector2 p1_d(p1.x,p1.y - p1_height/2);
+						Vector2 p1_l(p1.x - p1_width/2,p1.y);
+						Vector2 p1_r(p1.x + p1_width/2,p1.y);
+						
+						Vector2 p2_u(p2.x,p2.y + p2_height/2);
+						Vector2 p2_d(p2.x,p2.y - p2_height/2);
+						Vector2 p2_l(p2.x - p2_width/2,p2.y);
+						Vector2 p2_r(p2.x + p2_width/2,p2.y);
+						
+						
+						float pen_top_to_bottom = 0.0f;
+						float pen_bottom_to_top = 0.0f;
+						float pen_left_to_right = 0.0f;
+						float pen_right_to_left = 0.0f;
+						
+						Vector2 top_to_bottom(-1,-1);	
+						if (p2_l.x > p1_l.x && p2_r.x < p1_r.x) {
+							top_to_bottom = lines_intersect(p2_d,p2_u,p1_dl,p1_dr);
+						} else if (p2_l.x < p2_l.x && p2_r.x > p1_l.x) {
+							top_to_bottom = lines_intersect(p2_d,p2_u,p1_dl,p1_dr);
+						}
+						if (top_to_bottom != Vector2(-1,-1)) {
+							SDL_Delay(100);
+						}
+						
+						
+						/*						
+												if (up_to_bottom == Vector2(-1,-1)) up_to_bottom = lines_intersect(p1_dl,p1_dr,p2_ur,p2_dr);
+						
+														
+						}
+						
+						Vector2 bottom_to_up = lines_intersect(p1_ul,p1_ur,p2_ul,p2_dl);
+						if (bottom_to_up == Vector2(-1,-1)) up_to_bottom = lines_intersect(p1_ul,p1_ur,p2_ur,p2_dr);
+						if (bottom_to_up != Vector2(-1,-1))	{
+							pen_bottom_to_up = p2_dl.y - bottom_to_up.y;
+						}
+											
+						Vector2 right_to_left = lines_intersect(p1_ur,p1_dr,p2_ur,p2_ul);
+						if (right_to_left == Vector2(-1,-1)) right_to_left = lines_intersect(p1_ur,p1_dr,p2_dr,p2_dl);
+						if (right_to_left != Vector2(-1,-1)) {
+							pen_right_to_left = right_to_left.x - p2_ul.x;
+						}
+
+						Vector2 left_to_right = lines_intersect(p1_ul,p1_dl,p2_ul,p2_ur);
+						if (left_to_right == Vector2(-1,-1)) left_to_right = lines_intersect(p1_ul,p1_dl,p2_dl,p2_dr);
+						if (left_to_right != Vector2(-1,-1)) {
+							pen_left_to_right = p2_ur.x - left_to_right.x;
+						}
+						*/
+						pdiff_norm.abs_normalize();
+
+						float horiz = 0;
+						float verti = 0;
+						/*
+						if (pen_left_to_right > 0) {
+							horiz = pen_left_to_right;
+						} else if (pen_right_to_left > 0) {
+							horiz = pen_right_to_left;
+						}
+						
+						if (pen_up_to_bottom > 0) {
+							verti = pen_up_to_bottom;
+						} else if (pen_bottom_to_up > 0) {
+							verti = pen_bottom_to_up;
+						}
+*/
+						//horiz = pen_left_to_right + pen_right_to_left;
+						//verti = pen_up_to_bottom + pen_bottom_to_up;
+						
+						//printf("%f %f %f %f\n",pen_left_to_right, pen_right_to_left, pen_up_to_bottom, pen_bottom_to_up);
+						
+						Vector2 dp1 = pdiff_norm * Vector2(horiz,verti) * w1 * 0.5;
+						Vector2 dp2 = pdiff_norm * Vector2(horiz,verti) * w2 * 0.5;
+						
+						p1 += dp1;
+						p2 -= dp2;
+						
+						pti->set_projected_position(p1);						
+						ptn->set_projected_position(p2);
+					}
+				}
+			}
+			for (std::list<Particle *>::iterator i=this->world->get_particles_begin(); i != this->world->get_particles_end(); i++) {
+				Particle *pt = *i;
+				if (pt->get_is_pinned()) continue;
+				Vector2 speed = pt->get_speed();
+				Vector2 position = pt->get_position();
+				Vector2 projected_position = pt->get_projected_position();
+				
+				speed = projected_position - position;
+				
+				pt->set_speed(speed);
+			}
+		}
+	
+};
 
 int main(int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -867,10 +1147,28 @@ int main(int argc, char **argv) {
 	TTF_Init();
 
 	World world(100,100);
-	SDLRenderer render(screen,200,200);
+	PhysEngineST phys(&world);
+	SDLRenderer render(screen,0,0);
 	
+	/*
+	for (int n=0; n < 50; n++){
+		for (int i=0; i < 100; i++) {
+			world.add_particle(Particle(Vector2(50+i*7,50+n*7),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),5,5,1,false));
+		}
+	}
+	
+	*/
+	
+	world.add_particle(Particle(Vector2(500,10),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
+	world.add_particle(Particle(Vector2(500,690),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
+	world.add_particle(Particle(Vector2(10,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
+	world.add_particle(Particle(Vector2(990,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
+		
+	world.add_particle(Particle(Vector2(200,250),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(200,450),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),100,100,1,false));
+		
 	Particle *pt = NULL;
-	pt = world.add_particle(Particle(Vector2(50,50),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
+	pt = world.add_particle(Particle(Vector2(130,350),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
 	world.move_particles(true);
 
 	bool quit = false; 
@@ -882,24 +1180,26 @@ int main(int argc, char **argv) {
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT) quit = true;
 
-		Vector2 position = pt->get_position();
-		int speed = 10;
+
+		float speed = 1;
 		if (keystates[SDLK_UP]) {
-			position += Vector2(0,-speed);
+			pt->set_speed(Vector2(0,-speed));
 		}
 		if (keystates[SDLK_DOWN]) {
-			position += Vector2(0,speed);
+			pt->set_speed(Vector2(0,speed));
 		}
 		if (keystates[SDLK_LEFT]) {
-			position += Vector2(-speed,0);
+			pt->set_speed(Vector2(-speed,0));
 		}
 		if (keystates[SDLK_RIGHT]) {
-			position += Vector2(speed,0);
+			pt->set_speed(Vector2(speed,0));
 		}
 
-		pt->set_projected_position(position);
 
+		Uint32 ticks = SDL_GetTicks();
+		phys.compute();
 		world.move_particles();
+		printf("%d\n",SDL_GetTicks()-ticks);
 
 		memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8));
 
@@ -909,7 +1209,7 @@ int main(int argc, char **argv) {
 			render.render(*i);
 		}
 		for (std::list<Section *>::iterator i=world.get_sections_begin(); i != world.get_sections_end(); i++) {
-				render.render(*i,true);
+			render.render(*i,true);
 		}
 		for (std::list<Particle *>::iterator i=world.get_particles_begin(); i != world.get_particles_end(); i++) {
 			render.render(*i);

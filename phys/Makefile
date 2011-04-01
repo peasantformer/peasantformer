@@ -2,7 +2,7 @@ BINARY_NAME = test_01
 
 SRC_DIRS = src
 
-OPT = 
+OPT = -O3
 
 #FLAGS = -g -lSDL -lSDL_ttf -mfpmath=sse -mtune=cpu-type=k8-sse3
 FLAGS = -g `sdl-config --libs --cflags` -lSDL_ttf -pedantic -Wall -Wsign-conversion $(OPT)
