@@ -1019,107 +1019,169 @@ class PhysEngineST {
 						Vector2 p1 = pti->get_projected_position();
 						Vector2 p2 = ptn->get_projected_position();
 
-						float w1 = pti->get_inv_mass();
-						float w2 = ptn->get_inv_mass();
-						
-						
-						Vector2 pdiff = (p1-p2);
-						Vector2 pdiff_norm(0,0);
-					
 						float p1_width = pti->get_width();
 						float p1_height = pti->get_height();
 						float p2_width = ptn->get_width();
 						float p2_height = ptn->get_height();
-						
-					
+
 						Vector2 p1_ul(p1.x - p1_width/2,p1.y - p1_height/2);
 						Vector2 p1_ur(p1.x + p1_width/2,p1.y - p1_height/2);
 						Vector2 p1_dl(p1.x - p1_width/2,p1.y + p1_height/2);
 						Vector2 p1_dr(p1.x + p1_width/2,p1.y + p1_height/2);
-						
-						Vector2 p2_ul(p2.x - p2_width/2,p2.y - p2_height/2);
-						Vector2 p2_ur(p2.x + p2_width/2,p2.y - p2_height/2);
-						Vector2 p2_dl(p2.x - p2_width/2,p2.y + p2_height/2);
-						Vector2 p2_dr(p2.x + p2_width/2,p2.y + p2_height/2);
 						
 						Vector2 p1_u(p1.x,p1.y + p1_height/2);
 						Vector2 p1_d(p1.x,p1.y - p1_height/2);
 						Vector2 p1_l(p1.x - p1_width/2,p1.y);
 						Vector2 p1_r(p1.x + p1_width/2,p1.y);
 						
+						Vector2 p2_ul(p2.x - p2_width/2,p2.y - p2_height/2);
+						Vector2 p2_ur(p2.x + p2_width/2,p2.y - p2_height/2);
+						Vector2 p2_dl(p2.x - p2_width/2,p2.y + p2_height/2);
+						Vector2 p2_dr(p2.x + p2_width/2,p2.y + p2_height/2);
+						
 						Vector2 p2_u(p2.x,p2.y + p2_height/2);
 						Vector2 p2_d(p2.x,p2.y - p2_height/2);
 						Vector2 p2_l(p2.x - p2_width/2,p2.y);
 						Vector2 p2_r(p2.x + p2_width/2,p2.y);
 						
+					
 						
-						float pen_top_to_bottom = 0.0f;
-						float pen_bottom_to_top = 0.0f;
-						float pen_left_to_right = 0.0f;
-						float pen_right_to_left = 0.0f;
+						float pen_vert = 0.0f;
+						float pen_horiz = 0.0f;
+																		
+						bool u_inv = false;
+						bool d_inv = false;
+						bool r_inv = false;
+						bool l_inv = false;
+										
+						Vector2 up_to_bottom(-1,-1);
+						Vector2 bottom_to_up(-1,-1);
+						Vector2 right_to_left(-1,-1);
+						Vector2 left_to_right(-1,-1);
 						
-						Vector2 top_to_bottom(-1,-1);	
-						if (p2_l.x > p1_l.x && p2_r.x < p1_r.x) {
-							top_to_bottom = lines_intersect(p2_d,p2_u,p1_dl,p1_dr);
-						} else if (p2_l.x < p2_l.x && p2_r.x > p1_l.x) {
-							top_to_bottom = lines_intersect(p2_d,p2_u,p1_dl,p1_dr);
+						Vector2 pdiff(0,0);
+						Vector2 pdiff_norm(0,0);						
+						
+						float amount = 1;
+						
+						if (p2_l.x >= p1_l.x && p2_r.x <= p1_r.x) {
+							up_to_bottom = lines_intersect(p1_dl,p1_dr,p2_d,p2_u);
+							if (up_to_bottom != Vector2(-1,-1)) pdiff += Vector2(0,amount);
+						} else if (p2_l.x < p1_l.x && p2_r.x > p1_r.x) {
+							up_to_bottom = lines_intersect(p1_ul,p1_ur,p2_d,p2_u);
+							if (up_to_bottom != Vector2(-1,-1)) pdiff += Vector2(0,-amount);
+							u_inv = true;
+						} else if (p2_r.x > p1_l.x && p2_l.x < p1_l.x && (p2_r.x - p1_l.x) > (p1_u.y - p2_d.y)) {
+							up_to_bottom = lines_intersect(p1_dl,p1_dr,p2_ur,p2_dr);
+							if (up_to_bottom != Vector2(-1,-1)) pdiff += Vector2(0,amount);
+						} else if (p2_l.x < p1_r.x && p2_r.x > p1_r.x  && (p1_r.x - p2_l.x) > (p1_u.y - p2_d.y)) {
+							up_to_bottom = lines_intersect(p1_dl,p1_dr,p2_ul,p2_dl);
+							if (up_to_bottom != Vector2(-1,-1)) pdiff += Vector2(0,amount);
 						}
-						if (top_to_bottom != Vector2(-1,-1)) {
-							SDL_Delay(100);
+						
+						if (p2_l.x >= p1_l.x && p2_r.x <= p1_r.x) {
+							bottom_to_up = lines_intersect(p1_ul,p1_ur,p2_u,p2_d);
+							if (bottom_to_up != Vector2(-1,-1)) pdiff += Vector2(0,-amount);
+						} else if (p2_l.x < p1_l.x && p2_r.x > p1_r.x) {
+							bottom_to_up = lines_intersect(p1_dl,p1_dr,p2_u,p2_d);
+							if (bottom_to_up != Vector2(-1,-1)) pdiff += Vector2(0,amount);
+							d_inv = true;
+						} else if (p2_r.x > p1_l.x && p2_l.x < p1_l.x && (p2_r.x - p1_l.x) > (p2_u.y - p1_d.y)) {
+							bottom_to_up = lines_intersect(p1_ul,p1_ur,p2_ur,p2_dr);
+							if (bottom_to_up != Vector2(-1,-1)) pdiff += Vector2(0,-amount);
+						} else if (p2_l.x < p1_r.x && p2_r.x > p1_r.x && (p1_r.x - p2_l.x) > (p2_u.y - p1_d.y)) {
+							bottom_to_up = lines_intersect(p1_ul,p1_ur,p2_ul,p2_dl);
+							if (bottom_to_up != Vector2(-1,-1)) pdiff += Vector2(0,-amount);
 						}
 						
-						
-						/*						
-												if (up_to_bottom == Vector2(-1,-1)) up_to_bottom = lines_intersect(p1_dl,p1_dr,p2_ur,p2_dr);
-						
-														
+						if (p1_u.y >= p2_u.y && p1_d.y <= p2_d.y) {
+							right_to_left = lines_intersect(p1_ur,p1_dr,p2_r,p2_l);
+							if (right_to_left != Vector2(-1,-1)) pdiff += Vector2(amount,0);
+						} else if (p1_u.y < p2_u.y && p1_d.y > p2_d.y) {
+							right_to_left = lines_intersect(p1_ul,p1_dl,p2_r,p2_l);
+							if (right_to_left != Vector2(-1,-1)) pdiff += Vector2(-amount,0);
+							r_inv = true;
+						} else if (p1_u.y > p2_u.y && p1_d.y < p2_u.y && (p2_u.y - p1_d.y) > (p1_r.x - p2_l.x)) {
+							right_to_left = lines_intersect(p1_ur,p1_dr,p2_dr,p2_dl);
+							if (right_to_left != Vector2(-1,-1)) pdiff += Vector2(amount,0);
+						} else if (p1_d.y < p2_d.y && p1_u.y > p2_d.y && (p1_u.y - p2_d.y) > (p1_r.x - p2_l.x)) {
+							right_to_left = lines_intersect(p1_ur,p1_dr,p2_ur,p2_ul);
+							if (right_to_left != Vector2(-1,-1)) pdiff += Vector2(amount,0);
 						}
 						
-						Vector2 bottom_to_up = lines_intersect(p1_ul,p1_ur,p2_ul,p2_dl);
-						if (bottom_to_up == Vector2(-1,-1)) up_to_bottom = lines_intersect(p1_ul,p1_ur,p2_ur,p2_dr);
-						if (bottom_to_up != Vector2(-1,-1))	{
-							pen_bottom_to_up = p2_dl.y - bottom_to_up.y;
+												
+						if (p1_u.y >= p2_u.y && p1_d.y <= p2_d.y) {
+							left_to_right = lines_intersect(p1_ul,p1_dl,p2_r,p2_l);
+							if (left_to_right != Vector2(-1,-1)) pdiff += Vector2(-amount,0);
+						} else if (p1_u.y < p2_u.y && p1_d.y > p2_d.y) {
+							left_to_right = lines_intersect(p1_ur,p1_dr,p2_r,p2_l);
+							if (left_to_right != Vector2(-1,-1)) pdiff += Vector2(amount,0);
+							l_inv = true;
+						} else if (p1_u.y > p2_u.y && p1_d.y < p2_u.y && (p2_u.y - p1_d.y) > (p2_r.x - p1_l.x)) {
+							left_to_right = lines_intersect(p1_ul,p1_dl,p2_dr,p2_dl);
+							if (left_to_right != Vector2(-1,-1)) pdiff += Vector2(-amount,0);
+						} else if (p1_d.y < p2_d.y && p1_u.y > p2_d.y && (p1_u.y - p2_d.y) > (p2_r.x - p1_l.x)) {
+							left_to_right = lines_intersect(p1_ul,p1_dl,p2_ur,p2_ul);
+							if (left_to_right != Vector2(-1,-1)) pdiff += Vector2(-amount,0);
 						}
-											
-						Vector2 right_to_left = lines_intersect(p1_ur,p1_dr,p2_ur,p2_ul);
-						if (right_to_left == Vector2(-1,-1)) right_to_left = lines_intersect(p1_ur,p1_dr,p2_dr,p2_dl);
-						if (right_to_left != Vector2(-1,-1)) {
-							pen_right_to_left = right_to_left.x - p2_ul.x;
-						}
+						
 
-						Vector2 left_to_right = lines_intersect(p1_ul,p1_dl,p2_ul,p2_ur);
-						if (left_to_right == Vector2(-1,-1)) left_to_right = lines_intersect(p1_ul,p1_dl,p2_dl,p2_dr);
+
+						
+						if (up_to_bottom == Vector2(-1,-1)
+						 && bottom_to_up == Vector2(-1,-1)
+						 && left_to_right == Vector2(-1,-1)
+						 && right_to_left == Vector2(-1,-1)) {
+							continue;
+						}
+						
+						//printf("%f %f\n",pdiff.x,pdiff.y);
+						//SDL_Delay(100);
+						
+						if (up_to_bottom != Vector2(-1,-1)) {
+							if (u_inv == false) {
+								pen_vert = up_to_bottom.y - p2_d.y;
+							} else {
+								pen_vert = p2_u.y - up_to_bottom.y;
+							}
+						} else if (bottom_to_up != Vector2(-1,-1)) {
+							if (d_inv == false) {
+								pen_vert = p2_u.y - bottom_to_up.y;
+							} else {
+								pen_vert = bottom_to_up.y - p2_d.y;
+							}
+						}
+						
 						if (left_to_right != Vector2(-1,-1)) {
-							pen_left_to_right = p2_ur.x - left_to_right.x;
+							if (l_inv == false) {
+								pen_horiz = p2_r.x - left_to_right.x;
+							} else {
+								pen_horiz = left_to_right.x - p2_l.x;
+							}
+						} else if (right_to_left != Vector2(-1,-1)) {
+							if (r_inv == false) {
+								pen_horiz = right_to_left.x - p2_l.x;
+							} else {
+								pen_horiz = p2_r.x - right_to_left.x;
+							}
 						}
-						*/
-						pdiff_norm.abs_normalize();
 
-						float horiz = 0;
-						float verti = 0;
-						/*
-						if (pen_left_to_right > 0) {
-							horiz = pen_left_to_right;
-						} else if (pen_right_to_left > 0) {
-							horiz = pen_right_to_left;
-						}
+
+						float w1 = pti->get_inv_mass();
+						float w2 = ptn->get_inv_mass();
+						float width = (p1_width/2 + p2_width/2)/2;
+						float height = (p1_height/2 + p2_height/2)/2;
+						Vector2 dp1(0,0);
+						Vector2 dp2(0,0);
 						
-						if (pen_up_to_bottom > 0) {
-							verti = pen_up_to_bottom;
-						} else if (pen_bottom_to_up > 0) {
-							verti = pen_bottom_to_up;
-						}
-*/
-						//horiz = pen_left_to_right + pen_right_to_left;
-						//verti = pen_up_to_bottom + pen_bottom_to_up;
+						pdiff_norm = pdiff.normalize();
 						
-						//printf("%f %f %f %f\n",pen_left_to_right, pen_right_to_left, pen_up_to_bottom, pen_bottom_to_up);
+						dp1 = pdiff_norm * Vector2(pen_horiz,pen_vert) * w1 * 0.5;
+						dp2 = pdiff_norm * Vector2(pen_horiz,pen_vert) * w2 * 0.5;
 						
-						Vector2 dp1 = pdiff_norm * Vector2(horiz,verti) * w1 * 0.5;
-						Vector2 dp2 = pdiff_norm * Vector2(horiz,verti) * w2 * 0.5;
 						
-						p1 += dp1;
-						p2 -= dp2;
+						p1 -= dp1;
+						p2 += dp2;
 						
 						pti->set_projected_position(p1);						
 						ptn->set_projected_position(p2);
@@ -1150,25 +1212,35 @@ int main(int argc, char **argv) {
 	PhysEngineST phys(&world);
 	SDLRenderer render(screen,0,0);
 	
-	/*
-	for (int n=0; n < 50; n++){
-		for (int i=0; i < 100; i++) {
-			world.add_particle(Particle(Vector2(50+i*7,50+n*7),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),5,5,1,false));
+	
+	for (int n=0; n < 10; n++){
+		for (int i=0; i < 10; i++) {
+			world.add_particle(Particle(Vector2(150+i*55,150+n*55),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),50,50,0.1,false));
 		}
 	}
 	
-	*/
+	
 	
 	world.add_particle(Particle(Vector2(500,10),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
 	world.add_particle(Particle(Vector2(500,690),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
 	world.add_particle(Particle(Vector2(10,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
 	world.add_particle(Particle(Vector2(990,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
-		
-	world.add_particle(Particle(Vector2(200,250),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(200,450),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),100,100,1,false));
+	
+	/*	
+	world.add_particle(Particle(Vector2(100,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(100,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(100,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(300,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(300,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(300,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(500,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(500,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	world.add_particle(Particle(Vector2(500,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
+	*/
+	
 		
 	Particle *pt = NULL;
-	pt = world.add_particle(Particle(Vector2(130,350),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
+	pt = world.add_particle(Particle(Vector2(150,350),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
 	world.move_particles(true);
 
 	bool quit = false; 
@@ -1181,7 +1253,7 @@ int main(int argc, char **argv) {
 		if (event.type == SDL_QUIT) quit = true;
 
 
-		float speed = 1;
+		float speed = 5;
 		if (keystates[SDLK_UP]) {
 			pt->set_speed(Vector2(0,-speed));
 		}
@@ -1193,6 +1265,9 @@ int main(int argc, char **argv) {
 		}
 		if (keystates[SDLK_RIGHT]) {
 			pt->set_speed(Vector2(speed,0));
+		}
+		if (keystates[SDLK_z]) {
+			pt->set_speed(Vector2(0,0));
 		}
 
 
