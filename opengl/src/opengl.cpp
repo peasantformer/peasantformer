@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <cmath>
 #include <map>
-#include <list>
-#include "SDL/SDL.h"
-#include "SDL/SDL_ttf.h"
+#include <list>	
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 
-SDL_Surface *screen;
 
-typedef long int PeasantPos;
-typedef int64_t PeasantID;
-typedef unsigned int PeasantSize;
+typedef int32_t PeasantPos;
+typedef int32_t PeasantID;
+typedef int32_t PeasantSize;
+
 
 class Vector2;
 class Section;
@@ -200,6 +203,14 @@ class Array {
 };
 
 
+SDL_Color SDL_MakeColor(Uint8 r, Uint8 g, Uint8 b) {
+	SDL_Color color = {0};
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	return color;
+}
+
 class Particle {
 	private:
 		PeasantID id;
@@ -210,7 +221,7 @@ class Particle {
 		Vector2 position;
 		Vector2 speed;
 		Vector2 projected_position;
-		Uint32 color;
+		SDL_Color color;
 		float width, height;
 		float inv_mass;
 		bool is_pinned;
@@ -226,7 +237,9 @@ class Particle {
 			this->position = Vector2(0,0);
 			this->speed = Vector2(0,0);
 			this->projected_position = Vector2(0,0);
-			this->color = SDL_MapRGB(screen->format,0xFF,0xFF,0xFF);
+			this->color.r = 0xFF;
+			this->color.g = 0xFF;
+			this->color.b = 0xFF;
 			this->width = 0;
 			this->height = 0;
 			this->inv_mass = 0;
@@ -234,7 +247,7 @@ class Particle {
 		}
 		Particle(Vector2 position
 		        ,Vector2 speed
-		        ,Uint32 color
+		        ,SDL_Color color
 		        ,float width
 		        ,float height
 		        ,float inv_mass
@@ -269,6 +282,7 @@ class Particle {
 		std::list<Section *>::iterator get_section_ids_end() {
 			return this->sections.end();
 		}
+
 	public:
 		void set_id(PeasantID value) {
 			this->id = value;
@@ -294,7 +308,7 @@ class Particle {
 		void set_projected_position(Vector2 value) {
 			this->projected_position = value;
 		}
-		void set_color(Uint32 value) {
+		void set_color(SDL_Color value) {
 			this->color = value;
 		}
 		void set_width(float value) {
@@ -335,7 +349,7 @@ class Particle {
 		Vector2 get_projected_position(void) {
 			return this->projected_position;
 		}
-		Uint32 get_color(void) {
+		SDL_Color get_color(void) {
 			return this->color;
 		}
 		float get_width(void) {
@@ -490,6 +504,7 @@ void Particle::del_section_id(size_t id) {
 		}
 	}
 }
+
 
 class World;
 
@@ -890,97 +905,7 @@ class World {
 		}
 
 };
-class SDLRenderer {
-	private:
-		SDL_Surface *screen;
-		PeasantSize xoffset;
-		PeasantSize yoffset;
-		TTF_Font *font ;
-		SDL_Color text_color;
 
-	public:
-		SDLRenderer(SDL_Surface *screen, PeasantSize xoffset = 0, PeasantSize yoffset = 0) {
-			this->screen = screen;
-			this->xoffset = xoffset;
-			this->yoffset = yoffset;
-			this->font = TTF_OpenFont( "/usr/share/fonts/liberation-fonts/LiberationMono-Regular.ttf", 28 );
-			this->text_color.r=0xFF;
-			this->text_color.g=0xFF;
-			this->text_color.b=0xFF;
-		}
-	public:
-		void render(void) {
-		}
-		void render(Section *sc) {
-			SDL_Rect rect;
-			rect.x = sc->get_x() * sc->get_w() + xoffset;
-			rect.y = sc->get_y() * sc->get_h() + yoffset;
-			rect.w = sc->get_w();
-			rect.h = sc->get_h();
-			if (rect.x < 0 || rect.y < 0) return;
-			SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xFF, 0xFF, 0xFF));
-			rect.x += 2;
-			rect.y += 2;
-			rect.w -= 4;
-			rect.h -= 4;
-			SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xAA, 0xAA, 0xFF));
-		}
-		void render(Section *sc, bool conn) {
-			SDL_Rect rect;
-			rect.w = 10;
-			rect.h = 20;
-			if (sc->get_u() != NULL) {
-				rect.y = sc->get_y() * sc->get_h() + yoffset - sc->get_h()/2 + sc->get_h()/2 - 10;
-				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4;
-				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0xFF, 0x00, 0x00));
-			}
-			if (sc->get_d() != NULL) {
-				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h() - 10;
-				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4*3;
-				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0xFF, 0x00));
-			}
-			rect.w = 20;
-			rect.h = 10;
-			if (sc->get_r() != NULL) {
-				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4;
-				rect.x = sc->get_x() * sc->get_w() + xoffset + sc->get_w() - 10;
-				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0x00, 0xFF));
-			}
-			if (sc->get_l() != NULL) {
-				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4*3;
-				rect.x = sc->get_x() * sc->get_w() + xoffset - 10;
-				SDL_FillRect(this->screen,&rect,SDL_MapRGB(screen->format,0x00, 0xFF, 0xFF));
-			}
-			
-			rect.x = sc->get_x() * sc->get_w() + xoffset;
-			rect.y = sc->get_y() * sc->get_h() + yoffset;
-			rect.w = sc->get_w();
-			rect.h = sc->get_h();
-			SDL_Surface *message = NULL;
-			char number[1024];
-			snprintf(number,1023,"%ld",sc->get_id());
-			message = TTF_RenderText_Solid( font, number, text_color );	
-			rect.x += rect.w/2-(Sint16)strlen(number);
-			rect.y += rect.w/2-14;
-			SDL_BlitSurface(message, NULL, screen, &rect );
-			SDL_FreeSurface(message);
-		}
-		void render(Particle *pt) {
-			SDL_Rect rect;
-			rect.x = pt->get_position().x - pt->get_width()/2 + xoffset;
-			rect.y = pt->get_position().y - pt->get_height()/2 + yoffset;
-			rect.w = pt->get_width();
-			rect.h = pt->get_height();
-			if (rect.x + rect.w < 0 || rect.y + rect.h < 0) return;
-			SDL_FillRect(this->screen,&rect,pt->get_color());
-		}
-		void redraw() {
-			SDL_FillRect(this->screen,&this->screen->clip_rect,SDL_MapRGB(screen->format,0x00,0x00,0x00));
-		}
-		void flip() {
-			SDL_Flip(this->screen);
-		}
-};
 
 class PhysEngineST {
 	private:
@@ -1203,96 +1128,346 @@ class PhysEngineST {
 	
 };
 
-int main(int argc, char **argv) {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	screen = SDL_SetVideoMode(1000,700,32,SDL_SWSURFACE);
-	TTF_Init();
 
+class OpenGLRenderer {
+	private:
+		PeasantSize xoffset;
+		PeasantSize yoffset;
+		PeasantSize width;
+		PeasantSize height;
+		PeasantSize bpp;
+			public:
+		OpenGLRenderer(PeasantSize xoffset = 0, PeasantSize yoffset = 0) {
+			this->xoffset = xoffset;
+			this->yoffset = yoffset;
+			this->width = 640;
+			this->height = 480;
+			this->bpp = 32;
+		}
+	public:
+		void init(){
+			SDL_Init(SDL_INIT_EVERYTHING);
+			SDL_SetVideoMode(this->width,this->height,this->bpp, SDL_OPENGL);
+
+			glClearColor(0,0,0,0);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0,this->width, this->height,0,-1,1);
+			glMatrixMode( GL_MODELVIEW );
+			glLoadIdentity();
+			
+		}
+	
+
+		void render(void) {
+		}
+		void render(Particle *pt) {
+			SDL_Rect rect;
+			rect.x = pt->get_position().x - pt->get_width()/2 + xoffset;
+			rect.y = pt->get_position().y - pt->get_height()/2 + yoffset;
+			rect.w = pt->get_width();
+			rect.h = pt->get_height();
+			
+			glLoadIdentity();
+			
+			glTranslatef(rect.x, rect.y, 0 );
+			
+			/*
+			lColor3f((float)pt->get_color().r/256.0,1.0,(float)pt->get_color().b/256.0);
+			glBegin(GL_QUADS);
+				glVertex2f(rect.w,0);
+				glVertex2f(0,0);
+				glVertex2f(0,rect.h);
+				glVertex2f(rect.w,rect.h);
+			glEnd();
+			//glTranslatef(rect.w/2, rect.h/2, 0 );
+			//glRotatef(45,0.0,0.0,1.0);
+			//glTranslatef(-rect.w/2, -rect.h/2, 0 );
+			//
+			*/
+			glColor3f((float)pt->get_color().r/256.0,(float)pt->get_color().g/256.0,(float)pt->get_color().b/256.0);
+			glBegin(GL_QUADS);
+				glVertex2f(rect.w,0);
+				glVertex2f(0,0);
+				glVertex2f(0,rect.h);
+				glVertex2f(rect.w,rect.h);
+			glEnd();
+			
+			glLoadIdentity();
+		}
+		void render(Section *sc) {
+			SDL_Rect rect;
+			rect.x = sc->get_x() * sc->get_w() + xoffset;
+			rect.y = sc->get_y() * sc->get_h() + yoffset;
+			rect.w = sc->get_w();
+			rect.h = sc->get_h();
+			if (rect.x < 0 || rect.y < 0) return;
+
+			glLoadIdentity();
+			glTranslatef(rect.x, rect.y, 0 );
+			glColor3f(1.0,1.0,1.0);
+			glBegin(GL_QUADS);
+				glVertex2f(rect.w,0);
+				glVertex2f(0,0);
+				glVertex2f(0,rect.h);
+				glVertex2f(rect.w,rect.h);
+			glEnd();
+			
+			rect.x += 2;
+			rect.y += 2;
+			rect.w -= 4;
+			rect.h -= 4;
+			
+			glColor3f(0.7,0.7,1.0);
+			glBegin(GL_QUADS);
+				glVertex2f(rect.w,0);
+				glVertex2f(0,0);
+				glVertex2f(0,rect.h);
+				glVertex2f(rect.w,rect.h);
+			glEnd();
+			glLoadIdentity();			
+		}
+		void render(Section *sc,bool adds) {
+			SDL_Rect rect;
+			rect.w = 10;
+			rect.h = 20;
+			
+			if (sc->get_u() != NULL) {
+				rect.y = sc->get_y() * sc->get_h() + yoffset - sc->get_h()/2 + sc->get_h()/2 - 10;
+				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4;
+				glLoadIdentity();
+				glTranslatef(rect.x, rect.y, 0 );
+				glColor3f(1.0,0.0,0.0);
+				glBegin(GL_QUADS);
+					glVertex2f(rect.w,0);
+					glVertex2f(0,0);
+					glVertex2f(0,rect.h);
+					glVertex2f(rect.w,rect.h);
+				glEnd();
+			}
+			if (sc->get_d() != NULL) {
+				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h() - 10;
+				rect.x = sc->get_x() * sc->get_w() + xoffset+sc->get_w()/4*3;
+				glLoadIdentity();
+				glTranslatef(rect.x, rect.y, 0 );
+				glColor3f(0.0,1.0,0.0);
+				glBegin(GL_QUADS);
+					glVertex2f(rect.w,0);
+					glVertex2f(0,0);
+					glVertex2f(0,rect.h);
+					glVertex2f(rect.w,rect.h);
+				glEnd();
+			}
+			rect.w = 20;
+			rect.h = 10;
+			if (sc->get_r() != NULL) {
+				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4;
+				rect.x = sc->get_x() * sc->get_w() + xoffset + sc->get_w() - 10;
+				glLoadIdentity();
+				glTranslatef(rect.x, rect.y, 0 );
+				glColor3f(0.0,0.0,1.0);
+				glBegin(GL_QUADS);
+					glVertex2f(rect.w,0);
+					glVertex2f(0,0);
+					glVertex2f(0,rect.h);
+					glVertex2f(rect.w,rect.h);
+				glEnd();
+			}
+			if (sc->get_l() != NULL) {
+				rect.y = sc->get_y() * sc->get_h() + yoffset + sc->get_h()/4*3;
+				rect.x = sc->get_x() * sc->get_w() + xoffset - 10;
+				glLoadIdentity();
+				glTranslatef(rect.x, rect.y, 0 );
+				glColor3f(0.0,1.0,1.0);
+				glBegin(GL_QUADS);
+					glVertex2f(rect.w,0);
+					glVertex2f(0,0);
+					glVertex2f(0,rect.h);
+					glVertex2f(rect.w,rect.h);
+				glEnd();
+			}
+			
+			glLoadIdentity();
+		}
+		void redraw() {
+			glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+		void flip() {
+			SDL_GL_SwapBuffers();
+		}
+};
+
+class Timer {
+	private:
+			Uint32 startTicks;
+			Uint32	pausedTicks;
+			bool paused;
+			bool started;
+	public:
+		Timer() {
+			this->startTicks = 0;
+			this->pausedTicks = 0;
+			this->paused = false;
+			this->started = false;
+		}
+		void start() {
+			this->startTicks = SDL_GetTicks();
+			this->pausedTicks = 0;
+			this->started =  true;
+			this->paused = false;
+		}
+		
+		void stop() {
+			this->startTicks = SDL_GetTicks() - this->startTicks;
+			this->pausedTicks = 0;
+			this->started = false;
+			this->paused = false;
+		}
+		
+		void pause() {
+			if (this->started == true && this->paused == false) {
+				this->pausedTicks = SDL_GetTicks();
+				this->paused = true;
+			}
+		}
+		void unpause() {
+			if (this->started == true && this->paused == true) {
+				this->startTicks += SDL_GetTicks() - this->pausedTicks;
+				this->pausedTicks = 0;
+				this->paused = false;
+			}
+		}
+		
+		Uint32 get_ticks() {
+			if (this->started == true) {
+				if (this->paused == true) {
+					return (SDL_GetTicks() - (this->startTicks + (SDL_GetTicks() - this->pausedTicks)));
+				} else {
+					return SDL_GetTicks() - this->startTicks;
+				}
+			} else {
+				return this->startTicks;
+			}
+		}
+	public:
+		bool get_paused(void) {
+			return this->paused;
+		}
+		bool get_started(void) {
+			return this->started;
+		}
+
+};
+
+
+int main(int argc, char **argv) {
+	
 	World world(100,100);
 	PhysEngineST phys(&world);
-	SDLRenderer render(screen,0,0);
+	OpenGLRenderer render;
+
+	render.init();	
 	
 	
-	for (int n=0; n < 10; n++){
-		for (int i=0; i < 10; i++) {
-			world.add_particle(Particle(Vector2(150+i*55,150+n*55),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0xFF,0x00),20,20,0.1,false));
-		}
-	}
+	world.add_particle(Particle(Vector2(100,100),Vector2(0,0),SDL_MakeColor(0xFF,0x00,0xFF),50,50,1,false));
+	world.add_particle(Particle(Vector2(300,100),Vector2(0,0),SDL_MakeColor(0xFF,0x00,0xFF),50,50,1,false));
 	
+	//world.add_particle(Particle(Vector2(100,200),Vector2(0,0),SDL_MakeColor(0xFF,0x00,0xFF),50,50,1,false));
+	//world.add_particle(Particle(Vector2(300,200),Vector2(0,0),SDL_MakeColor(0xFF,0x00,0xFF),50,50,1,false));
 	
-	
-	world.add_particle(Particle(Vector2(500,10),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
-	world.add_particle(Particle(Vector2(500,690),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),1000,20,0,true));
-	world.add_particle(Particle(Vector2(10,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
-	world.add_particle(Particle(Vector2(990,350),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),20,700,0,true));
-	
-	/*	
-	world.add_particle(Particle(Vector2(100,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(100,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(100,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(300,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(300,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(300,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(500,100),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(500,300),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	world.add_particle(Particle(Vector2(500,500),Vector2(0,0),SDL_MapRGB(screen->format,0x00,0x00,0xFF),100,100,1,false));
-	*/
-	
-		
 	Particle *pt = NULL;
-	pt = world.add_particle(Particle(Vector2(150,350),Vector2(0,0),SDL_MapRGB(screen->format,0xFF,0x00,0x00),50,50,1,false));
+	pt = world.add_particle(Particle(Vector2(300,300),Vector2(0,0),SDL_MakeColor(0xFF,0x00,0x00),100,100,1,false));
 	world.move_particles(true);
 
-	bool quit = false; 
+
 	SDL_Event event;
+    bool quit = false;
 	Uint8 *keystates = SDL_GetKeyState(NULL);
 	Uint8 old_keystates[SDLK_LAST];
 	memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8));
-	while (quit == false) {
+	
+	Timer intervaller;
+	Timer frame_meter;
+	intervaller.start();
+	frame_meter.start();
+	
+	
+	double max_fps = 100;
+	double min_fps = 1;
+	double update_interval = 1.0 / max_fps;
+	double max_cycles_per_frame = max_fps / min_fps;
+
+
+	double last_frame_time = 0;
+	double cycles_left_over = 0;
+	double current_time;
+	double update_iterations;
+	
+	Uint32 frames = 0;
+	while(quit == false) {
+
+		
+		current_time = (float)SDL_GetTicks()/1000;
+		update_iterations = ((current_time - last_frame_time) + cycles_left_over);
+		
+		if (update_iterations > (max_cycles_per_frame * update_interval)) {
+			update_iterations = max_cycles_per_frame * update_interval;
+		}
+
 		SDL_PollEvent(&event);
-		if (event.type == SDL_QUIT) quit = true;
-
-
-		float speed = 5;
-		if (keystates[SDLK_UP]) {
-			pt->set_speed(Vector2(0,-speed));
+		if(event.type == SDL_QUIT)
+			quit = true;
+		
+		while (update_iterations >= update_interval) {
+			update_iterations -= update_interval;
+			phys.compute();
+			world.move_particles();
 		}
-		if (keystates[SDLK_DOWN]) {
-			pt->set_speed(Vector2(0,speed));
+		
+			float speed = 1;
+			if (keystates[SDLK_UP]) {
+				pt->set_speed(Vector2(0,-speed));
+			}
+			if (keystates[SDLK_DOWN]) {
+				pt->set_speed(Vector2(0,speed));
+			}
+			if (keystates[SDLK_LEFT]) {
+				pt->set_speed(Vector2(-speed,0));
+			}
+			if (keystates[SDLK_RIGHT]) {
+				pt->set_speed(Vector2(speed,0));
+			}
+			if (keystates[SDLK_z]) {
+				pt->set_speed(Vector2(0,0));
+			}
+
+		memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8	));
+
+		//printf("\n");
+
+		frames++;
+
+		if (frame_meter.get_ticks() > 1000 ) {
+			printf("TICK %f @ %f\n",frames / (double)(frame_meter.get_ticks()/1000),(double)(frame_meter.get_ticks())/frames);
+			frame_meter.start();
+			frames = 0;
 		}
-		if (keystates[SDLK_LEFT]) {
-			pt->set_speed(Vector2(-speed,0));
-		}
-		if (keystates[SDLK_RIGHT]) {
-			pt->set_speed(Vector2(speed,0));
-		}
-		if (keystates[SDLK_z]) {
-			pt->set_speed(Vector2(0,0));
-		}
 
+		cycles_left_over = update_iterations;
+		last_frame_time = current_time;
 
-		Uint32 ticks = SDL_GetTicks();
-		phys.compute();
-		world.move_particles();
-		printf("%d\n",SDL_GetTicks()-ticks);
+	    render.redraw();
 
-		memcpy(old_keystates,keystates,SDLK_LAST * sizeof(Uint8));
-
-
-		render.redraw();
+		
 		for (std::list<Section *>::iterator i=world.get_sections_begin(); i != world.get_sections_end(); i++) {
 			render.render(*i);
-		}
-		for (std::list<Section *>::iterator i=world.get_sections_begin(); i != world.get_sections_end(); i++) {
-			render.render(*i,true);
 		}
 		for (std::list<Particle *>::iterator i=world.get_particles_begin(); i != world.get_particles_end(); i++) {
 			render.render(*i);
 		}
-		
+
 		render.flip();
-		SDL_Delay(0);
+
 	}
-	
-	return 0;  
+	return 0;
 }
