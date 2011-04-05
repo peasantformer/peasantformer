@@ -46,11 +46,21 @@ endif(ENABLE_OPENGL_RENDER_MODULE)
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})
 
+if (UNIX)
 add_custom_target(modules_dirs ALL 
 	mkdir -p modules/
 	         modules/engine/render/
 	         modules/objects/
 	)
+endif (UNIX)
+if (WIN32)
+add_custom_target(modules_dirs ALL 
+	mkdir -p modules
+	         modules\engine\render
+	         modules\objects
+	)
+endif (WIN32)
+
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES modules)
 
 if (ENABLE_OPENGL_RENDER_MODULE)
