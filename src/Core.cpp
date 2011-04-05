@@ -1,35 +1,5 @@
 #include "Core.h"
 
-PeasantModuleType PeasantGenericModule::get_type(void) {
-	return this->type;
-}
-std::string PeasantGenericModule::get_filepath(void) {
-	return this->filepath;
-}
-std::string PeasantGenericModule::get_name(void) {
-	return this->name;
-}
-std::string PeasantGenericModule::get_description(void) {
-	return this->description;
-}
-std::string PeasantGenericModule::get_version(void) {
-	return this->version;
-}
-peasant_module_construct * PeasantGenericModule::get_constructor(void) {
-	return this->constructor;
-}
-peasant_module_deconstruct * PeasantGenericModule::get_deconstructor(void) {
-	return this->deconstructor;
-}
-
-
-
-
-
-
-
-
-
 PeasantCore::PeasantCore(std::string modules_dir) {
 	this->modules_dir = modules_dir;
 }
@@ -96,9 +66,30 @@ int PeasantCore::load_module(std::string path) {
 		return -1;
 	}
 	
-	PeasantModuleInfo minfo = info();
+	PeasantGenericModuleInfo minfo = info();
 	
-	this->modules.push_back(PeasantGenericModule(minfo.get_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),constructor,deconstructor))	;
+	//this->modules[minfo.get_name()] = PeasantGenericModule(minfo.get_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor);
+	
+	if (minfo.get_type() == PM_RENDER) {
+		peasant_render_module_info *render_info = (peasant_render_module_info*) dlsym(module_ptr, "render_info");
+		dlsym_error = dlerror();
+		if (dlsym_error) {	
+			printf("error: %s\n",dlsym_error);
+			return -1;
+		}
+		PeasantRenderModuleInfo rminfo = render_info();
+		this->render_modules.add_render(PeasantRenderModule(rminfo.get_render_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor));
+	}
+	if (minfo.get_type() == PM_OBJECT) {
+		peasant_object_module_info *object_info = (peasant_object_module_info*) dlsym(module_ptr, "object_info");
+		dlsym_error = dlerror();
+		if (dlsym_error) {	
+			printf("error: %s\n",dlsym_error);
+			return -1;
+		}
+		PeasantObjectModuleInfo ominfo = object_info();
+		this->object_modules.add_object(PeasantObjectModule(ominfo.get_object_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor));
+	}
 	
 	return 0;
 }
@@ -106,21 +97,3 @@ int PeasantCore::unload_module() {
 }
 
 
-
-
-
-
-int main (int argc, char **argv) {
-	PeasantCore *core;
-	core = new PeasantCore("modules");
-	
-	core->scan_modules_dir();
-	core->load_modules();
-	//PeasantGenericTestModule *test = (PeasantGenericTestModule *)core->get_modules()[0].get_constructor()();
-	PeasantGenericTestModule *test = (PeasantGenericTestModule *)core->get_modules()[0].get_constructor()();
-	test->flip();
-	//test->test();
-	
-	delete core;
-	return 0;
-}

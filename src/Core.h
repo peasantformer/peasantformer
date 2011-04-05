@@ -1,5 +1,5 @@
-#ifndef PEASANTFORMER_MAIN
-#define PEASANTFORMER_MAIN  
+#ifndef PEASANTFORMER_CORE
+#define PEASANTFORMER_CORE	  
 
 #include <string>
 #include <vector>
@@ -13,59 +13,17 @@
 #include "Interfaces/GenericModuleInterface.h"
 #include "Interfaces/RenderInterface.h"
 #include "Interfaces/ObjectInterface.h"
-#include "Modules/Test/Test.h"
 
-class PeasantGenericModule {
-	private:
-		PeasantModuleType type;
-		std::string filepath;
-		std::string name;
-		std::string description;
-		std::string version;
-		peasant_module_construct *constructor;
-		peasant_module_deconstruct *deconstructor;
-	public:
-		PeasantGenericModule(PeasantModuleType type
-		                    ,std::string filepath
-		                    ,std::string name
-		                    ,std::string description
-		                    ,std::string version
-		                    ,peasant_module_construct *constructor
-		                    ,peasant_module_deconstruct *deconstructor
-		                    ) {
-			this->type = type;
-			this->filepath = filepath;
-			this->name = name;
-			this->description = description;
-			this->version = version;
-			this->constructor = constructor;
-			this->deconstructor = deconstructor;
-		}
-
-	public:
-		PeasantModuleType get_type(void);
-		std::string get_filepath(void);
-		std::string get_name(void);
-		std::string get_description(void);
-		std::string get_version(void);
-		peasant_module_construct * get_constructor(void);
-		peasant_module_deconstruct * get_deconstructor(void);
-
-};
-
-class PeasantRenderModule : public PeasantGenericModule {
-	private:
-		
-	public:
-		PeasantRenderModuleInterface *instance;
-	
-};
 
 class PeasantCore {
 	private:
 		std::string modules_dir;
 		std::vector<std::string> paths;
-		std::vector<PeasantGenericModule> modules;
+		std::map<std::string, PeasantGenericModule> modules;
+		PeasantRenderModules render_modules;
+		PeasantObjectModules object_modules;
+//		std::vector<PeasantRenderModule> render_modules;
+//		std::vector<PeasantObjectModule> object_modules;
 	public:
 		PeasantCore(std::string modules_dir);
 	public:
@@ -74,10 +32,11 @@ class PeasantCore {
 		
 		int load_module(std::string path);
 		int unload_module();
-		
-		std::vector<PeasantGenericModule> get_modules() {
-			return this->modules;
+	public:
+		PeasantRenderModules *get_render_modules() {
+			return &this->render_modules;
 		}
+
 };
 
 #endif

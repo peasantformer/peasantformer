@@ -99,30 +99,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named modules_dir
+# Target rules for targets named modules_dirs
 
 # Build rule for target.
-modules_dir: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 modules_dir
-.PHONY : modules_dir
+modules_dirs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 modules_dirs
+.PHONY : modules_dirs
 
 # fast build rule for target.
-modules_dir/fast:
-	$(MAKE) -f CMakeFiles/modules_dir.dir/build.make CMakeFiles/modules_dir.dir/build
-.PHONY : modules_dir/fast
+modules_dirs/fast:
+	$(MAKE) -f CMakeFiles/modules_dirs.dir/build.make CMakeFiles/modules_dirs.dir/build
+.PHONY : modules_dirs/fast
 
 #=============================================================================
-# Target rules for targets named modules_engine_dir
+# Target rules for targets named opengl
 
 # Build rule for target.
-modules_engine_dir: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 modules_engine_dir
-.PHONY : modules_engine_dir
+opengl: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 opengl
+.PHONY : opengl
 
 # fast build rule for target.
-modules_engine_dir/fast:
-	$(MAKE) -f CMakeFiles/modules_engine_dir.dir/build.make CMakeFiles/modules_engine_dir.dir/build
-.PHONY : modules_engine_dir/fast
+opengl/fast:
+	$(MAKE) -f CMakeFiles/opengl.dir/build.make CMakeFiles/opengl.dir/build
+.PHONY : opengl/fast
 
 #=============================================================================
 # Target rules for targets named peasantformer
@@ -138,17 +138,17 @@ peasantformer/fast:
 .PHONY : peasantformer/fast
 
 #=============================================================================
-# Target rules for targets named test
+# Target rules for targets named square
 
 # Build rule for target.
-test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test
-.PHONY : test
+square: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 square
+.PHONY : square
 
 # fast build rule for target.
-test/fast:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-.PHONY : test/fast
+square/fast:
+	$(MAKE) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/build
+.PHONY : square/fast
 
 src/Core.o: src/Core.cpp.o
 .PHONY : src/Core.o
@@ -222,29 +222,101 @@ src/Engine/IO/IO.cpp.s:
 	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/IO/IO.cpp.s
 .PHONY : src/Engine/IO/IO.cpp.s
 
-src/Modules/Test/Test.o: src/Modules/Test/Test.cpp.o
-.PHONY : src/Modules/Test/Test.o
+src/Engine/Phys/Phys.o: src/Engine/Phys/Phys.cpp.o
+.PHONY : src/Engine/Phys/Phys.o
 
 # target to build an object file
-src/Modules/Test/Test.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.o
-.PHONY : src/Modules/Test/Test.cpp.o
+src/Engine/Phys/Phys.cpp.o:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Phys/Phys.cpp.o
+.PHONY : src/Engine/Phys/Phys.cpp.o
 
-src/Modules/Test/Test.i: src/Modules/Test/Test.cpp.i
-.PHONY : src/Modules/Test/Test.i
+src/Engine/Phys/Phys.i: src/Engine/Phys/Phys.cpp.i
+.PHONY : src/Engine/Phys/Phys.i
 
 # target to preprocess a source file
-src/Modules/Test/Test.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.i
-.PHONY : src/Modules/Test/Test.cpp.i
+src/Engine/Phys/Phys.cpp.i:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Phys/Phys.cpp.i
+.PHONY : src/Engine/Phys/Phys.cpp.i
 
-src/Modules/Test/Test.s: src/Modules/Test/Test.cpp.s
-.PHONY : src/Modules/Test/Test.s
+src/Engine/Phys/Phys.s: src/Engine/Phys/Phys.cpp.s
+.PHONY : src/Engine/Phys/Phys.s
 
 # target to generate assembly for a file
-src/Modules/Test/Test.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.s
-.PHONY : src/Modules/Test/Test.cpp.s
+src/Engine/Phys/Phys.cpp.s:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Phys/Phys.cpp.s
+.PHONY : src/Engine/Phys/Phys.cpp.s
+
+src/Modules/Objects/Objects/Square.o: src/Modules/Objects/Objects/Square.cpp.o
+.PHONY : src/Modules/Objects/Objects/Square.o
+
+# target to build an object file
+src/Modules/Objects/Objects/Square.cpp.o:
+	$(MAKE) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/Modules/Objects/Objects/Square.cpp.o
+.PHONY : src/Modules/Objects/Objects/Square.cpp.o
+
+src/Modules/Objects/Objects/Square.i: src/Modules/Objects/Objects/Square.cpp.i
+.PHONY : src/Modules/Objects/Objects/Square.i
+
+# target to preprocess a source file
+src/Modules/Objects/Objects/Square.cpp.i:
+	$(MAKE) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/Modules/Objects/Objects/Square.cpp.i
+.PHONY : src/Modules/Objects/Objects/Square.cpp.i
+
+src/Modules/Objects/Objects/Square.s: src/Modules/Objects/Objects/Square.cpp.s
+.PHONY : src/Modules/Objects/Objects/Square.s
+
+# target to generate assembly for a file
+src/Modules/Objects/Objects/Square.cpp.s:
+	$(MAKE) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/Modules/Objects/Objects/Square.cpp.s
+.PHONY : src/Modules/Objects/Objects/Square.cpp.s
+
+src/Modules/Render/OpenGL.o: src/Modules/Render/OpenGL.cpp.o
+.PHONY : src/Modules/Render/OpenGL.o
+
+# target to build an object file
+src/Modules/Render/OpenGL.cpp.o:
+	$(MAKE) -f CMakeFiles/opengl.dir/build.make CMakeFiles/opengl.dir/src/Modules/Render/OpenGL.cpp.o
+.PHONY : src/Modules/Render/OpenGL.cpp.o
+
+src/Modules/Render/OpenGL.i: src/Modules/Render/OpenGL.cpp.i
+.PHONY : src/Modules/Render/OpenGL.i
+
+# target to preprocess a source file
+src/Modules/Render/OpenGL.cpp.i:
+	$(MAKE) -f CMakeFiles/opengl.dir/build.make CMakeFiles/opengl.dir/src/Modules/Render/OpenGL.cpp.i
+.PHONY : src/Modules/Render/OpenGL.cpp.i
+
+src/Modules/Render/OpenGL.s: src/Modules/Render/OpenGL.cpp.s
+.PHONY : src/Modules/Render/OpenGL.s
+
+# target to generate assembly for a file
+src/Modules/Render/OpenGL.cpp.s:
+	$(MAKE) -f CMakeFiles/opengl.dir/build.make CMakeFiles/opengl.dir/src/Modules/Render/OpenGL.cpp.s
+.PHONY : src/Modules/Render/OpenGL.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -253,11 +325,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... modules_dir"
-	@echo "... modules_engine_dir"
+	@echo "... modules_dirs"
+	@echo "... opengl"
 	@echo "... peasantformer"
 	@echo "... rebuild_cache"
-	@echo "... test"
+	@echo "... square"
 	@echo "... src/Core.o"
 	@echo "... src/Core.i"
 	@echo "... src/Core.s"
@@ -267,9 +339,18 @@ help:
 	@echo "... src/Engine/IO/IO.o"
 	@echo "... src/Engine/IO/IO.i"
 	@echo "... src/Engine/IO/IO.s"
-	@echo "... src/Modules/Test/Test.o"
-	@echo "... src/Modules/Test/Test.i"
-	@echo "... src/Modules/Test/Test.s"
+	@echo "... src/Engine/Phys/Phys.o"
+	@echo "... src/Engine/Phys/Phys.i"
+	@echo "... src/Engine/Phys/Phys.s"
+	@echo "... src/Modules/Objects/Objects/Square.o"
+	@echo "... src/Modules/Objects/Objects/Square.i"
+	@echo "... src/Modules/Objects/Objects/Square.s"
+	@echo "... src/Modules/Render/OpenGL.o"
+	@echo "... src/Modules/Render/OpenGL.i"
+	@echo "... src/Modules/Render/OpenGL.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 

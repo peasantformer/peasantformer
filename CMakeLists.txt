@@ -4,12 +4,14 @@ PROJECT(peasantformer)
 
 include_directories(${SDL_INCLUDE_DIRS})
 
-option(ENABLE_OPENGL_RENDERER "Enable opengl renderer?" ON)
-option(ENABLE_SOFTWARE_RENDERER "Enable software renderer?" ON)
+option(ENABLE_TEST_MODULE "Build test module?" ON)
+option(ENABLE_OPENGL_RENDER_MODULE "Build opengl render module?" ON)
+option(ENABLE_SOFTWARE_RENDER_MODULE "Build software render module?" ON)
 
 message("      *** options ***")
-message("OpenGL renderer           ${ENABLE_OPENGL_RENDERER}")
-message("Software renderer         ${ENABLE_SOFTWARE_RENDERER}")
+message("Test module               ${ENABLE_TEST_MODULE}")
+message("OpenGL renderer module    ${ENABLE_OPENGL_RENDER_MODULE}")
+message("Software renderer module  ${ENABLE_SOFTWARE_RENDER_MODULE}")
 message("")
 message("")
 message("")
@@ -19,8 +21,10 @@ message("")
 message("")
 
 set(peasantformer_SRCS
+	src/main.cpp
 	src/Core.cpp
 	src/Engine/Engine.cpp
+	src/Engine/Phys/Phys.cpp
 	src/Engine/IO/IO.cpp
 )
 
@@ -29,40 +33,27 @@ INCLUDE(FindSDL)
 find_package(SDL REQUIRED)
 set(LIBS ${LIBS} ${SDL_LIBRARY})
 
-if (ENABLE_SOFTWARE_RENDERER)
-		add_definitions(-DENABLE_SOFTWARE_RENDERER)
-endif(ENABLE_SOFTWARE_RENDERER)
-
-if (ENABLE_OPENGL_RENDERER)
+if (ENABLE_OPENGL_RENDER_MODULE)
 		include(FindOpenGL)
 		find_package(OpenGL REQUIRED)
-		add_definitions(-DENABLE_OPENGL_RENDERER -g)
-		set(LIBS ${LIBS} ${OPENGL_LIBRARIES})
-endif(ENABLE_OPENGL_RENDERER)	
+endif(ENABLE_OPENGL_RENDER_MODULE)	
 
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})
 
-PROJECT(modules_drectory)
-add_custom_target(modules_dir ALL mkdir -p modules)
+add_custom_target(modules_dirs ALL 
+	mkdir -p modules/
+	         modules/engine/render/
+	         modules/objects/
+	)
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES modules)
 
-PROJECT(modules_engine)
-add_custom_target(modules_engine_dir ALL mkdir -p modules/engine)
-set(LIBRARY_OUTPUT_PATH modules/engine)
-add_library(test MODULE src/Modules/Test/Test.cpp)
-set_target_properties(test PROPERTIES PREFIX "")
-
-#add_library(engine MODULE src/main.cpp)
-#set_target_properties(engine PROPERTIES PREFIX "")
+if (ENABLE_OPENGL_RENDER_MODULE)
+	add_library(opengl MODULE src/Modules/Render/OpenGL.cpp)
+		target_link_libraries(opengl ${OPENGL_LIBRARIES})
+	set_target_properties(opengl PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/engine/render)
+endif(ENABLE_OPENGL_RENDER_MODULE)	
 
 
-#PROJECT(modules_objects)
-#add_custom_target(modules_objects_dir ALL mkdir -p modules/objects)
-#set(LIBRARY_OUTPUT_PATH modules/objects)
-
-
-#set(LIBRARY_OUTPUT_PATH modules/core)
-#add_library(engine MODULE src/Core/CoreModules/Engine.cpp)
-#set_target_properties(engine PROPERTIES PREFIX "")
-
+add_library(square MODULE src/Modules/Objects/Objects/Square.cpp)
+set_target_properties(opengl PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
