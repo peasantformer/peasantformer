@@ -51,16 +51,56 @@ int PeasantCore::load_module(std::string path) {
 #ifdef _WIN32
 	HMODULE module_ptr = LoadLibrary(path.c_str());
 	if (!module_ptr) {
-		printf("Something has gone wrong on loading library %s\n",path.c_str()	);
+		printf("Something has gone wrong on loading module %s\n",path.c_str()	);
 		return -1;
 	}
 	
 	peasant_module_construct* constructor = (peasant_module_construct*) GetProcAddress(module_ptr, "construct");
 	if (!constructor) {
-		printf("Something has gone wrong on loading  'construct' from library %s\n",path.c_str());
+		printf("Something has gone wrong on loading 'construct' from module %s\n",path.c_str());
+		return -1;
+	}
+	
+	peasant_module_deconstruct* deconstructor = (peasant_module_deconstruct*) GetProcAddress(module_ptr, "deconstruct");
+	if (!deconstructor) {
+		printf("Something has gone wrong on loading 'deconstruct' from module %s\n",path.c_str());
+		return -1;
+	}
+	
+	peasant_module_info* info = (peasant_module_info *) GetProcAddress(module_ptr, "info");
+	if (!info) {
+		printf("Something has gone wrong on loading 'info' from module %s\n",path.c_str());
 		return -1;
 	}
 
+	PeasantGenericModuleInfo minfo = info();
+
+	if (minfo.get_type() == PM_RENDER) {
+		
+		peasant_render_module_info* render_info = (peasant_render_module_info *) GetProcAddress(module_ptr, "render_info");
+		if (!render_info) {
+			printf("Something has gone wrong on loading 'render_info' from module %s\n",path.c_str());
+			return -1;
+		}
+		
+		PeasantRenderModuleInfo rminfo = render_info();
+		this->render_modules.add_render(PeasantRenderModule(rminfo.get_render_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor));
+	}
+	
+	if (minfo.get_type() == PM_OBJECT) {
+
+		peasant_object_module_info* object_info = (peasant_object_module_info *) GetProcAddress(module_ptr, "object_info");
+		if (!object_info) {
+			printf("Something has gone wrong on loading 'object_info' from module %s\n",path.c_str());
+			return -1;
+		}
+		
+		PeasantObjectModuleInfo ominfo = object_info();
+		this->object_modules.add_object(PeasantObjectModule(ominfo.get_object_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor));
+	}
+	
+
+	return 0;
 #else
 	const char* dlsym_error;
 	void *module_ptr = dlopen(path.c_str(), RTLD_LAZY);
