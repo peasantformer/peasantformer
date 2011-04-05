@@ -46,29 +46,14 @@ endif(ENABLE_OPENGL_RENDER_MODULE)
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})
 
-if (UNIX)
-add_custom_target(modules_dirs ALL 
-	mkdir -p modules/
-	         modules/engine/render/
-	         modules/objects/
-	)
-endif (UNIX)
-if (WIN32)
-add_custom_target(modules_dirs ALL 
-	mkdir -p modules
-	         modules\engine\render
-	         modules\objects
-	)
-endif (WIN32)
-
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES modules)
 
 if (ENABLE_OPENGL_RENDER_MODULE)
 	add_library(opengl MODULE src/Modules/Render/OpenGL.cpp)
-		target_link_libraries(opengl ${OPENGL_LIBRARIES})
+	target_link_libraries(opengl ${OPENGL_LIBRARIES})
 	set_target_properties(opengl PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/engine/render)
 endif(ENABLE_OPENGL_RENDER_MODULE)	
 
 
 add_library(square MODULE src/Modules/Objects/Objects/Square.cpp)
-set_target_properties(opengl PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
+set_target_properties(square PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
