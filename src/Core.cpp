@@ -14,15 +14,26 @@ int PeasantCore::scan_modules_dir(int recurse_depth, std::string dirname) {
 		perror(dirname.c_str());
 		return -1;
 	}
+	std::string fname;
 	while ((derp = readdir(directory)) != NULL) {
 		if (derp->d_name == std::string(".")) continue;
 		if (derp->d_name == std::string("..")) continue;
+		fname = dirname + "/" + derp->d_name;
+#ifdef _DIRENT_HAVE_D_TYPE
 		if (derp->d_type == DT_REG) {
-			printf("Found module-like file %s\n",derp->d_name);
-			this->paths.push_back(dirname + "/" + derp->d_name);
+			this->paths.push_back(fname);
 		} else if (derp->d_type == DT_DIR) {
-			this->scan_modules_dir(recurse_depth + 1, dirname + "/" + derp->d_name);
+			this->scan_modules_dir(recurse_depth + 1, fname);
 		}
+#else
+		struct stat buf;
+		stat(fname.c_str(),&buf);
+		if (S_ISREG(buf.st_mode)) {	
+			this->paths.push_back(fname);
+		} else if (S_ISDIR(buf.st_mode)) {
+			this->scan_modules_dir(recurse_depth + 1, fname);
+		}
+#endif
 	}
 	closedir(directory);
 	return 0;
