@@ -51,7 +51,7 @@ int PeasantCore::load_module(std::string path) {
 #ifdef _WIN32
 	HMODULE module_ptr = LoadLibrary(path.c_str());
 	if (!module_ptr) {
-		printf("error: %s\n",dlerror());
+		printf("Something has gone wrong on loading library %s\n",path.c_str());
 		return -1;
 	}
 
