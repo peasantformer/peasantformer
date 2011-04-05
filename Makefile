@@ -99,30 +99,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named core
+# Target rules for targets named modules_dir
 
 # Build rule for target.
-core: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 core
-.PHONY : core
+modules_dir: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 modules_dir
+.PHONY : modules_dir
 
 # fast build rule for target.
-core/fast:
-	$(MAKE) -f CMakeFiles/core.dir/build.make CMakeFiles/core.dir/build
-.PHONY : core/fast
+modules_dir/fast:
+	$(MAKE) -f CMakeFiles/modules_dir.dir/build.make CMakeFiles/modules_dir.dir/build
+.PHONY : modules_dir/fast
 
 #=============================================================================
-# Target rules for targets named engine
+# Target rules for targets named modules_engine_dir
 
 # Build rule for target.
-engine: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 engine
-.PHONY : engine
+modules_engine_dir: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 modules_engine_dir
+.PHONY : modules_engine_dir
 
 # fast build rule for target.
-engine/fast:
-	$(MAKE) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/build
-.PHONY : engine/fast
+modules_engine_dir/fast:
+	$(MAKE) -f CMakeFiles/modules_engine_dir.dir/build.make CMakeFiles/modules_engine_dir.dir/build
+.PHONY : modules_engine_dir/fast
 
 #=============================================================================
 # Target rules for targets named peasantformer
@@ -137,77 +137,114 @@ peasantformer/fast:
 	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/build
 .PHONY : peasantformer/fast
 
-src/Core/Core.o: src/Core/Core.cpp.o
-.PHONY : src/Core/Core.o
+#=============================================================================
+# Target rules for targets named test
+
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+src/Core.o: src/Core.cpp.o
+.PHONY : src/Core.o
 
 # target to build an object file
-src/Core/Core.cpp.o:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core/Core.cpp.o
-.PHONY : src/Core/Core.cpp.o
+src/Core.cpp.o:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core.cpp.o
+.PHONY : src/Core.cpp.o
 
-src/Core/Core.i: src/Core/Core.cpp.i
-.PHONY : src/Core/Core.i
+src/Core.i: src/Core.cpp.i
+.PHONY : src/Core.i
 
 # target to preprocess a source file
-src/Core/Core.cpp.i:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core/Core.cpp.i
-.PHONY : src/Core/Core.cpp.i
+src/Core.cpp.i:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core.cpp.i
+.PHONY : src/Core.cpp.i
 
-src/Core/Core.s: src/Core/Core.cpp.s
-.PHONY : src/Core/Core.s
+src/Core.s: src/Core.cpp.s
+.PHONY : src/Core.s
 
 # target to generate assembly for a file
-src/Core/Core.cpp.s:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core/Core.cpp.s
-.PHONY : src/Core/Core.cpp.s
+src/Core.cpp.s:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Core.cpp.s
+.PHONY : src/Core.cpp.s
 
-src/Core/CoreModules/Engine.o: src/Core/CoreModules/Engine.cpp.o
-.PHONY : src/Core/CoreModules/Engine.o
+src/Engine/Engine.o: src/Engine/Engine.cpp.o
+.PHONY : src/Engine/Engine.o
 
 # target to build an object file
-src/Core/CoreModules/Engine.cpp.o:
-	$(MAKE) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/Core/CoreModules/Engine.cpp.o
-.PHONY : src/Core/CoreModules/Engine.cpp.o
+src/Engine/Engine.cpp.o:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Engine.cpp.o
+.PHONY : src/Engine/Engine.cpp.o
 
-src/Core/CoreModules/Engine.i: src/Core/CoreModules/Engine.cpp.i
-.PHONY : src/Core/CoreModules/Engine.i
+src/Engine/Engine.i: src/Engine/Engine.cpp.i
+.PHONY : src/Engine/Engine.i
 
 # target to preprocess a source file
-src/Core/CoreModules/Engine.cpp.i:
-	$(MAKE) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/Core/CoreModules/Engine.cpp.i
-.PHONY : src/Core/CoreModules/Engine.cpp.i
+src/Engine/Engine.cpp.i:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Engine.cpp.i
+.PHONY : src/Engine/Engine.cpp.i
 
-src/Core/CoreModules/Engine.s: src/Core/CoreModules/Engine.cpp.s
-.PHONY : src/Core/CoreModules/Engine.s
+src/Engine/Engine.s: src/Engine/Engine.cpp.s
+.PHONY : src/Engine/Engine.s
 
 # target to generate assembly for a file
-src/Core/CoreModules/Engine.cpp.s:
-	$(MAKE) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/src/Core/CoreModules/Engine.cpp.s
-.PHONY : src/Core/CoreModules/Engine.cpp.s
+src/Engine/Engine.cpp.s:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/Engine.cpp.s
+.PHONY : src/Engine/Engine.cpp.s
 
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
+src/Engine/IO/IO.o: src/Engine/IO/IO.cpp.o
+.PHONY : src/Engine/IO/IO.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/Engine/IO/IO.cpp.o:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/IO/IO.cpp.o
+.PHONY : src/Engine/IO/IO.cpp.o
 
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
+src/Engine/IO/IO.i: src/Engine/IO/IO.cpp.i
+.PHONY : src/Engine/IO/IO.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/Engine/IO/IO.cpp.i:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/IO/IO.cpp.i
+.PHONY : src/Engine/IO/IO.cpp.i
 
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
+src/Engine/IO/IO.s: src/Engine/IO/IO.cpp.s
+.PHONY : src/Engine/IO/IO.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/Engine/IO/IO.cpp.s:
+	$(MAKE) -f CMakeFiles/peasantformer.dir/build.make CMakeFiles/peasantformer.dir/src/Engine/IO/IO.cpp.s
+.PHONY : src/Engine/IO/IO.cpp.s
+
+src/Modules/Test/Test.o: src/Modules/Test/Test.cpp.o
+.PHONY : src/Modules/Test/Test.o
+
+# target to build an object file
+src/Modules/Test/Test.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.o
+.PHONY : src/Modules/Test/Test.cpp.o
+
+src/Modules/Test/Test.i: src/Modules/Test/Test.cpp.i
+.PHONY : src/Modules/Test/Test.i
+
+# target to preprocess a source file
+src/Modules/Test/Test.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.i
+.PHONY : src/Modules/Test/Test.cpp.i
+
+src/Modules/Test/Test.s: src/Modules/Test/Test.cpp.s
+.PHONY : src/Modules/Test/Test.s
+
+# target to generate assembly for a file
+src/Modules/Test/Test.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/Modules/Test/Test.cpp.s
+.PHONY : src/Modules/Test/Test.cpp.s
 
 # Help Target
 help:
@@ -215,20 +252,24 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... core"
 	@echo "... edit_cache"
-	@echo "... engine"
+	@echo "... modules_dir"
+	@echo "... modules_engine_dir"
 	@echo "... peasantformer"
 	@echo "... rebuild_cache"
-	@echo "... src/Core/Core.o"
-	@echo "... src/Core/Core.i"
-	@echo "... src/Core/Core.s"
-	@echo "... src/Core/CoreModules/Engine.o"
-	@echo "... src/Core/CoreModules/Engine.i"
-	@echo "... src/Core/CoreModules/Engine.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... test"
+	@echo "... src/Core.o"
+	@echo "... src/Core.i"
+	@echo "... src/Core.s"
+	@echo "... src/Engine/Engine.o"
+	@echo "... src/Engine/Engine.i"
+	@echo "... src/Engine/Engine.s"
+	@echo "... src/Engine/IO/IO.o"
+	@echo "... src/Engine/IO/IO.i"
+	@echo "... src/Engine/IO/IO.s"
+	@echo "... src/Modules/Test/Test.o"
+	@echo "... src/Modules/Test/Test.i"
+	@echo "... src/Modules/Test/Test.s"
 .PHONY : help
 
 

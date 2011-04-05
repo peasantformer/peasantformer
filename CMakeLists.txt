@@ -19,8 +19,9 @@ message("")
 message("")
 
 set(peasantformer_SRCS
-	src/main.cpp
-	src/Core/Core.cpp
+	src/Core.cpp
+	src/Engine/Engine.cpp
+	src/Engine/IO/IO.cpp
 )
 
 
@@ -42,19 +43,26 @@ endif(ENABLE_OPENGL_RENDERER)
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})
 
+PROJECT(modules_drectory)
+add_custom_target(modules_dir ALL mkdir -p modules)
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES modules)
 
+PROJECT(modules_engine)
+add_custom_target(modules_engine_dir ALL mkdir -p modules/engine)
+set(LIBRARY_OUTPUT_PATH modules/engine)
+add_library(test MODULE src/Modules/Test/Test.cpp)
+set_target_properties(test PROPERTIES PREFIX "")
+
+#add_library(engine MODULE src/main.cpp)
+#set_target_properties(engine PROPERTIES PREFIX "")
 
 
-PROJECT(core)
-set(OUTPUT_PATH modules/${PROJECT_NAME})
-add_custom_target(${PROJECT_NAME} ALL mkdir -p ${OUTPUT_PATH})
+#PROJECT(modules_objects)
+#add_custom_target(modules_objects_dir ALL mkdir -p modules/objects)
+#set(LIBRARY_OUTPUT_PATH modules/objects)
 
-PROJECT(engine)
-set(LIBRARY_OUTPUT_PATH modules/core)
-add_library(engine MODULE src/Core/CoreModules/Engine.cpp)
-set_target_properties(engine PROPERTIES PREFIX "")
 
-#add_library(${PROJECT_NAME} MODULE src/Objects/Engine/Engine.cpp)
-#add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND mkdir -p modules/${PROJECT_NAME})
+#set(LIBRARY_OUTPUT_PATH modules/core)
+#add_library(engine MODULE src/Core/CoreModules/Engine.cpp)
+#set_target_properties(engine PROPERTIES PREFIX "")
 
