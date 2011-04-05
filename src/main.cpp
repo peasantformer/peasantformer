@@ -8,10 +8,15 @@ int main (int argc, char **argv) {
 	core->scan_modules_dir();
 	core->load_modules();
 	
+	printf("\n");
 	core->get_render_modules()->print();
-	PeasantRenderModule m = core->get_render_modules()->get_render_module_by_name("opengl");
-	printf("%s\n",m.get_name().c_str());
-	
+	printf("\n");
+	core->get_object_modules()->print();
+
+	PeasantEngine *engine;
+	engine = new PeasantEngine();
+
+	delete engine;
 	delete core;
 	return 0;
 }

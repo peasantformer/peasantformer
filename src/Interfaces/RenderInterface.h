@@ -94,7 +94,7 @@ class PeasantRenderModules {
 		}
 	public:
 		void print() {
-			printf("Folowing Render modules were found:\n");
+			printf("Following Render modules were found:\n");
 			printf("  Hardware renders:\n");
 			if (this->hardware_renders.size() == 0)
 				printf("    <None>\n");	

@@ -20,20 +20,13 @@ message("")
 message("")
 message("")
 
+add_definitions(-g)
+
 if (WIN32)
 	set(CMAKE_C_COMPILER mingw32-gcc)
 	set(CMAKE_CXX_COMPILER mingw32-g++)
 	add_definitions(-DSHITBOSHS)
 endif(WIN32)
-
-set(peasantformer_SRCS
-	src/main.cpp
-	src/Core.cpp
-	src/Engine/Engine.cpp
-	src/Engine/Phys/Phys.cpp
-	src/Engine/IO/IO.cpp
-)
-
 
 INCLUDE(FindSDL) 
 find_package(SDL REQUIRED)
@@ -44,17 +37,30 @@ if (ENABLE_OPENGL_RENDER_MODULE)
 		find_package(OpenGL REQUIRED)
 endif(ENABLE_OPENGL_RENDER_MODULE)	
 
+
+set(peasantformer_SRCS
+	src/main.cpp
+	src/Core.cpp
+	src/Engine/Engine.cpp
+	src/Engine/Phys/Phys.cpp
+	src/Engine/IO/IO.cpp
+	src/Engine/World/World.cpp
+)
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})
 
-set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES modules)
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "modules;lib")
 
 if (ENABLE_OPENGL_RENDER_MODULE)
-	add_library(opengl MODULE src/Modules/Render/OpenGL.cpp)
+	add_library(opengl MODULE src/Modules/Render/OpenGL/OpenGL.cpp)
 	target_link_libraries(opengl ${OPENGL_LIBRARIES})
 	set_target_properties(opengl PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/engine/render)
 endif(ENABLE_OPENGL_RENDER_MODULE)	
 
 
-add_library(square MODULE src/Modules/Objects/Objects/Square.cpp)
-set_target_properties(square PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
+add_library(rectangle MODULE src/Modules/Objects/Rectangle/Rectangle.cpp)
+set_target_properties(rectangle PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
+add_library(dummyjoint MODULE src/Modules/Objects/DummyJoint/DummyJoint.cpp)
+set_target_properties(dummyjoint PROPERTIES PREFIX "" LIBRARY_OUTPUT_DIRECTORY modules/objects)
+	
+
