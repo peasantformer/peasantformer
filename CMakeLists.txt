@@ -23,6 +23,7 @@ message("")
 if (WIN32)
 	set(CMAKE_C_COMPILER mingw32-gcc)
 	set(CMAKE_CXX_COMPILER mingw32-g++)
+	add_definitions(-DSHITBOSHS)
 endif(WIN32)
 
 set(peasantformer_SRCS

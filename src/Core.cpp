@@ -37,6 +37,8 @@ int PeasantCore::load_modules() {
 }
 
 int PeasantCore::load_module(std::string path) {
+#ifdef _WIN32
+#else
 	const char* dlsym_error;
 	void *module_ptr = dlopen(path.c_str(), RTLD_LAZY);
 	if (!module_ptr) {
@@ -92,6 +94,7 @@ int PeasantCore::load_module(std::string path) {
 	}
 	
 	return 0;
+#endif
 }
 int PeasantCore::unload_module() {
 }

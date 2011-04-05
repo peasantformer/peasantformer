@@ -8,7 +8,11 @@
 #include <dirent.h>
 #include <errno.h>
 #include <unistd.h>
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <dlfcn.h>
+#endif
 #include "Engine/Engine.h"
 #include "Interfaces/GenericModuleInterface.h"
 #include "Interfaces/RenderInterface.h"
