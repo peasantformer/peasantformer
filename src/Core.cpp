@@ -49,6 +49,12 @@ int PeasantCore::load_modules() {
 
 int PeasantCore::load_module(std::string path) {
 #ifdef _WIN32
+	HMODULE module_ptr = LoadLibrary(path.c_str());
+	if (!module_ptr) {
+		printf("error: %s\n",dlerror());
+		return -1;
+	}
+
 #else
 	const char* dlsym_error;
 	void *module_ptr = dlopen(path.c_str(), RTLD_LAZY);
