@@ -56,7 +56,7 @@ int PeasantCore::load_module(std::string path) {
 	}
 	
 	peasant_module_construct* constructor = (peasant_module_construct*) GetProcAddress(module_ptr, "construct");
-	if (!peasant_module_construct) {
+	if (!constructor) {
 		printf("Something has gone wrong on loading  'construct' from library %s\n",path.c_str());
 		return -1;
 	}
