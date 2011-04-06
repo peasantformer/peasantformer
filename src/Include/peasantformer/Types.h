@@ -1,7 +1,7 @@
 #ifndef PEASANTFORMER_TYPES
 #define PEASANTFORMER_TYPES
 
-#include <stdlib.h>
+#include <stdint.h>
 
 typedef int32_t PeasantPos;
 typedef int32_t PeasantID;
