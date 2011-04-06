@@ -1,7 +1,0 @@
-#ifndef PEASANTFORMER_ENGINE_WORLD_SECTION
-#define PEASANTFORMER_ENGINE_WORLD_SECTION
-
-class PeasantWorldSection {
-};
-
-#endif

@@ -1,9 +1,7 @@
 #ifndef PEASANTFORMER_CORE
 #define PEASANTFORMER_CORE	  
 
-
-#include <string>
-#include <vector>
+/*
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -18,10 +16,8 @@
 #endif
 
 #include "Engine/Engine.h"
-#include "Interfaces/GenericModuleInterface.h"
-#include "Interfaces/RenderInterface.h"
-#include "Interfaces/ObjectInterface.h"
-
+#include "Types/Types.h"
+*/
 
 
 class PeasantCore {

@@ -1,7 +1,6 @@
 #ifndef PEASANTFORMER_RENDER_MODULE_INTERFACE
 #define PEASANTFORMER_RENDER_MODULE_INTERFACE
 
-#include "GenericModuleInterface.h"
 
 class PeasantRenderModuleInterface : public PeasantGenericModuleInterface {
 	public:

@@ -1,7 +1,6 @@
 #ifndef PEASANTFORMER_OBJECT_UTILITY_VECTOR2F
 #define PEASANTFORMER_OBJECT_UTILITY_VECTOR2F
 
-#include <cmath>
 
 class Vector2f operator*(Vector2f, float);
 

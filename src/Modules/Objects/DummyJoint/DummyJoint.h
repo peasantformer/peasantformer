@@ -1,8 +1,7 @@
 #ifndef PEASANTFORMER_OBJECT_MODULE_DUMMYJOINT
 #define PEASANTFORMER_OBJECT_MODULE_DUMMYJOINT
 
-#include <stdio.h>
-#include "../../../Interfaces/ObjectInterface.h"
+
 
 class PeasantJointDummy : public JointInterface {
 	public:

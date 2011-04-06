@@ -1,8 +1,6 @@
 #ifndef PEASANTFORMER_OBJECT_MODULE_INTERFACE
 #define PEASANTFORMER_OBJECT_MODULE_INTERFACE
 
-#include "GenericModuleInterface.h"
-#include "../Utility/Vector2f/Vector2f.h"
 
 
 class PeasantObjectModuleInterface : public PeasantGenericModuleInterface {
@@ -13,6 +11,7 @@ class PeasantObjectModuleInterface : public PeasantGenericModuleInterface {
 class ObjectInterface : public PeasantObjectModuleInterface {
 	protected:
 		Vector2f position;
+		PeasantWorldSection *ul;
 		
 	public:
 		virtual ~ObjectInterface() {};

@@ -1,8 +1,7 @@
 #ifndef PEASANTFORMER_OBJECT_MODULE_RECTANGLE
 #define PEASANTFORMER_OBJECT_MODULE_RECTANGLE
 
-#include <stdio.h>
-#include "../../../Interfaces/ObjectInterface.h"
+
 
 class PeasantObjectRectangle : public ParticleInterface
                              , public NPCInterface

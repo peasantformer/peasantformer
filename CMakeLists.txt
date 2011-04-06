@@ -41,10 +41,6 @@ endif(ENABLE_OPENGL_RENDER_MODULE)
 set(peasantformer_SRCS
 	src/main.cpp
 	src/Core.cpp
-	src/Engine/Engine.cpp
-	src/Engine/Phys/Phys.cpp
-	src/Engine/IO/IO.cpp
-	src/Engine/World/World.cpp
 )
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})

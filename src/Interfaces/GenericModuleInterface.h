@@ -1,10 +1,6 @@
 #ifndef PEASANTFORMER_GENERIC_MODULE_INTERFACE
 #define PEASANTFORMER_GENERIC_MODULE_INTERFACE
 
-#include <stdio.h>
-#include <string>
-#include <vector>
-#include <map>
 
 
 class PeasantGenericModuleInterface {
