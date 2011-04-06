@@ -40,7 +40,8 @@ endif(ENABLE_OPENGL_RENDER_MODULE)
 
 set(peasantformer_SRCS
 	src/main.cpp
-	src/Core.cpp
+	src/Engine/Engine.cpp
+	src/Engine/ModulesCore/ModulesCore.cpp
 	src/Types/Section.cpp
 	src/Types/Vector2f.cpp
 )

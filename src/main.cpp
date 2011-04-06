@@ -1,7 +1,13 @@
 #include "main.h"
-
+#include <pwd.h>
 
 int main (int argc, char **argv) {
+	PeasantEngine *engine;
+	engine = new PeasantEngine();
+	int myuid = getuid(); 
+    struct passwd *mypasswd = getpwuid(myuid);
+    printf("%s\n",mypasswd->pw_dir);
+	/*
 	PeasantCore *core;
 	core = new PeasantCore("modules");
 	
@@ -16,7 +22,8 @@ int main (int argc, char **argv) {
 	//PeasantEngine *engine;
 	//engine = new PeasantEngine();
 
-	//delete engine;
-	delete core;
+		delete core;
+	*/
+	delete engine;
 	return 0;
 }

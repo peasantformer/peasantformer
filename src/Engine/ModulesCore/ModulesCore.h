@@ -1,5 +1,5 @@
-#ifndef PEASANTFORMER_CORE
-#define PEASANTFORMER_CORE	  
+#ifndef PEASANTFORMER_ENGINE_MODULES_CORE
+#define PEASANTFORMER_ENGINE_MODULES_CORE
 
 
 #include <stdio.h>
@@ -15,6 +15,9 @@
 #include <dlfcn.h>
 #endif
 
+
+#include <vector>
+
 #include <peasantformer/Types.h>
 #include <peasantformer/ObjectInterface.h>
 #include <peasantformer/RenderInterface.h>
@@ -22,29 +25,22 @@
 
 
 
-class PeasantCore {
+class PeasantModulesCore {
+	friend class PeasntEngine;
 	private:
-		std::string modules_dir;
+		std::vector<std::string> modules_dirs;
 		std::vector<std::string> paths;
-		std::map<std::string, PeasantGenericModule> modules;
 		PeasantRenderModules render_modules;
 		PeasantObjectModules object_modules;
 	public:
-		PeasantCore(std::string modules_dir);
+		PeasantModulesCore();
 	public:
-		int scan_modules_dir(int recurse_depth = 0, std::string dirname = "modules");
+		int scan_modules_dirs();
+		int scan_modules_dir(std::string dirname, int recurse_depth = 0);
 		int load_modules();
 		
 		int load_module(std::string path);
 		int unload_module();
-	public:
-		PeasantRenderModules *get_render_modules() {
-			return &this->render_modules;
-		}
-		PeasantObjectModules *get_object_modules() {
-			return &this->object_modules;
-		}
-
 };
 
 #endif

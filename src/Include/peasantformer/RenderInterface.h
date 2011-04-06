@@ -3,6 +3,10 @@
 
 
 #include <stdio.h>
+
+#include <map>
+#include <string>
+
 #include "GenericModuleInterface.h"
 #include "Types.h"
 
@@ -114,7 +118,7 @@ class PeasantRenderModules {
 				printf("    * %s %s - %s\n",m.get_name().c_str(),m.get_version().c_str(),m.get_description().c_str());
 			}
 		}
-		PeasantRenderModule get_render_module_by_name(std::string name) {
+		PeasantRenderModule get_render_by_name(std::string name) {
 			std::map<std::string, PeasantRenderModule>::iterator it;
 			
 			it = this->renders.find(name);

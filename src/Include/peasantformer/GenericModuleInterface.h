@@ -2,6 +2,9 @@
 #define PEASANTFORMER_GENERIC_MODULE_INTERFACE
 
 #include "Types.h"
+#include <map>
+#include <string>
+
 
 class PeasantGenericModuleInterface {
 	public:

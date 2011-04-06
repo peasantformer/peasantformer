@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "GenericModuleInterface.h"
 #include "Types.h"
+#include "Vector2f.h"
+#include "Section.h"
 
 class PeasantObjectModuleInterface : public PeasantGenericModuleInterface {
 	public:

@@ -1,14 +1,20 @@
-#include "Core.h"
+#include "ModulesCore.h"
 
-PeasantCore::PeasantCore(std::string modules_dir) {
-	this->modules_dir = modules_dir;
+PeasantModulesCore::PeasantModulesCore() {
+	this->modules_dirs.push_back("modules");
+	this->modules_dirs.push_back("~/.config/peasantformer/modules");
 }
-int PeasantCore::scan_modules_dir(int recurse_depth, std::string dirname) {
+int PeasantModulesCore::scan_modules_dirs() {
+	for (std::vector<std::string>::iterator it = this->modules_dirs.begin(); it != this->modules_dirs.end(); it++) {
+		this->scan_modules_dir(*it);
+	}
+}
+int PeasantModulesCore::scan_modules_dir(std::string dirname, int recurse_depth) {
 	DIR *directory = NULL;
 	struct dirent *derp = NULL;
-	if (recurse_depth == 0) {
-		dirname = this->modules_dir;
-	} 
+	//if (recurse_depth == 0) {
+	//	dirname = this->modules_dir;
+	//} 
 	directory = opendir(dirname.c_str());
 	if (directory == NULL) {
 		perror(dirname.c_str());
@@ -23,7 +29,7 @@ int PeasantCore::scan_modules_dir(int recurse_depth, std::string dirname) {
 		if (derp->d_type == DT_REG) {
 			this->paths.push_back(fname);
 		} else if (derp->d_type == DT_DIR) {
-			this->scan_modules_dir(recurse_depth + 1, fname);
+			this->scan_modules_dir(fname, recurse_depth + 1);
 		}
 #else
 		struct stat buf;
@@ -31,14 +37,14 @@ int PeasantCore::scan_modules_dir(int recurse_depth, std::string dirname) {
 		if (S_ISREG(buf.st_mode)) {	
 			this->paths.push_back(fname);
 		} else if (S_ISDIR(buf.st_mode)) {
-			this->scan_modules_dir(recurse_depth + 1, fname);
+			this->scan_modules_dir(fname, recurse_depth + 1);
 		}
 #endif
 	}
 	closedir(directory);
 	return 0;
 }
-int PeasantCore::load_modules() {
+int PeasantModulesCore::load_modules() {
 	for (std::vector<std::string>::iterator it = this->paths.begin(); it!= this->paths.end(); it++) {
 		if (this->load_module(*it) == 0) {
 			printf("%s module loaded\n",it->c_str());
@@ -47,7 +53,7 @@ int PeasantCore::load_modules() {
 	return 0;
 }
 
-int PeasantCore::load_module(std::string path) {
+int PeasantModulesCore::load_module(std::string path) {
 #ifdef _WIN32
 	HMODULE module_ptr = LoadLibrary(path.c_str());
 	if (!module_ptr) {
@@ -132,9 +138,7 @@ int PeasantCore::load_module(std::string path) {
 	}
 	
 	PeasantGenericModuleInfo minfo = info();
-	
-	//this->modules[minfo.get_name()] = PeasantGenericModule(minfo.get_type(), path, minfo.get_name(), minfo.get_description(), minfo.get_version(),minfo.get_author(),constructor,deconstructor);
-	
+
 	if (minfo.get_type() == PM_RENDER) {
 		peasant_render_module_info *render_info = (peasant_render_module_info*) dlsym(module_ptr, "render_info");
 		dlsym_error = dlerror();
@@ -159,7 +163,7 @@ int PeasantCore::load_module(std::string path) {
 	return 0;
 #endif
 }
-int PeasantCore::unload_module() {
+int PeasantModulesCore::unload_module() {
 }
 
 
