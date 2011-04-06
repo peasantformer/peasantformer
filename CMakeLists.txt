@@ -21,11 +21,11 @@ message("")
 message("")
 
 add_definitions(-g)
+include_directories(src/Include)
 
 if (WIN32)
 	set(CMAKE_C_COMPILER mingw32-gcc)
 	set(CMAKE_CXX_COMPILER mingw32-g++)
-	add_definitions(-DSHITBOSHS)
 endif(WIN32)
 
 INCLUDE(FindSDL) 
@@ -41,6 +41,8 @@ endif(ENABLE_OPENGL_RENDER_MODULE)
 set(peasantformer_SRCS
 	src/main.cpp
 	src/Core.cpp
+	src/Types/Section.cpp
+	src/Types/Vector2f.cpp
 )
 ADD_EXECUTABLE(peasantformer ${peasantformer_SRCS})
 target_link_libraries(peasantformer ${LIBS})

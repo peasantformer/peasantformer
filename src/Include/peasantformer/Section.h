@@ -1,6 +1,7 @@
 #ifndef PEASANTFORMER_TYPE_SECTION
 #define PEASANTFORMER_TYPE_SECTION
 
+#include "Types.h"
 
 class PeasantWorldSection {
 	protected:

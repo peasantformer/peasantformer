@@ -1,7 +1,7 @@
 #ifndef PEASANTFORMER_CORE
 #define PEASANTFORMER_CORE	  
 
-/*
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -15,9 +15,11 @@
 #include <dlfcn.h>
 #endif
 
-#include "Engine/Engine.h"
-#include "Types/Types.h"
-*/
+#include <peasantformer/Types.h>
+#include <peasantformer/ObjectInterface.h>
+#include <peasantformer/RenderInterface.h>
+
+
 
 
 class PeasantCore {

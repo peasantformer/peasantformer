@@ -1,7 +1,7 @@
 #ifndef PEASANTFORMER_GENERIC_MODULE_INTERFACE
 #define PEASANTFORMER_GENERIC_MODULE_INTERFACE
 
-
+#include "Types.h"
 
 class PeasantGenericModuleInterface {
 	public:

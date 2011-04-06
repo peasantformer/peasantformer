@@ -1,6 +1,7 @@
 #ifndef PEASANTFORMER_OBJECT_UTILITY_VECTOR2F
 #define PEASANTFORMER_OBJECT_UTILITY_VECTOR2F
 
+#include <cmath>
 
 class Vector2f operator*(Vector2f, float);
 
@@ -108,5 +109,5 @@ inline bool operator==(Vector2f l, Vector2f r) {
 	return ((l.x == r.x) && (l.y == r.y));
 }
 
-Vector2f vector2f_lines_intersect();
+Vector2f vector2f_lines_intersect(Vector2f p11,Vector2f p12,Vector2f p21,Vector2f p22, bool deep_check = false);
 #endif

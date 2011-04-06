@@ -13,10 +13,10 @@ int main (int argc, char **argv) {
 	printf("\n");
 	core->get_object_modules()->print();
 
-	PeasantEngine *engine;
-	engine = new PeasantEngine();
+	//PeasantEngine *engine;
+	//engine = new PeasantEngine();
 
-	delete engine;
+	//delete engine;
 	delete core;
 	return 0;
 }

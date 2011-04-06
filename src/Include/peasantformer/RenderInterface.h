@@ -2,6 +2,11 @@
 #define PEASANTFORMER_RENDER_MODULE_INTERFACE
 
 
+#include <stdio.h>
+#include "GenericModuleInterface.h"
+#include "Types.h"
+
+
 class PeasantRenderModuleInterface : public PeasantGenericModuleInterface {
 	public:
 		virtual ~PeasantRenderModuleInterface() {};
