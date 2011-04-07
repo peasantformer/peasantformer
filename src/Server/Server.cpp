@@ -33,11 +33,13 @@ int iterate_addrinfo(struct addrinfo *remote_info, struct addrinfo *res, int *ou
 		}
 		
 		res = p;
+		
 		if (p->ai_family == AF_INET) {
 			inet_ntop(p->ai_family,&((struct sockaddr_in*)p->ai_addr)->sin_addr,address_literal,INET6_ADDRSTRLEN);
 		} else {
 			inet_ntop(p->ai_family,&((struct sockaddr_in6*)p->ai_addr)->sin6_addr,address_literal,INET6_ADDRSTRLEN);
 		}
+		
 		return 0;
 	}
 	
@@ -56,17 +58,22 @@ int make_bind(const char *hostname, const char *port, int type, struct addrinfo 
 		status = getaddrinfo(hostname,port,&hints,&remote_info);
 		if (status == 0) {
 			status = iterate_addrinfo(remote_info, res, sock_listen, address_literal);
+			
 		}
 	}
+
 	if (status < 0) {
+		
 		status = set_hints(&hints,AF_INET,type,AI_PASSIVE);
 		if (status == 0) {
 			status = getaddrinfo(hostname,port,&hints,&remote_info);
 			if (status == 0) {
 				status = iterate_addrinfo(remote_info, res, sock_listen, address_literal);
+				
 			}
 		}
 	}
+	
 	
 	if (status < 0) return -1;
 	
@@ -79,25 +86,33 @@ int main(int argc, char **argv) {
 	std::string port("50600");
 	
 	char address_literal[INET6_ADDRSTRLEN];
-	struct addrinfo *res;
+	struct addrinfo res;
 	int sock_listen, sock_remote;
 	struct sockaddr_storage remote_addr;
 	socklen_t addr_size = sizeof(struct sockaddr_storage);
 	
 	
-	if (make_bind(NULL, port.c_str(), SOCK_STREAM, res, &sock_listen,address_literal) < 0) {
+	if (make_bind(NULL, port.c_str(), SOCK_DGRAM, &res, &sock_listen,address_literal) < 0) {
 		printf("Failed to bind\n");
 		return -1;
 	}
 
 	printf("Successfuly binded on %s\n",address_literal);
 	
-	listen(sock_listen,10);
-	
+//	listen(sock_listen,10);
+	char buf[4] = {0};
+	//sendto(sock_listen,"abc",4,0,res->ai_addr,res->ai_addrlen);
 	while (1) {
-		sock_remote = accept(sock_listen,(struct sockaddr*)&remote_addr, &addr_size);
-		inet_ntop(remote_addr.ss_family,get_in_addr((struct sockaddr*)&remote_addr),address_literal,INET6_ADDRSTRLEN);
-		printf("%s\n",address_literal);
+		//sock_remote = accept(sock_listen,(struct sockaddr*)&remote_addr, &addr_size);
+		//inet_ntop(remote_addr.ss_family,get_in_addr((struct sockaddr*)&remote_addr),address_literal,INET6_ADDRSTRLEN);
+		//printf("Connection from %s\n",address_literal);
+		//send(sock_remote,"Oh hai!~~~~~~~~~~~~",13,0);
+		recvfrom(sock_listen,buf,3,0,(struct sockaddr*)&remote_addr,&addr_size);
+		sendto(sock_listen,"abc",4,0,(struct sockaddr*)&remote_addr,addr_size);
+		 printf("listener: got packet from %s\n",buf);
+		//sendto(sock_listen,"abc",4,0,res.ai_addr,res.ai_addrlen);
+		//sendto
+		//CLOSE_SOCKET(sock_remote);
 	}
 	
 	CLOSE_SOCKET(sock_listen);
