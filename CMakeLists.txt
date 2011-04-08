@@ -6,6 +6,7 @@ if (WIN32)
 endif(WIN32)
 
 add_definitions(-g)
+include_directories(src/Include)
 
 project(Peasantformer)
 find_package(SDL REQUIRED)
