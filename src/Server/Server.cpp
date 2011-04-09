@@ -80,10 +80,6 @@ int bind_to_addr_port(char *hostname, char *port, int socktype, struct addrinfo 
 }
 
 int main(int argc, char **argv) {
-	PeasantformerProtocol proto;
-	char *result;
-	proto.pack(PeasantMessage("1","1"),result);
-	exit(0);
 	char *hostname = NULL;
 	char port[] = "50600";
 	
@@ -114,7 +110,7 @@ int main(int argc, char **argv) {
 	
 	get_addrinfo_literal(&res,address_literal);
 	printf("Successfuly binded to %s\n",address_literal);
-	
+	/*
 	listen(listener_socket,10);
 	
 	FD_SET(listener_socket,&master);
@@ -162,7 +158,7 @@ int main(int argc, char **argv) {
 		}
 	}
 	
-	
+	*/
 	
 	/*
 	std::string port("50600");
