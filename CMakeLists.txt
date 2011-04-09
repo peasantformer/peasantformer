@@ -10,8 +10,7 @@ include_directories(src/Include)
 
 project(Peasantformer)
 find_package(SDL REQUIRED)
-find_package(SDL_net REQUIRED)
-set(CLIENTLIBS ${SDL_LIBRARY} ${SDLNET_LIBRARY})
+set(CLIENTLIBS ${SDL_LIBRARY})
 
 set(Peasantformer_SRCS
 	src/Client/Client.cpp
@@ -27,8 +26,7 @@ target_link_libraries(peasantformer ${CLIENTLIBS})
 
 project(Peasantformer-server)
 find_package(SDL REQUIRED)
-find_package(SDL_net REQUIRED)
-set(SERVERLIBS ${SDL_LIBRARY} ${SDLNET_LIBRARY})
+set(SERVERLIBS ${SDL_LIBRARY})
 
 set(Peasantformer-server_SRCS
 	src/Server/Server.cpp
