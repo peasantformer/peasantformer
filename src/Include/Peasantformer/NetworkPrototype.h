@@ -1,7 +1,14 @@
 #ifndef PEASANTOFORMER_NetworkPrototype
 #define PEASANTOFORMER_NetworkPrototype
 
+#include <stdint.h>
 #include <stddef.h>
+
+#ifdef _WIN32
+#include <Peasantformer/NetworkWin32.h>
+#else
+#include <Peasantformer/NetworkUnix.h>
+#endif
 
 int pn_init();
 int pn_getaddrinfo(const char *, const char *, const struct addrinfo *, struct addrinfo **);

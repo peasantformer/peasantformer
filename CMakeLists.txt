@@ -21,19 +21,11 @@ set(Peasantformer_SRCS
 )
 
 if (WIN32)
-	set(Peasantformer_SRCS
-		${Peasantformer_SRCS}
-		../src/Network/NetworkWin32.cpp
-	)
 	set(CLIENTLIBS ${CLIENTLIBS} -lws2_32)
+elseif(UNIX)	
+else(WIN32)
+	message(FATAL_ERROR "Unknown operation system")
 endif(WIN32)
-
-if (UNIX)
-	set(Peasantformer_SRCS
-		${Peasantformer_SRCS}
-		../src/Network/NetworkUnix.cpp
-	)
-endif(UNIX)
 
 
 add_executable(peasantformer ${Peasantformer_SRCS})
