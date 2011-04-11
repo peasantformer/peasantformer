@@ -1,5 +1,5 @@
 #include "Server.h"
-
+/*
 
 int set_hints(struct addrinfo *hints, int family, int socktype, int flags) {
 	memset(hints,0,sizeof(struct addrinfo));
@@ -78,8 +78,9 @@ int bind_to_addr_port(char *hostname, char *port, int socktype, struct addrinfo 
 	freeaddrinfo(localinfo);
 	return sock;
 }
-
+*/
 int main(int argc, char **argv) {
+	/*
 	char *hostname = NULL;
 	char port[] = "50600";
 	
@@ -110,6 +111,7 @@ int main(int argc, char **argv) {
 	
 	get_addrinfo_literal(&res,address_literal);
 	printf("Successfuly binded to %s\n",address_literal);
+	*/
 	/*
 	listen(listener_socket,10);
 	

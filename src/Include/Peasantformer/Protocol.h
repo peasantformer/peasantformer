@@ -1,7 +1,13 @@
 #ifndef PEASANTOFORMER_Protocol
 #define PEASANTOFORMER_Protocol
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+#else
 #include <netinet/in.h>
+#endif
 
 #include <Peasantformer/Data/CircularBuffer.h>
 
@@ -31,18 +37,24 @@ class PeasantMessage {
 			this->message_length = 0;
 		}
 		int set_name(const char *name) {
+			/*
 			size_t len = strnlen(name,PNetProto_max_name_len);
 			this->name = (char *)malloc(len * sizeof (char));
 			memcpy(this->name,name,len);
 			this->name_length = len;
-			return len;
+			
+			*/
+			return 0;
 		}
 		int set_message(const char *message) {
+			/*
 			size_t len = strnlen(message,PNetProto_max_message_len);
 			this->message = (char *)malloc(len * sizeof (char));
 			memcpy(this->message,message,len);
 			this->message_length = len;
-			return len;
+			
+			*/
+			return 0;
 		}
 	public:
 		char * get_name(void) {
