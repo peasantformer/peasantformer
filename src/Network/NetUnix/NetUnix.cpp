@@ -1,11 +1,4 @@
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-
-
-
+#include <Peasantformer/Network/NetUnix.h>
 
 
 int pn_init() {
@@ -38,4 +31,3 @@ int pn_close(int fd) {
 int pn_quit() {
 	return 0;
 }
-

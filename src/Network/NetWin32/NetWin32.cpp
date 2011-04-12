@@ -1,8 +1,4 @@
-#define _WIN32_WINNT 0x501
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
-
+#include <Peasantformer/Network/NetWin32.h>
 
 
 const char *inet_ntop6(struct in6_addr *r, char *buf, size_t size) {
@@ -10,12 +6,12 @@ const char *inet_ntop6(struct in6_addr *r, char *buf, size_t size) {
 	char *p;
 	uint8_t bit,hexbit;
 	bool skip_zeros, print_colon, colon_printed, have_printed;
-	
+
 	print_colon = false;
 	colon_printed = false;
 	have_printed = false;
 	p = tmp;
-	
+
 	for (int i=0; i < 16; i+=2) {
 		skip_zeros = true;
 		bit = r->s6_addr[i];

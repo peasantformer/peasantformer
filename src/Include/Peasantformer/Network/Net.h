@@ -1,13 +1,12 @@
-#ifndef PEASANTOFORMER_NetworkPrototype
-#define PEASANTOFORMER_NetworkPrototype
+#ifndef PEASANTFORMER_Network_Net
+#define PEASANTFORMER_Network_Net
 
-#include <stdint.h>
 #include <stddef.h>
 
 #ifdef _WIN32
-#include <Peasantformer/NetworkWin32.h>
+#include <winsock2.h>
 #else
-#include <Peasantformer/NetworkUnix.h>
+#include <sys/types.h>
 #endif
 
 int pn_init();

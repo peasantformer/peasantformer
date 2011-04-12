@@ -1,8 +1,5 @@
-#include "Client.h"
-
+#include <Peasantformer/Client/Client.h>
 
 int main(int argc, char **argv) {
-
-	
 	return 0;
 }
