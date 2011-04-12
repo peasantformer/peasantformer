@@ -16,7 +16,7 @@ Note, if your cross-compiled version yields something like this:
 > err:module:import_dll Library libstdc++-6.dll (which is needed by L"Z:\\home\\soft\\mine\\peasantformer\\peasantformer.exe") not found
 > err:module:LdrInitializeThunk Main exe initialization for L"Z:\\home\\soft\\mine\\peasantformer\\peasantformer.exe" failed, status c0000135
 
-, you are experiencing clock skews. It means that you have to run
+, you are probably have clock skew. If so, run
 
 $ make cross-win32
 

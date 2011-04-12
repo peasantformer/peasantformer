@@ -19,25 +19,24 @@
 #include <Peasantformer/Modules/Interfaces/RenderInterface.h>
 #include <Peasantformer/Modules/Interfaces/PeasantObjectInterface.h>
 
-template <class T>
 class Modules {
 	private:
 		std::vector<std::string> modules_dirs;
-		std::map<std::string,T> modules;
+		std::map<std::string,Module> all_modules;
+		std::map<std::string,RenderModule> render_modules;
+		std::map<std::string,PeasantObjectModule> object_modules;
 	public:
 		int add_dir(std::string dir); 
 		int load_modules_in_dirs(std::string dir = "");
 		int load_module(std::string path);
 };
 
-template<class T>
-int Modules<T>::add_dir(std::string dir) {
+int Modules::add_dir(std::string dir) {
 	this->modules_dirs.push_back(dir);
 	return 0;
 }
 
-template<class T>
-int Modules<T>::load_modules_in_dirs(std::string dir) {
+int Modules::load_modules_in_dirs(std::string dir) {
 	if (dir == "") {
 		for(std::vector<std::string>::iterator it = this->modules_dirs.begin(); it != this->modules_dirs.end(); it++) {
 			if (*it != "") {
@@ -72,8 +71,7 @@ int Modules<T>::load_modules_in_dirs(std::string dir) {
 	return 0;
 }
 
-template<class T>
-int Modules<T>::load_module(std::string path) {
+int Modules::load_module(std::string path) {
 #ifdef _WIN32
 	HMODULE module_ptr = LoadLibrary(path.c_str());
 	if (!module_ptr) {
@@ -130,11 +128,11 @@ int Modules<T>::load_module(std::string path) {
 	}
 #endif
 	ModuleInfo minfo = info();
-	
+	this->all_modules[minfo.get_name()] = Module(minfo.get_type(),minfo.get_name(),minfo.get_description(),minfo.get_version(),minfo.get_author());
 	if (minfo.get_type() == MODULE_RENDER) {
 #ifdef _WIN32
 		render_module_info *render_info = (render_module_info*)GetProcAddress(module_ptr, "render_info");
-		if (!info) {
+		if (!render_info) {
 			printf("Error loading render_info() from module %s, ignoring\n",path.c_str());
 			return -1;
 		}
@@ -147,9 +145,25 @@ int Modules<T>::load_module(std::string path) {
 		}
 #endif
 		RenderInfo rinfo = render_info();
-		this->modules[minfo.get_name()] = RenderModule(rinfo.get_render_type(),minfo.get_name(),minfo.get_description(),minfo.get_version(),minfo.get_author());
+		this->render_modules[minfo.get_name()] = RenderModule(rinfo.get_render_type(),minfo.get_name(),minfo.get_description(),minfo.get_version(),minfo.get_author());
 	}
 	if (minfo.get_type() == MODULE_OBJECT) {
+#ifdef _WIN32
+		object_module_info *object_info = (object_module_info*)GetProcAddress(module_ptr, "object_info");
+		if (!object_info) {
+			printf("Error loading object_info() from module %s, ignoring\n",path.c_str());
+			return -1;
+		}
+#else
+		object_module_info *object_info = (object_module_info*)dlsym(module_ptr, "object_info");
+		dlsym_error = dlerror();
+		if (dlsym_error) {
+			printf("%s, ignoring\n", dlsym_error);
+			return -1;
+		}
+#endif
+		PeasantObjectInfo oinfo = object_info();
+		this->object_modules[minfo.get_name()] = PeasantObjectModule(oinfo.get_object_type(),minfo.get_name(),minfo.get_description(),minfo.get_version(),minfo.get_author());
 	}
 	return 0;
 }

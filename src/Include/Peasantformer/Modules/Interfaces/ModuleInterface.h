@@ -90,6 +90,7 @@ class Module {
 			this->version = version;
 			this->author = author;
 		}
+		virtual ~Module() {};
 	public:
 		ModuleType get_type() {
 			return this->type;

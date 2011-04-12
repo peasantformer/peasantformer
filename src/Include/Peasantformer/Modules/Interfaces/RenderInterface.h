@@ -46,6 +46,8 @@ class RenderModule : public Module {
 	public:
 		RenderModule() {
 			this->render_type = RENDER_INVALID;
+			this->constructor = NULL;
+			this->destructor = NULL;
 		}
 		RenderModule(RenderType render_type
 		             ,std::string name

@@ -6,6 +6,7 @@ set(CMAKE_TOOLCHAIN_FILE platform.cmake)
 
 set(CMAKE_BUILD_TYPE Debug)
 include_directories(../src/Include)
+set (CMAKE_SHARED_MODULE_PREFIX "")
 
 ########################################################################
 
@@ -70,15 +71,24 @@ target_link_libraries(peasantformer ${Peasantformer-Client_LIBS})
 
 project(Modules-Renders)
 
-set (CMAKE_SHARED_MODULE_PREFIX "")
-
-set(Modules-Renders_SRCS
+set(Modules-Renders-OpenGL_SRCS
 	../src/Modules/Renders/RenderOpenGL/RenderOpenGL.cpp
 )
-add_library(opengl MODULE ${Modules-Renders_SRCS})
+add_library(opengl MODULE ${Modules-Renders-OpenGL_SRCS})
 set_target_properties(opengl PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../modules/renders")
 
 ########################################################################
+
+project(Modules-Objects)
+
+set(Modules-Objects-Square_SRCS
+	../src/Modules/Objects/Square/Square.cpp
+)
+add_library(square MODULE ${Modules-Objects-Square_SRCS})
+set_target_properties(square PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../modules/objects")
+
+########################################################################
+
 
 
 
