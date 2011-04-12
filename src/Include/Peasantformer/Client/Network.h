@@ -3,5 +3,12 @@
 
 #include <Peasantformer/Network/Net.h>
 #include <Peasantformer/Network/Protocol.h>
+#include <Peasantformer/Generic/Network.h>
+
+class ClientNetwork {
+	
+};
+
+
 
 #endif

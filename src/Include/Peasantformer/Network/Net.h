@@ -3,11 +3,7 @@
 
 #include <stddef.h>
 
-#ifdef _WIN32
-#include <winsock2.h>
-#else
-#include <sys/types.h>
-#endif
+#include <Peasantformer/Generic/Network.h>
 
 int pn_init();
 int pn_getaddrinfo(const char *, const char *, const struct addrinfo *, struct addrinfo **);

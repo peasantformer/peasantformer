@@ -1,9 +1,7 @@
 #ifndef PEASANTFORMER_Network_NetWin32
 #define PEASANTFORMER_Network_NetWin32
 
-#define _WIN32_WINNT 0x501
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <Peasantformer/Generic/Network.h>
 
 #include <stdio.h>
 #include <stdint.h>

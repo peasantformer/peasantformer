@@ -4,6 +4,7 @@ set(CMAKE_TOOLCHAIN_FILE platform.cmake)
 
 ########################################################################
 
+set(CMAKE_BUILD_TYPE Debug)
 include_directories(../src/Include)
 
 ########################################################################
@@ -37,6 +38,15 @@ add_library(peasant-network STATIC ${Peasantformer-Network_SRCS})
 
 ########################################################################
 
+project(Peasantformer-ModulesEngine)
+set(Peasantformer-ModulesEngine_SRCS
+	../src/Modules/Modules.cpp
+)
+
+add_library(peasant-modulesengine STATIC ${Peasantformer-ModulesEngine_SRCS})
+
+########################################################################
+
 project(Peasantformer-Client)
 set(Peasantformer-Client_SRCS
 	../src/Client/Client.cpp
@@ -46,10 +56,22 @@ add_executable(peasantformer ${Peasantformer-Client_SRCS})
 target_link_libraries(peasantformer
 	peasant-data
 	peasant-network
+	peasant-modulesengine
 )
 
 ########################################################################
 
+project(Modules-Renders)
+
+set (CMAKE_SHARED_MODULE_PREFIX "")
+
+set(Modules-Renders_SRCS
+	../src/Modules/Renders/RenderOpenGL/RenderOpenGL.cpp
+)
+add_library(opengl MODULE ${Modules-Renders_SRCS})
+set_target_properties(opengl PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../modules/renders")
+
+########################################################################
 
 
 

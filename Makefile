@@ -9,6 +9,5 @@ clean:
 	cd build-unix; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 
 
-depclean:
-	cd build-windows; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
-	cd build-unix; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
+depclean: clean
+	rm -r modules
