@@ -36,12 +36,13 @@ class RenderInfo {
 
 typedef RenderInterface *render_construct();
 typedef void render_destruct(RenderInterface *);
-typedef RenderInfo render_info();
+typedef RenderInfo render_module_info();
 
-template <class C, class D>
-class RenderModule : public Module<C,D> {
+class RenderModule : public Module {
 	private:
 		RenderType render_type;
+		render_construct *constructor;
+		render_destruct *destructor;
 	public:
 		RenderModule() {
 			this->render_type = RENDER_INVALID;
@@ -50,10 +51,12 @@ class RenderModule : public Module<C,D> {
 		             ,std::string name
 		             ,std::string description
 		             ,std::string version
-		             ,std::string author
-		             ,C *constructor
-		             ,D *destructor) : Module<C,D>(MODULE_RENDER,name,description,version, author, constructor, destructor) {
+		             ,std::string author) : Module(MODULE_RENDER,name,description,version, author) {
 			this->render_type = render_type;
+		}
+	public:
+		RenderType get_render_type(void) {
+			return this->render_type;
 		}
 };
 

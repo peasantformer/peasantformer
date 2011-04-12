@@ -1,0 +1,23 @@
+To build native version of Peasantformer - just run
+
+$ make
+
+It will run cmake internally, so don't worry about dependencies - cmake
+will check them.
+Or, alternativly, you can cd to build-native and run cmake there by own.
+
+If you want to cross-compile windows version of peasantformer - run
+
+$ make cross-win32
+
+Note, if your cross-compiled version yields something like this:
+
+> err:module:import_dll Library libgcc_s_sjlj-1.dll (which is needed by L"Z:\\home\\soft\\mine\\peasantformer\\peasantformer.exe") not found
+> err:module:import_dll Library libstdc++-6.dll (which is needed by L"Z:\\home\\soft\\mine\\peasantformer\\peasantformer.exe") not found
+> err:module:LdrInitializeThunk Main exe initialization for L"Z:\\home\\soft\\mine\\peasantformer\\peasantformer.exe" failed, status c0000135
+
+, you are experiencing clock skews. It means that you have to run
+
+$ make cross-win32
+
+again.

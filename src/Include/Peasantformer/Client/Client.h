@@ -12,7 +12,7 @@
 class ClientEngine {
 	public:
 		ClientNetwork network;
-		Modules< RenderModule<render_construct,render_destruct> > render_modules;
+		Modules<RenderModule> render_modules;
 	public:
 		ClientEngine() {
 		}

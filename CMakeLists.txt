@@ -53,11 +53,18 @@ set(Peasantformer-Client_SRCS
 	../src/Client/Network/Network.cpp
 )
 add_executable(peasantformer ${Peasantformer-Client_SRCS})
-target_link_libraries(peasantformer
+set_target_properties(peasantformer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../")
+set (Peasantformer-Client_LIBS 
 	peasant-data
 	peasant-network
 	peasant-modulesengine
 )
+if (UNIX)
+	set (Peasantformer-Client_LIBS ${Peasantformer-Client_LIBS} 
+		dl
+	)
+endif(UNIX)
+target_link_libraries(peasantformer ${Peasantformer-Client_LIBS})
 
 ########################################################################
 

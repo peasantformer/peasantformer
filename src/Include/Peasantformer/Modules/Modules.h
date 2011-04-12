@@ -15,6 +15,10 @@
 #include <string>
 #include <map>
 
+#include <Peasantformer/Modules/Interfaces/ModuleInterface.h>
+#include <Peasantformer/Modules/Interfaces/RenderInterface.h>
+#include <Peasantformer/Modules/Interfaces/PeasantObjectInterface.h>
+
 template <class T>
 class Modules {
 	private:
@@ -71,12 +75,81 @@ int Modules<T>::load_modules_in_dirs(std::string dir) {
 template<class T>
 int Modules<T>::load_module(std::string path) {
 #ifdef _WIN32
-
-
-#else
-
-
-
+	HMODULE module_ptr = LoadLibrary(path.c_str());
+	if (!module_ptr) {
+		//printf("Error opening module %s, ignoring\n",path.c_str());
+		return -1;
+	}
+	
+	module_construct *constructor = (module_construct*)GetProcAddress(module_ptr, "construct");
+	if (!constructor) {
+		printf("Error loading constructor() from module %s, ignoring\n",path.c_str());
+		return -1;
+	}
+	
+	module_destruct *destructor = (module_destruct*)GetProcAddress(module_ptr, "destruct");
+	if (!destructor) {
+		printf("Error loading destructor() from module %s, ignoring\n",path.c_str());
+		return -1;
+	}
+	
+	module_info *info = (module_info*)GetProcAddress(module_ptr, "info");
+	if (!info) {
+		printf("Error loading info() from module %s, ignoring\n",path.c_str());
+		return -1;
+	}
+#else	
+	const char *dlsym_error;
+	void *module_ptr = dlopen(path.c_str(), RTLD_LAZY);
+	if (!module_ptr) {
+		//printf("%s, ignoring\n",dlerror());
+		return -1;
+	}
+	
+	dlerror();
+	
+	module_construct *constructor = (module_construct*)dlsym(module_ptr, "construct");
+	dlsym_error = dlerror();
+	if (dlsym_error) {
+		printf("%s, ignoring\n", dlsym_error);
+		return -1;
+	}
+	
+	module_destruct *destructor = (module_destruct*)dlsym(module_ptr, "destruct");
+	dlsym_error = dlerror();
+	if (dlsym_error) {
+		printf("%s, ignoring\n", dlsym_error);
+		return -1;
+	}
+	
+	module_info *info = (module_info*)dlsym(module_ptr, "info");
+	dlsym_error = dlerror();
+	if (dlsym_error) {
+		printf("%s, ignoring\n", dlsym_error);
+		return -1;
+	}
 #endif
+	ModuleInfo minfo = info();
+	
+	if (minfo.get_type() == MODULE_RENDER) {
+#ifdef _WIN32
+		render_module_info *render_info = (render_module_info*)GetProcAddress(module_ptr, "render_info");
+		if (!info) {
+			printf("Error loading render_info() from module %s, ignoring\n",path.c_str());
+			return -1;
+		}
+#else
+		render_module_info *render_info = (render_module_info*)dlsym(module_ptr, "render_info");
+		dlsym_error = dlerror();
+		if (dlsym_error) {
+			printf("%s, ignoring\n", dlsym_error);
+			return -1;
+		}
+#endif
+		RenderInfo rinfo = render_info();
+		this->modules[minfo.get_name()] = RenderModule(rinfo.get_render_type(),minfo.get_name(),minfo.get_description(),minfo.get_version(),minfo.get_author());
+	}
+	if (minfo.get_type() == MODULE_OBJECT) {
+	}
 	return 0;
 }

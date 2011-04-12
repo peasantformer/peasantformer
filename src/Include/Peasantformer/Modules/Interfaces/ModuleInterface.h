@@ -59,16 +59,16 @@ typedef ModuleInterface *module_construct();
 typedef void module_destruct(ModuleInterface *);
 typedef ModuleInfo module_info();
 
-template <class C, class D>
+
 class Module {
-	private:
+	protected:
 		ModuleType type;
 		std::string name;
 		std::string description;
 		std::string version;
 		std::string author;
-		C *constructor;
-		D *destructor;
+		module_construct *constructor;
+		module_destruct *destructor;
 	public:
 		Module() {
 			this->type = MODULE_INVALID;
@@ -83,16 +83,12 @@ class Module {
 		      ,std::string name
 		      ,std::string description
 		      ,std::string version
-		      ,std::string author
-		      ,C *constructor
-		      ,D *destructor) {
+		      ,std::string author) {
 			this->type = type;
 			this->name = name;
-			this-description = description;
+			this->description = description;
 			this->version = version;
 			this->author = author;
-			this->constructor = constructor;
-			this->destructor = destructor;
 		}
 	public:
 		ModuleType get_type() {
@@ -109,12 +105,6 @@ class Module {
 		}
 		std::string get_author() {
 			return this->author;
-		}
-		C *get_constructor() {
-			return this->constructor;
-		}
-		D *get_destructor() {
-			return this->destructor;
 		}
 };
 
