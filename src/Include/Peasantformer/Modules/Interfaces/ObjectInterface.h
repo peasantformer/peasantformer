@@ -1,22 +1,17 @@
-#ifndef PEASANTFORMER_Modules_Interfaces_PeasantObjectInterface
-#define PEASANTFORMER_Modules_Interfaces_PeasantObjectInterface
+#ifndef PEASANTFORMER_Modules_Interfaces_ObjectInterface
+#define PEASANTFORMER_Modules_Interfaces_ObjectInterface
 
 #include <Peasantformer/Modules/Interfaces/ModuleInterface.h>
 
 #include <string>
 
-class PeasantObjectInterface : public ModuleInterface {
-	public:
-		virtual ~PeasantObjectInterface() {};
-
-};
-
-class ObjectInterface : public PeasantObjectInterface {
+class ObjectInterface : public ModuleInterface {
 	public:
 		virtual ~ObjectInterface() {};
+
 };
 
-class JointInterface : public PeasantObjectInterface {
+class JointInterface : public ModuleInterface {
 	public:
 		virtual ~JointInterface() {};
 };
@@ -38,21 +33,21 @@ class NPCInterface : public ObjectInterface {
 
 
 enum ObjectType {
-	OBJECT_INVALID = 0x0,
-	OBJECT_OBJECT  = 0x1,
-	OBJECT_JOINT   = 0x2,
-	OBJECT_RUNNER  = 0x4,
-	OBJECT_PC      = 0x8,
+	OBJECT_INVALID = 0x00,
+	OBJECT_OBJECT  = 0x01,
+	OBJECT_JOINT   = 0x02,
+	OBJECT_RUNNER  = 0x04,
+	OBJECT_PC      = 0x08,
 	OBJECT_NPX     = 0x10,
 	OBJECT_LAST
 	
 };
 
-class PeasantObjectInfo {
+class ObjectInfo {
 	private:
 		ObjectType object_type;
 	public:
-		PeasantObjectInfo(ObjectType object_type) {
+		ObjectInfo(ObjectType object_type) {
 			this->object_type = object_type;
 		}
 	public:
@@ -61,22 +56,22 @@ class PeasantObjectInfo {
 		}
 };
 
-typedef PeasantObjectInterface *object_construct();
-typedef void object_destruct(PeasantObjectInterface *);
-typedef PeasantObjectInfo object_module_info();
+typedef ObjectInterface *object_construct();
+typedef void object_destruct(ObjectInterface *);
+typedef ObjectInfo object_module_info();
 
-class PeasantObjectModule : public Module {
+class ObjectModule : public Module {
 	private:
 		ObjectType object_type;
 		object_construct *constructor;
 		object_destruct *destructor;
 	public:
-		PeasantObjectModule() {
+		ObjectModule() {
 			this->object_type = OBJECT_INVALID;
 			this->constructor = NULL;
 			this->destructor = NULL;
 		}
-		PeasantObjectModule(ObjectType object_type
+		ObjectModule(ObjectType object_type
 		             ,std::string name
 		             ,std::string description
 		             ,std::string version

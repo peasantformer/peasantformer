@@ -1,9 +1,9 @@
 #ifndef PEASANTFORMER_Module_Object_Square
 #define PEASANTFORMER_Module_Object_Square
 
-#include <Peasantformer/Modules/Interfaces/PeasantObjectInterface.h>
+#include <Peasantformer/Modules/Interfaces/ObjectInterface.h>
 
-class ObjectSquare : public ObjectInterface {
+class ObjectSquare : public RunnerInterface {
 };
 
 

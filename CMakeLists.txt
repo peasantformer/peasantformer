@@ -6,7 +6,6 @@ set(CMAKE_TOOLCHAIN_FILE platform.cmake)
 
 set(CMAKE_BUILD_TYPE Debug)
 include_directories(../src/Include)
-set (CMAKE_SHARED_MODULE_PREFIX "")
 
 ########################################################################
 
@@ -21,7 +20,8 @@ add_library(peasant-data STATIC ${Peasantformer-Data_SRCS})
 project(Peasantformer-Network)
 set(Peasantformer-Network_SRCS
 	../src/Network/Protocol/Protocol.cpp
-	../src/Network/Net/Net.cpp	
+	../src/Network/Net/Net.cpp
+	../src/Network/NetHighLevel/NetHighLevel.cpp
 )
 
 if (WIN32)
@@ -41,9 +41,19 @@ add_library(peasant-network STATIC ${Peasantformer-Network_SRCS})
 
 project(Peasantformer-ModulesEngine)
 set(Peasantformer-ModulesEngine_SRCS
-	../src/Modules/Modules.cpp
+	../src/Modules/Modules/Modules.cpp
 )
-
+if (WIN32)
+		set (Peasantformer-ModulesEngine_SRCS
+			${Peasantformer-ModulesEngine_SRCS}
+			../src/Modules/ModulesWin32/ModulesWin32.cpp
+		)
+elseif (UNIX)
+		set (Peasantformer-ModulesEngine_SRCS
+			${Peasantformer-ModulesEngine_SRCS}
+			../src/Modules/ModulesUnix/ModulesUnix.cpp
+		)
+endif (WIN32)
 add_library(peasant-modulesengine STATIC ${Peasantformer-ModulesEngine_SRCS})
 
 ########################################################################
@@ -51,7 +61,6 @@ add_library(peasant-modulesengine STATIC ${Peasantformer-ModulesEngine_SRCS})
 project(Peasantformer-Client)
 set(Peasantformer-Client_SRCS
 	../src/Client/Client.cpp
-	../src/Client/Network/Network.cpp
 )
 add_executable(peasantformer ${Peasantformer-Client_SRCS})
 set_target_properties(peasantformer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../")
@@ -70,7 +79,7 @@ target_link_libraries(peasantformer ${Peasantformer-Client_LIBS})
 ########################################################################
 
 project(Modules-Renders)
-
+set (CMAKE_SHARED_MODULE_PREFIX "")
 set(Modules-Renders-OpenGL_SRCS
 	../src/Modules/Renders/RenderOpenGL/RenderOpenGL.cpp
 )
@@ -80,7 +89,7 @@ set_target_properties(opengl PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../modules/ren
 ########################################################################
 
 project(Modules-Objects)
-
+set (CMAKE_SHARED_MODULE_PREFIX "")
 set(Modules-Objects-Square_SRCS
 	../src/Modules/Objects/Square/Square.cpp
 )
@@ -89,7 +98,31 @@ set_target_properties(square PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../modules/obj
 
 ########################################################################
 
+project(Peasantformer-Server)
+set(Peasantformer-Server_SRCS
+	../src/Server/Server.cpp
+	../src/Server/Network/Network.cpp
 
+)
+add_executable(peasantformer-server ${Peasantformer-Server_SRCS})
+set_target_properties(peasantformer-server PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../")
+set (Peasantformer-Server_LIBS 
+	peasant-data
+	peasant-network
+	peasant-modulesengine
+)
+if (UNIX)
+	set (Peasantformer-Server_LIBS ${Peasantformer-Server_LIBS} 
+		dl
+	)
+elseif (WIN32)
+	set (Peasantformer-Server_LIBS ${Peasantformer-Server_LIBS} 
+		ws2_32
+	)
+endif(UNIX)
+target_link_libraries(peasantformer-server ${Peasantformer-Server_LIBS})
+
+########################################################################
 
 
 
