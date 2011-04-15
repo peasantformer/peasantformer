@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 		printf("  * %s - %s v%s\n",mod.get_name().c_str(),mod.get_description().c_str(),mod.get_version().c_str());
 	}
 	
-	engine.network.setup_server_on_addr_port("","50600");
+	engine.setup_server_on_addr_port("","50600");
 	
 	
 	

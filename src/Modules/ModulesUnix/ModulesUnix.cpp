@@ -2,14 +2,16 @@
 
 
 int Modules::load_module(std::string path, bool renders, bool objects) {
-	
 	const char *dlsym_error;
 	void *module_ptr = dlopen(path.c_str(), RTLD_LAZY);
+	
+	
 
-	if (!module_ptr) {
+	if (module_ptr == NULL) {
 		//printf("%s, ignoring\n",dlerror());
 		return -1;
 	}
+
 	
 	dlerror();
 	
@@ -17,6 +19,7 @@ int Modules::load_module(std::string path, bool renders, bool objects) {
 	dlsym_error = dlerror();
 	if (dlsym_error) {
 		printf("%s, ignoring\n", dlsym_error);
+		dlclose(module_ptr);
 		return -1;
 	}
 	
@@ -24,6 +27,7 @@ int Modules::load_module(std::string path, bool renders, bool objects) {
 	dlsym_error = dlerror();
 	if (dlsym_error) {
 		printf("%s, ignoring\n", dlsym_error);
+		dlclose(module_ptr);
 		return -1;
 	}
 	
@@ -31,6 +35,7 @@ int Modules::load_module(std::string path, bool renders, bool objects) {
 	dlsym_error = dlerror();
 	if (dlsym_error) {
 		printf("%s, ignoring\n", dlsym_error);
+		dlclose(module_ptr);
 		return -1;
 	}
 	ModuleInfo minfo = info();
@@ -39,6 +44,7 @@ int Modules::load_module(std::string path, bool renders, bool objects) {
 		dlsym_error = dlerror();
 		if (dlsym_error) {
 			printf("%s, ignoring\n", dlsym_error);
+			dlclose(module_ptr);
 			return -1;
 		}
 		RenderInfo rinfo = render_info();
@@ -49,6 +55,7 @@ int Modules::load_module(std::string path, bool renders, bool objects) {
 		dlsym_error = dlerror();
 		if (dlsym_error) {
 			printf("%s, ignoring\n", dlsym_error);
+			dlclose(module_ptr);
 			return -1;
 		}
 		ObjectInfo oinfo = object_info();

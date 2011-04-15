@@ -5,13 +5,17 @@ set(CMAKE_TOOLCHAIN_FILE platform.cmake)
 ########################################################################
 
 set(CMAKE_BUILD_TYPE Debug)
-include_directories(../src/Include)
+include_directories(
+	../src/Include
+)
 
 ########################################################################
 
 project(Peasantformer-Data)
 set(Peasantformer-Data_SRCS
 	../src/Data/CircularBuffer/CircularBuffer.cpp
+	../src/Data/Vector2f/Vector2f.cpp
+	../src/Data/Array/Array.cpp
 )
 add_library(peasant-data STATIC ${Peasantformer-Data_SRCS})
 
@@ -114,10 +118,18 @@ set (Peasantformer-Server_LIBS
 if (UNIX)
 	set (Peasantformer-Server_LIBS ${Peasantformer-Server_LIBS} 
 		dl
+		pthread
 	)
 elseif (WIN32)
+	add_definitions(-DPTW32_STATIC_LIB )
+	add_library(imp_pthread STATIC IMPORTED)
+	set_property(TARGET imp_pthread PROPERTY IMPORTED_LOCATION ../src/Libs/PThreads/libpthread.a)
 	set (Peasantformer-Server_LIBS ${Peasantformer-Server_LIBS} 
+		imp_pthread
 		ws2_32
+	)
+	include_directories(
+		../src/Include/Peasantformer/Libs/PThreads/
 	)
 endif(UNIX)
 target_link_libraries(peasantformer-server ${Peasantformer-Server_LIBS})

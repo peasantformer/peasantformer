@@ -1,6 +1,57 @@
-#include <Peasantformer/Server/Network.h>
+#include <Peasantformer/Server/Server.h>
 
-int ServerNetwork::setup_server_on_addr_port(const char *hostname, const char *port, bool ipv4, bool ipv6) {
+void *ServerEngine::listener(void *raw_data) {
+	ServerEngine *engine = (ServerEngine *)raw_data;
+	
+	char address_literal[INET6_ADDRSTRLEN];
+	char plain_buffer[1024];
+	fd_set read_fds;
+	struct timeval tv;
+	struct sockaddr_storage remote_addr;
+
+	socklen_t addrlen;
+	int nbytes;
+	int newsock;
+	
+	FD_ZERO(&read_fds);
+	
+
+	while (true) {
+		read_fds = engine->master;
+		//tv.tv_sec = 0;
+		//tv.tv_usec = 500000;
+		pn_select(engine->fd_max + 1, &read_fds,NULL,NULL,NULL);
+		printf("select update\n");
+		for (int i=0; i <= engine->fd_max; i++) {
+			if (FD_ISSET(i, &read_fds)) {
+				if ((engine->ipv4 && i == engine->v4_socket) || (engine->ipv6 && i == engine->v6_socket)) {
+					addrlen = sizeof(remote_addr);
+					newsock = pn_accept(i,(struct sockaddr*)&remote_addr,&addrlen);
+					FD_SET(newsock,&engine->master);
+					if (newsock > engine->fd_max) {
+						engine->fd_max = newsock;
+					}
+					engine->connections[newsock]=ServerConnection(remote_addr);
+					pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);
+					printf("New connection from %s\n",address_literal);
+				} else {
+					if ((nbytes = recv(i,plain_buffer,sizeof(plain_buffer),0)) <= 0) {
+						if (nbytes == 0) {
+							printf("Connection from %s closed\n",engine->connections[i].address_literal);
+						}
+						pn_close(i);
+						FD_CLR(i,&engine->master);
+					} else { /* we got some data */
+						engine->buffer->write(plain_buffer,nbytes);
+					}
+				}
+			}
+		}
+	}
+	pthread_exit(NULL);
+}
+
+int ServerEngine::setup_server_on_addr_port(const char *hostname, const char *port, bool ipv4, bool ipv6) {
 	struct addrinfo **localinfo = (struct addrinfo **)malloc(1 * sizeof (struct addrinfo *));
 	localinfo[0] = NULL;
 	struct addrinfo resv4;
@@ -8,17 +59,12 @@ int ServerNetwork::setup_server_on_addr_port(const char *hostname, const char *p
 	char address_literal[INET6_ADDRSTRLEN];
 	const char *hostname_literal = hostname;
 	int newsock = -1;
-	fd_set master;
-	fd_set read_fds;
-	int fd_max = -1;
-	struct sockaddr_storage remote_addr;
-	struct timeval tv;
-	socklen_t addrlen;
-	int nbytes;
-	char plain_buffer[1024];
+	this->fd_max = -1;
+
+
 	
 	FD_ZERO(&master);
-	FD_ZERO(&read_fds);
+
 	
 	if (hostname[0] == '\0') {
 		hostname = NULL;
@@ -40,7 +86,7 @@ int ServerNetwork::setup_server_on_addr_port(const char *hostname, const char *p
 		pn_listen(this->v4_socket,10);
 		FD_SET(this->v4_socket, &master);
 		if (this->v4_socket > fd_max) {
-			fd_max = this->v4_socket;
+			this->fd_max = this->v4_socket;
 		}
 	}
 #else
@@ -62,47 +108,20 @@ int ServerNetwork::setup_server_on_addr_port(const char *hostname, const char *p
 		pn_listen(this->v6_socket,10);
 		FD_SET(this->v6_socket, &master);
 		if (this->v6_socket > fd_max) {
-			fd_max = this->v6_socket;
+			this->fd_max = this->v6_socket;
 		}
 	}
 	
+	pthread_t networking_thread;
 	
+	pthread_create(&networking_thread,NULL,listener,this);
 	
-	
-	
-	while (true) {
-		read_fds = master;
-		//tv.tv_sec = 0;
-		//tv.tv_usec = 500000;
-		pn_select(fd_max + 1, &read_fds,NULL,NULL,&tv);
-		printf("select update\n");
-		for (int i=0; i <= fd_max; i++) {
-			if (FD_ISSET(i, &read_fds)) {
-				if ((ipv4 && i == this->v4_socket) || (ipv6 && i == this->v6_socket)) {
-					addrlen = sizeof(remote_addr);
-					newsock = pn_accept(i,(struct sockaddr*)&remote_addr,&addrlen);
-					FD_SET(newsock,&master);
-					if (newsock > fd_max) {
-						fd_max = newsock;
-					}
-					this->connections[newsock]=ServerConnection(remote_addr);
-					pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);
-					printf("New connection from %s\n",address_literal);
-				} else {
-					if ((nbytes = recv(i,plain_buffer,sizeof(plain_buffer),0)) <= 0) {
-						if (nbytes == 0) {
-							printf("Connection from %s closed\n",this->connections[i].address_literal);
-						}
-						pn_close(i);
-						FD_CLR(i,&master);
-					} else { /* we got some data */
-						this->buffer->write(plain_buffer,nbytes);
-					}
-				}
-			}
-		}
-	}
+	pthread_join(networking_thread,NULL);
+	//pthread_kill(networking_thread,10);
+	//listener(master, fd_max, ipv4, ipv6);
+	printf("workin\n");
 	
 	free(localinfo);
+	pthread_exit(NULL);
 	return 0;
 }
