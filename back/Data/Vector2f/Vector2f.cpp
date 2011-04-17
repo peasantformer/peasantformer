@@ -1,4 +1,5 @@
-#include "Vector2f.h"
+#include <Peasantformer/Data/Vector2f.h>
+
 
 
 Vector2f::Vector2f() {
@@ -9,38 +10,38 @@ Vector2f::Vector2f(float x, float y) {
 	this->x = x;
 	this->y = y;
 }
-const Vector2f Vector2f::operator+=(Vector2f r) {
+inline const Vector2f Vector2f::operator+=(Vector2f r) {
 	this->x += r.x;
 	this->y += r.y;
 	return (*this);
 
 }
-const Vector2f Vector2f::operator-=(Vector2f r) {
+inline const Vector2f Vector2f::operator-=(Vector2f r) {
 	this->x -= r.x;
 	this->y -= r.y;
 	return (*this);
 
 }
-const Vector2f Vector2f::operator*=(Vector2f r) {
+inline const Vector2f Vector2f::operator*=(Vector2f r) {
 	this->x *= r.x;
 	this->y *= r.y;
 	return (*this);
 
 }
-const float Vector2f::square_length() {
+inline const float Vector2f::square_length() {
 	return (x*x + y*y);
 }
-const float Vector2f::length() {
+inline const float Vector2f::length() {
 	return sqrt(this->square_length());
 }
-const Vector2f Vector2f::normalize() {
+inline const Vector2f Vector2f::normalize() {
 	float len = this->length();
 	if (len == 0)
 		return Vector2f(0,0);
 	float inv_length = 1.0f / len;
 	return ((*this)	 * inv_length);	
 }
-Vector2f Vector2f::abs_normalize() {
+inline Vector2f Vector2f::abs_normalize() {
 	float len = this->length();
 	if (len == 0)
 		return Vector2f(0,0);
@@ -66,35 +67,35 @@ Vector2f Vector2f::abs_normalize() {
 	return norm;
 }
 
-Vector2f operator*(Vector2f l, float r) {
+inline Vector2f operator*(Vector2f l, float r) {
 	return Vector2f(l.x*r, l.y*r);
 }
 
-Vector2f operator/(Vector2f l, float r) {
+inline Vector2f operator/(Vector2f l, float r) {
 	return Vector2f(l.x/r, l.y/r);
 }
 
-Vector2f operator*(Vector2f l, Vector2f r) {
+inline Vector2f operator*(Vector2f l, Vector2f r) {
 	return Vector2f(l.x*r.x, l.y*r.y);
 }
 
-Vector2f operator/(Vector2f l, Vector2f r) {
+inline Vector2f operator/(Vector2f l, Vector2f r) {
 	return Vector2f(l.x/r.x, l.y/r.y);
 }
 
-Vector2f operator+(Vector2f l, Vector2f r) {
+inline Vector2f operator+(Vector2f l, Vector2f r) {
 	return Vector2f(l.x+r.x, l.y+r.y);
 }
 
-Vector2f operator-(Vector2f l, Vector2f r) {
+inline Vector2f operator-(Vector2f l, Vector2f r) {
 	return Vector2f(l.x-r.x, l.y-r.y);
 }
 
-bool operator!=(Vector2f l, Vector2f r) {
+inline bool operator!=(Vector2f l, Vector2f r) {
 	return ((l.x != r.x) || (l.y != r.y));
 }
 
-bool operator==(Vector2f l, Vector2f r) {
+inline bool operator==(Vector2f l, Vector2f r) {
 	return ((l.x == r.x) && (l.y == r.y));
 }
 

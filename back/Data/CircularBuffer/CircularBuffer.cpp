@@ -1,4 +1,4 @@
-#include "CircularBuffer.h"
+#include <Peasantformer/Data/CircularBuffer.h>
 
 CircularBuffer::CircularBuffer(size_t buffsize) {
 	this->buffsize = buffsize;
