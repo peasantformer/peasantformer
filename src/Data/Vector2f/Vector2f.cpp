@@ -1,9 +1,12 @@
 #include "Vector2f.h"
+#include <stdio.h>
+
 
 
 Vector2f::Vector2f() {
 	this->x = 0.0f;
 	this->y = 0.0f;
+	Vector2f *next;
 }
 Vector2f::Vector2f(float x, float y) {
 	this->x = x;
@@ -40,6 +43,18 @@ const Vector2f Vector2f::normalize() {
 	float inv_length = 1.0f / len;
 	return ((*this)	 * inv_length);	
 }
+
+
+const Vector2f Vector2f::normalize_ext() {
+	float len = this->length();
+	Vector2f out = *this;
+	
+	if (fabs(len) < 0.0001) {
+		out = out / 1;
+	}
+	return out;
+}
+
 Vector2f Vector2f::abs_normalize() {
 	float len = this->length();
 	if (len == 0)
@@ -97,7 +112,7 @@ bool operator!=(Vector2f l, Vector2f r) {
 bool operator==(Vector2f l, Vector2f r) {
 	return ((l.x == r.x) && (l.y == r.y));
 }
-
+/*
 Vector2f lines_intersect(Vector2f p11, Vector2f p12, Vector2f p21, Vector2f p22, bool deep_check = false) {
 	float Z  = (p12.y-p11.y)*(p21.x-p22.x)-(p21.y-p22.y)*(p12.x-p11.x);
 	float Ca = (p12.y-p11.y)*(p21.x-p11.x)-(p21.y-p11.y)*(p12.x-p11.x);
@@ -122,3 +137,88 @@ Vector2f lines_intersect(Vector2f p11, Vector2f p12, Vector2f p21, Vector2f p22,
 	}
 	return Vector2f(-1,-1);
 }
+*/
+
+float orient(const Vector2f *a, const Vector2f *b, const Vector2f *c) {
+	return (a->x - c->x) * (b->y - c->y) - (a->y - c->y) * (b->x - c->x);
+}
+
+void rotate(Vector2f *tgt, float sine, float cosine) {
+	float xx = tgt->x * cosine - tgt->y * sine;
+	tgt->y = tgt->y * cosine + tgt->x * sine;
+	tgt->x = xx;
+}
+
+void rotate(Vector2f *tgt,float tenshi) {
+	rotate(tgt,sin(tenshi),cos(tenshi));
+}
+
+Vector2f angelVector(float tenshi) {
+	return Vector2f(cos(tenshi),sin(tenshi));
+}
+
+float angelOfVector(Vector2f V) {
+	printf("||| %f\n",V.y);
+	float a = acos(V.x);
+	printf(">>> %f\n",a);
+	if (V.y < 0) a = PI + PI - a;
+	return a;
+}
+
+float distance(Vector2f *a, Vector2f *b, Vector2f *c) {
+	float dx = a->x - b->x;
+	float dy = a->y - b->y;
+	float D = dx * (c->y - a->y) - dy * (c->x - a->x);
+	return fabs(D / sqrt(dx*dx + dy*dy));
+}
+
+float circleIntersects(Vector2f C, float radius, Vector2f A, Vector2f B, Vector2f *R1, Vector2f *R2) {
+	A -= C;
+	B -= C;
+
+	float Dx = B.x - A.x;
+	float Dy = B.y - A.y;
+	float Dr = sqrt(Dx*Dx + Dy*Dy);
+		
+	float D = A.x*B.y - B.x*B.y;
+		
+	float isinter = radius*radius * Dr*Dr - D*D;
+		
+	R1->x = (D * Dy + ((Dy < 0) ? -1 : 1) * Dx * sqrt(radius*radius * Dr*Dr - D*D)) / (Dr*Dr);
+	R2->x = (D * Dy - ((Dy < 0) ? -1 : 1) * Dx * sqrt(radius*radius * Dr*Dr - D*D)) / (Dr*Dr);
+		
+	R1->y = (-D * Dx + fabs(Dy) * sqrt(radius*radius * Dr*Dr - D*D)) / (Dr*Dr);
+	R2->y = (-D * Dx - fabs(Dy) * sqrt(radius*radius * Dr*Dr - D*D)) / (Dr*Dr);
+	
+	*R1 += C;
+	*R2 += C;
+	return isinter;
+}
+
+float D2(float a11, float a12, float a21, float a22) {
+	return a11 * a22 - a12 * a21;
+}
+
+bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * P) {
+	
+	float x1 = A.x;
+	float x2 = B.x;
+	float x3 = C.x;
+	float x4 = D.x;
+	
+	float y1 = A.y;
+	float y2 = B.y;
+	float y3 = C.y;
+	float y4 = D.y;
+
+	
+	P->x = ((x1*y2 - y1*x2) * (x3 - x4) - (x1 - x2) * (x3*y4 - y3*x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+	P->y = ((x1*y2 - y1*x2) * (y3 - y4) - (y1 - y2) * (x3*y4 - y3*x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+
+	bool xpred = ((MIN(A.x,B.x) <= P->x + 0.0001) && (MAX(A.x,B.x) >= P->x -0.0001));
+	bool ypred = ((MIN(A.y,B.y) <= P->y + 0.0001) && (MAX(A.y,B.y) >= P->y -0.0001));
+	
+	return (xpred && ypred);
+}
+
+
