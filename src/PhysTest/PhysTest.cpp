@@ -109,6 +109,7 @@ class Object {
 	public:
 		bool pinned;
 		Vector2f pos;
+		Vector2f p;
 		Vector2f F;
 		Vector2f V;
 		float H;
@@ -134,6 +135,11 @@ class Object {
 
 class Brick : public Object {
 	public:
+		Vector2f p1;
+		Vector2f p2;
+		Vector2f p3;
+		Vector2f p4;
+		
 
 
 		Brick() {
@@ -144,6 +150,7 @@ class Brick : public Object {
 		{
 			this->pinned = pinned;
 			this->pos = pos;
+			this->p = pos;
 			this->F = Vector2f(0,0);
 			this->V = Vector2f(0,0);
 			this->H = 0;
@@ -152,102 +159,143 @@ class Brick : public Object {
 			this->width = width;
 			this->height = height;
 			float R = (width + height) / 2;
-			mass = R *R;
-			inertia = 0.005 * mass * R * R;
+			mass = R *R * 0.1;
+			inertia = 0.05 * mass * R * R;
 			
 			r=(((random)())%1000)*0.001;
 			g=(((random)())%1000)*0.001;
 			b=(((random)())%1000)*0.001;
+			
+			p1 = pos + Vector2f(-width/2,-height/2);
+			p2 = pos + Vector2f(-width/2,height/2);
+			p3 = pos + Vector2f(width/2,height/2);
+			p4 = pos + Vector2f(width/2,-height/2);
 			
 		}
 
 
 		void draw() {
 			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
 			glColor3f(r,g,b);
-			glRotatef(angle,0,0,1);
 			glBegin(GL_QUADS);
-				glVertex2f(-width/2,-height/2);
-				glVertex2f(width/2,-height/2);
-				glVertex2f(width/2,height/2);
-				glVertex2f(-width/2,height/2);
+				glVertex2f(p1.x,p1.y);
+				glVertex2f(p2.x,p2.y);
+				glVertex2f(p3.x,p3.y);
+				glVertex2f(p4.x,p4.y);
 			glEnd();
 			
 			glLoadIdentity();
-			glTranslatef(pos.x, pos.y, 0 );
+			glTranslatef(p1.x, p1.y, 0 );
 			
 			glColor3f(1.0,0.0,0.0);
 			glBegin(GL_POLYGON);
 				for (int i=0; i <= 360; i++) {
 					glVertex2f(10 * cos(i), 10 * sin(i));
 				}
+				
 			glEnd();
+			
+			glLoadIdentity();
+			glTranslatef(p2.x, p2.y, 0 );
+			
+			glColor3f(0.0,1.0,0.0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10 * cos(i), 10 * sin(i));
+				}
+				
+			glEnd();
+			
+			glLoadIdentity();
+			glTranslatef(p3.x, p3.y, 0 );
+			
+			glColor3f(0.0,0.0,1.0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10 * cos(i), 10 * sin(i));
+				}
+				
+			glEnd();
+			
+			glLoadIdentity();
+
+
 		}
 
 		void compute() {
 		}
 		void compute(Brick *obj) {
+			Vector2f ADL = pos - Vector2f(width/2,0);
+			Vector2f ADR = pos + Vector2f(width/2,0);
 			
-			Vector2f AUL(pos - Vector2f(width/2,height/2));
-			Vector2f AUR(pos - Vector2f(-width/2,height/2));
-			Vector2f ADL(pos - Vector2f(width/2,-height/2));
-			Vector2f ADR(pos - Vector2f(-width/2,-height/2));
-			
-			Vector2f BUL(obj->pos - Vector2f(obj->width/2,obj->height/2));
-			Vector2f BUR(obj->pos - Vector2f(-obj->width/2,obj->height/2));
-			Vector2f BDL(obj->pos - Vector2f(obj->width/2,-obj->height/2));
-			Vector2f BDR(obj->pos - Vector2f(-obj->width/2,-obj->height/2));
-			
-						
-
-			Vector2f normal(0,0);
-			Vector2f place(0,0);
 			Vector2f Res;
-			//printf("%f %f\n",)
-			bool was = false;
-			Res = Vector2f(0,0);
-			if (lines_intersect(AUL,ADL,BUL,BUR,&Res)) {
-				was = true;
-				Res -= pos;
-				//printf("%f %f\n",Res.x,Res.y);
-				place += Vector2f(width/2,0);
-			}
-			Res= Vector2f(0,0);
-			if (lines_intersect(AUR,ADR,BUL,BUR,&Res)) {
-				was = true;
-				//printf("%f %f\n",Res.x,Res.y);
-				place -= Vector2f(width/2,0);
-			}
-			if (was) {
-				printf("%f %f\n",ADL.y,ADR.y);
-				Vector2f resplace = pos;
-				if (W > 0)
-					resplace -= place;
-				else if (W < 0)
-					resplace += place;
-				else
-					resplace = place;
-				this->apply_impulse(resplace,Vector2f(0,-1),500);
-			}
+			Vector2f normal;
+			Vector2f ResSpeed;
 			
-			//if (lines_intersect(AUL,ADL,BUL,BUR,&Res)) {	
-				//this->apply_impulse(Vector2f(width/2,height/2),Vector2f(0,-1),100);
-			//}
+			Vector2f R1;
+			Vector2f R2;
+			normal = (Vector2f (0,-1) - V).normalize();
+			float impulse;
+			float Z1,Z2;
+			float J;
+			float Vab;
+			if (lines_intersect(pos,p2,obj->p4,obj->p1,&Res)) {
+				R1 = Res - pos;
+				R2 = Res - obj->pos;
+				this->apply_impulse(Res,normal,500);
+			}
+			if (lines_intersect(pos,p3,obj->p4,obj->p1,&Res)) {
+				R1 = Res - pos;
+				R2 = Res - obj->pos;
+				this->apply_impulse(Res,normal,500);
+			}
+			/*
+			if (lines_intersect(pos,p3,obj->p4,obj->p1,&Res)) {
+				R1 = Res - pos;
+				R2 = Res - obj->pos;
+				Vab = 
+				normal.x * (V.x - W * R1.y - obj->V.x + obj->W * R2.y) +
+				normal.y * (V.y + W * R1.x - obj->V.y - obj->W * R2.x);
+				Z1 = (normal.y * R1.x - normal.x * R1.y) * (1/inertia);
+				Z2 = (normal.y * R2.x - normal.x * R2.y) * (1/inertia);
+				J = normal.x * (normal.x * (1/mass) - R1.y * Z1 + normal.x * (1/obj->mass) + R2.y * Z2)
+				 + normal.y * (normal.y * (1/mass) + R1.x * Z1 * (1/inertia) + normal.y * (1/obj->mass) - R2.x * Z2 * (1/obj->inertia));
+				
+				impulse = (0 - (1 + 1) * Vab) / J;
+				printf("%f\n",impulse);
+				if (impulse > 0)
+				this->apply_impulse(Res,normal,impulse);
+			}
+			*/
 
+			
 			
 		}
 		void project(Vector2f ext, float dt) {
+			
+			p1 = Vector2f(-width/2,-height/2);
+			p2 = Vector2f(-width/2,height/2);
+			p3 = Vector2f(width/2,height/2);
+			p4 = Vector2f(width/2,-height/2);			
+
+			p1 = pos + rotate(p1,angle);
+			p2 = pos + rotate(p2,angle);
+			p3 = pos + rotate(p3,angle);
+			p4 = pos + rotate(p4,angle);
 			if (this->pinned) return;
 			this->pos += this->V * dt;
-			this->angle += this->W * dt;
+			float diff = this->W * dt;
+			this->angle += diff;
+
+			
+			this->V += (this->F+ext) / mass * dt;
+			if (fabs((H / inertia) * dt) > 0.0001)
+			W += (H / inertia) * dt;
 
 
 		}
 		void update(Vector2f ext, float dt) {
-			this->V += (this->F+ext) / mass * dt;
-			if (fabs((H / inertia) * dt) > 0.0001)
-			W += (H / inertia) * dt;
+
 				
 		}
 		void apply_impulse(Vector2f place, Vector2f normal, float impulse) {
@@ -283,7 +331,7 @@ class World {
 		void iterate() {
 			for (std::list<Object *>::iterator it = this->objects.begin(); it != this->objects.end(); it++) {
 				int start = SDL_GetTicks();
-				while((SDL_GetTicks() - start) < (dt*1000)/2)
+				while((SDL_GetTicks() - start) < (dt*1000))
 					(*it)->project(gravity,dt);	
 			}
 			for (std::list<Object *>::iterator it = this->objects.begin(); it != this->objects.end(); it++) {
@@ -295,9 +343,6 @@ class World {
 				}
 			}
 			for (std::list<Object *>::iterator it = this->objects.begin(); it != this->objects.end(); it++) {
-				int start = SDL_GetTicks();
-				while((SDL_GetTicks() - start) < (dt*1000)/2)
-					(*it)->update(gravity,dt);
 			}
 		}
 };
@@ -385,11 +430,12 @@ int main(int argc, char **argv) {
 	
 	World world;
 	Object *br = world.add_brick(Vector2f(300,300),100,100);
-	br->angle=-10;
+	br->angle=0;
+
 	
-	world.add_brick(Vector2f(400,600),1000,100,true);
-	
-	
+	Object *bl = world.add_brick(Vector2f(400,600),500,100,true);
+	bl->angle = 0;
+		
 	
 //	test();
 	
@@ -400,6 +446,7 @@ int main(int argc, char **argv) {
 		SDL_PollEvent(&event);
 		if(event.type == SDL_QUIT)
 			quit = true;
+		
 		
 		world.iterate();
 		

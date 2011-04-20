@@ -40,4 +40,11 @@ bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * 
 
 Vector2f angelVector(float tenshi);
 float angelOfVector(Vector2f V);
+
+Vector2f rotate(Vector2f l, float sine, float cosine);
+
+Vector2f rotate(Vector2f tgt,float tenshi);
+
+float angelOfVector(Vector2f V);
+
 #endif

@@ -40,6 +40,7 @@ const Vector2f Vector2f::normalize() {
 	float len = this->length();
 	if (len == 0)
 		return Vector2f(0,0);
+	
 	float inv_length = 1.0f / len;
 	return ((*this)	 * inv_length);	
 }
@@ -48,7 +49,7 @@ const Vector2f Vector2f::normalize() {
 const Vector2f Vector2f::normalize_ext() {
 	float len = this->length();
 	Vector2f out = *this;
-	
+
 	if (fabs(len) < 0.0001) {
 		out = out / 1;
 	}
@@ -143,14 +144,12 @@ float orient(const Vector2f *a, const Vector2f *b, const Vector2f *c) {
 	return (a->x - c->x) * (b->y - c->y) - (a->y - c->y) * (b->x - c->x);
 }
 
-void rotate(Vector2f *tgt, float sine, float cosine) {
-	float xx = tgt->x * cosine - tgt->y * sine;
-	tgt->y = tgt->y * cosine + tgt->x * sine;
-	tgt->x = xx;
+Vector2f rotate(Vector2f l, float sine, float cosine) {
+	return Vector2f(l.x * cosine - l.y * sine, l.x * sine + l.y * cosine);
 }
 
-void rotate(Vector2f *tgt,float tenshi) {
-	rotate(tgt,sin(tenshi),cos(tenshi));
+Vector2f rotate(Vector2f tgt,float tenshi) {
+	return rotate(tgt,sin(tenshi * (PI/180)),cos(tenshi * (PI/180)));
 }
 
 Vector2f angelVector(float tenshi) {
@@ -158,9 +157,7 @@ Vector2f angelVector(float tenshi) {
 }
 
 float angelOfVector(Vector2f V) {
-	printf("||| %f\n",V.y);
 	float a = acos(V.x);
-	printf(">>> %f\n",a);
 	if (V.y < 0) a = PI + PI - a;
 	return a;
 }
