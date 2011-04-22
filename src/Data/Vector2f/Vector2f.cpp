@@ -82,6 +82,26 @@ Vector2f Vector2f::abs_normalize() {
 	return norm;
 }
 
+PointClasses Vector2f::classify (Vector2f p0, Vector2f p1) {
+	Vector2f p2 = *this;
+	Vector2f a = p1 - p0;
+	Vector2f b = p2 - p0;
+	float sa = a.x * b.y - b.x * a.y;
+	if (sa > 0.0)
+		return V_LEFT;
+	if (sa < 0.0)
+		return V_RIGHT;
+	if ((a.x * b.x < 0.0) || (a.y * b.y < 0.0))
+		return V_BEHIND;
+	if (a.length() < b.length())
+		return V_BEYOND;
+	if (p0 == p2)
+		return V_ORIGIN;
+	if (p1 == p2)
+		return V_DESTINATION;
+	return V_BETWEEN;
+}
+
 Vector2f operator*(Vector2f l, float r) {
 	return Vector2f(l.x*r, l.y*r);
 }
@@ -215,7 +235,18 @@ bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * 
 	bool xpred = ((MIN(A.x,B.x) <= P->x + 0.0001) && (MAX(A.x,B.x) >= P->x -0.0001));
 	bool ypred = ((MIN(A.y,B.y) <= P->y + 0.0001) && (MAX(A.y,B.y) >= P->y -0.0001));
 	
-	return (xpred && ypred);
+	bool wpred = ((MIN(C.x,D.x) <= P->x + 0.0001) && (MAX(C.x,D.x) >= P->x -0.0001));
+	bool zpred = ((MIN(C.y,D.y) <= P->y + 0.0001) && (MAX(C.y,D.y) >= P->y -0.0001));
+
+	return (xpred && ypred && wpred && zpred);
+	PointClasses c1 = P->classify(C,D);
+	PointClasses c2 = P->classify(A,B);
+	return (
+		   (c1 == V_BETWEEN || c1 == V_ORIGIN || c1 == V_DESTINATION)
+		&& (c2 == V_BETWEEN || c2 == V_ORIGIN || c2 == V_DESTINATION)
+	);
+	return false;
+	
 }
 
 

@@ -6,6 +6,16 @@
 #define MIN(x,y) (((x) < (y)) ? (x) : (y))
 #define MAX(x,y) (((x) > (y)) ? (x) : (y))
 
+enum PointClasses {
+	V_LEFT,
+	V_RIGHT,
+	V_BEYOND,
+	V_BEHIND,
+	V_BETWEEN,
+	V_ORIGIN,
+	V_DESTINATION
+};
+
 class Vector2f {
 	public:
 		float x,y;
@@ -22,6 +32,7 @@ class Vector2f {
 		const Vector2f normalize();
 		const Vector2f normalize_ext();
 		Vector2f abs_normalize();
+		PointClasses classify(Vector2f, Vector2f);
 };
 
 
