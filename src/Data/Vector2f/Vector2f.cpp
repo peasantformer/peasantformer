@@ -176,10 +176,11 @@ Vector2f angelVector(float tenshi) {
 	return Vector2f(cos(tenshi),sin(tenshi));
 }
 
-float angelOfVector(Vector2f V) {
-	float a = acos(V.x);
-	if (V.y < 0) a = PI + PI - a;
-	return a;
+float angleOfVector(Vector2f V) {
+	Vector2f base(0,1);
+	float a = acos(((V.x * base.x + V.y * base.y)/(V.length() * base.length()))) * (180/PI);
+	if ((base.x - V.x) > 0) return a ;
+	return -a;
 }
 
 float distance(Vector2f *a, Vector2f *b, Vector2f *c) {

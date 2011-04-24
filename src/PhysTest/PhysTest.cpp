@@ -5,33 +5,42 @@
 class Point {
 	public:
 		Vector2f pos;
-		Vector2f proj_pos;
-		Vector2f speed;
-		Vector2f speedmod;
+		Vector2f prev_pos;
+		Vector2f V;
+		Vector2f F;
 		float inv_mass;
 		float mass;
+		float inertia;
 		bool was_computed;
 		bool pinned;
+		float W;
+		float angle;
+		float H;
 
 		Point() : 
 			pos(0,0), 
-			proj_pos(0,0), 
-			speed(0,0),
-			speedmod(0,0), 
+			V(0,0),
+			F(0,0),
 			inv_mass(1), 
 			mass(1/inv_mass),
 			was_computed(false),
-			pinned(false)
-		{}
+			pinned(false),
+			W(0)
+		{
+			float R = (100) / 2;
+			mass = R *R * 0.005;
+			inertia = mass * R * R * 0.01;
+		}
 		Point(Vector2f pos, float inv_mass, bool pinned) :
 			pos(pos),
-			proj_pos(pos),
-			speed(0,0),
-			speedmod(0,0),
+			prev_pos(pos),
+			V(0,0),
+			F(0,0),
 			inv_mass(inv_mass),
 			mass(1/inv_mass),
 			was_computed(false),
-			pinned(pinned)
+			pinned(pinned),
+			W(0)
 		{}
 
 		void draw() {
@@ -45,6 +54,28 @@ class Point {
 				}
 			glEnd();
 			glLoadIdentity();
+		}
+		
+		void project(Vector2f ext, float dt) {
+			if (this->pinned) return;
+			this->prev_pos = pos;
+			this->pos += this->V * dt;
+			this->angle += W *dt;
+
+			this->V += (this->F) / mass * dt + ext * dt;
+			if (fabs((H / inertia) * dt) > 0.0001)
+			W += (H / inertia) * dt;
+		
+		}
+		
+		void apply_impulse(Vector2f place, Vector2f normal, float impulse) {
+			if (this->pinned) return;
+			if (impulse > 0.0001) {
+				printf("%f\n",impulse);
+				Vector2f RA = place - pos;
+				V += normal * impulse * (1/mass);
+				W += impulse * (normal.y * RA.x - normal.x * RA.y) * (1/inertia);
+			}
 		}
 };
 
@@ -90,6 +121,203 @@ class Object {
 };
 		Vector2f R1;
 		Vector2f R2;
+		
+class LinearJoint {
+	public:
+		Point *p1;
+		Point *p2;
+		float length;
+		float lenmin;
+		float lenmax;
+		LinearJoint * next;
+		LinearJoint * prev;
+		LinearJoint() {
+			this->p1 = NULL;
+			this->p2 = NULL;
+			this->length = 0;
+			this->next = NULL;
+			this->prev = NULL;
+		}
+		LinearJoint(Point *p1, Point *p2, float length)  {
+			this->p1 = p1;
+			this->p2 = p2;
+			this->length = length;
+			this->lenmin = length - 10;
+			this->lenmax = length + 10;
+			this->next = NULL;
+			this->prev = NULL;
+		}
+		
+		void draw() {
+			glLoadIdentity();
+			glColor3f(1.0,0.0,0.0);
+			glLineWidth(10);
+			glBegin(GL_LINES);
+				glVertex2f(p1->pos.x,p1->pos.y);
+				glVertex2f(p2->pos.x,p2->pos.y);
+ 			glEnd();
+		}
+		void apply() {
+			Vector2f normal_s, normal_r, normal;
+			Vector2f s,r;
+			float impulse_s, impulse_r, impulse;
+			float m = 10;
+			float desired_length;
+			if (p1->was_computed == false) {
+				normal = (p1->pos - p2->pos).normalize();
+				impulse = ((p1->pos - p2->pos).length() - length) * p1->V.length() * p1->mass * m;
+				p1->apply_impulse(p1->pos,normal,impulse);
+				p1->apply_impulse(p1->pos,normal *-1,impulse * -1);
+				p1->was_computed = true;
+			}
+				
+			//if (p2->was_computed == false) {
+				normal = (p1->pos - p2->pos).normalize();
+				//impulse = ((p1->pos - p2->pos).length() - length) * p2->V.length() * p2->mass * m;
+				float r1 =  (p2->pos-p1->pos).length();
+				float r2 =  (p2->prev_pos-p1->prev_pos).length();
+				//impulse_s = (r1 - length) * m;
+
+					
+				p2->F = normal * ((r1-length));
+				//printf("%f\n",r1);
+				
+				//p2->apply_impulse(p2->pos,normal,impulse_s);
+				//p2->apply_impulse(p2->pos,normal * -1,impulse_s * -1);
+				//impulse_r = fabs(r1 - r2) - length;
+				printf(">> %f\n",p2->F.length());
+				//p2->apply_impulse(p2->pos,normal,impulse_r);
+				p2->was_computed = true;
+			//}
+								
+				
+				
+				
+				
+				
+				//impulse = ps / (1/p2->mass);
+				
+				//ps / (1/mass) / normal  = impulse;
+				//impulse = ps / (1/p2->mass);
+				//printf("%f\n",normal.y);
+				//p2->pos += normal * ps * 0.0001 * (1/p2->mass);
+
+				
+
+
+		
+
+		
+			
+			/*
+			float len = length;
+			
+			for (LinearJoint *nxt = this->next; nxt != NULL; nxt = nxt->next) {
+				len += nxt->length;
+				normal = (p1->pos - nxt->p2->pos).normalize();
+				
+				imp_stright = (p1->pos - nxt->p2->pos).length() - len;
+				imp_reverse = len - (nxt->p2->pos - p1->pos).length();
+				
+				nxt->p2->apply_impulse(nxt->p2->pos,normal,imp_stright);
+				nxt->p2->apply_impulse(nxt->p2->pos,normal * -1,imp_reverse);
+			}
+			*/
+		}
+};
+		
+class Brick : public Object {
+	public:
+		Point p1;
+		Point p2;
+		Point p3;
+		Point p4;
+		
+		LinearJoint lj1;
+		LinearJoint lj2;
+		LinearJoint lj3;
+		
+		Brick() {
+		}
+		
+		Brick& operator=(const Brick &rhs) {
+			if (this == &rhs)
+				return *this;
+			this->p1 = rhs.p1;
+			this->p2 = rhs.p2;
+			this->p3 = rhs.p3;
+			this->p4 = rhs.p4;
+			
+			this->lj1 = rhs.lj1;
+			this->lj2 = rhs.lj2;
+			this->lj3 = rhs.lj3;
+			
+			this->lj1.next = &lj2;
+			this->lj2.next = &lj3;
+			
+			this->lj3.prev = &lj2;
+			this->lj2.prev = &lj1;
+			
+			this->lj1.p1 = &p1;
+			this->lj1.p2 = &p2;
+			
+			this->lj2.p1 = &p2;
+			this->lj2.p2 = &p3;
+			
+			this->lj3.p1 = &p3;
+			this->lj3.p2 = &p4;
+			
+			return *this;
+		}
+		
+		Brick(Vector2f pos, float length) {
+			this->pos = pos;
+			this->p1 = Point(pos,1,true);
+			this->p2 = Point(pos+Vector2f(length,0),1,false);
+			this->p3 = Point(pos+Vector2f(length*2,0),1,false);
+			this->p4 = Point(pos+Vector2f(length*3,0),1,false);
+			
+			this->lj1 = LinearJoint(&p1,&p2,length);
+			this->lj2 = LinearJoint(&p2,&p3,length);
+			this->lj3 = LinearJoint(&p3,&p4,length);
+			
+			lj1.next = &lj2;
+			lj2.next = &lj3;
+			
+			lj3.prev = &lj2;
+			lj2.prev = &lj1;
+		}
+		virtual void draw() {
+			this->p1.draw();
+			this->p2.draw();
+			//this->p3.draw();
+			//this->p4.draw();
+			
+			this->lj1.draw();
+			//this->lj2.draw();
+			//this->lj3.draw();
+		}
+		virtual void compute(Brick *) {
+			this->p1.was_computed = false;
+			this->p2.was_computed = false;
+			//this->p3.was_computed = false;
+			//this->p4.was_computed = false;
+			
+			this->lj1.apply();
+			//this->lj2.apply();
+			//this->lj3.apply();
+		}
+		virtual void project(Vector2f ext, float dt) {
+			p1.project(ext,dt);
+			p2.project(ext,dt);
+			//p3.project(ext,dt);
+			//p4.project(ext,dt);
+		}
+		virtual void update(Vector2f,float) {
+		}
+	
+};
+/*
 class Brick : public Object {
 	public:
 		Vector2f p1;
@@ -311,7 +539,7 @@ class Brick : public Object {
 			if (this->pinned) return;
 			
 			this->pos += this->V * dt;
-				this->angle += W *dt;
+			this->angle += W *dt;
 
 			this->V += (this->F) / mass * dt + ext * dt;
 			if (fabs((H / inertia) * dt) > 0.0001)
@@ -324,7 +552,7 @@ class Brick : public Object {
 		//void apply_impulse(Vector2f,Vector2f,Vector2f) {
 		//}
 };
-
+*/
 
 class World {
 	public:
@@ -334,11 +562,11 @@ class World {
 		Vector2f gravity;
 		float dt;
 
-		World() : gravity(0,0.098), dt(0.001) {}
+		World() : gravity(0,0.098), dt(0.0001) {}
 
-		Object* add_brick(Vector2f pos, float width, float height, bool pinned = false) {
+		Object* add_brick(Vector2f pos, float length) {
 			size_t num;
-			num = this->bricks.add_item(Brick(pos,width,height,pinned));
+			num = this->bricks.add_item(Brick(pos,length));
 			this->objects.push_back((Object *)this->bricks.get_find_ref(num));
 			return (Object *)this->bricks.get_find_ref(num);
 		}
@@ -364,8 +592,8 @@ class World {
 			}
 			for (std::list<Object *>::iterator it = this->objects.begin(); it != this->objects.end(); it++) {
 				for (std::list<Object *>::iterator ti = it; ti != this->objects.end(); ti++) {
-					if (ti == it) ti++;
-					if (ti == this->objects.end()) break;
+					//if (ti == it) ti++;
+					//if (ti == this->objects.end()) break;
 					(*it)->compute((Brick *)(*ti));
 					//(*ti)->apply_impulse(Vector2f(500,200),Vector2f(0,-100),0.1);
 				}
@@ -458,15 +686,15 @@ int main(int argc, char **argv) {
 
 	
 	World world;
-	Object *br = world.add_brick(Vector2f(300,100),50,50);
-	br->angle=-10;
+	Object *br = world.add_brick(Vector2f(300,100),100);
+	//br->angle=-10;
 	
 	//world.add_brick(Vector2f(300,00),50,50);
 
 
 	
-	Object *bl = world.add_brick(Vector2f(400,300),500,50,true);
-	bl->angle = 00;
+	//Object *bl = world.add_brick(Vector2f(400,300),500,50,true);
+	//bl->angle = 00;
 	
 
 	
