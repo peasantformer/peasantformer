@@ -50,7 +50,7 @@ float circleIntersects(Vector2f C, float radius, Vector2f A, Vector2f B, Vector2
 bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * P);
 
 Vector2f angleVector(float tenshi);
-float angleOfVector(Vector2f V);
+float angleOfVector(Vector2f V, Vector2f base);
 
 Vector2f rotate(Vector2f l, float sine, float cosine);
 
