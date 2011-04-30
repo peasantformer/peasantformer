@@ -8,6 +8,7 @@ class Point {
 		Vector2f U;
 		Vector2f C;
 		float mass;
+		float angle;
 		float inertia;
 		bool pinned;
 	public:
@@ -18,16 +19,18 @@ class Point {
 			U(0,0),
 			C(0,0),
 			mass(0),
+			angle(0),
 			inertia(0),
 			pinned(false)
 		{}
-		Point(Vector2f pos, float mass, bool pinned) :
+		Point(Vector2f pos, float mass, float angle, bool pinned) :
 			pos(pos),
 			V(0,0),
 			F(0,0),
 			U(0,0),
 			C(0,0),
 			mass(mass),
+			angle(angle),
 			pinned(pinned)
 		{
 			inertia = mass * 50 * 50; 
@@ -105,36 +108,85 @@ class AngularJoint {
 		Point *p2;
 		Point *p3;
 		float angle;
+		float realAngle;
+		float W;
 	public:
 		AngularJoint() {
 			p1 = NULL;
 			p2 = NULL;
 			p3 = NULL;
 			angle = 0;
+			realAngle = 0;
+			W = 0;
 		}
 		AngularJoint(Point *p1, Point *p2, Point *p3, float angle) :
 			p1(p1),
 			p2(p2),
 			p3(p3),
 			angle(angle * (M_PI/180))
-		{}
+		{
+			Vector2f d1 = p1->pos - p2->pos;
+			Vector2f d2 = p3->pos - p2->pos;
+
+			realAngle = fullAngleOfVector(d1,d2);
+
+		}
 	public:
 		void apply() {
-			Vector2f normal;
 
 			Vector2f d1 = p1->pos - p2->pos;
 			Vector2f d2 = p3->pos - p2->pos;
-			
-			float full_angle = angleOfVector(d1,d2);
-			printf("%f\n",full_angle * (180/M_PI));
-			SDL_Delay(10);
+			float curAngle = fullAngleOfVector(d1,d2);
+			float diffangle = angle - curAngle;
+			Vector2f normal = Vector2f(-d2.y,d2.x);
 
+			
+			p3->U = normal.normalize() * diffangle * d2.length();
+
+			//p3->pos = p2->pos + rotate(d2,diffangle);
+
+
+			//printf("%f\n",ds);
+	
+			//Vector2f pV = (p2->PV - p3->PV);
+			//float dV = sV.length() - pV.length();
+
+
+			
+			//printf("%f\n",sV.length(), pV.length());
+			//SDL_Delay(10);
+			
+			/*		
+			float full_angle = angleOfVector(d2,d1);
+			//printf("%f, %f\n",full_angle * (180/M_PI),angle * (180/M_PI));
+			//SDL_Delay(1);
+				Vector2f TV = (p3->V - p2->V);
+				Vector2f normal = Vector2f(d2.y,-d2.x);
 				float r1 = full_angle - angle;
-				normal = Vector2f(d2.y,-d2.x); 
+//				printf("%f\n",w);
 				//p3->U = normal;
 				R1 = p3->pos;
-				R2 = p3->pos + normal;
-			
+				R2 = p3->pos + normal ;
+				float s = fullAngleOfVector(d1,d2);
+				float r = fullAngleOfVector(d2,d1);
+				
+				float ds = (s - angle);
+				float dr = (r + 180 * (M_PI/180) - angle);
+				float ads = fabs(ds);
+				float adr = fabs(dr);
+
+				if (s > r) {
+					printf("%f %f %f\n",s*(180/M_PI),dr*(180/M_PI),ds*(180/M_PI));
+					if (ds > 0) {
+						p3->U = normal.normalize() * ds;
+					}
+					if (dr > 0) {
+						p3->U = normal.normalize() * ds * d2.length();
+						SDL_Delay(5);
+					}
+
+				}
+			*/
 			/*
 	
 			float full_angle = angleOfVector(d1,d2);
@@ -212,13 +264,14 @@ class Brick {
 			this->lj3.p2 = &p4;
 
 			this->aj1 = rhs.aj1;
-			//this->aj2 = rhs.aj2;
+			this->aj2 = rhs.aj2;
 			//this->aj3 = rhs.aj3;
 			this->aj1.p1 = &p1;
 			this->aj1.p2 = &p2;
 			this->aj1.p3 = &p3;
-			//this->aj2.p1 = &p2;
-			//this->aj2.p2 = &p3;
+			this->aj2.p1 = &p2;
+			this->aj2.p2 = &p3;
+			this->aj2.p3 = &p4;
 			//this->aj3.p1 = &p3;
 			//this->aj3.p2 = &p4;
 
@@ -230,50 +283,50 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
-			this->p1 = Point(pos+Vector2f(length*0,0),1,true);
-			this->p2 = Point(pos+Vector2f(length*1,0),1,false);
-			this->p3 = Point(pos+Vector2f(length*2,0),1,false);
-			this->p4 = Point(pos+Vector2f(length*3,0),1,false);
+			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),true);
+			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-90*(M_PI/180),false);
+			this->p3 = Point(p2.pos+rotate(Vector2f(length,0),p2.angle),1,-180*(M_PI/180),false);
+			this->p4 = Point(p3.pos+rotate(Vector2f(length,0),p3.angle),1,0,false);
 
 			this->lj1 = LinearJoin(&p1,&p2,length);
 			this->lj2 = LinearJoin(&p2,&p3,length);
 			this->lj3 = LinearJoin(&p3,&p4,length);
 			
-			this->aj1 = AngularJoint(&p1,&p2,&p3,180);
-			//this->aj2 = AngularJoint(&p2,&p3,0);
-			//this->aj3 = AngularJoint(&p3,&p4,0);
+			this->aj1 = AngularJoint(&p1,&p2,&p3,90);
+			this->aj2 = AngularJoint(&p2,&p3,&p4,90);
+			//this->aj3 = AngularJoint(&p3,&p4,&p1,90);
 		}
 	public:
 		void draw() {
 			this->p1.draw();
 			this->p2.draw();
 			this->p3.draw();
-			//this->p4.draw();
+			this->p4.draw();
 
 			this->lj1.draw();
 			this->lj2.draw();
-			//this->lj3.draw();
+			this->lj3.draw();
 		}
 		void project(Vector2f ext, float dt) {
 			this->p1.project(ext,dt);
 			this->p2.project(ext,dt);
 			this->p3.project(ext,dt);
-			//this->p4.project(ext,dt);
+			this->p4.project(ext,dt);
 		}
 		void solve(Vector2f ext, float dt) {
 			this->lj1.apply(ext,dt);
 			this->lj2.apply(ext,dt);
-			//this->lj3.apply(ext,dt);
+			this->lj3.apply(ext,dt);
 
 			this->aj1.apply();
-			//this->aj2.apply();
+			this->aj2.apply();
 			//this->aj3.apply();
 		}
 		void correct(Vector2f ext, float dt) {
 			this->p1.correct(ext,dt);
 			this->p2.correct(ext,dt);
 			this->p3.correct(ext,dt);
-			//this->p4.correct(ext,dt);
+			this->p4.correct(ext,dt);
 		}
 };
 
@@ -343,6 +396,50 @@ class World {
 };
 
 
+void test() {
+	SDL_Event event;
+	bool quit = false;
+	
+	Vector2f A(-50,-50);
+	Vector2f B=A;
+
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glLoadIdentity();
+		glColor3f(1.0,0.0,0.0);
+		glLineWidth(3);
+		glBegin(GL_LINES);
+			glVertex2f(400,300);
+			glVertex2f(400+A.x,300+A.y);
+		glEnd();	
+		float move = 5;
+		for (int i=0; i < 360; i+=move) {
+			B =rotate(B,-move* (M_PI/180));
+			printf("%f\n",angleOfVector(A,B) * (180/M_PI));
+			glLoadIdentity();
+			glColor3f(1.0,1.0,1.0);
+			glLineWidth(3);
+			glBegin(GL_LINES);
+				glVertex2f(400,300);
+				glVertex2f(400+B.x,300+B.y);
+			glEnd();	
+			SDL_Delay(100);
+		SDL_GL_SwapBuffers();
+		}
+
+
+
+	while (quit == false) {
+		SDL_PollEvent(&event);
+		if (event.type == SDL_QUIT)
+			quit = true;
+
+
+	}
+	exit(0);
+}
+
 int main (int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_SetVideoMode(800,600,32, SDL_OPENGL);
@@ -357,6 +454,8 @@ int main (int argc, char **argv) {
 	World world;
 
 	world.add_brick(Vector2f(300,100),100);
+
+	//test();
 
 	SDL_Event event;
 	bool quit = false;

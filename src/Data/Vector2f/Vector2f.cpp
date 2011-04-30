@@ -177,12 +177,37 @@ Vector2f angelVector(float tenshi) {
 	return Vector2f(cos(tenshi),sin(tenshi));
 }
 
+
 float angleOfVector(Vector2f V, Vector2f base) {
 	float val = ((V.x * base.x + V.y * base.y)/(V.length() * base.length()));
 	float a = acos(val);
 	return a;
 }
 
+float fullAngleOfVector(Vector2f A, Vector2f B) {
+	float cosine = (A.x * B.x + A.y * B.y)/(A.length() * B.length());
+	float angle = acos(cosine);
+	if ((A.x*B.y - B.x*A.y) < 0) {
+		angle = -angle;
+	}
+	return angle;
+}
+/*
+Vfloat angleOfVector(Vector2f A, Vector2f B) {
+	Vector2f OX(100,0);
+	float aOX = ((B.x * OX.x + B.y * OX.y)/(B.length() * OX.length()));
+	float angle = acos(((A.x * B.x + A.y * B.y)/(A.length() * B.length())))/2 + aOX;
+	Vector2f base = rotate(Vector2f(100,0),angle);
+	float va = ((A.x * base.x + A.y * base.y)/(A.length() * base.length()));
+	float vb = ((B.x * base.x + B.y * base.y)/(B.length() * base.length()));
+	float ab = ((A.x * B.x + A.y * B.y)/(A.length() * B.length()));
+	float a = acos(ab);
+	float f360 = 360 * (M_PI/180);
+	if (vb -va > 0) a = f360 + va - a;
+	while (a > f360) a -= f360;
+	return a;
+}
+*/
 float distance(Vector2f *a, Vector2f *b, Vector2f *c) {
 	float dx = a->x - b->x;
 	float dy = a->y - b->y;
