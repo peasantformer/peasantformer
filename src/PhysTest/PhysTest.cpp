@@ -141,7 +141,7 @@ class AngularJoint {
 			Vector2f normal = Vector2f(-d2.y,d2.x);
 
 			
-			p3->U = normal.normalize() * diffangle * d2.length();
+			p3->U = p2->U + normal.normalize() * diffangle;
 
 			//p3->pos = p2->pos + rotate(d2,diffangle);
 
