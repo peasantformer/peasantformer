@@ -11,6 +11,7 @@ class Point {
 		float angle;
 		float inertia;
 		bool pinned;
+		bool was_computed;
 	public:
 		Point() :
 			pos(0,0),
@@ -21,7 +22,8 @@ class Point {
 			mass(0),
 			angle(0),
 			inertia(0),
-			pinned(false)
+			pinned(false),
+			was_computed(false)
 		{}
 		Point(Vector2f pos, float mass, float angle, bool pinned) :
 			pos(pos),
@@ -31,7 +33,8 @@ class Point {
 			C(0,0),
 			mass(mass),
 			angle(angle),
-			pinned(pinned)
+			pinned(pinned),
+			was_computed(false)
 		{
 			inertia = mass * 50 * 50; 
 		}
@@ -54,6 +57,7 @@ class Point {
 
 		}
 		void correct(Vector2f ext, float dt) {
+			if (this->pinned) return;
 			this->V += F / mass * dt + U * dt;
 			this->F = Vector2f(0,0);
 			this->U = Vector2f(0,0);
@@ -93,9 +97,25 @@ class LinearJoin {
 		void apply(Vector2f ext, float dt) {
 			Vector2f normal;
 			float r1;
-			normal = (p1->pos - p2->pos).normalize();
-			r1 = (p2->pos - p1->pos).length();
-			p2->F = normal * (r1-length);
+			float mod = 1;
+
+			if (p1->was_computed == false && p1->pinned == false) {
+				mod =1;
+				normal = (p2->pos - p1->pos).normalize();
+				r1 = (p2->pos - p1->pos).length();
+				if (p2->was_computed == false) mod = 2;
+				p1->F = normal * (r1-length) / mod;
+				p1->was_computed = true;
+			}
+			if (p2->was_computed == false && p2->pinned == false) {
+			 	mod =1;
+				normal = (p1->pos - p2->pos).normalize();
+				r1 = (p2->pos - p1->pos).length();
+				if (p1->was_computed == false) mod = 2;
+				p2->F = normal * (r1-length) / mod;
+				p2->was_computed = true;
+			}
+
 		}
 };
 
@@ -133,16 +153,21 @@ class AngularJoint {
 		}
 	public:
 		void apply() {
-
 			Vector2f d1 = p1->pos - p2->pos;
 			Vector2f d2 = p3->pos - p2->pos;
 			float curAngle = fullAngleOfVector(d1,d2);
 			float diffangle = angle - curAngle;
 			Vector2f normal = Vector2f(-d2.y,d2.x);
-
-			
-			p3->U = p2->U + normal.normalize() * diffangle;
-
+			float mod = 1;
+				
+			if (p1->was_computed == false) {
+				p1->U = p2->U + normal.normalize() * diffangle * -10;
+				p1->was_computed = true;
+			}
+			if (p3->was_computed == false) {
+				p3->U = p2->U + normal.normalize() * diffangle * 10;
+				p3->was_computed = true;
+			}
 			//p3->pos = p2->pos + rotate(d2,diffangle);
 
 
@@ -239,10 +264,12 @@ class Brick {
 		LinearJoin lj1;
 		LinearJoin lj2;
 		LinearJoin lj3;
+		LinearJoin lj4;
 
 		AngularJoint aj1;
 		AngularJoint aj2;
 		AngularJoint aj3;
+		AngularJoint aj4;
 
 	public:
 		Brick& operator=(const Brick &rhs) {
@@ -256,24 +283,38 @@ class Brick {
 			this->lj1 = rhs.lj1;
 			this->lj2 = rhs.lj2;
 			this->lj3 = rhs.lj3;
+			this->lj4 = rhs.lj4;
+			
 			this->lj1.p1 = &p1;
 			this->lj1.p2 = &p2;
 			this->lj2.p1 = &p2;
 			this->lj2.p2 = &p3;
 			this->lj3.p1 = &p3;
 			this->lj3.p2 = &p4;
+			this->lj4.p1 = &p4;
+			this->lj4.p2 = &p1;
+		
 
 			this->aj1 = rhs.aj1;
 			this->aj2 = rhs.aj2;
-			//this->aj3 = rhs.aj3;
+			this->aj3 = rhs.aj3;
+			this->aj4 = rhs.aj4;
+			
 			this->aj1.p1 = &p1;
 			this->aj1.p2 = &p2;
 			this->aj1.p3 = &p3;
+			
 			this->aj2.p1 = &p2;
 			this->aj2.p2 = &p3;
 			this->aj2.p3 = &p4;
-			//this->aj3.p1 = &p3;
-			//this->aj3.p2 = &p4;
+			
+			this->aj3.p1 = &p3;
+			this->aj3.p2 = &p4;
+			this->aj3.p3 = &p1;
+			
+			this->aj4.p1 = &p4;
+			this->aj4.p2 = &p1;
+			this->aj4.p3 = &p2;
 
 
 			return *this;
@@ -283,18 +324,20 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
-			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),true);
-			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-90*(M_PI/180),false);
+			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),false);
+			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-90*(M_PI/180),true);
 			this->p3 = Point(p2.pos+rotate(Vector2f(length,0),p2.angle),1,-180*(M_PI/180),false);
 			this->p4 = Point(p3.pos+rotate(Vector2f(length,0),p3.angle),1,0,false);
 
 			this->lj1 = LinearJoin(&p1,&p2,length);
 			this->lj2 = LinearJoin(&p2,&p3,length);
 			this->lj3 = LinearJoin(&p3,&p4,length);
+			this->lj4 = LinearJoin(&p4,&p1,length);
 			
 			this->aj1 = AngularJoint(&p1,&p2,&p3,90);
 			this->aj2 = AngularJoint(&p2,&p3,&p4,90);
-			//this->aj3 = AngularJoint(&p3,&p4,&p1,90);
+			this->aj3 = AngularJoint(&p3,&p4,&p1,90);
+			this->aj4 = AngularJoint(&p4,&p1,&p2,90);
 		}
 	public:
 		void draw() {
@@ -306,6 +349,7 @@ class Brick {
 			this->lj1.draw();
 			this->lj2.draw();
 			this->lj3.draw();
+			this->lj4.draw();
 		}
 		void project(Vector2f ext, float dt) {
 			this->p1.project(ext,dt);
@@ -314,13 +358,30 @@ class Brick {
 			this->p4.project(ext,dt);
 		}
 		void solve(Vector2f ext, float dt) {
+			p1.was_computed = false;
+			p2.was_computed = false;
+			p3.was_computed = false;
+			p4.was_computed = false;
+
 			this->lj1.apply(ext,dt);
 			this->lj2.apply(ext,dt);
 			this->lj3.apply(ext,dt);
+			this->lj4.apply(ext,dt);
 
-			this->aj1.apply();
-			this->aj2.apply();
-			//this->aj3.apply();
+
+			this->p1.correct(ext,dt);
+			this->p2.correct(ext,dt);
+			this->p3.correct(ext,dt);
+			this->p4.correct(ext,dt);
+			
+			p1.was_computed = false;
+			p2.was_computed = false;
+			p3.was_computed = false;
+			p4.was_computed = false;
+
+			//this->aj1.apply();
+			//this->aj2.apply();
+			this->aj3.apply();
 		}
 		void correct(Vector2f ext, float dt) {
 			this->p1.correct(ext,dt);
