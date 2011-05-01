@@ -3,6 +3,7 @@
 class Point {
 	public:
 		Vector2f pos;
+		Vector2f prev_pos;
 		Vector2f V;
 		Vector2f F;
 		Vector2f U;
@@ -12,6 +13,8 @@ class Point {
 		float inertia;
 		bool pinned;
 		bool was_computed;
+		Point *next;
+		Point *prev;
 	public:
 		Point() :
 			pos(0,0),
@@ -27,6 +30,7 @@ class Point {
 		{}
 		Point(Vector2f pos, float mass, float angle, bool pinned) :
 			pos(pos),
+			prev_pos(pos),
 			V(0,0),
 			F(0,0),
 			U(0,0),
@@ -53,6 +57,7 @@ class Point {
 		void project(Vector2f ext, float dt) {
 			if (this->pinned) return;
 			this->V += ext * dt + C * dt;
+			this->prev_pos = this->pos;
 			this->pos += this->V * dt;
 
 		}
@@ -60,27 +65,31 @@ class Point {
 			if (this->pinned) return;
 			this->V += F / mass * dt + U * dt;
 			this->F = Vector2f(0,0);
-			this->U = Vector2f(0,0);
+			this->U = Vector2f(0,0);	
 		}
 };
 
 float tmp = 0;
 
-class LinearJoin {
+Vector2f R1,R2;
+class Joint {
 	public:
 		Point *p1;
 		Point *p2;
 		float length;
+		float angle;
 	public:
-		LinearJoin() {
+		Joint() {
 			this->p1 = NULL;
 			this->p2 = NULL;
 			this->length = 0;
+			this->angle = 0;
 		}
-		LinearJoin(Point *p1, Point *p2, float length) {
+		Joint(Point *p1, Point *p2, float length, float angle) {
 			this->p1 = p1;
 			this->p2 = p2;
 			this->length = length;
+			this->angle = angle;
 		}
 	public:
 		void draw() {
@@ -94,161 +103,61 @@ class LinearJoin {
 			glLoadIdentity();
 		}
 	public:
-		void apply(Vector2f ext, float dt) {
+		void apply(Vector2f ext, float dt, int direction) {
 			Vector2f normal;
-			float r1;
-			float mod = 1;
-
-			if (p1->was_computed == false && p1->pinned == false) {
-				mod =1;
-				normal = (p2->pos - p1->pos).normalize();
-				r1 = (p2->pos - p1->pos).length();
-				if (p2->was_computed == false) mod = 2;
-				p1->F = normal * (r1-length) / mod;
-				p1->was_computed = true;
-			}
-			if (p2->was_computed == false && p2->pinned == false) {
-			 	mod =1;
-				normal = (p1->pos - p2->pos).normalize();
-				r1 = (p2->pos - p1->pos).length();
-				if (p1->was_computed == false) mod = 2;
-				p2->F = normal * (r1-length) / mod;
-				p2->was_computed = true;
-			}
-
-		}
-};
-
-Vector2f R1,R2;
-
-
-class AngularJoint {
-	public:
-		Point *p1;
-		Point *p2;
-		Point *p3;
-		float angle;
-		float realAngle;
-		float W;
-	public:
-		AngularJoint() {
-			p1 = NULL;
-			p2 = NULL;
-			p3 = NULL;
-			angle = 0;
-			realAngle = 0;
-			W = 0;
-		}
-		AngularJoint(Point *p1, Point *p2, Point *p3, float angle) :
-			p1(p1),
-			p2(p2),
-			p3(p3),
-			angle(angle * (M_PI/180))
-		{
-			Vector2f d1 = p1->pos - p2->pos;
-			Vector2f d2 = p3->pos - p2->pos;
-
-			realAngle = fullAngleOfVector(d1,d2);
-
-		}
-	public:
-		void apply() {
-			Vector2f d1 = p1->pos - p2->pos;
-			Vector2f d2 = p3->pos - p2->pos;
-			float curAngle = fullAngleOfVector(d1,d2);
-			float diffangle = angle - curAngle;
-			Vector2f normal = Vector2f(-d2.y,d2.x);
-			float mod = 1;
-				
-			if (p1->was_computed == false) {
-				p1->U = p2->U + normal.normalize() * diffangle * -10;
-				p1->was_computed = true;
-			}
-			if (p3->was_computed == false) {
-				p3->U = p2->U + normal.normalize() * diffangle * 10;
-				p3->was_computed = true;
-			}
-			//p3->pos = p2->pos + rotate(d2,diffangle);
-
-
-			//printf("%f\n",ds);
-	
-			//Vector2f pV = (p2->PV - p3->PV);
-			//float dV = sV.length() - pV.length();
-
-
-			
-			//printf("%f\n",sV.length(), pV.length());
-			//SDL_Delay(10);
-			
-			/*		
-			float full_angle = angleOfVector(d2,d1);
-			//printf("%f, %f\n",full_angle * (180/M_PI),angle * (180/M_PI));
-			//SDL_Delay(1);
-				Vector2f TV = (p3->V - p2->V);
-				Vector2f normal = Vector2f(d2.y,-d2.x);
-				float r1 = full_angle - angle;
-//				printf("%f\n",w);
-				//p3->U = normal;
-				R1 = p3->pos;
-				R2 = p3->pos + normal ;
-				float s = fullAngleOfVector(d1,d2);
-				float r = fullAngleOfVector(d2,d1);
-				
-				float ds = (s - angle);
-				float dr = (r + 180 * (M_PI/180) - angle);
-				float ads = fabs(ds);
-				float adr = fabs(dr);
-
-				if (s > r) {
-					printf("%f %f %f\n",s*(180/M_PI),dr*(180/M_PI),ds*(180/M_PI));
-					if (ds > 0) {
-						p3->U = normal.normalize() * ds;
+			Vector2f iV;
+			Vector2f iPos;
+			float mod =1;
+			Point *a,*b,*c;
+			if (direction > 0) {
+				a = p1;
+				b = p1->next;
+				c = p1->next->next;
+				for (int i=0; i < 3; i++) {
+					bool amove = (a->pos != a->prev_pos);
+					bool cmove = (c->pos != c->prev_pos);
+					float r1 = (b->pos - a->pos).length();
+					float r2 = (b->pos - c->pos).length();
+					float diff1 = (r1-length);
+					float diff2 = (r2-length);
+					Vector2f normal_ab = (a->pos - b->pos).normalize();
+					Vector2f normal_bc = (c->pos - b->pos).normalize();
+					
+					if (amove && cmove) {
+						printf("pos\n");
+					} else if (!amove && cmove) {
+						if (diff2 < diff1) {
+							b->F = normal_ab * diff1;
+						} else {
+							b->F = normal_ab * diff1;
+						}
+					} else if (amove && !cmove) {
+						//printf("%f %f\n",diff1,diff2);
+						if (diff1 < diff2) {
+							b->F = normal_bc * diff2;
+						} else {
+							b->F = normal_bc * diff2;
+						}
+					} else if (!amove && !cmove) {
+						b->pos = b->prev_pos;
 					}
-					if (dr > 0) {
-						p3->U = normal.normalize() * ds * d2.length();
-						SDL_Delay(5);
-					}
+					R1 = b->pos;
+					R2 = b->pos + normal;
 
+					a = a->next;
+					b = a->next;
+					c = b->next;
 				}
-			*/
-			/*
-	
-			float full_angle = angleOfVector(d1,d2);
-
-			Vector2f proj1 = rotate(Vector2f(d2.length(),0),angle);
-
-			R1 = p3->pos;
-			R2 = p3->pos + proj1;
-
-
-			float a1 = angleOfVector(proj1,d1);
-
-			printf("%f\n",a1 / (M_PI/180));
-			SDL_Delay(1);
-
-			//SDL_Delay(10);
-			*/
-			/*
-			float r1,r2;
-			Vector2f diff = p2->pos - p1->pos;
-			Vector2f normal;
-			r1 = angleOfVector(Vector2f(1,0),diff);
-			//printf("%f %f \n",r1,angle);
-			if (r1 != angle) {
-				r2 = r1 - angle;
-				Vector2f proj_pos = p1->pos + rotate(Vector2f(100,0),angle);
-				//normal = Vector2f(diff.y,-diff.x).normalize();
-				normal = (p1->pos - p2->pos) * r2;
-				normal=Vector2f(-normal.y,normal.x);
-				R1 = p1->pos;
-				R2 = proj_pos;
-				//p2->U = normal;
-				p2->pos = proj_pos;
-				printf(">> %f\n",r2);
-	//			SDL_Delay(10);
+				a = p1->next;
+				b = p1->next->next;
+				c = p1->next->next->next;;
+					float r = (a->pos - b->pos).length();
+					float diff = (r-length);
+					Vector2f normal = (a->pos - b->pos).normalize();
+					a->F += normal * diff * -5; 
+					b->F += normal * diff * 5;
 			}
-		*/
+			
 		}
 };
 
@@ -261,15 +170,10 @@ class Brick {
 		Point p3;
 		Point p4;
 		
-		LinearJoin lj1;
-		LinearJoin lj2;
-		LinearJoin lj3;
-		LinearJoin lj4;
-
-		AngularJoint aj1;
-		AngularJoint aj2;
-		AngularJoint aj3;
-		AngularJoint aj4;
+		Joint j1;
+		Joint j2;
+		Joint j3;
+		Joint j4;
 
 	public:
 		Brick& operator=(const Brick &rhs) {
@@ -280,43 +184,32 @@ class Brick {
 			this->p3 = rhs.p3;
 			this->p4 = rhs.p4;
 
-			this->lj1 = rhs.lj1;
-			this->lj2 = rhs.lj2;
-			this->lj3 = rhs.lj3;
-			this->lj4 = rhs.lj4;
+			this->p1.next = &p2;
+			this->p2.next = &p3;
+			this->p3.next = &p4;
+			this->p4.next = &p1;
+
+			this->p4.prev = &p3;
+			this->p3.prev = &p2;
+			this->p2.prev = &p1;
+			this->p1.prev = &p4;
+
+
+
+			this->j1 = rhs.j1;
+			this->j2 = rhs.j2;
+			this->j3 = rhs.j3;
+			this->j4 = rhs.j4;
 			
-			this->lj1.p1 = &p1;
-			this->lj1.p2 = &p2;
-			this->lj2.p1 = &p2;
-			this->lj2.p2 = &p3;
-			this->lj3.p1 = &p3;
-			this->lj3.p2 = &p4;
-			this->lj4.p1 = &p4;
-			this->lj4.p2 = &p1;
+			this->j1.p1 = &p1;
+			this->j1.p2 = &p2;
+			this->j2.p1 = &p2;
+			this->j2.p2 = &p3;
+			this->j3.p1 = &p3;
+			this->j3.p2 = &p4;
+			this->j4.p1 = &p4;
+			this->j4.p2 = &p1;
 		
-
-			this->aj1 = rhs.aj1;
-			this->aj2 = rhs.aj2;
-			this->aj3 = rhs.aj3;
-			this->aj4 = rhs.aj4;
-			
-			this->aj1.p1 = &p1;
-			this->aj1.p2 = &p2;
-			this->aj1.p3 = &p3;
-			
-			this->aj2.p1 = &p2;
-			this->aj2.p2 = &p3;
-			this->aj2.p3 = &p4;
-			
-			this->aj3.p1 = &p3;
-			this->aj3.p2 = &p4;
-			this->aj3.p3 = &p1;
-			
-			this->aj4.p1 = &p4;
-			this->aj4.p2 = &p1;
-			this->aj4.p3 = &p2;
-
-
 			return *this;
 		}
 
@@ -324,20 +217,26 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
-			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),false);
-			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-90*(M_PI/180),true);
-			this->p3 = Point(p2.pos+rotate(Vector2f(length,0),p2.angle),1,-180*(M_PI/180),false);
-			this->p4 = Point(p3.pos+rotate(Vector2f(length,0),p3.angle),1,0,false);
+			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),true);
+			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-0*(M_PI/180),false);
+			this->p3 = Point(p2.pos+rotate(Vector2f(length,0),p2.angle),1,0*(M_PI/180),false);
+			this->p4 = Point(p3.pos+rotate(Vector2f(length,0),p3.angle),1,0,true);
 
-			this->lj1 = LinearJoin(&p1,&p2,length);
-			this->lj2 = LinearJoin(&p2,&p3,length);
-			this->lj3 = LinearJoin(&p3,&p4,length);
-			this->lj4 = LinearJoin(&p4,&p1,length);
-			
-			this->aj1 = AngularJoint(&p1,&p2,&p3,90);
-			this->aj2 = AngularJoint(&p2,&p3,&p4,90);
-			this->aj3 = AngularJoint(&p3,&p4,&p1,90);
-			this->aj4 = AngularJoint(&p4,&p1,&p2,90);
+			p1.next = &p2;
+			p2.next = &p3;
+			p3.next = &p4;
+			p4.next = &p1;
+
+			p4.prev = &p3;
+			p3.prev = &p2;
+			p2.prev = &p1;
+			p1.prev = &p4;
+
+
+			this->j1 = Joint(&p1,&p2,length,90*(M_PI/180));
+			this->j2 = Joint(&p2,&p3,length,90*(M_PI/180));
+			this->j3 = Joint(&p3,&p4,length,90*(M_PI/180));
+			this->j4 = Joint(&p4,&p1,length,90*(M_PI/180));
 		}
 	public:
 		void draw() {
@@ -346,10 +245,10 @@ class Brick {
 			this->p3.draw();
 			this->p4.draw();
 
-			this->lj1.draw();
-			this->lj2.draw();
-			this->lj3.draw();
-			this->lj4.draw();
+			this->j1.draw();
+			this->j2.draw();
+			this->j3.draw();
+			//this->j4.draw();
 		}
 		void project(Vector2f ext, float dt) {
 			this->p1.project(ext,dt);
@@ -363,25 +262,8 @@ class Brick {
 			p3.was_computed = false;
 			p4.was_computed = false;
 
-			this->lj1.apply(ext,dt);
-			this->lj2.apply(ext,dt);
-			this->lj3.apply(ext,dt);
-			this->lj4.apply(ext,dt);
-
-
-			this->p1.correct(ext,dt);
-			this->p2.correct(ext,dt);
-			this->p3.correct(ext,dt);
-			this->p4.correct(ext,dt);
+			this->j1.apply(ext,dt,1);
 			
-			p1.was_computed = false;
-			p2.was_computed = false;
-			p3.was_computed = false;
-			p4.was_computed = false;
-
-			//this->aj1.apply();
-			//this->aj2.apply();
-			this->aj3.apply();
 		}
 		void correct(Vector2f ext, float dt) {
 			this->p1.correct(ext,dt);
@@ -514,7 +396,7 @@ int main (int argc, char **argv) {
 
 	World world;
 
-	world.add_brick(Vector2f(300,100),100);
+	world.add_brick(Vector2f(300,200),100);
 
 	//test();
 
