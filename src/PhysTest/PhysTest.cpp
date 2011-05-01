@@ -15,6 +15,7 @@ class Point {
 		bool was_computed;
 		Point *next;
 		Point *prev;
+		int index;
 	public:
 		Point() :
 			pos(0,0),
@@ -40,19 +41,16 @@ class Point {
 			pinned(pinned),
 			was_computed(false)
 		{
-			inertia = mass * 50 * 50; 
+			inertia = mass * 50 * 50;
 		}
 	public:
+		void place() {
+			this->angle = prev->angle - angle;
+			pos = rotate(pos,angle);
+			prev_pos = pos;
+
+		}
 		void draw() {
-			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
-			glColor3f(1.0,1.0,1.0);
-			glBegin(GL_POLYGON);
-				for (int i=0; i <= 360; i++) {
-					glVertex2f(10*cos(i),10*sin(i));
-				}
-			glEnd();
-			glLoadIdentity();
 		}
 		void project(Vector2f ext, float dt) {
 			if (this->pinned) return;
@@ -104,60 +102,33 @@ class Joint {
 		}
 	public:
 		void apply(Vector2f ext, float dt, int direction) {
-			Vector2f normal;
-			Vector2f iV;
-			Vector2f iPos;
-			float mod =1;
-			Point *a,*b,*c;
-			if (direction > 0) {
-				a = p1;
-				b = p1->next;
-				c = p1->next->next;
-				for (int i=0; i < 3; i++) {
-					bool amove = (a->pos != a->prev_pos);
-					bool cmove = (c->pos != c->prev_pos);
-					float r1 = (b->pos - a->pos).length();
-					float r2 = (b->pos - c->pos).length();
-					float diff1 = (r1-length);
-					float diff2 = (r2-length);
-					Vector2f normal_ab = (a->pos - b->pos).normalize();
-					Vector2f normal_bc = (c->pos - b->pos).normalize();
-					
-					if (amove && cmove) {
-						printf("pos\n");
-					} else if (!amove && cmove) {
-						if (diff2 < diff1) {
-							b->F = normal_ab * diff1;
-						} else {
-							b->F = normal_ab * diff1;
-						}
-					} else if (amove && !cmove) {
-						//printf("%f %f\n",diff1,diff2);
-						if (diff1 < diff2) {
-							b->F = normal_bc * diff2;
-						} else {
-							b->F = normal_bc * diff2;
-						}
-					} else if (!amove && !cmove) {
-						b->pos = b->prev_pos;
-					}
-					R1 = b->pos;
-					R2 = b->pos + normal;
-
-					a = a->next;
-					b = a->next;
-					c = b->next;
+			Point *a,*b;
+			a = p1;
+			b = p1->next;
+			for (int i=0; i < 4; i++) {
+				float adiff = length - a->pos.length();
+				float bdiff = length - b->pos.length();
+				bool amoved = a->pos != a->prev_pos;
+				bool bmoved = b->pos != b->prev_pos;
+				if (amoved && bmoved) {
+					a->F = a->pos.normalize() * adiff;
+					b->F = b->pos.normalize() * bdiff;
+				} else if (amoved && !bmoved) {
+					printf("%f %f\n",a->pos.y*2-length,b->pos.y);
+					float diff = (b->pos - a->pos*2).length() - length;
+					if (diff > 0) adiff = -adiff;
+					a->F = Vector2f(0,-1) * adiff;
+					a->prev->F = Vector2f(0,-1) * adiff;
+					SDL_Delay(1);
+				} else if (!amoved && bmoved) {
+					b->F = b->pos.normalize() * bdiff;
 				}
-				a = p1->next;
-				b = p1->next->next;
-				c = p1->next->next->next;;
-					float r = (a->pos - b->pos).length();
-					float diff = (r-length);
-					Vector2f normal = (a->pos - b->pos).normalize();
-					a->F += normal * diff * -5; 
-					b->F += normal * diff * 5;
+
+				a = a->next;
+				b = b->next;
 			}
-			
+		}
+		void apply_rotation() {
 		}
 };
 
@@ -178,6 +149,8 @@ class Brick {
 	public:
 		Brick& operator=(const Brick &rhs) {
 			if (this == &rhs) return *this;
+			
+			this->pos = rhs.pos;
 
 			this->p1 = rhs.p1;
 			this->p2 = rhs.p2;
@@ -217,10 +190,16 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
-			this->p1 = Point(pos+Vector2f(0,0),1,180*(M_PI/180),true);
-			this->p2 = Point(p1.pos+rotate(Vector2f(length,0),p1.angle),1,-0*(M_PI/180),false);
-			this->p3 = Point(p2.pos+rotate(Vector2f(length,0),p2.angle),1,0*(M_PI/180),false);
-			this->p4 = Point(p3.pos+rotate(Vector2f(length,0),p3.angle),1,0,true);
+			this->p1 = Point(Vector2f(0,0),1,0*(M_PI/180),true);
+			this->p2 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+			this->p3 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+			this->p4 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+
+
+			this->p1.index = 1;
+			this->p2.index = 2;
+			this->p3.index = 3;
+			this->p4.index = 4;
 
 			p1.next = &p2;
 			p2.next = &p3;
@@ -232,6 +211,11 @@ class Brick {
 			p2.prev = &p1;
 			p1.prev = &p4;
 
+			this->p1.place();
+			this->p2.place();
+			this->p3.place();
+			this->p4.place();
+
 
 			this->j1 = Joint(&p1,&p2,length,90*(M_PI/180));
 			this->j2 = Joint(&p2,&p3,length,90*(M_PI/180));
@@ -240,15 +224,64 @@ class Brick {
 		}
 	public:
 		void draw() {
-			this->p1.draw();
-			this->p2.draw();
-			this->p3.draw();
-			this->p4.draw();
+			glLoadIdentity();
+			glTranslatef(pos.x,pos.y,0);
+			glColor3f(1.0,1.0,1.0);
+			
+			glTranslatef(p1.pos.x,p1.pos.y,0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10*cos(i),10*sin(i));
+				}
+			glEnd();
 
-			this->j1.draw();
-			this->j2.draw();
-			this->j3.draw();
-			//this->j4.draw();
+			glTranslatef(p2.pos.x,p2.pos.y,0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10*cos(i),10*sin(i));
+				}
+			glEnd();
+
+
+			glTranslatef(p3.pos.x,p3.pos.y,0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10*cos(i),10*sin(i));
+				}
+			glEnd();
+
+			glTranslatef(p4.pos.x,p4.pos.y,0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10*cos(i),10*sin(i));
+				}
+			glEnd();
+			
+			
+			
+			glLoadIdentity();
+			glColor3f(1.0,0.0,0.0);
+			glTranslatef(pos.x,pos.y,0);
+			
+			glBegin(GL_LINE_LOOP);
+				glVertex2f(
+					p1.pos.x,
+					p1.pos.y
+				);
+				glVertex2f(
+					p1.pos.x+p2.pos.x,
+					p1.pos.y+p2.pos.y
+				);
+				glVertex2f(
+					p1.pos.x+p2.pos.x+p3.pos.x,
+					p1.pos.y+p2.pos.y+p3.pos.y
+				);
+				glVertex2f(
+					p1.pos.x+p2.pos.x+p3.pos.x+p4.pos.x,
+					p1.pos.y+p2.pos.y+p3.pos.y+p4.pos.y
+				);
+			glEnd();
+
 		}
 		void project(Vector2f ext, float dt) {
 			this->p1.project(ext,dt);
@@ -262,8 +295,12 @@ class Brick {
 			p3.was_computed = false;
 			p4.was_computed = false;
 
-			this->j1.apply(ext,dt,1);
 			
+			this->j1.apply(ext,dt,1);
+
+
+
+
 		}
 		void correct(Vector2f ext, float dt) {
 			this->p1.correct(ext,dt);
