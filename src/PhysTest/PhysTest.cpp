@@ -45,7 +45,6 @@ class Point {
 		}
 	public:
 		void place() {
-			this->angle = prev->angle - angle;
 			pos = rotate(pos,angle);
 			prev_pos = pos;
 
@@ -76,6 +75,7 @@ class Joint {
 		Point *p2;
 		float length;
 		float angle;
+		float radius;
 	public:
 		Joint() {
 			this->p1 = NULL;
@@ -101,34 +101,41 @@ class Joint {
 			glLoadIdentity();
 		}
 	public:
-		void apply(Vector2f ext, float dt, int direction) {
+		void apply(Vector2f ext, float dt) {
 			Point *a,*b;
+			Vector2f normal;
 			a = p1;
 			b = p1->next;
+			
 			for (int i=0; i < 4; i++) {
 				float adiff = length - a->pos.length();
 				float bdiff = length - b->pos.length();
 				bool amoved = a->pos != a->prev_pos;
 				bool bmoved = b->pos != b->prev_pos;
+				//bool amoved = !a->pinned;
+				//bool bmoved = !b->pinned;
+				
 				if (amoved && bmoved) {
+					normal = (a->pos - b->pos).normalize();
+					//a->F = normal * adiff;
+					//b->F = normal * bdiff * -1;
 					a->F = a->pos.normalize() * adiff;
 					b->F = b->pos.normalize() * bdiff;
 				} else if (amoved && !bmoved) {
-					printf("%f %f\n",a->pos.y*2-length,b->pos.y);
-					float diff = (b->pos - a->pos*2).length() - length;
-					if (diff > 0) adiff = -adiff;
-					a->F = Vector2f(0,-1) * adiff;
-					a->prev->F = Vector2f(0,-1) * adiff;
-					SDL_Delay(1);
+					//normal = (a->pos - b->pos).normalize();
+					//a->F = normal * adiff;
+					a->F = a->pos.normalize() * adiff;
 				} else if (!amoved && bmoved) {
+					//normal = (b->pos - a->pos).normalize();
+					//b->F = normal * bdiff;
 					b->F = b->pos.normalize() * bdiff;
 				}
 
 				a = a->next;
-				b = b->next;
+				b = a->next;
 			}
 		}
-		void apply_rotation() {
+		void apply_rotation(Vector2f ext, float dt) {
 		}
 };
 
@@ -190,10 +197,12 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
-			this->p1 = Point(Vector2f(0,0),1,0*(M_PI/180),true);
-			this->p2 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
-			this->p3 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
-			this->p4 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+			float radius = length*sqrt(2)/2;
+
+			this->p1 = Point(Vector2f(radius,0),1,-45*(M_PI/180),true);
+			this->p2 = Point(Vector2f(radius,0),1,-135*(M_PI/180),false);
+			this->p3 = Point(Vector2f(radius,0),1,135*(M_PI/180),false);
+			this->p4 = Point(Vector2f(radius,0),1,45*(M_PI/180),false);
 
 
 			this->p1.index = 1;
@@ -217,40 +226,53 @@ class Brick {
 			this->p4.place();
 
 
-			this->j1 = Joint(&p1,&p2,length,90*(M_PI/180));
-			this->j2 = Joint(&p2,&p3,length,90*(M_PI/180));
-			this->j3 = Joint(&p3,&p4,length,90*(M_PI/180));
-			this->j4 = Joint(&p4,&p1,length,90*(M_PI/180));
+			this->j1 = Joint(&p1,&p2,radius,90*(M_PI/180));
+			this->j2 = Joint(&p2,&p3,radius,90*(M_PI/180));
+			this->j3 = Joint(&p3,&p4,radius,90*(M_PI/180));
+			this->j4 = Joint(&p4,&p1,radius,90*(M_PI/180));
 		}
 	public:
 		void draw() {
+			glColor3f(0.0,0.0,1.0);
 			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
-			glColor3f(1.0,1.0,1.0);
 			
-			glTranslatef(p1.pos.x,p1.pos.y,0);
+			glTranslatef(pos.x,pos.y,0);
 			glBegin(GL_POLYGON);
 				for (int i=0; i <= 360; i++) {
 					glVertex2f(10*cos(i),10*sin(i));
 				}
 			glEnd();
+			glLoadIdentity();
 
-			glTranslatef(p2.pos.x,p2.pos.y,0);
+			glColor3f(1.0,1.0,1.0);
+			glLoadIdentity();
+			
+			glTranslatef(pos.x+p1.pos.x,pos.y+p1.pos.y,0);
 			glBegin(GL_POLYGON);
 				for (int i=0; i <= 360; i++) {
 					glVertex2f(10*cos(i),10*sin(i));
 				}
 			glEnd();
+			glLoadIdentity();
 
-
-			glTranslatef(p3.pos.x,p3.pos.y,0);
+			glTranslatef(pos.x+p2.pos.x,pos.y+p2.pos.y,0);
 			glBegin(GL_POLYGON);
 				for (int i=0; i <= 360; i++) {
 					glVertex2f(10*cos(i),10*sin(i));
 				}
 			glEnd();
+			glLoadIdentity();
 
-			glTranslatef(p4.pos.x,p4.pos.y,0);
+
+			glTranslatef(pos.x+p3.pos.x,pos.y+p3.pos.y,0);
+			glBegin(GL_POLYGON);
+				for (int i=0; i <= 360; i++) {
+					glVertex2f(10*cos(i),10*sin(i));
+				}
+			glEnd();
+			glLoadIdentity();
+
+			glTranslatef(pos.x+p4.pos.x,pos.y+p4.pos.y,0);
 			glBegin(GL_POLYGON);
 				for (int i=0; i <= 360; i++) {
 					glVertex2f(10*cos(i),10*sin(i));
@@ -269,16 +291,16 @@ class Brick {
 					p1.pos.y
 				);
 				glVertex2f(
-					p1.pos.x+p2.pos.x,
-					p1.pos.y+p2.pos.y
+					p2.pos.x,
+					p2.pos.y
 				);
 				glVertex2f(
-					p1.pos.x+p2.pos.x+p3.pos.x,
-					p1.pos.y+p2.pos.y+p3.pos.y
+					p3.pos.x,
+					p3.pos.y
 				);
 				glVertex2f(
-					p1.pos.x+p2.pos.x+p3.pos.x+p4.pos.x,
-					p1.pos.y+p2.pos.y+p3.pos.y+p4.pos.y
+					p4.pos.x,
+					p4.pos.y
 				);
 			glEnd();
 
@@ -296,8 +318,8 @@ class Brick {
 			p4.was_computed = false;
 
 			
-			this->j1.apply(ext,dt,1);
-
+			this->j1.apply(ext,dt);
+			this->j1.apply_rotation(ext,dt);
 
 
 
