@@ -103,6 +103,7 @@ class Joint {
 	public:
 		void apply(Vector2f ext, float dt) {
 			Point *a,*b;
+<<<<<<< HEAD
 			Vector2f normal;
 			a = p1;
 			b = p1->next;
@@ -119,12 +120,52 @@ class Joint {
 					normal = (a->pos - b->pos).normalize();
 					//a->F = normal * adiff;
 					//b->F = normal * bdiff * -1;
+=======
+			a = p1->next;
+			for (a = p1->next; a != p1; a = a->next) {
+				if (a->pinned) break;
+			}
+			b=a->next;
+			for (int i=0; i < 4; i++) {
+				float adiff = length - a->pos.length();
+				float bdiff = length - b->pos.length();
+				//bool amoved = a->pos != a->prev_pos;
+				//bool bmoved = b->pos != b->prev_pos;
+				bool amoved = !a->pinned;
+				bool bmoved = !b->pinned;
+				if (amoved && bmoved) {
+					Vector2f arealpos = 
+						a->prev->prev->prev->pos +
+						a->prev->prev->pos +
+						a->prev->pos;
+					Vector2f brealpos =
+						b->prev->prev->prev->pos +
+						b->prev->prev->pos +
+						b->prev->pos;
+>>>>>>> HEAD@{1}
 					a->F = a->pos.normalize() * adiff;
 					b->F = b->pos.normalize() * bdiff;
+					//a->F = a->pos.normalize() * adiff;
+					//b->F = b->pos.normalize() * bdiff;
 				} else if (amoved && !bmoved) {
+<<<<<<< HEAD
 					//normal = (a->pos - b->pos).normalize();
 					//a->F = normal * adiff;
 					a->F = a->pos.normalize() * adiff;
+=======
+					
+
+					Vector2f realpos = 
+						a->prev->prev->prev->pos +
+						a->prev->prev->pos +
+						a->prev->pos;
+
+					Vector2f diff = (realpos + a->pos);
+					float fdiff = diff.length();
+					//a->F = diff * -length;
+					a->F = a->pos.normalize() * adiff;
+
+>>>>>>> HEAD@{1}
 				} else if (!amoved && bmoved) {
 					//normal = (b->pos - a->pos).normalize();
 					//b->F = normal * bdiff;
@@ -134,6 +175,18 @@ class Joint {
 				a = a->next;
 				b = a->next;
 			}
+			a = p1;
+			b = p1->prev;
+			float sum = 0;
+			sum += a->pos.length();
+			sum += a->next->pos.length();
+			sum += a->next->next->pos.length();
+			sum += a->next->next->next->pos.length();
+			float diff = sum - length * 4;
+			if (diff < 0) {
+				//b/ += 
+			}
+			printf("%f\n",sum);
 		}
 		void apply_rotation(Vector2f ext, float dt) {
 		}
@@ -197,12 +250,19 @@ class Brick {
 		Brick(Vector2f pos, float length) {
 			this->pos = pos;
 			
+<<<<<<< HEAD
 			float radius = length*sqrt(2)/2;
 
 			this->p1 = Point(Vector2f(radius,0),1,-45*(M_PI/180),true);
 			this->p2 = Point(Vector2f(radius,0),1,-135*(M_PI/180),false);
 			this->p3 = Point(Vector2f(radius,0),1,135*(M_PI/180),false);
 			this->p4 = Point(Vector2f(radius,0),1,45*(M_PI/180),false);
+=======
+			this->p1 = Point(Vector2f(length,0),1,0*(M_PI/180),true);
+			this->p2 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+			this->p3 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+			this->p4 = Point(Vector2f(length,0),1,90*(M_PI/180),false);
+>>>>>>> HEAD@{1}
 
 
 			this->p1.index = 1;
@@ -283,7 +343,9 @@ class Brick {
 			
 			glLoadIdentity();
 			glColor3f(1.0,0.0,0.0);
+
 			glTranslatef(pos.x,pos.y,0);
+<<<<<<< HEAD
 			
 			glBegin(GL_LINE_LOOP);
 				glVertex2f(
@@ -302,7 +364,30 @@ class Brick {
 					p4.pos.x,
 					p4.pos.y
 				);
+=======
+
+			glTranslatef(p1.pos.x,p1.pos.y,0);
+			glBegin(GL_LINES);
+				glVertex2f(0,0);
+				glVertex2f(p2.pos.x,p2.pos.y);
 			glEnd();
+			glTranslatef(p2.pos.x,p2.pos.y,0);
+			glBegin(GL_LINES);
+				glVertex2f(0,0);
+				glVertex2f(p3.pos.x,p3.pos.y);
+			glEnd();
+			glTranslatef(p3.pos.x,p3.pos.y,0);
+			glBegin(GL_LINES);
+				glVertex2f(0,0);
+				glVertex2f(p4.pos.x,p4.pos.y);
+			glEnd();
+			glTranslatef(p4.pos.x,p4.pos.y,0);
+			glBegin(GL_LINES);
+				glVertex2f(0,0);
+				glVertex2f(p1.pos.x,p1.pos.y);
+>>>>>>> HEAD@{1}
+			glEnd();
+			
 
 		}
 		void project(Vector2f ext, float dt) {
@@ -329,6 +414,7 @@ class Brick {
 			this->p2.correct(ext,dt);
 			this->p3.correct(ext,dt);
 			this->p4.correct(ext,dt);
+
 		}
 };
 
