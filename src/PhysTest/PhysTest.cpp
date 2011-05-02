@@ -122,7 +122,7 @@ class Joint {
 		}
 	public:
 		void apply(Vector2f ext, float dt, int direction) {
-			Point *a,*b;
+			Point *a,*b,*c;
 			a = p1->next;
 			for (a = p1->next; a != p1; a = a->next) {
 				if (a->pinned) break;
@@ -136,18 +136,16 @@ class Joint {
 				bool amoved = !a->pinned;
 				bool bmoved = !b->pinned;
 				if (amoved && bmoved) {
-					Vector2f arealpos = 
-						a->prev->prev->prev->pos +
-						a->prev->prev->pos +
-						a->prev->pos;
-					Vector2f brealpos =
-						b->prev->prev->prev->pos +
-						b->prev->prev->pos +
-						b->prev->pos;
-					a->F = a->pos.normalize() * adiff;
-					b->F = b->pos.normalize() * bdiff;
-					//a->F = a->pos.normalize() * adiff;
+					Vector2f projpos;
+					for (c= a; c != p1->next; c = c->prev) {
+						projpos += c->pos;
+					}
+					//printf("%f\n",(projpos - a->pos).length());
+					
 					//b->F = b->pos.normalize() * bdiff;
+					a->F = a->pos.normalize() * ((projpos).length() - length);
+					//a->F = a->pos.normalize() * adiff;
+					//b->F - b->pos.normalize() * bdiff;
 				} else if (amoved && !bmoved) {
 					
 
@@ -157,8 +155,8 @@ class Joint {
 						a->prev->pos;
 
 					Vector2f diff = (realpos + a->pos);
-					//a->F = diff * -length;
-					a->F = a->pos.normalize() * adiff;
+					a->F += diff * -length;
+					//a->F = a->pos.normalize() * adiff;
 
 				} else if (!amoved && bmoved) {
 					b->F = b->pos.normalize() * bdiff;
@@ -167,12 +165,10 @@ class Joint {
 				a = a->next;
 				b = b->next;
 			}
-			a = p1;
-			b = p1->prev;
-			Vector2f first = p1->pos;
-			Vector2f second = p1->next->pos;
-			Vector2f third = p1->next->next->pos;
-			Vector2f fourth = p1->next->next->next->pos;
+
+			a = a->prev;
+			a->F += p2->pos * -length;
+			printf("%d\n",a->index);
 			//printf("%f %f\n",(first + second).length(),second.length());
 
 		}
@@ -224,7 +220,7 @@ class Brick {
 			this->j1 = rhs.j1;
 			
 			this->j1.p1 = &p1;
-			this->j1.p2 = &p2;
+			this->j1.p2 = &p5;
 		
 			return *this;
 		}
@@ -248,14 +244,14 @@ class Brick {
 			p1.next = &p2;
 			p2.next = &p3;
 			p3.next = &p4;
-			p4.next = &p5;
+			p4.next = &p1;
 			p5.next = &p1;
 
 			p5.prev = &p4;
 			p4.prev = &p3;
 			p3.prev = &p2;
 			p2.prev = &p1;
-			p1.prev = &p5;
+			p1.prev = &p4;
 
 			this->p1.place();
 			this->p2.place();
@@ -264,7 +260,7 @@ class Brick {
 			this->p5.place(true);
 
 
-			this->j1 = Joint(&p1,&p2,length,90*(M_PI/180));
+			this->j1 = Joint(&p1,&p5,length,90*(M_PI/180));
 		}
 	public:
 		void draw() {
