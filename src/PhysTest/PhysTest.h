@@ -2,6 +2,7 @@
 #define PEASANTFORMER_PhysTest
 
 #include <list>
+#include <vector>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
