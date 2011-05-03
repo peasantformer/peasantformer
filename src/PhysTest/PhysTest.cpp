@@ -84,13 +84,20 @@ class Brick {
 						Point(radius,1,i*-angularity-diffangle,false)
 					);
 				}
+				this->points.back().pos += pos;
 				this->points.back().index = i;
 			}
 		}
 	private:
-		void solve_linear(std::vector<Point>::iterator it) {
-			float diff = radius - it->pos.length();
-			it->F = it->pos.normalize() * diff;
+		void solve_linear(
+			std::vector<Point>::iterator it,
+			std::vector<Point>::iterator ti,
+			float len
+		) {
+			Vector2f dist = it->pos - ti->pos;
+			float diff = len - dist.length();
+			it->F += dist.normalize() * diff;
+			ti->F += dist.normalize() * -1 * diff;
 		}
 		void solve_angular(
 			std::vector<Point>::iterator it,
@@ -121,7 +128,7 @@ class Brick {
 				it++
 			) {
 				glLoadIdentity();
-				glTranslatef(pos.x+it->pos.x,pos.y+it->pos.y,0);
+				glTranslatef(it->pos.x,it->pos.y,0);
 				glBegin(GL_POLYGON);
 					for (int i=0; i <= 360; i++) {
 						glVertex2f(10*cos(i),10*sin(i));
@@ -129,7 +136,6 @@ class Brick {
 				glEnd();
 			}	
 			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
 			glBegin(GL_LINE_LOOP);
 			for (
 				std::vector<Point>::iterator it = points.begin(); 
@@ -150,14 +156,6 @@ class Brick {
 			}
 		}
 		void solve(float dt) {
-			for (
-				std::vector<Point>::iterator it = points.begin(); 
-				it != points.end(); 
-				it++
-			) {
-				solve_linear(it);
-			}
-			this->correct(dt);
 			std::vector<Point>::iterator it = points.begin();
 			std::vector<Point>::iterator ti = it;
 			ti++;
@@ -168,7 +166,11 @@ class Brick {
 			) {
 				if (ti == points.end())
 					ti = points.begin();
-				solve_angular(it,ti);
+				solve_linear(it,ti,length);
+			}
+			for (int i=0; i < points.size()/2; i++) {
+				int n = i+(points.size()/2);
+				solve_linear(points.begin()+i,points.begin()+n,radius*2);
 			}
 		}
 		void correct(float dt) {
