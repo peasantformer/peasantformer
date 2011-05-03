@@ -64,10 +64,11 @@ class Brick {
 	public:
 		Brick() {
 		}
-		Brick(Vector2f pos, float length, float angularity) {
-			radius = length / sqrt(2);
+		Brick(Vector2f pos, float radius, float angularity) {
 			this->radius = radius; 
-			this->length = length;
+			float rangle = (180 * (M_PI/180) - angularity) / 2;
+			float dest = radius / sin(rangle);
+			this->length = dest * sin(angularity);
 			this->pos = pos;
 			float angles = 360*(M_PI/180) / angularity;
 			Vector2f base(100,0);
@@ -198,9 +199,9 @@ class World {
 			dt(0.02)
 		{}
 	public:
-		void add_brick(Vector2f pos, float length, float angularity) {
+		void add_brick(Vector2f pos, float radius, float angularity) {
 			size_t num;
-			num = this->bricks.add_item(Brick(pos,length,angularity));
+			num = this->bricks.add_item(Brick(pos,radius,angularity));
 			this->objects.push_back(this->bricks.get_find_ref(num));
 
 		}
