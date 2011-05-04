@@ -177,9 +177,12 @@ Vector2f angelVector(float tenshi) {
 	return Vector2f(cos(tenshi),sin(tenshi));
 }
 
+float cosOfVector(Vector2f V, Vector2f base) {
+	return ((V.x * base.x + V.y * base.y)/(V.length() * base.length()));
+}
 
 float angleOfVector(Vector2f V, Vector2f base) {
-	float val = ((V.x * base.x + V.y * base.y)/(V.length() * base.length()));
+	float val = cosOfVector(V,base);
 	float a = acos(val);
 	return a;
 }

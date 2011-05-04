@@ -63,9 +63,7 @@ class Point {
 			this->F = Vector2f(0,0);
 		}
 		void apply_impulse(float impulse, Vector2f normal) {
-			if (impulse > 0.0001) {
-				V += normal * impulse * (1/mass);
-			}
+			V += normal * impulse;
 		}
 };
 
@@ -122,15 +120,17 @@ class Brick {
 			
 		}
 	private:
-		void solve_linear(
+		Vector2f solve_linear(
 			Point *it,
 			Point *ti,
-			float len
+			float len,
+			float add = true
 		) {
 			Vector2f dist = it->pos - ti->pos;
 			float diff = len - dist.length();
-				it->F += dist.normalize() * diff * 1000;
-				ti->F += dist.normalize() * -1 * diff * 1000;
+			it->F += dist.normalize() * diff * 1000;
+			ti->F += dist.normalize() * -1 * diff * 1000;
+			return dist.normalize() * diff;
 		}
 		float calculate_impulse(Vector2f R, Vector2f normal, Brick *obj) {
 			Vector2f R1 = R - pos;
@@ -227,32 +227,33 @@ class Brick {
 			Point *p7 = &this->points[6];
 			Point *p8 = &this->points[7];
 
+			Vector2f diff;
 
-			solve_linear(p1,p2,width/2);
-			solve_linear(p2,p3,width/2);
-			solve_linear(p3,p4,height/2);
-			solve_linear(p4,p5,height/2);
-			solve_linear(p5,p6,width/2);
-			solve_linear(p6,p7,width/2);
-			solve_linear(p7,p8,height/2);
-			solve_linear(p8,p1,height/2);
+			diff += solve_linear(p1,p2,width/2,false);
+			diff += solve_linear(p2,p3,width/2,false);
+			diff += solve_linear(p3,p4,height/2,false);
+			diff += solve_linear(p4,p5,height/2,false);
+			diff += solve_linear(p5,p6,width/2,false);
+			diff += solve_linear(p6,p7,width/2,false);
+			diff += solve_linear(p7,p8,height/2,false);
+			diff += solve_linear(p8,p1,height/2,false);
 			
-			solve_linear(p2,p6,height);
-			solve_linear(p8,p4,width);
-			solve_linear(p1,p5,sqrt(width*width + height*height));
-			solve_linear(p3,p7,sqrt(width*width + height*height));
-			solve_linear(p2,p5,sqrt(width/2 * width/2 + height * height));
-			solve_linear(p3,p6,sqrt(width/2 * width/2 + height * height));
-			solve_linear(p1,p6,sqrt(width/2 * width/2 + height * height));
-			solve_linear(p2,p7,sqrt(width/2 * width/2 + height * height));
-	
+			diff += solve_linear(p2,p6,height);
+			diff += solve_linear(p8,p4,width);
+			diff += solve_linear(p1,p5,sqrt(width*width + height*height));
+			diff += solve_linear(p3,p7,sqrt(width*width + height*height));
+			diff += solve_linear(p2,p5,sqrt(width/2 * width/2 + height * height));
+			diff += solve_linear(p3,p6,sqrt(width/2 * width/2 + height * height));
+			diff += solve_linear(p1,p6,sqrt(width/2 * width/2 + height * height));
+			diff += solve_linear(p2,p7,sqrt(width/2 * width/2 + height * height));
 
-			solve_linear(p4,p2,sqrt(width/2 * width/2 + height/2 * height/2));
-			solve_linear(p4,p6,sqrt(width/2 * width/2 + height/2 * height/2));
+			diff += solve_linear(p4,p2,sqrt(width/2 * width/2 + height/2 * height/2));
+			diff += solve_linear(p4,p6,sqrt(width/2 * width/2 + height/2 * height/2));
 			
-			solve_linear(p8,p2,sqrt(width/2 * width/2 + height/2 * height/2));
-			solve_linear(p8,p6,sqrt(width/2 * width/2 + height/2 * height/2));
+			diff += solve_linear(p8,p2,sqrt(width/2 * width/2 + height/2 * height/2));
+			diff += solve_linear(p8,p6,sqrt(width/2 * width/2 + height/2 * height/2));
 			
+			//printf("%f\n",diff.length());
 			
 		}
 		void solve(
@@ -280,16 +281,26 @@ class Brick {
 			float impulse;
 	
 			if (lines_intersect(p2->pos,p6->pos,n1->pos,n3->pos,&R)) {
-					impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
-					p6->apply_impulse(impulse,Vector2f(0,-1));
+					Vector2f diffpos = (R - p6->pos);
+					float dist = p6->V.length() * cosOfVector(p6->V,diffpos);
+					p6->V -= diffpos.normalize() * dist;
+
 			}
 			if (lines_intersect(p8->pos,p7->pos,n1->pos,n3->pos,&R)) {
-					impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
-					p7->apply_impulse(impulse,Vector2f(0,-1));
+					Vector2f diffpos = (R - p7->pos);
+					float dist = p7->V.length() * cosOfVector(p7->V,diffpos);
+					p7->V -= diffpos.normalize() * dist;
+					//impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
+					//p7->apply_impulse(impulse,Vector2f(0,-1));
+					//p7->pos = R;
 			}
 			if (lines_intersect(p4->pos,p5->pos,n1->pos,n3->pos,&R)) {
-					impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
-					p5->apply_impulse(impulse,Vector2f(0,-1));
+					Vector2f diffpos = (R - p5->pos);
+					float dist = p5->V.length() * cosOfVector(p5->V,diffpos);
+					p5->V -= diffpos.normalize() * dist;
+					//impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
+					//p5->apply_impulse(impulse,Vector2f(0,-1));
+					//p5->pos = R;
 			}
 
 

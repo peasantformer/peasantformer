@@ -51,8 +51,9 @@ bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * 
 
 Vector2f angleVector(float tenshi);
 
-float angleOfVector(Vector2f V, Vector2f base);
 float fullAngleOfVector(Vector2f V, Vector2f base);
+float angleOfVector(Vector2f V, Vector2f base);
+float cosOfVector(Vector2f V, Vector2f base);
 
 Vector2f rotate(Vector2f l, float sine, float cosine);
 
