@@ -5,6 +5,7 @@ Vector2f R1,R2;
 class Point {
 	public:
 		Vector2f pos;
+		Vector2f next_pos;
 		float length;
 		Vector2f V;
 		Vector2f F;
@@ -17,6 +18,7 @@ class Point {
 	public:
 		Point() :
 			pos(0,0),
+			next_pos(0,0),
 			length(0),
 			V(0,0),
 			F(0,0),
@@ -28,6 +30,7 @@ class Point {
 		{}
 		Point(Vector2f pos, float mass, bool pinned) :
 			pos(pos),
+			next_pos(pos),
 			length(length),
 			V(0,0),
 			F(0,0),
@@ -49,6 +52,7 @@ class Point {
 			index(0)
 		{
 			this->pos = rotate(Vector2f(length,0),angle);
+			this->next_pos = pos;
 			this->impulse = 0;
 		}
 	public:
@@ -56,11 +60,14 @@ class Point {
 			if (pinned) return;
 			this->V += ext * dt;
 			this->pos += V * dt;
+			this->next_pos = pos;
 		}
 		void correct(float dt) {
 			if (pinned) return;
+			this->next_pos = pos;
 			this->V += F / mass * dt;
 			this->F = Vector2f(0,0);
+			this->next_pos += V * dt;
 		}
 		void apply_impulse(float impulse, Vector2f normal) {
 			V += normal * impulse;
@@ -118,9 +125,13 @@ class Triangle {
 
 		}
 		void self_solve(float dt) {
-			Vector2f BC = (B.pos - C.pos);
-			Vector2f AC = (A.pos - C.pos);
-			Vector2f AB = (A.pos - B.pos);
+			float real_p;
+			float p = a + b + c;
+			int i=0;
+			do {
+			Vector2f BC = (B.next_pos - C.next_pos);
+			Vector2f AC = (A.next_pos - C.next_pos);
+			Vector2f AB = (A.next_pos - B.next_pos);
 			
 			float real_a = BC.length();
 			float real_b = AC.length();
@@ -129,6 +140,7 @@ class Triangle {
 			float a_diff = real_a - a;
 			float b_diff = real_b - b;
 			float c_diff = real_c - c;
+			
 
 
 			if (fabs(b_diff) > 0.001) {
@@ -143,11 +155,21 @@ class Triangle {
 				this->B.F -= BC.normalize() * a_diff /2 /dt *B.mass;
 				this->C.F += BC.normalize() * a_diff /2 /dt *C.mass;
 			}
-		}
-		void correct(float dt) {
+			
 			this->A.correct(dt);
 			this->B.correct(dt);
 			this->C.correct(dt);
+			
+			real_a = (B.next_pos - C.next_pos).length();
+			real_b = (A.next_pos - C.next_pos).length();
+			real_c = (A.next_pos - B.next_pos).length();;
+
+			real_p = real_a + real_b + real_c;
+			i++;
+			} while (fabs(real_p - p) > 1);
+			printf("%d\n",i);
+		}
+		void correct(float dt) {
 		}
 		void solve(Triangle *ti) {
 			Vector2f Res;
