@@ -79,22 +79,28 @@ class Triangle {
 	public:
 		Vector2f pos;
 		Point A,B,C;
+		Vector2f V;
 		float a,b,c;
 		float ABC, BCA, CAB;
 		float R;
 		float r;
 		bool pinned;
 		float angle;
+		float mass;
+		float inertia;
 	public:
 		Triangle() {
 		}
 		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
+			this->V = Vector2f(0,0);
 			this->pos = pos;
 			this->a = a;
 			this->b = b;
 			this->c = c;
 			this->R = a*b*c / sqrt((a+b+c) * (-a+b+c) * (a-b+c) * (a+b-c));
 			float p = (a+b+c)/2;
+			this->mass = p;
+			this->inertia = mass;
 			this->r = sqrt(((p-a) * (p-b) * (p-c)) / p);
 			this->ABC = acos((a*a + b*b - c*c) / (2*a*b));
 			this->BCA = acos((a*a + c*c - b*b) / (2*a*c));
@@ -111,9 +117,9 @@ class Triangle {
 			A.pos -= (d - dv);
 			B.pos -= (d - dv);
 			C.pos -= (d - dv);
-			
-
-		
+			A.next_pos = A.pos;
+			B.next_pos = B.pos;
+			C.next_pos = C.pos;
 		}
 	public:
 		void project(Vector2f ext, float dt) {
@@ -126,6 +132,7 @@ class Triangle {
 		}
 		void self_solve(float dt) {
 			float real_p;
+			float realdiff;
 			float p = a + b + c;
 			int i=0;
 			do {
@@ -143,15 +150,15 @@ class Triangle {
 			
 
 
-			if (fabs(b_diff) > 0.001) {
+			if (fabs(b_diff) > 0.000) {
 				this->A.F -= AC.normalize() * b_diff /2 /dt *A.mass;
 				this->C.F += AC.normalize() * b_diff /2 /dt *C.mass;
 			}
-			if (fabs(c_diff) > 0.001) {
+			if (fabs(c_diff) > 0.000) {
 				this->A.F -= AB.normalize() * c_diff /2 /dt *A.mass;
 				this->B.F += AB.normalize() * c_diff /2 /dt *B.mass;
 			}
-			if (fabs(a_diff) > 0.001) {
+			if (fabs(a_diff) > 0.000) {
 				this->B.F -= BC.normalize() * a_diff /2 /dt *B.mass;
 				this->C.F += BC.normalize() * a_diff /2 /dt *C.mass;
 			}
@@ -162,22 +169,47 @@ class Triangle {
 			
 			real_a = (B.next_pos - C.next_pos).length();
 			real_b = (A.next_pos - C.next_pos).length();
-			real_c = (A.next_pos - B.next_pos).length();;
+			real_c = (A.next_pos - B.next_pos).length();
+
+			printf("%f\n",real_a);
 
 			real_p = real_a + real_b + real_c;
+			realdiff = 0;
+			realdiff += fabs(real_a - a);
+			realdiff += fabs(real_b - b);
+			realdiff += fabs(real_c - c);
+	//		printf("%f\n",real_p);
 			i++;
-			} while (fabs(real_p - p) > 1);
+			} while (fabs(real_p - p) > 1 || realdiff > 1);
 			printf("%d\n",i);
+
 		}
 		void correct(float dt) {
+			Vector2f prevpos = this->pos;
+			Vector2f n1 = A.next_pos;
+			Vector2f n2 = C.next_pos + rotate(Vector2f(-a/2,0),BCA);
+			Vector2f p1 = B.next_pos;
+			Vector2f p2= A.next_pos + rotate(Vector2f(b/2,0),angle);
+			lines_intersect(n1,n2,p1,p2,&this->pos);
+			this->V = (prevpos-pos) / dt;
+
+
 		}
 		void solve(Triangle *ti) {
 			Vector2f Res;
-			if (lines_intersect(A.pos,B.pos,ti->A.pos,ti->C.pos,&Res)) {
-				A.pos =Res;
+			Vector2f diff;
+			Vector2f imp =  (V * mass / inertia) - (ti->V * ti->mass / ti->inertia) / 2;
+			if (lines_intersect(A.next_pos,B.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
+				diff = (Res - A.next_pos);
+				A.pos = Res;
+				A.next_pos = Res;
+				A.V -= (A.V - ti->V) + Vector2f(0,-1) * imp;
 			}
-			if (lines_intersect(B.pos,C.pos,ti->A.pos,ti->C.pos,&Res)) {
-				C.pos =Res;
+			if (lines_intersect(B.next_pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
+				diff = (Res - C.next_pos);
+				C.pos = Res;
+				C.next_pos = Res;
+				C.V -= (C.V - ti->V) + Vector2f(0,-1) * imp;
 			}
 		}
 		void draw() {
@@ -212,7 +244,6 @@ class Triangle {
 				glVertex2f(B.pos.x,B.pos.y);
 				glVertex2f(C.pos.x,C.pos.y);
 			glEnd();
-			/*
 			glColor3f(0.0,0.0,1.0);
 			glLoadIdentity();
 			glTranslatef(pos.x,pos.y,0);
@@ -221,7 +252,6 @@ class Triangle {
 				glVertex2f(10*cos(i),10*sin(i));
 			}
 			glEnd();
-			*/
 		}
 };
 
