@@ -68,282 +68,146 @@ class Point {
 };
 
 
-
-class Brick {
+class Triangle {
 	public:
 		Vector2f pos;
-		Vector2f V;
-		Vector2f rotation_center;
-		std::vector<Point> points;
-		float inertia;
-		float mass;
-		float length;
-		float radius;
-		float angularity;
-		float width,height;
+		Point A,B,C;
+		float a,b,c;
+		float ABC, BCA, CAB;
+		float R;
+		float r;
+		bool pinned;
+		float angle;
 	public:
-		Brick() {
+		Triangle() {
 		}
-		Brick(Vector2f pos, float width, float height, bool pinned, float angle) {
-			this->mass = 1;
-			this->inertia = mass * width * height;
-			this->width = width;
-			this->height = height;
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(-width/2,-height/2),angle),1,false)
-			);
-			points.back().index = 1;
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(0, -height/2),angle),1,pinned)
-			);
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(width/2, -height/2),angle),1,pinned)
-			);
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(width/2, 0),angle),1,pinned)
-			);
-			points.back().index = 2;
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(width/2, height/2),angle),1,pinned)
-			);
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(0, height/2),angle),1,pinned)
-			);
-			points.back().index = 3;
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(-width/2, height/2),angle),1,pinned)
-			);
-			this->points.push_back(
-				Point(pos + rotate(Vector2f(-width/2, 0),angle),1,pinned)
-			);
-			points.back().index = 4;
+		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
+			this->pos = pos;
+			this->a = a;
+			this->b = b;
+			this->c = c;
+			this->R = a*b*c / sqrt((a+b+c) * (-a+b+c) * (a-b+c) * (a+b-c));
+			float p = (a+b+c)/2;
+			this->r = sqrt(((p-a) * (p-b) * (p-c)) / p);
+			this->ABC = acos((a*a + b*b - c*c) / (2*a*b));
+			this->BCA = acos((a*a + c*c - b*b) / (2*a*c));
+			this->CAB = acos((b*b + c*c - a*a) / (2*b*c));
 			
-		}
-	private:
-		Vector2f solve_linear(
-			Point *it,
-			Point *ti,
-			float len,
-			float add = true
-		) {
-			Vector2f dist = it->pos - ti->pos;
-			float diff = len - dist.length();
-			it->F += dist.normalize() * diff * 1000;
-			ti->F += dist.normalize() * -1 * diff * 1000;
-			return dist.normalize() * diff;
-		}
-		float calculate_impulse(Vector2f R, Vector2f normal, Brick *obj) {
-			Vector2f R1 = R - pos;
-			Vector2f R2 = R - obj->pos;
-			float Vab = (V + obj->V).length();
-	
-			printf("%f\n",(R - pos).length());
-			SDL_Delay(50);
-		/*
-			Vector2f R1 = R - pos;
-			Vector2f R2 = R - obj->pos;
-			float Vab = (V + obj->V).length();
-			float Z1 = (normal.y * R1.x - normal.x * R1.y) * (1/inertia);
-			float Z2 = (normal.y * R2.x - normal.x * R2.y) * (1/obj->inertia);
 
-			float J = normal.x *
-				(
-					normal.x * (1/mass) - R1.y * Z1 + normal.x * (1/obj->mass) + R2.y * Z2
-				)
-				+ normal.y * (normal.y * (1/mass) + R1.x * Z1 * (1/inertia)
-				+ normal.y * (1/obj->mass) - R2.x * Z2 * (1/obj->inertia)
-				)
-			;
-			return (1 - (1+1) * Vab) / J;
-			*/
-			return 0;
+			this->A = Point(pos, 1, pinned);
+			this->B = Point(A.pos + rotate(Vector2f(c,0),angle-CAB), 1, pinned);
+			this->C = Point(B.pos + rotate(Vector2f(a,0),angle+ABC), 1, pinned);
+			Vector2f d = rotate(Vector2f((a+b-c)/2,0),angle);
+			Vector2f dv = rotate(Vector2f(r,0),angle);
+			dv = Vector2f(-dv.y,dv.x);
+			
+			A.pos -= (d - dv);
+			B.pos -= (d - dv);
+			C.pos -= (d - dv);
+			
+
+		
 		}
 	public:
+		void project(Vector2f ext, float dt) {
+			
+			this->A.project(ext,dt);
+			this->B.project(ext,dt);
+			this->C.project(ext,dt);
+
+
+		}
+		void self_solve(float dt) {
+			Vector2f BC = (B.pos - C.pos);
+			Vector2f AC = (A.pos - C.pos);
+			Vector2f AB = (A.pos - B.pos);
+			
+			float real_a = BC.length();
+			float real_b = AC.length();
+			float real_c = AB.length();
+			
+			float a_diff = real_a - a;
+			float b_diff = real_b - b;
+			float c_diff = real_c - c;
+
+
+			if (fabs(b_diff) > 0.001) {
+				this->A.F -= AC.normalize() * b_diff /2 /dt *A.mass;
+				this->C.F += AC.normalize() * b_diff /2 /dt *C.mass;
+			}
+			if (fabs(c_diff) > 0.001) {
+				this->A.F -= AB.normalize() * c_diff /2 /dt *A.mass;
+				this->B.F += AB.normalize() * c_diff /2 /dt *B.mass;
+			}
+			if (fabs(a_diff) > 0.001) {
+				this->B.F -= BC.normalize() * a_diff /2 /dt *B.mass;
+				this->C.F += BC.normalize() * a_diff /2 /dt *C.mass;
+			}
+		}
+		void correct(float dt) {
+			this->A.correct(dt);
+			this->B.correct(dt);
+			this->C.correct(dt);
+		}
+		void solve(Triangle *ti) {
+			Vector2f Res;
+			if (lines_intersect(A.pos,B.pos,ti->A.pos,ti->C.pos,&Res)) {
+				A.pos =Res;
+			}
+			if (lines_intersect(B.pos,C.pos,ti->A.pos,ti->C.pos,&Res)) {
+				C.pos =Res;
+			}
+		}
 		void draw() {
-			glColor3f(0,0,1);
+			glColor3f(1.0,0.0,0.0);
+			glLoadIdentity();
+			glTranslatef(A.pos.x,A.pos.y,0);
+			glBegin(GL_POLYGON);
+			for (int i=0; i <= 360; i++) {
+				glVertex2f(10*cos(i),10*sin(i));
+			}
+			glEnd();
+			glColor3f(0.0,1.0,0.0);
+			glLoadIdentity();
+			glTranslatef(B.pos.x,B.pos.y,0);
+			glBegin(GL_POLYGON);
+			for (int i=0; i <= 360; i++) {
+				glVertex2f(10*cos(i),10*sin(i));
+			}
+			glEnd();
+			glColor3f(0.0,0.0,1.0);
+			glLoadIdentity();
+			glTranslatef(C.pos.x,C.pos.y,0);
+			glBegin(GL_POLYGON);
+			for (int i=0; i <= 360; i++) {
+				glVertex2f(10*cos(i),10*sin(i));
+			}
+			glEnd();
+			glLoadIdentity();
+			glColor3f(1,1,1);
+			glBegin(GL_LINE_LOOP);
+				glVertex2f(A.pos.x,A.pos.y);
+				glVertex2f(B.pos.x,B.pos.y);
+				glVertex2f(C.pos.x,C.pos.y);
+			glEnd();
+			/*
+			glColor3f(0.0,0.0,1.0);
 			glLoadIdentity();
 			glTranslatef(pos.x,pos.y,0);
 			glBegin(GL_POLYGON);
-				for (int i=0; i <= 360; i++) {
-					glVertex2f(10*cos(i),10*sin(i));
-				}
-			glEnd();
-
-			glColor3f(1.0,1.0,1.0);
-			for (
-				std::vector<Point>::iterator it = points.begin(); 
-				it != points.end(); 
-				it++
-			) {
-				switch (it->index) {
-					case 1:
-						glColor3f(1,0,0);
-						break;
-					case 2:
-						glColor3f(0,1,0);
-						break;
-					case 3:
-						glColor3f(0,0,1);
-						break;
-					case 4:
-						glColor3f(1,1,1);
-						break;
-				}
-				glLoadIdentity();
-				glTranslatef(it->pos.x,it->pos.y,0);
-				glBegin(GL_POLYGON);
-					for (int i=0; i <= 360; i++) {
-						glVertex2f(10*cos(i),10*sin(i));
-					}
-				glEnd();
-			}	
-			glLoadIdentity();
-			glBegin(GL_LINE_LOOP);
-			for (
-				std::vector<Point>::iterator it = points.begin(); 
-				it != points.end();
-				it++
-			) {
-					glVertex2f(it->pos.x,it->pos.y);
+			for (int i=0; i <= 360; i++) {
+				glVertex2f(10*cos(i),10*sin(i));
 			}
 			glEnd();
-		}
-		void project(Vector2f ext, float dt) {
-			for (
-				std::vector<Point>::iterator it = points.begin(); 
-				it != points.end(); 
-				it++
-			) {
-				it->project(ext,dt);
-			}
-		}
-		void self_solve(float dt) {
-			Point *p1 = &this->points[0];
-			Point *p2 = &this->points[1];
-			Point *p3 = &this->points[2];
-			Point *p4 = &this->points[3];
-			Point *p5 = &this->points[4];
-			Point *p6 = &this->points[5];
-			Point *p7 = &this->points[6];
-			Point *p8 = &this->points[7];
-
-			Vector2f diff;
-
-			diff += solve_linear(p1,p2,width/2,false);
-			diff += solve_linear(p2,p3,width/2,false);
-			diff += solve_linear(p3,p4,height/2,false);
-			diff += solve_linear(p4,p5,height/2,false);
-			diff += solve_linear(p5,p6,width/2,false);
-			diff += solve_linear(p6,p7,width/2,false);
-			diff += solve_linear(p7,p8,height/2,false);
-			diff += solve_linear(p8,p1,height/2,false);
-			
-			diff += solve_linear(p2,p6,height);
-			diff += solve_linear(p8,p4,width);
-			diff += solve_linear(p1,p5,sqrt(width*width + height*height));
-			diff += solve_linear(p3,p7,sqrt(width*width + height*height));
-			diff += solve_linear(p2,p5,sqrt(width/2 * width/2 + height * height));
-			diff += solve_linear(p3,p6,sqrt(width/2 * width/2 + height * height));
-			diff += solve_linear(p1,p6,sqrt(width/2 * width/2 + height * height));
-			diff += solve_linear(p2,p7,sqrt(width/2 * width/2 + height * height));
-
-			diff += solve_linear(p4,p2,sqrt(width/2 * width/2 + height/2 * height/2));
-			diff += solve_linear(p4,p6,sqrt(width/2 * width/2 + height/2 * height/2));
-			
-			diff += solve_linear(p8,p2,sqrt(width/2 * width/2 + height/2 * height/2));
-			diff += solve_linear(p8,p6,sqrt(width/2 * width/2 + height/2 * height/2));
-			
-			//printf("%f\n",diff.length());
-			
-		}
-		void solve(
-			Brick* ti
-			) {
-			Point *p1 = &this->points[0];
-			Point *p2 = &this->points[1];
-			Point *p3 = &this->points[2];
-			Point *p4 = &this->points[3];
-			Point *p5 = &this->points[4];
-			Point *p6 = &this->points[5];
-			Point *p7 = &this->points[6];
-			Point *p8 = &this->points[7];
-
-			Point *n1 = &ti->points[0]; // left - upper
-			Point *n2 = &ti->points[1]; // middle - upper
-			Point *n3 = &ti->points[2]; // right - upper
-			Point *n4 = &ti->points[3]; // right - middle
-			Point *n5 = &ti->points[4]; // right - bottom
-			Point *n6 = &ti->points[5]; // midle - bottom
-			Point *n7 = &ti->points[6]; // left - bottom
-			Point *n8 = &ti->points[7]; // left - midle
-
-			Vector2f R;
-			float impulse;
-	
-			if (lines_intersect(p2->pos,p6->pos,n1->pos,n3->pos,&R)) {
-					Vector2f diffpos = (R - p6->pos);
-					float dist = p6->V.length() * cosOfVector(p6->V,diffpos);
-					p6->V -= diffpos.normalize() * dist;
-
-			}
-			if (lines_intersect(p8->pos,p7->pos,n1->pos,n3->pos,&R)) {
-					Vector2f diffpos = (R - p7->pos);
-					float dist = p7->V.length() * cosOfVector(p7->V,diffpos);
-					p7->V -= diffpos.normalize() * dist;
-					//impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
-					//p7->apply_impulse(impulse,Vector2f(0,-1));
-					//p7->pos = R;
-			}
-			if (lines_intersect(p4->pos,p5->pos,n1->pos,n3->pos,&R)) {
-					Vector2f diffpos = (R - p5->pos);
-					float dist = p5->V.length() * cosOfVector(p5->V,diffpos);
-					p5->V -= diffpos.normalize() * dist;
-					//impulse = calculate_impulse(R,Vector2f(0,1),ti) * -1;
-					//p5->apply_impulse(impulse,Vector2f(0,-1));
-					//p5->pos = R;
-			}
-
-
-			/*
-			Vector2f R;
-
-			if (lines_intersect(p1->pos,p4->pos,n1->pos,n2->pos,&R)) {
-				float impulse =  calculate_impulse(R,Vector2f(0,1),ti) * -1;
-				p4->apply_impulse(impulse,Vector2f(0,-1));
-			}
-			if (lines_intersect(p2->pos,p3->pos,n1->pos,n2->pos,&R)) {
-				float impulse =  calculate_impulse(R,Vector2f(0,1),ti) * -1;
-				p3->apply_impulse(impulse,Vector2f(0,-1));
-			}
-			if (lines_intersect(p2->pos,p3->pos,n1->pos,n2->pos,&R)) {
-			//	p3->F += (R-p3->pos).normalize() * 100;
-			}
 			*/
-		}
-		void correct(float dt) {
-			for (
-				std::vector<Point>::iterator it = points.begin(); 
-				it != points.end(); 
-				it++
-			) {
-				it->correct(dt);
-			}
-			Point *p1 = &this->points[0];
-			Point *p3 = &this->points[2];
-			Point *p5 = &this->points[4];
-			Point *p7 = &this->points[6];
-			Vector2f prev_pos = pos;
-			lines_intersect(p1->pos,p5->pos,p3->pos,p7->pos,&pos);
-			this->V =(pos-prev_pos) / dt;
 		}
 };
 
 
-
 class World {
 	public:
-		Array<Brick> bricks;
-		std::list<Brick *> objects;
+		Array<Triangle> triamgles;
+		std::list<Triangle *> objects;
 		Vector2f gravity;
 		float dt;
 	public:
@@ -352,22 +216,22 @@ class World {
 			dt(0.02)
 		{}
 	public:
-		void add_brick(Vector2f pos, float width, float height, bool pinned = false, float angle = 0) {
+		void add_triangle(Vector2f pos, float a, float b, float c, bool pinned = false, float angle = 0) {
 			size_t num;
-			num = this->bricks.add_item(Brick(pos,width,height,pinned,angle));
-			this->objects.push_back(this->bricks.get_find_ref(num));
+			num = this->triamgles.add_item(Triangle(pos,a,b,c,pinned,angle));
+			this->objects.push_back(this->triamgles.get_find_ref(num));
 
 		}
 		void iterate() {
 			for (
-				std::list<Brick*>::iterator it = this->objects.begin();
+				std::list<Triangle*>::iterator it = this->objects.begin();
 				it != this->objects.end();
 				it++) 
 			{
 				(*it)->project(gravity,dt);
 			}
 			for (
-				std::list<Brick*>::iterator it = this->objects.begin();
+				std::list<Triangle*>::iterator it = this->objects.begin();
 				it != this->objects.end();
 				it++) 
 			{
@@ -376,11 +240,11 @@ class World {
 			}
 			
 			for (
-				std::list<Brick*>::iterator it = this->objects.begin();
+				std::list<Triangle*>::iterator it = this->objects.begin();
 				it != this->objects.end();
 				it++) 
 			{
-				std::list<Brick*>::iterator ti = it;
+				std::list<Triangle*>::iterator ti = it;
 				ti++;
 				for (; ti != this->objects.end(); ti++) {
 					(*it)->solve(*ti);
@@ -390,12 +254,18 @@ class World {
 		}
 		void draw() {
 			for (
-				std::list<Brick*>::iterator it = this->objects.begin();
+				std::list<Triangle*>::iterator it = this->objects.begin();
 				it != this->objects.end();
 				it++) 
 			{
 				(*it)->draw();
 			}
+			glLoadIdentity();
+			glColor3f(1,0,0);
+			glBegin(GL_LINES);
+				glVertex2f(R1.x,R1.y);
+				glVertex2f(R2.x,R2.y);
+			glEnd();
 		}
 };
 
@@ -412,11 +282,11 @@ int main (int argc, char **argv) {
 
 	World world;
 
+	world.add_triangle(Vector2f(300,200),100,100,100,false,0*(M_PI/180));
 
-	world.add_brick(Vector2f(300,200),200,100,false,-0*(M_PI/180));
+	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));
 	
-	
-	world.add_brick(Vector2f(400,600),800,200,true);
+	//world.add_triangle(Vector2f(400,600),800,200,true);
 	//test();
 
 	SDL_Event event;
