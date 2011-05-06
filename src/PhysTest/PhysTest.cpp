@@ -203,14 +203,16 @@ class Triangle {
 				diff = (Res - A.next_pos);
 				A.pos = Res;
 				A.next_pos = Res;
-				A.V = Vector2f(0,0);
+				//apply_impulse(Res,Vector2f(0,-1),A.V.length());
+				A.V += Vector2f(0,-A.V.length() / mass);
 				//A.V -= (A.V - ti->V) + Vector2f(0,-1) * imp;
 			}
 			if (lines_intersect(B.next_pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
 				diff = (Res - C.next_pos);
 				C.pos = Res;
 				C.next_pos = Res;
-				C.V = Vector2f(0,0);
+				//apply_impulse(Res,Vector2f(0,-1),C.V.length());
+				C.V += Vector2f(0,-C.V.length() / mass);
 				//C.V -= (C.V - ti->V) + Vector2f(0,-1) * imp;
 			}
 		}
