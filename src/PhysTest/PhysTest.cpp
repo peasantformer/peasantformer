@@ -198,18 +198,20 @@ class Triangle {
 		void solve(Triangle *ti) {
 			Vector2f Res;
 			Vector2f diff;
-			Vector2f imp =  (V * mass / inertia) - (ti->V * ti->mass / ti->inertia) / 2;
+			Vector2f imp =  (V * mass / inertia) - (ti->V * ti->mass / ti->inertia);
 			if (lines_intersect(A.next_pos,B.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
 				diff = (Res - A.next_pos);
 				A.pos = Res;
 				A.next_pos = Res;
-				A.V -= (A.V - ti->V) + Vector2f(0,-1) * imp;
+				A.V = Vector2f(0,0);
+				//A.V -= (A.V - ti->V) + Vector2f(0,-1) * imp;
 			}
 			if (lines_intersect(B.next_pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
 				diff = (Res - C.next_pos);
 				C.pos = Res;
 				C.next_pos = Res;
-				C.V -= (C.V - ti->V) + Vector2f(0,-1) * imp;
+				C.V = Vector2f(0,0);
+				//C.V -= (C.V - ti->V) + Vector2f(0,-1) * imp;
 			}
 		}
 		void draw() {
