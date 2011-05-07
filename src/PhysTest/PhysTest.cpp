@@ -195,26 +195,89 @@ class Triangle {
 
 
 		}
+		float calculate_impulse(Point PT, Vector2f Res) {
+			float imp = PT.V.length() / PT.mass + (PT.next_pos - Res).length();
+			return imp;
+		}
+		void apply_impulse(Vector2f place, Vector2f normal, float amount) {
+			//if (pinned) return;
+			//if (amount < 0.0001) return;
+			Vector2f RA = place - pos;
+			float bounceness = 1 - 0.3;
+			A.V += normal * amount / bounceness; 
+			B.V += normal * amount / bounceness;
+			C.V += normal * amount / bounceness;
+			
+		}
 		void solve(Triangle *ti) {
 			Vector2f Res;
 			Vector2f diff;
-			Vector2f imp =  (V * mass / inertia) - (ti->V * ti->mass / ti->inertia);
-			if (lines_intersect(A.next_pos,B.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
-				diff = (Res - A.next_pos);
+
+			if (   lines_intersect(pos,A.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
+				|| lines_intersect(pos,A.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
+				|| lines_intersect(pos,A.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(A.pos - A.next_pos).normalize(),calculate_impulse(A,Res));
+			}
+
+			if (   lines_intersect(pos,B.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
+				|| lines_intersect(pos,B.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
+				|| lines_intersect(pos,B.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(B.pos - B.next_pos).normalize(),calculate_impulse(B,Res));
+			}
+			if (   lines_intersect(pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
+				|| lines_intersect(pos,C.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
+				|| lines_intersect(pos,C.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(C.pos - C.next_pos).normalize(),calculate_impulse(C,Res));
+			}
+
+
+
+			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,B.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->A.next_pos,B.next_pos,C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(ti->A.pos - ti->A.next_pos).normalize() * -1,calculate_impulse(ti->A,Res));
+			}
+			if (   lines_intersect(ti->pos,ti->B.next_pos,A.next_pos,C.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->B.next_pos,A.next_pos,B.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->B.next_pos,B.next_pos,C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(ti->B.pos - ti->B.next_pos).normalize() * -1,calculate_impulse(ti->B,Res));
+			}
+			if (   lines_intersect(ti->pos,ti->C.next_pos,A.next_pos,C.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->C.next_pos,A.next_pos,B.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->C.next_pos,B.next_pos,C.next_pos,&Res)
+			) {
+				apply_impulse(Res,(ti->C.pos - ti->C.next_pos).normalize() * -1,calculate_impulse(ti->C,Res));
+			}
+
+/*
+
+			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,B.next_pos,&Res)
+				|| lines_intersect(ti->pos,ti->A.next_pos,B.next_pos,C.next_pos,&Res)
+			) {
+				float imp = A.V.length() / A.mass + (A.next_pos - Res).length() * 100;
+				A.pos = Res;
+				A.V = Vector2f(0,0) / A.mass;
+				A.F = Vector2f(0,-1) * imp;
+			}
+*/
+			/*
+			if (lines_intersect(A.next_pos,A.next_pos + ABsep,ti->A.next_pos,ti->C.next_pos,&Res)) {
 				A.pos = Res;
 				A.next_pos = Res;
-				//apply_impulse(Res,Vector2f(0,-1),A.V.length());
-				A.V += Vector2f(0,-A.V.length() / mass);
-				//A.V -= (A.V - ti->V) + Vector2f(0,-1) * imp;
+				A.F += Vector2f(0,-A.V.length());
 			}
-			if (lines_intersect(B.next_pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)) {
-				diff = (Res - C.next_pos);
-				C.pos = Res;
-				C.next_pos = Res;
-				//apply_impulse(Res,Vector2f(0,-1),C.V.length());
-				C.V += Vector2f(0,-C.V.length() / mass);
-				//C.V -= (C.V - ti->V) + Vector2f(0,-1) * imp;
+			if (lines_intersect(B.next_pos,B.next_pos - ABsep,ti->A.next_pos,ti->C.next_pos,&Res)) {
+				B.pos = Res;
+				B.next_pos = Res;
+				B.F += Vector2f(0,-B.V.length());
 			}
+			*/
 		}
 		void draw() {
 			glColor3f(1.0,0.0,0.0);
@@ -338,10 +401,13 @@ int main (int argc, char **argv) {
 
 	World world;
 
-	world.add_triangle(Vector2f(300,200),100,100,100,false,0*(M_PI/180));
 
+	world.add_triangle(Vector2f(300,200),100,100,100,false,-45*(M_PI/180));
+	//world.add_triangle(Vector2f(300,50),100,100,100,false,-0*(M_PI/180));
+	//world.add_triangle(Vector2f(300,350),100,100,100,false,-0*(M_PI/180));
 	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));
-	
+
+		
 	//world.add_triangle(Vector2f(400,600),800,200,true);
 	//test();
 
