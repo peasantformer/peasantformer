@@ -80,6 +80,7 @@ class Triangle {
 		Vector2f pos;
 		Point A,B,C;
 		Vector2f V;
+		float W;
 		float a,b,c;
 		float ABC, BCA, CAB;
 		float R;
@@ -93,6 +94,7 @@ class Triangle {
 		}
 		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
 			this->V = Vector2f(0,0);
+			this->W = 0;
 			this->pos = pos;
 			this->a = a;
 			this->b = b;
@@ -110,6 +112,10 @@ class Triangle {
 			this->A = Point(pos, 1, pinned);
 			this->B = Point(A.pos + rotate(Vector2f(c,0),angle-CAB), 1, pinned);
 			this->C = Point(B.pos + rotate(Vector2f(a,0),angle+ABC), 1, pinned);
+			if (p < 500) {
+			A.V += Vector2f(0,-3);
+			C.V -= Vector2f(0,-3);
+			}
 			Vector2f d = rotate(Vector2f((a+b-c)/2,0),angle);
 			Vector2f dv = rotate(Vector2f(r,0),angle);
 			dv = Vector2f(-dv.y,dv.x);
@@ -171,27 +177,35 @@ class Triangle {
 			real_b = (A.next_pos - C.next_pos).length();
 			real_c = (A.next_pos - B.next_pos).length();
 
-			printf("%f\n",real_a);
+			//printf("%f\n",real_a);
 
 			real_p = real_a + real_b + real_c;
 			realdiff = 0;
 			realdiff += fabs(real_a - a);
 			realdiff += fabs(real_b - b);
 			realdiff += fabs(real_c - c);
-	//		printf("%f\n",real_p);
+			//printf("%f\n",real_p);
 			i++;
 			} while (fabs(real_p - p) > 1 || realdiff > 1);
-			printf("%d\n",i);
+			//printf("%d\n",i);
 
 		}
 		void correct(float dt) {
-			Vector2f prevpos = this->pos;
-			Vector2f n1 = A.next_pos;
-			Vector2f n2 = C.next_pos + rotate(Vector2f(-a/2,0),BCA);
-			Vector2f p1 = B.next_pos;
-			Vector2f p2= A.next_pos + rotate(Vector2f(b/2,0),angle);
-			lines_intersect(n1,n2,p1,p2,&this->pos);
-			this->V = (prevpos-pos) / dt;
+		//	Vector2f prevpos = this->pos;
+			if (mass < 500) {
+				Vector2f BP = Vector2f(-B.V.y,B.V.x);
+				Vector2f AP = Vector2f(-A.V.y,A.V.x);
+				R1 = A.next_pos;
+				R2 = A.next_pos + A.V * 30;
+				//lines_intersect(A.next_pos,AP,B.next_pos,BP,&R2);
+
+				//lines_intersect(A.next_pos,B.next_pos,A.next_pos-A.V,B.next_pos-B.V,&R2);
+			} else {
+				
+			}
+			//printf("%f %f\n",R2.x,R2.y);
+			//R2 = Vector2f(300,300);
+		//	this->V = (prevpos-pos) / dt;
 
 
 		}
@@ -203,8 +217,14 @@ class Triangle {
 			//if (pinned) return;
 			//if (amount < 0.0001) return;
 			Vector2f RA = place - pos;
+			W += amount * (normal.y * RA.x - normal.x  * RA.y) / inertia;
 			float bounceness = 1 - 0.3;
-			A.V += normal * amount / bounceness; 
+
+			printf("%f\n",W);
+
+
+
+			A.V += normal * amount / bounceness;
 			B.V += normal * amount / bounceness;
 			C.V += normal * amount / bounceness;
 			
@@ -233,7 +253,7 @@ class Triangle {
 				apply_impulse(Res,(C.pos - C.next_pos).normalize(),calculate_impulse(C,Res));
 			}
 
-
+/*
 
 			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
 				|| lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,B.next_pos,&Res)
@@ -253,7 +273,7 @@ class Triangle {
 			) {
 				apply_impulse(Res,(ti->C.pos - ti->C.next_pos).normalize() * -1,calculate_impulse(ti->C,Res));
 			}
-
+*/
 /*
 
 			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
@@ -331,7 +351,7 @@ class World {
 		float dt;
 	public:
 		World() :
-			gravity(0,0.098),
+			gravity(0,0.0),
 			dt(0.02)
 		{}
 	public:
@@ -381,10 +401,12 @@ class World {
 			}
 			glLoadIdentity();
 			glColor3f(1,0,0);
+			glLineWidth(10);
 			glBegin(GL_LINES);
 				glVertex2f(R1.x,R1.y);
 				glVertex2f(R2.x,R2.y);
 			glEnd();
+			glLineWidth(1);
 		}
 };
 
@@ -402,7 +424,7 @@ int main (int argc, char **argv) {
 	World world;
 
 
-	world.add_triangle(Vector2f(300,200),100,100,100,false,-45*(M_PI/180));
+	world.add_triangle(Vector2f(300,200),100,100,100,false,10*(M_PI/180));
 	//world.add_triangle(Vector2f(300,50),100,100,100,false,-0*(M_PI/180));
 	//world.add_triangle(Vector2f(300,350),100,100,100,false,-0*(M_PI/180));
 	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));

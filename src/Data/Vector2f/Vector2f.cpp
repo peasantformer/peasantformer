@@ -165,7 +165,8 @@ float orient(const Vector2f *a, const Vector2f *b, const Vector2f *c) {
 }
 
 Vector2f rotate(Vector2f l, float sine, float cosine) {
-	return Vector2f(l.x * cosine - l.y * sine, l.x * sine + l.y * cosine);
+	Vector2f res(l.x * cosine - l.y * sine, l.x * sine + l.y * cosine);
+	return res;
 }
 
 Vector2f rotate(Vector2f tgt,float tenshi) {
