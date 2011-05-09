@@ -1,303 +1,225 @@
 #include "PhysTest.h"
 
 Vector2f R1,R2;
+Vector2f R3,R4;
+Vector2f R5,R6;
 
 class Point {
 	public:
 		Vector2f pos;
-		Vector2f next_pos;
-		float length;
+		Vector2f proj_pos;
 		Vector2f V;
 		Vector2f F;
-		Vector2f U;
 		float mass;
-		float angle;
-		float impulse;
 		bool pinned;
-		int index;
 	public:
-		Point() :
-			pos(0,0),
-			next_pos(0,0),
-			length(0),
-			V(0,0),
-			F(0,0),
-			U(0,0),
-			mass(0),
-			angle(0),
-			pinned(false),
-			index(0)
-		{}
-		Point(Vector2f pos, float mass, bool pinned) :
-			pos(pos),
-			next_pos(pos),
-			length(length),
-			V(0,0),
-			F(0,0),
-			U(0,0),
-			mass(mass),
-			angle(0),
-			pinned(pinned),
-			index(0)
-		{}
-		Point(float length, float mass, float angle, bool pinned) :
-			pos(0,0),
-			length(length),
-			V(0,0),
-			F(0,0),
-			U(0,0),
-			mass(mass),
-			angle(0),
-			pinned(pinned),
-			index(0)
-		{
-			this->pos = rotate(Vector2f(length,0),angle);
-			this->next_pos = pos;
-			this->impulse = 0;
+		Point() {
+		}
+		Point(Vector2f pos, float mass, bool pinned) {
+			this->pos = pos;
+			this->proj_pos = pos;
+			this->mass = mass;
+			this->pinned = pinned;
 		}
 	public:
 		void project(Vector2f ext, float dt) {
-			if (pinned) return;
+			if (pinned) {
+				this->V = Vector2f(0,0);
+				this->F = Vector2f(0,0);
+				this->proj_pos = pos;
+				return;
+			}
+			this->proj_pos = pos;
 			this->V += ext * dt;
-			this->pos += V * dt;
-			this->next_pos = pos;
+			this->proj_pos += V * dt;
 		}
 		void correct(float dt) {
 			if (pinned) return;
-			this->next_pos = pos;
-			this->V += F / mass * dt;
+			this->proj_pos = pos;
+			this->V += F / (mass * dt);
 			this->F = Vector2f(0,0);
-			this->next_pos += V * dt;
+			this->proj_pos += V * dt;
 		}
-		void apply_impulse(float impulse, Vector2f normal) {
-			V += normal * impulse;
+		void apply(float dt) {
+			this->pos += V * dt;
 		}
 };
-
 
 class Triangle {
 	public:
 		Vector2f pos;
-		Point A,B,C;
-		Vector2f V;
-		float W;
-		float a,b,c;
-		float ABC, BCA, CAB;
-		float R;
-		float r;
-		bool pinned;
-		float angle;
-		float mass;
+		Vector2f V;          //         BB         // r - incircle radius
+		Point A,B,C;         //         /\         // R - excircle radius
+		float a,b,c;         //        /VB\        // P - perimeter
+		float VA,VB,VC;      //       /    \       // p = P/2
+		float r,R;           //     c/      \a     // A,B,C - vertices
+		float p,P;           //     /        \     // VA,VB,VC - angles
+		float angle;         //  A /_VA____VC_\ C  // a,b,c - sides:
+		float mass;          //         bb         // V - triangle's speed
 		float inertia;
+		float W;             // angular speed
+		bool pinned;
+		Vector2f rot_center; // rotation center
+
 	public:
 		Triangle() {
 		}
 		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
-			this->V = Vector2f(0,0);
-			this->W = 0;
+			this->mass = 100;
 			this->pos = pos;
+			this->rot_center = pos;
 			this->a = a;
 			this->b = b;
 			this->c = c;
-			this->R = a*b*c / sqrt((a+b+c) * (-a+b+c) * (a-b+c) * (a+b-c));
-			float p = (a+b+c)/2;
-			this->mass = p;
-			this->inertia = mass;
-			this->r = sqrt(((p-a) * (p-b) * (p-c)) / p);
-			this->ABC = acos((a*a + b*b - c*c) / (2*a*b));
-			this->BCA = acos((a*a + c*c - b*b) / (2*a*c));
-			this->CAB = acos((b*b + c*c - a*a) / (2*b*c));
-			
+			this->angle = angle;
 
-			this->A = Point(pos, 1, pinned);
-			this->B = Point(A.pos + rotate(Vector2f(c,0),angle-CAB), 1, pinned);
-			this->C = Point(B.pos + rotate(Vector2f(a,0),angle+ABC), 1, pinned);
-			if (p < 500) {
-			A.V += Vector2f(0,-3);
-			C.V -= Vector2f(0,-3);
-			}
-			Vector2f d = rotate(Vector2f((a+b-c)/2,0),angle);
-			Vector2f dv = rotate(Vector2f(r,0),angle);
-			dv = Vector2f(-dv.y,dv.x);
+			this->P = a + b + c;
+			this->p = P/2;
+
+			this->R = a*b*c / sqrt((a+b+c) * (-a+b+c) * (a-b+c) * (a+b-c));
+			this->r = sqrt(((p-a) * (p-b) * (p-c)) / p);
+
+			this->VC = acos((a*a + b*b - c*c)/(2*a*b));
+			this->VB = acos((a*a + c*c - b*b)/(2*a*c));
+			this->VA = acos((c*c + b*b - a*a)/(2*c*b));
+
+
+			float Lc = sqrt(4*a*b*p*(p-c))/(a+b);
+			float Lb = sqrt(4*a*c*p*(p-b))/(a+c);
+			float La = sqrt(4*c*b*p*(p-a))/(c+b);
+			//float Lc = 2*a*b*cos(VC/2)/(a+b);
+			//float Lb = 2*a*c*cos(VB/2)/(a+c);
+			//float La = 2*c*b*cos(VA/2)/(c+b);
 			
-			A.pos -= (d - dv);
-			B.pos -= (d - dv);
-			C.pos -= (d - dv);
-			A.next_pos = A.pos;
-			B.next_pos = B.pos;
-			C.next_pos = C.pos;
+			//float cLB = Lc*2/3;
+			//float cLA = La*2/3;
+			//float cLC = Lc*2/3;
+
+			//float cLC = sqrt(r*r + p-c);
+			//float cLA = sqrt(r*r + p-a);
+			//float cLB = sqrt(r*r + p-b);
+
+			//working:
+			//float cLC = r/sin(VC/2);
+			//float cLB = r/sin(VB/2);
+			//float cLA = r/sin(VA/2);
+			
+			float cLC = sqrt((p-c)*(p-c) + r*r);
+			float cLB = sqrt((p-b)*(p-b) + r*r);
+			float cLA = sqrt((p-a)*(p-a) + r*r);
+
+			this->B = Point(pos + rotate(Vector2f(0,-cLB),angle),mass/3.0,pinned);
+			this->A = Point(
+				pos + 
+				rotate(Vector2f(0,-cLA),angle - ( 180*(M_PI/180) - (VB/2 + VA/2))),
+				mass/3.0,pinned
+			);
+			this->C = Point(
+				pos + 
+				rotate(Vector2f(0,-cLC),angle + ( 180*(M_PI/180) - (VB/2 + VC/2))),
+				mass/3.0,pinned
+			);
+			if (p < 500) {
+				A.V = Vector2f(0,1);
+				C.V = Vector2f(0,1);
+			}
 		}
 	public:
 		void project(Vector2f ext, float dt) {
-			
 			this->A.project(ext,dt);
 			this->B.project(ext,dt);
 			this->C.project(ext,dt);
-
-
 		}
 		void self_solve(float dt) {
 			float real_p;
 			float realdiff;
-			float p = a + b + c;
-			int i=0;
+			int i = 0;
 			do {
-			Vector2f BC = (B.next_pos - C.next_pos);
-			Vector2f AC = (A.next_pos - C.next_pos);
-			Vector2f AB = (A.next_pos - B.next_pos);
-			
-			float real_a = BC.length();
-			float real_b = AC.length();
-			float real_c = AB.length();
-			
-			float a_diff = real_a - a;
-			float b_diff = real_b - b;
-			float c_diff = real_c - c;
-			
+				Vector2f AB = (A.proj_pos - B.proj_pos);
+				Vector2f BC = (B.proj_pos - C.proj_pos);
+				Vector2f CA = (C.proj_pos - A.proj_pos);
 
+				float real_a = BC.length();
+				float real_b = CA.length();
+				float real_c = AB.length();
 
-			if (fabs(b_diff) > 0.000) {
-				this->A.F -= AC.normalize() * b_diff /2 /dt *A.mass;
-				this->C.F += AC.normalize() * b_diff /2 /dt *C.mass;
-			}
-			if (fabs(c_diff) > 0.000) {
-				this->A.F -= AB.normalize() * c_diff /2 /dt *A.mass;
-				this->B.F += AB.normalize() * c_diff /2 /dt *B.mass;
-			}
-			if (fabs(a_diff) > 0.000) {
-				this->B.F -= BC.normalize() * a_diff /2 /dt *B.mass;
-				this->C.F += BC.normalize() * a_diff /2 /dt *C.mass;
-			}
-			
-			this->A.correct(dt);
-			this->B.correct(dt);
-			this->C.correct(dt);
-			
-			real_a = (B.next_pos - C.next_pos).length();
-			real_b = (A.next_pos - C.next_pos).length();
-			real_c = (A.next_pos - B.next_pos).length();
-
-			//printf("%f\n",real_a);
-
-			real_p = real_a + real_b + real_c;
-			realdiff = 0;
-			realdiff += fabs(real_a - a);
-			realdiff += fabs(real_b - b);
-			realdiff += fabs(real_c - c);
-			//printf("%f\n",real_p);
-			i++;
-			} while (fabs(real_p - p) > 1 || realdiff > 1);
-			//printf("%d\n",i);
-
-		}
-		void correct(float dt) {
-		//	Vector2f prevpos = this->pos;
-			if (mass < 500) {
-				Vector2f BP = Vector2f(-B.V.y,B.V.x);
-				Vector2f AP = Vector2f(-A.V.y,A.V.x);
-				R1 = A.next_pos;
-				R2 = A.next_pos + A.V * 30;
-				//lines_intersect(A.next_pos,AP,B.next_pos,BP,&R2);
-
-				//lines_intersect(A.next_pos,B.next_pos,A.next_pos-A.V,B.next_pos-B.V,&R2);
-			} else {
+				float a_diff = real_a - a;
+				float b_diff = real_b - b;
+				float c_diff = real_c - c;
 				
+				if (fabs(b_diff) > 0.0) {
+					this->A.F += CA.normalize() * b_diff /2 ;
+					this->C.F -= CA.normalize() * b_diff /2 ;
+				}
+				if (fabs(c_diff) > 0.0) {
+					this->A.F -= AB.normalize() * c_diff /2 ;
+					this->B.F += AB.normalize() * c_diff /2 ;
+				}
+				if (fabs(a_diff) > 0.0) {
+					this->B.F -= BC.normalize() * a_diff /2 ;
+					this->C.F += BC.normalize() * a_diff /2 ;
+				}
+
+				this->A.correct(dt);
+				this->B.correct(dt);
+				this->C.correct(dt);
+
+
+				real_a = (B.proj_pos - C.proj_pos).length();
+				real_b = (C.proj_pos - A.proj_pos).length();
+				real_c = (A.proj_pos - B.proj_pos).length();
+
+				real_p = (real_a + real_b + real_c)/2;
+
+				realdiff = 0;
+				realdiff += fabs(real_a - a);
+				realdiff += fabs(real_b - b);
+				realdiff += fabs(real_c - c);
+				i++;
+				//printf("%f\n",real_p-p);
+			} while(fabs(real_p - p) > 1 || realdiff > 1);
+			//printf("%d\n",i);
+		}
+		void update(float dt) {
+			this->A.apply(dt);
+			this->B.apply(dt);
+			this->C.apply(dt);
+
+			Vector2f LA = A.pos + rotate((A.pos - C.pos),-VA/2);
+			Vector2f LC = C.pos + rotate((C.pos - A.pos),VC/2);
+			lines_intersect(A.pos,LA,C.pos,LC,&this->pos);
+
+			if (p < 500) {
+			R1 = A.pos;
+			R2 = A.pos + A.V * 100;
 			}
-			//printf("%f %f\n",R2.x,R2.y);
-			//R2 = Vector2f(300,300);
-		//	this->V = (prevpos-pos) / dt;
-
-
-		}
-		float calculate_impulse(Point PT, Vector2f Res) {
-			float imp = PT.V.length() / PT.mass + (PT.next_pos - Res).length();
-			return imp;
-		}
-		void apply_impulse(Vector2f place, Vector2f normal, float amount) {
-			//if (pinned) return;
-			//if (amount < 0.0001) return;
-			Vector2f RA = place - pos;
-			W += amount * (normal.y * RA.x - normal.x  * RA.y) / inertia;
-			float bounceness = 1 - 0.3;
-
-			printf("%f\n",W);
-
-
-
-			A.V += normal * amount / bounceness;
-			B.V += normal * amount / bounceness;
-			C.V += normal * amount / bounceness;
 			
+			Vector2f LAV = A.pos + Vector2f(-A.V.y,A.V.x);
+			Vector2f LBV = B.pos + Vector2f(-B.V.y,B.V.x);
+			
+			lines_intersect(A.pos,LAV,B.pos,LBV,&this->rot_center);
+			
+			if (lines_paralell(A.pos,LAV,B.pos,LBV)) {
+				this->V = (A.V+B.V)/2;
+			} else {
+				Vector2f rv = rot_center - A.pos;
+				float vp = rv.length() * A.V.length() * sin(angleOfVector(rv,A.V));
+				float sp = rv.length() * A.V.length() * cos(angleOfVector(rv,A.V));
+				this->W = vp/sp;
+			}
+
+
+			//if (rot_center.x == ) {
+			//	printf("%f %f\n",rot_center.x,rot_center.y);
+			//} else {
+			//	this->V = A.V;
+			//}
+				
+			printf("%f\n",W);
+		
 		}
 		void solve(Triangle *ti) {
-			Vector2f Res;
-			Vector2f diff;
-
-			if (   lines_intersect(pos,A.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
-				|| lines_intersect(pos,A.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
-				|| lines_intersect(pos,A.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(A.pos - A.next_pos).normalize(),calculate_impulse(A,Res));
-			}
-
-			if (   lines_intersect(pos,B.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
-				|| lines_intersect(pos,B.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
-				|| lines_intersect(pos,B.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(B.pos - B.next_pos).normalize(),calculate_impulse(B,Res));
-			}
-			if (   lines_intersect(pos,C.next_pos,ti->A.next_pos,ti->C.next_pos,&Res)
-				|| lines_intersect(pos,C.next_pos,ti->A.next_pos,ti->B.next_pos,&Res)
-				|| lines_intersect(pos,C.next_pos,ti->B.next_pos,ti->C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(C.pos - C.next_pos).normalize(),calculate_impulse(C,Res));
-			}
-
-/*
-
-			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,B.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->A.next_pos,B.next_pos,C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(ti->A.pos - ti->A.next_pos).normalize() * -1,calculate_impulse(ti->A,Res));
-			}
-			if (   lines_intersect(ti->pos,ti->B.next_pos,A.next_pos,C.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->B.next_pos,A.next_pos,B.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->B.next_pos,B.next_pos,C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(ti->B.pos - ti->B.next_pos).normalize() * -1,calculate_impulse(ti->B,Res));
-			}
-			if (   lines_intersect(ti->pos,ti->C.next_pos,A.next_pos,C.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->C.next_pos,A.next_pos,B.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->C.next_pos,B.next_pos,C.next_pos,&Res)
-			) {
-				apply_impulse(Res,(ti->C.pos - ti->C.next_pos).normalize() * -1,calculate_impulse(ti->C,Res));
-			}
-*/
-/*
-
-			if (   lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,C.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->A.next_pos,A.next_pos,B.next_pos,&Res)
-				|| lines_intersect(ti->pos,ti->A.next_pos,B.next_pos,C.next_pos,&Res)
-			) {
-				float imp = A.V.length() / A.mass + (A.next_pos - Res).length() * 100;
-				A.pos = Res;
-				A.V = Vector2f(0,0) / A.mass;
-				A.F = Vector2f(0,-1) * imp;
-			}
-*/
-			/*
-			if (lines_intersect(A.next_pos,A.next_pos + ABsep,ti->A.next_pos,ti->C.next_pos,&Res)) {
-				A.pos = Res;
-				A.next_pos = Res;
-				A.F += Vector2f(0,-A.V.length());
-			}
-			if (lines_intersect(B.next_pos,B.next_pos - ABsep,ti->A.next_pos,ti->C.next_pos,&Res)) {
-				B.pos = Res;
-				B.next_pos = Res;
-				B.F += Vector2f(0,-B.V.length());
-			}
-			*/
+			
 		}
 		void draw() {
 			glColor3f(1.0,0.0,0.0);
@@ -305,42 +227,64 @@ class Triangle {
 			glTranslatef(A.pos.x,A.pos.y,0);
 			glBegin(GL_POLYGON);
 			for (int i=0; i <= 360; i++) {
-				glVertex2f(10*cos(i),10*sin(i));
+				float z = i * (M_PI/180);
+				glVertex2f(10*cos(z),10*sin(z));
 			}
 			glEnd();
+
+
 			glColor3f(0.0,1.0,0.0);
 			glLoadIdentity();
 			glTranslatef(B.pos.x,B.pos.y,0);
 			glBegin(GL_POLYGON);
 			for (int i=0; i <= 360; i++) {
-				glVertex2f(10*cos(i),10*sin(i));
+				float z = i * (M_PI/180);
+				glVertex2f(10*cos(z),10*sin(z));
 			}
 			glEnd();
+
+
 			glColor3f(0.0,0.0,1.0);
 			glLoadIdentity();
 			glTranslatef(C.pos.x,C.pos.y,0);
 			glBegin(GL_POLYGON);
 			for (int i=0; i <= 360; i++) {
-				glVertex2f(10*cos(i),10*sin(i));
+				float z = i * (M_PI/180);
+				glVertex2f(10*cos(z),10*sin(z));
 			}
 			glEnd();
+			
+			glColor3f(1.0,1.0,1.0);
 			glLoadIdentity();
-			glColor3f(1,1,1);
+			glTranslatef(pos.x,pos.y,0);
+			glBegin(GL_POLYGON);
+			for (int i=0; i <= 360; i++) {
+				float z = i * (M_PI/180);
+				glVertex2f(10*cos(z),10*sin(z));
+			}
+			glEnd();
+			
+			glColor3f(1.0,1.0,0.0);
+			glLoadIdentity();
+			glTranslatef(rot_center.x,rot_center.y,0);
+			glBegin(GL_POLYGON);
+			for (int i=0; i <= 360; i++) {
+				float z = i * (M_PI/180);
+				glVertex2f(10*cos(z),10*sin(z));
+			}
+			glEnd();
+
+			
+			glColor3f(1.0,1.0,1.0);
+			glLoadIdentity();
 			glBegin(GL_LINE_LOOP);
 				glVertex2f(A.pos.x,A.pos.y);
 				glVertex2f(B.pos.x,B.pos.y);
 				glVertex2f(C.pos.x,C.pos.y);
 			glEnd();
-			glColor3f(0.0,0.0,1.0);
-			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				glVertex2f(10*cos(i),10*sin(i));
-			}
-			glEnd();
 		}
 };
+
 
 
 class World {
@@ -375,7 +319,7 @@ class World {
 				it++) 
 			{
 				(*it)->self_solve(dt);
-				(*it)->correct(dt);
+				(*it)->update(dt);
 			}
 			
 			for (
@@ -400,11 +344,19 @@ class World {
 				(*it)->draw();
 			}
 			glLoadIdentity();
-			glColor3f(1,0,0);
-			glLineWidth(10);
+			glLineWidth(5);
 			glBegin(GL_LINES);
+				glColor3f(1,0,0);
 				glVertex2f(R1.x,R1.y);
 				glVertex2f(R2.x,R2.y);
+				
+				glColor3f(0,0,1);
+				glVertex2f(R3.x,R3.y);
+				glVertex2f(R4.x,R4.y);
+			
+				glColor3f(0,1,0);
+				glVertex2f(R5.x,R5.y);
+				glVertex2f(R6.x,R6.y);
 			glEnd();
 			glLineWidth(1);
 		}
@@ -424,13 +376,13 @@ int main (int argc, char **argv) {
 	World world;
 
 
-	world.add_triangle(Vector2f(300,200),100,100,100,false,10*(M_PI/180));
+	world.add_triangle(Vector2f(300,200),100,100,100,false,0*(M_PI/180));
 	//world.add_triangle(Vector2f(300,50),100,100,100,false,-0*(M_PI/180));
 	//world.add_triangle(Vector2f(300,350),100,100,100,false,-0*(M_PI/180));
 	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));
 
 		
-	//world.add_triangle(Vector2f(400,600),800,200,true);
+	//world.add_triangle(Vector2f(400,600),800,200,true,);
 	//test();
 
 	SDL_Event event;

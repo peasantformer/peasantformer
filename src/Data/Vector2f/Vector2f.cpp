@@ -159,7 +159,6 @@ Vector2f lines_intersect(Vector2f p11, Vector2f p12, Vector2f p21, Vector2f p22,
 	return Vector2f(-1,-1);
 }
 */
-
 float orient(const Vector2f *a, const Vector2f *b, const Vector2f *c) {
 	return (a->x - c->x) * (b->y - c->y) - (a->y - c->y) * (b->x - c->x);
 }
@@ -181,6 +180,11 @@ Vector2f angelVector(float tenshi) {
 float cosOfVector(Vector2f V, Vector2f base) {
 	return ((V.x * base.x + V.y * base.y)/(V.length() * base.length()));
 }
+
+float dot_product(Vector2f A, Vector2f B) {
+	return A.length() * B.length() * cosOfVector(A,B);
+}
+
 
 float angleOfVector(Vector2f V, Vector2f base) {
 	float val = cosOfVector(V,base);
@@ -244,6 +248,18 @@ float circleIntersects(Vector2f C, float radius, Vector2f A, Vector2f B, Vector2
 
 float D2(float a11, float a12, float a21, float a22) {
 	return a11 * a22 - a12 * a21;
+}
+
+float line_slope(Vector2f A, Vector2f B) {
+	float U,D;
+	U = (B.y - A.y);
+	D = (B.x - A.x);
+	if (D == 0 | U == 0) return -1;
+	return (B.y - A.y) / (B.x - A.x);
+}
+
+bool lines_paralell(Vector2f A, Vector2f B, Vector2f C, Vector2f D) {
+	return fabs(fabs(line_slope(A,B)) - fabs(line_slope(C,D))) < 0.001;	
 }
 
 bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * P) {
