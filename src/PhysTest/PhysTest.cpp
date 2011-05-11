@@ -8,6 +8,7 @@ class Point {
 	public:
 		Vector2f pos;
 		Vector2f proj_pos;
+		Vector2f prev_pos;
 		Vector2f V;
 		Vector2f F;
 		float mass;
@@ -18,6 +19,7 @@ class Point {
 		Point(Vector2f pos, float mass, bool pinned) {
 			this->pos = pos;
 			this->proj_pos = pos;
+			this->prev_pos = pos;
 			this->mass = mass;
 			this->pinned = pinned;
 		}
@@ -41,6 +43,7 @@ class Point {
 			this->proj_pos += V * dt;
 		}
 		void apply(float dt) {
+			this->prev_pos = pos;
 			this->pos += V * dt;
 		}
 };
@@ -65,7 +68,8 @@ class Triangle {
 		Triangle() {
 		}
 		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
-			this->mass = 100;
+			this->mass = 10;
+			this->inertia = mass * mass * mass;
 			this->pos = pos;
 			this->rot_center = pos;
 			this->a = a;
@@ -119,10 +123,6 @@ class Triangle {
 				rotate(Vector2f(0,-cLC),angle + ( 180*(M_PI/180) - (VB/2 + VC/2))),
 				mass/3.0,pinned
 			);
-			if (p < 500) {
-				A.V = Vector2f(0,1);
-				C.V = Vector2f(0,1);
-			}
 		}
 	public:
 		void project(Vector2f ext, float dt) {
@@ -176,11 +176,11 @@ class Triangle {
 				realdiff += fabs(real_b - b);
 				realdiff += fabs(real_c - c);
 				i++;
-				//printf("%f\n",real_p-p);
 			} while(fabs(real_p - p) > 1 || realdiff > 1);
-			//printf("%d\n",i);
 		}
 		void update(float dt) {
+			Vector2f prev = A.pos;
+
 			this->A.apply(dt);
 			this->B.apply(dt);
 			this->C.apply(dt);
@@ -197,29 +197,247 @@ class Triangle {
 			Vector2f LAV = A.pos + Vector2f(-A.V.y,A.V.x);
 			Vector2f LBV = B.pos + Vector2f(-B.V.y,B.V.x);
 			
-			lines_intersect(A.pos,LAV,B.pos,LBV,&this->rot_center);
-			
+
 			if (lines_paralell(A.pos,LAV,B.pos,LBV)) {
-				this->V = (A.V+B.V)/2;
+				this->W = 0;
 			} else {
+				lines_intersect(A.pos,LAV,B.pos,LBV,&this->rot_center);
 				Vector2f rv = rot_center - A.pos;
-				float vp = rv.length() * A.V.length() * sin(angleOfVector(rv,A.V));
-				float sp = rv.length() * A.V.length() * cos(angleOfVector(rv,A.V));
-				this->W = vp/sp;
+				this->W = A.V.length() * sin(fullAngleOfVector(rv,A.V)) / rv.length();
 			}
 
+			if (fabs(W) < 0.0001) {
+				this->V = A.V;
+			} else {
+				this->V = ((rot_center - pos) * W);
+			}
+		}
+		void apply_impulse(Vector2f place, Vector2f normal, float amount) {
+			float bounceness = 0.001;
+			
+			Vector2f PP = pos - place;
 
-			//if (rot_center.x == ) {
-			//	printf("%f %f\n",rot_center.x,rot_center.y);
-			//} else {
-			//	this->V = A.V;
-			//}
-				
-			printf("%f\n",W);
-		
+			Vector2f PA = pos - A.pos;
+			Vector2f PB = pos - B.pos;
+			Vector2f PC = pos - C.pos;
+			
+			float CA = (PP - PA).length();
+			float CB = (PP - PB).length();
+			float CC = (PP - PC).length();
+			
+			//printf("B: %f %f %f\n",CA,CB,CC);
+			
+			normalize_three(&CA,&CB,&CC);
+
+			CC = 1 - CC;
+			CB = 1 - CB;
+			CA = 1 - CA;
+			
+			//printf("A: %f %f %f\n",CA,CB,CC);
+			//
+
+			Vector2f RA = place - pos;
+
+			float wdiff = (normal.y * RA.x - normal.x * RA.y) / inertia;
+
+			printf(">>> %f\n",wdiff);
+
+			Vector2f PA_norm = Vector2f(PA.y,-PA.x).normalize();
+			Vector2f PB_norm = Vector2f(PB.y,-PB.x).normalize();
+			Vector2f PC_norm = Vector2f(PC.y,-PC.x).normalize();
+
+			A.V += normal * (amount / mass) * bounceness;
+			B.V += normal * (amount / mass) * bounceness;
+			C.V += normal * (amount / mass) * bounceness;
+
+			A.V += PA_norm * wdiff / 3;
+			B.V += PB_norm * wdiff / 3;
+			C.V += PC_norm * wdiff / 3;
+
+
+		}
+		float calculate_impulse(Vector2f Res, Vector2f normal, Triangle *obj) {
+			//float imp = ((PT.V + obj->V) * (obj->mass + mass)).length(); 
+
+			float imp = (V * mass).length();
+			printf("%f %f\n",imp, V.length());
+			return imp;
 		}
 		void solve(Triangle *ti) {
+			Vector2f Res;
+			Vector2f normal;
+			Vector2f diff;
+			float imp;
 			
+			Vector2f ACB = A.pos - (A.pos - B.pos) / 2;
+			Vector2f BCC = B.pos - (B.pos - C.pos) / 2;
+			Vector2f CCA = C.pos - (C.pos - A.pos) / 2;
+			
+			Vector2f PACB = A.prev_pos - (A.prev_pos - B.prev_pos) / 2;
+			Vector2f PBCC = B.prev_pos - (B.prev_pos - C.prev_pos) / 2;
+			Vector2f PCCA = C.prev_pos - (C.prev_pos - A.prev_pos) / 2;
+	
+			
+			if (lines_intersect(pos,CCA,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,CCA,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,CCA,ti->B.pos,ti->C.pos,&Res)
+			) {	
+				normal = V.normalize() * -1;
+//				normal = (PCCA - CCA);
+				diff = (Res - CCA);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				A.pos += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}	
+			if (lines_intersect(pos,BCC,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,BCC,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,BCC,ti->B.pos,ti->C.pos,&Res)
+			) {	
+				normal = V.normalize() * -1;
+//				normal = (PBCC - BCC);
+				diff = (Res - BCC);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				A.pos += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}	
+			if (lines_intersect(pos,ACB,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,ACB,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,ACB,ti->B.pos,ti->C.pos,&Res)
+			) {	
+				normal = V.normalize() * -1;
+//				normal = (PACB - ACB);
+				diff = (Res - ACB);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				A.pos += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			
+			if (lines_intersect(pos,A.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,A.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,A.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = V.normalize() * -1;
+//				normal = (A.prev_pos - A.pos);
+				Vector2f diff = (A.prev_pos - A.pos);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+//				A.pos += diff;;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			if (lines_intersect(pos,B.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,B.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,B.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = V.normalize() * -1;
+//				normal = (B.prev_pos - B.pos);
+				Vector2f diff = (B.prev_pos - B.pos);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+//				A.pos += diff;;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			if (lines_intersect(pos,C.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,C.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,C.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = V.normalize() * -1;
+//				normal = (C.prev_pos - C.pos);
+				Vector2f diff = (C.prev_pos - C.pos);
+				A.V += diff;
+				B.V += diff;
+				C.V += diff;
+//				B.pos += diff;
+//				C.pos += diff;
+//				A.pos += diff;;
+				imp = calculate_impulse(Res,normal,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			
+			/*
+			if (lines_intersect(pos,A.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,A.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,A.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = (A.prev_pos-A.pos).normalize();
+				Vector2f diff = (Res - A.pos);
+				B.pos += diff;
+				C.pos += diff;
+				A.pos += diff;;
+				imp = calculate_impulse(A,Res,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			if (lines_intersect(pos,B.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,B.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,B.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = (B.prev_pos-B.pos).normalize();
+				Vector2f diff = (Res - B.pos);
+				B.pos += diff;
+				C.pos += diff;
+				A.pos += diff;
+				imp = calculate_impulse(B,Res,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			if (lines_intersect(pos,C.pos,ti->A.pos,ti->C.pos,&Res)
+			 || lines_intersect(pos,C.pos,ti->A.pos,ti->B.pos,&Res)
+			 || lines_intersect(pos,C.pos,ti->B.pos,ti->C.pos,&Res)
+			) {
+				normal = (C.prev_pos-C.pos).normalize();
+				Vector2f diff = (Res - C.pos);
+				B.pos += diff;
+				C.pos += diff;
+				A.pos += diff;
+				imp = calculate_impulse(C,Res,ti);
+				apply_impulse(Res,normal,imp);
+			}
+			*/
+	
+
+/*
+
+			if (lines_intersect(ti->pos,ti->A.pos,A.pos,C.pos,&Res)
+			 || lines_intersect(ti->pos,ti->A.pos,A.pos,B.pos,&Res)
+			 || lines_intersect(ti->pos,ti->A.pos,B.pos,C.pos,&Res)
+			) {
+				apply_impulse(Res,(ti->A.pos-ti->A.prev_pos).normalize(),calculate_impulse(ti->A,Res));
+			}
+			if (lines_intersect(ti->pos,ti->B.pos,A.pos,C.pos,&Res)
+			 || lines_intersect(ti->pos,ti->B.pos,A.pos,B.pos,&Res)
+			 || lines_intersect(ti->pos,ti->B.pos,B.pos,C.pos,&Res)
+			) {
+				apply_impulse(Res,(ti->B.pos-ti->B.prev_pos).normalize(),calculate_impulse(ti->B,Res));
+			}
+			if (lines_intersect(ti->pos,ti->C.pos,A.pos,C.pos,&Res)
+			 || lines_intersect(ti->pos,ti->C.pos,A.pos,B.pos,&Res)
+			 || lines_intersect(ti->pos,ti->C.pos,B.pos,C.pos,&Res)
+			) {
+				apply_impulse(Res,(ti->C.pos-ti->C.prev_pos).normalize(),calculate_impulse(ti->C,Res));
+			}
+*/
+
 		}
 		void draw() {
 			glColor3f(1.0,0.0,0.0);
@@ -295,7 +513,7 @@ class World {
 		float dt;
 	public:
 		World() :
-			gravity(0,0.0),
+			gravity(0,0.098),
 			dt(0.02)
 		{}
 	public:
@@ -376,8 +594,8 @@ int main (int argc, char **argv) {
 	World world;
 
 
-	world.add_triangle(Vector2f(300,200),100,100,100,false,0*(M_PI/180));
-	//world.add_triangle(Vector2f(300,50),100,100,100,false,-0*(M_PI/180));
+	world.add_triangle(Vector2f(300,200),100,100,100,false,-0*(M_PI/180));
+	//world.add_triangle(Vector2f(300,50),100,100,100,false,-45*(M_PI/180));
 	//world.add_triangle(Vector2f(300,350),100,100,100,false,-0*(M_PI/180));
 	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));
 

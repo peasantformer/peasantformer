@@ -51,6 +51,7 @@ bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * 
 
 Vector2f angleVector(float tenshi);
 float line_slope(Vector2f A, Vector2f B);
+void normalize_three(float *A, float *B, float *C);
 
 bool lines_paralell(Vector2f A, Vector2f B, Vector2f C, Vector2f D);
 

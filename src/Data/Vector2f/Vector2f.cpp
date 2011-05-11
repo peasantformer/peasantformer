@@ -254,12 +254,25 @@ float line_slope(Vector2f A, Vector2f B) {
 	float U,D;
 	U = (B.y - A.y);
 	D = (B.x - A.x);
-	if (D == 0 | U == 0) return -1;
+	if (D == 0 || U == 0) return 0;
 	return (B.y - A.y) / (B.x - A.x);
 }
 
+void normalize_three(float *A, float *B, float *C) {
+	float max = *A;
+	if (*B > max) max = *B;
+	if (*C > max) max = *C;
+	*A /= max;
+	*B /= max;
+	*C /= max;
+}
+
 bool lines_paralell(Vector2f A, Vector2f B, Vector2f C, Vector2f D) {
-	return fabs(fabs(line_slope(A,B)) - fabs(line_slope(C,D))) < 0.001;	
+	if (A == B || C == D) return true;
+	if (((A.x == B.x) && (A.y == B.y)) || ((C.x == D.x) && (C.y == D.y))) {
+		return false;
+	}
+	return (fabs(fabs(line_slope(A,B)) - fabs(line_slope(C,D))) < 0.0001);
 }
 
 bool lines_intersect(Vector2f A, Vector2f B, Vector2f C, Vector2f D, Vector2f * P) {
