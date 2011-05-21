@@ -21,6 +21,9 @@ class pio_string {
 
 		~pio_string();
 	public:
+		size_t length();
+		wchar_t &operator[](size_t);
+		const wchar_t *w_str();
 		const char *c_str();
 		void clear();
 };

@@ -1,15 +1,18 @@
 #include "CircularBuffer.h"
 
-CircularBuffer::CircularBuffer(size_t buffsize) {
+template <class T>
+CircularBuffer<T>::CircularBuffer(size_t buffsize) {
 	this->buffsize = buffsize;
-	this->buffer = (char*)malloc(this->buffsize * sizeof (char));
+	this->buffer = (T*)malloc(this->buffsize * sizeof(T));
 	memset(this->buffer,0,this->buffsize);
 	this->ptr_begin = this->buffer;
 	this->ptr_end = this->buffer;
 	this->fill = 0;
 	this->peek_fill = this->fill;
 }
-CircularBuffer::CircularBuffer(const char *str) {
+
+template<class T>
+CircularBuffer<T>::CircularBuffer(const char *str) {
 	this->buffsize = strlen(str);
 	this->buffer = (char*)malloc(this->buffsize * sizeof (char));
 	memcpy(this->buffer,str,buffsize);
@@ -18,10 +21,25 @@ CircularBuffer::CircularBuffer(const char *str) {
 	this->fill = buffsize;
 	this->peek_fill = this->fill;
 }
-CircularBuffer::~CircularBuffer() {
+
+template<class T>
+CircularBuffer<T>::CircularBuffer(const wchar_t *str) {
+	this->buffsize = wcslen(str);
+	this->buffer = (wchar_t*)malloc(this->buffsize * sizeof (wchar_t));
+	memcpy(this->buffer,str,buffsize);
+	this->ptr_begin = this->buffer;
+	this->ptr_end = this->buffer + buffsize;
+	this->fill = buffsize;
+	this->peek_fill = this->fill;
+}
+
+template <class T>
+CircularBuffer<T>::~CircularBuffer() {
 	free(this->buffer);
 }
-size_t CircularBuffer::forward_dist() {
+
+template <class T>
+size_t CircularBuffer<T>::forward_dist() {
 	if (this->ptr_end > this->ptr_begin) {
 		return this->ptr_end - this->ptr_begin;
 	} else if (this->ptr_end < this->ptr_begin) {
@@ -30,11 +48,15 @@ size_t CircularBuffer::forward_dist() {
 		return this->fill;
 	}
 }
-size_t CircularBuffer::backward_dist() {
+
+template <class T>
+size_t CircularBuffer<T>::backward_dist() {
 	return this->buffsize - this->forward_dist();
 }
-int CircularBuffer::write(const char *source, size_t len) {
-	const char *s;
+
+template <class T>
+int CircularBuffer<T>::write(const T *source, size_t len) {
+	const T *s;
 	size_t w = 0;
 
 	for (this->ptr_end, s = source; len > 0; this->ptr_end++, s++, len--) {
@@ -53,8 +75,9 @@ int CircularBuffer::write(const char *source, size_t len) {
 	this->peek_fill = this->fill;
 	return w;
 }
-int CircularBuffer::read(char *dest, size_t len) {
-	char *d;
+template <class T>
+int CircularBuffer<T>::read(T *dest, size_t len) {
+	T *d;
 	size_t r = 0;
 
 	for (this->ptr_begin, d = dest; len > 0; this->ptr_begin++,d++,len--) {
@@ -71,8 +94,10 @@ int CircularBuffer::read(char *dest, size_t len) {
 	this->peek_fill = this->fill;
 	return r;
 }
-int CircularBuffer::peek(size_t offset) {
-	char *p = this->ptr_begin;
+
+template <class T>
+int CircularBuffer<T>::peek(size_t offset) {
+	T *p = this->ptr_begin;
 	if (offset >= this->buffsize) return -1;
 	if ((p+offset) >= (this->buffer + this->buffsize)) {
 		offset -= ((this->buffer + this->buffsize) - this->ptr_begin);
@@ -80,9 +105,11 @@ int CircularBuffer::peek(size_t offset) {
 	}
 	return *(p+offset);
 }
-int CircularBuffer::peek_str(char *dest, size_t len) {
-	char *p = this->ptr_begin;
-	char *d;
+
+template <class T>
+int CircularBuffer<T>::peek_str(T *dest, size_t len) {
+	T *p = this->ptr_begin;
+	T *d;
 	size_t r = 0;
 
 	for (p, d = dest; len > 0; p++,d++,len--) {
@@ -98,16 +125,21 @@ int CircularBuffer::peek_str(char *dest, size_t len) {
 	}
 	return r;
 }
-int CircularBuffer::is_eof() {
+
+template <class T>
+int CircularBuffer<T>::is_eof() {
 	return (this->fill == 0);
 }
-int CircularBuffer::is_peek_eof() {
+template <class T>
+int CircularBuffer<T>::is_peek_eof() {
 	return (this->peek_fill == 0);
 }
-int CircularBuffer::is_full() {
+template <class T>
+int CircularBuffer<T>::is_full() {
 	return (this->fill == this->buffsize);
 }
-void CircularBuffer::clear() {
+template <class T>
+void CircularBuffer<T>::clear() {
 	this->ptr_begin = this->buffer;
 	this->ptr_end = this->buffer;
 	this->fill = 0;

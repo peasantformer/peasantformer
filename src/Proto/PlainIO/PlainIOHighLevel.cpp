@@ -67,6 +67,18 @@ pio_string::pio_string(char *source) {
 	delete wch;
 }
 
+size_t pio_string::length() {
+	return this->data.size();
+}
+
+wchar_t &pio_string::operator[](size_t i) {
+	return this->data[i];
+}
+
+const wchar_t *pio_string::w_str() {
+	this->data_to_wchar();
+	return this->wstr;
+}
 const char *pio_string::c_str() {
 	this->data_to_wchar();
 	if (this->cstr != NULL) delete this->cstr;
