@@ -10,6 +10,7 @@ add_definitions(-pedantic -Wall)
 set(CMAKE_BUILD_TYPE Debug)
 include_directories(
 	../src
+	/usr/include/Box2D
 )
 
 ########################################################################
@@ -42,29 +43,45 @@ elseif (UNIX)
 endif (WIN32)
 add_library(proto-network          STATIC ${network_src})
 add_library(proto-networkhighlevel STATIC ../src/Proto/Network/NetworkHighLevel.cpp)
+set(plainio_src
+	../src/Proto/PlainIO/PlainIO.cpp
+)
+if (WIN32)
+	set(plainio_src ${plainio_src}
+		../src/Proto/PlainIO/PlainIOWin32.cpp
+	)	
+elseif (UNIX)
+	set(plainio_src ${plainio_src}
+		../src/Proto/PlainIO/PlainIOUnix.cpp
+	)	
+endif (WIN32)
+add_library(proto-plainio          STATIC ${plainio_src})
+add_library(proto-plainiohighlevel STATIC ../src/Proto/PlainIO/PlainIOHighLevel.cpp)
+target_link_libraries(proto-plainiohighlevel proto-plainio)
 
 ########################################################################
 
-project(PhysTest)
-include(FindOpenGL)
-include(FindSDL)
+#project(PhysTest)
+#include(FindOpenGL)
+#include(FindSDL)
 
-set(phystest_src
-	../src/PhysTest/PhysTest.cpp
-)
+#set(phystest_src
+#	../src/PhysTest/PhysTest.cpp
+#)
 
-set(phystest_lib
-	${OPENGL_LIBRARIES}
-	${SDL_LIBRARY}
-
-	data-vector2f
-	data-array
-)
-
-
-add_executable(phystest ${phystest_src})
-target_link_libraries(phystest ${phystest_lib})
-set_target_properties(phystest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../")
+#set(phystest_lib
+#	${OPENGL_LIBRARIES}
+#	${SDL_LIBRARY}
+#	-lbox2d
+#
+#	data-vector2f
+#	data-array
+#)
+#
+#
+#add_executable(phystest ${phystest_src})
+#target_link_libraries(phystest ${phystest_lib})
+#set_target_properties(phystest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../")
 
 ########################################################################
 
@@ -102,6 +119,8 @@ set(server_lib
 	
 	proto-network
 	proto-networkhighlevel
+	proto-plainio
+	proto-plainiohighlevel
 )
 if (WIN32)
 	include_directories(

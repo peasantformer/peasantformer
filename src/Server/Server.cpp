@@ -7,6 +7,8 @@ int main(int argc, char **argv) {
 #endif
 	
 	engine.setup_server_on_addr_port("","50600");
+	
+	printf("Fired up!\n");
 
 #ifdef _WIN32
 	pthread_win32_process_detach_np();

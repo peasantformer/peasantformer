@@ -1,607 +1,671 @@
 #include "PhysTest.h"
 
-Vector2f R1,R2;
-Vector2f R3,R4;
-Vector2f R5,R6;
+class Timer {
+	private:
+			Uint32 startTicks;
+			Uint32	pausedTicks;
+			bool paused;
+			bool started;
+	public:
+		Timer() {
+			this->startTicks = 0;
+			this->pausedTicks = 0;
+			this->paused = false;
+			this->started = false;
+		}
+		void start() {
+			this->startTicks = SDL_GetTicks();
+			this->pausedTicks = 0;
+			this->started =  true;
+			this->paused = false;
+		}
 
-class Point {
-	public:
-		Vector2f pos;
-		Vector2f proj_pos;
-		Vector2f prev_pos;
-		Vector2f V;
-		Vector2f F;
-		float mass;
-		bool pinned;
-	public:
-		Point() {
+		void stop() {
+			this->startTicks = SDL_GetTicks() - this->startTicks;
+			this->pausedTicks = 0;
+			this->started = false;
+			this->paused = false;
 		}
-		Point(Vector2f pos, float mass, bool pinned) {
-			this->pos = pos;
-			this->proj_pos = pos;
-			this->prev_pos = pos;
-			this->mass = mass;
-			this->pinned = pinned;
-		}
-	public:
-		void project(Vector2f ext, float dt) {
-			if (pinned) {
-				this->V = Vector2f(0,0);
-				this->F = Vector2f(0,0);
-				this->proj_pos = pos;
-				return;
+
+		void pause() {
+			if (this->started == true && this->paused == false) {
+				this->pausedTicks = SDL_GetTicks();
+				this->paused = true;
 			}
-			this->proj_pos = pos;
-			this->V += ext * dt;
-			this->proj_pos += V * dt;
 		}
-		void correct(float dt) {
-			if (pinned) return;
-			this->proj_pos = pos;
-			this->V += F / (mass * dt);
-			this->F = Vector2f(0,0);
-			this->proj_pos += V * dt;
+		void unpause() {
+			if (this->started == true && this->paused == true) {
+				this->startTicks += SDL_GetTicks() - this->pausedTicks;
+				this->pausedTicks = 0;
+				this->paused = false;
+			}
 		}
-		void apply(float dt) {
-			this->prev_pos = pos;
-			this->pos += V * dt;
+
+		Uint32 get_ticks() {
+			if (this->started == true) {
+				if (this->paused == true) {
+					return (SDL_GetTicks() - (this->startTicks + (SDL_GetTicks() - this->pausedTicks)));
+				} else {
+					return SDL_GetTicks() - this->startTicks;
+				}
+			} else {
+				return this->startTicks;
+			}
+		}
+	public:
+		bool get_paused(void) {
+			return this->paused;
+		}
+		bool get_started(void) {
+			return this->started;
+		}
+
+};
+
+class Color3f {
+	public:
+		float r;
+		float g;
+		float b;
+	public:
+		Color3f() {
+			this->r = 0.5;
+			this->g = 0.5;
+			this->b = 0.5;
+		}
+		Color3f(float r, float g, float b) {
+			this->r = r;
+			this->g = g;
+			this->b = b;
+		}
+	public:
+		void Set(float r, float g, float b) {
+			this->r = r;
+			this->g = g;
+			this->b = b;
+		}
+	
+};
+
+class PeasantObject;
+class PeasantObjectGround;
+class PeasantObjectRectangle;
+class PeasantObjectBox;
+
+class Visitor {
+	protected:
+		Visitor() {
+		}
+	public:
+		virtual ~Visitor() {};
+	public:
+		virtual void visit(PeasantObject &) = 0;
+		virtual void visit(PeasantObjectGround &) = 0;
+		virtual void visit(PeasantObjectRectangle &) = 0;
+		virtual void visit(PeasantObjectBox &) = 0;
+};
+
+class PeasantObject {
+	public:
+		b2Vec2 position;
+		float angle;
+		Color3f color;
+		b2Body *body;
+	public:
+		PeasantObject(b2Vec2 position, float angle) {
+			this->position = position;
+			this->angle = angle;
+			this->body = NULL;
+		}
+		virtual ~PeasantObject() {}
+	public:
+		virtual void accept(Visitor &v) {
+			v.visit(*this);
 		}
 };
 
-class Triangle {
+class PeasantObjectRectangle : public PeasantObject {
 	public:
-		Vector2f pos;
-		Vector2f V;          //         BB         // r - incircle radius
-		Point A,B,C;         //         /\         // R - excircle radius
-		float a,b,c;         //        /VB\        // P - perimeter
-		float VA,VB,VC;      //       /    \       // p = P/2
-		float r,R;           //     c/      \a     // A,B,C - vertices
-		float p,P;           //     /        \     // VA,VB,VC - angles
-		float angle;         //  A /_VA____VC_\ C  // a,b,c - sides:
-		float mass;          //         bb         // V - triangle's speed
-		float inertia;
-		float W;             // angular speed
-		bool pinned;
-		Vector2f rot_center; // rotation center
-
+		b2Vec2 dimensions;
 	public:
-		Triangle() {
+		PeasantObjectRectangle(b2Vec2 position, float angle, b2Vec2 dimensions) :
+			PeasantObject(position,angle)
+		{
+			this->dimensions = dimensions;
 		}
-		Triangle(Vector2f pos, float a, float b, float c, bool pinned, float angle) {
-			this->mass = 10;
-			this->inertia = mass * mass * mass;
-			this->pos = pos;
-			this->rot_center = pos;
-			this->a = a;
-			this->b = b;
-			this->c = c;
-			this->angle = angle;
+		virtual ~PeasantObjectRectangle() {}
+	public:
+		virtual void accept(Visitor &v) {
+			v.visit(*this);
+		}
+};
 
-			this->P = a + b + c;
-			this->p = P/2;
+class PeasantObjectGround : public PeasantObjectRectangle {
+	public:
+		PeasantObjectGround(b2Vec2 position, float angle, b2Vec2 dimensions) :
+			PeasantObjectRectangle(position,angle,dimensions)
+		{
+		}
+		virtual ~PeasantObjectGround() {}
+	public:
+		virtual void accept(Visitor &v) {
+			v.visit(*this);
+		}
+};
 
-			this->R = a*b*c / sqrt((a+b+c) * (-a+b+c) * (a-b+c) * (a+b-c));
-			this->r = sqrt(((p-a) * (p-b) * (p-c)) / p);
+class PeasantObjectBox : public PeasantObjectRectangle {
+	public:
+		PeasantObjectBox(b2Vec2 position, float angle, b2Vec2 dimensions) :
+			PeasantObjectRectangle(position,angle,dimensions)
+		{
+		}
+		virtual ~PeasantObjectBox() {}
+	public:
+		virtual void accept(Visitor &v) {
+			v.visit(*this);
+		}
+};
 
-			this->VC = acos((a*a + b*b - c*c)/(2*a*b));
-			this->VB = acos((a*a + c*c - b*b)/(2*a*c));
-			this->VA = acos((c*c + b*b - a*a)/(2*c*b));
+class World {
+	public:
+		b2AABB worldAABB;
+		b2Vec2 gravity;
+		bool doSleep;
+		float timeStep;
+		int32 iterations;
+		b2World *world;
+	public:
+		World() {
 
+			this->worldAABB.lowerBound.Set(-1000,-1000);
+			this->worldAABB.upperBound.Set(1000,1000);
+			this->gravity = b2Vec2(0,-9.8);
+			this->doSleep = true;
+			this->timeStep = 1.0 / 60.0;
+			this->iterations = 10;
 
-			float Lc = sqrt(4*a*b*p*(p-c))/(a+b);
-			float Lb = sqrt(4*a*c*p*(p-b))/(a+c);
-			float La = sqrt(4*c*b*p*(p-a))/(c+b);
-			//float Lc = 2*a*b*cos(VC/2)/(a+b);
-			//float Lb = 2*a*c*cos(VB/2)/(a+c);
-			//float La = 2*c*b*cos(VA/2)/(c+b);
+			this->world = new b2World(worldAABB,gravity,doSleep);
+		}
+		~World() {
+			delete this->world;
+		}
+	public:
+		void iterate() {
+			world->Step(timeStep,iterations);
+		}
+	public:
+		PeasantObjectGround *addPlane(b2Vec2 position, float angle, b2Vec2 dimensions) {
+			b2BodyDef plane_def;
+			plane_def.position = position;
+			plane_def.angle = angle;
 			
-			//float cLB = Lc*2/3;
-			//float cLA = La*2/3;
-			//float cLC = Lc*2/3;
-
-			//float cLC = sqrt(r*r + p-c);
-			//float cLA = sqrt(r*r + p-a);
-			//float cLB = sqrt(r*r + p-b);
-
-			//working:
-			//float cLC = r/sin(VC/2);
-			//float cLB = r/sin(VB/2);
-			//float cLA = r/sin(VA/2);
+			b2Body* plane = world->CreateBody(&plane_def);
 			
-			float cLC = sqrt((p-c)*(p-c) + r*r);
-			float cLB = sqrt((p-b)*(p-b) + r*r);
-			float cLA = sqrt((p-a)*(p-a) + r*r);
+			b2PolygonDef shape;
+			shape.SetAsBox(dimensions.x, dimensions.y);
+			
+			plane->CreateShape(&shape);
+			
+			PeasantObjectGround *obj = new PeasantObjectGround(position, angle, dimensions);
+			obj->body = plane;
+			plane->SetUserData(obj);
 
-			this->B = Point(pos + rotate(Vector2f(0,-cLB),angle),mass/3.0,pinned);
-			this->A = Point(
-				pos + 
-				rotate(Vector2f(0,-cLA),angle - ( 180*(M_PI/180) - (VB/2 + VA/2))),
-				mass/3.0,pinned
+			return obj;
+		}
+		PeasantObjectBox *addBox(
+				b2Vec2 position, 
+				float angle, 
+				b2Vec2 dimensions,
+				float restitution = 0.5,
+				float friction = 0.3,
+				float density = 1
+			) {
+			b2BodyDef box_def;
+			box_def.position = position;
+			box_def.angle = angle;
+
+			b2Body *box = world->CreateBody(&box_def);
+
+			b2PolygonDef shape;
+			shape.SetAsBox(dimensions.x,dimensions.y);
+			
+			shape.restitution = restitution;
+			shape.density = density;
+			shape.friction = friction;
+
+			box->CreateShape(&shape);
+	
+			box->SetMassFromShapes();
+
+
+			PeasantObjectBox *obj = new PeasantObjectBox(position,angle,dimensions);
+			obj->body = box;
+
+			box->SetUserData(obj);
+
+			return obj;
+		}
+};
+
+class Render : public Visitor {
+	public:
+		virtual ~Render() {}
+	public:
+		virtual void init(
+				int screen_width, 
+				int screen_height, 
+				int bpp, 
+				string title
+		) = 0;
+		virtual void clear() = 0;
+		virtual void flip() = 0;
+
+
+		virtual void visit(PeasantObject &) = 0;
+		virtual void visit(PeasantObjectRectangle &) = 0;
+		virtual void visit(PeasantObjectGround &) = 0;
+		virtual void visit(PeasantObjectBox &) = 0;
+};
+
+enum RenderType {
+	RT_SDL_OPENGL
+};
+
+class RenderSDLOpengl : public Render {
+	public:
+		int screen_width;
+		int screen_height;
+		int bpp;
+		string title;
+
+		float scaling_factor;
+	public:
+		RenderSDLOpengl() {
+		}
+		~RenderSDLOpengl() {}
+	public:
+		void init(int screen_width, int screen_height, int bpp, string title) {
+			this->screen_width = screen_width;
+			this->screen_height = screen_height;
+			this->bpp = bpp;
+			this->title = title;
+
+			this->scaling_factor = screen_width / 100.0;
+
+			SDL_Init(SDL_INIT_EVERYTHING);
+			SDL_SetVideoMode(screen_width,screen_height,bpp, SDL_OPENGL);
+			SDL_WM_SetCaption(title.c_str(),NULL);
+			glClearColor(0,0,0,0);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0,screen_width,screen_height,0,-1,1);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+		}
+		void clear() {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		}
+		void flip() {
+			SDL_GL_SwapBuffers();
+		}
+	private:
+		void renderBox(b2Vec2 position, float angle, b2Vec2 dimensions, Color3f color) {
+			glColor3f(color.r,color.g,color.b);
+			glLoadIdentity();
+			glTranslatef(
+					position.x*scaling_factor,
+					position.y*scaling_factor*-1 + screen_height,
+					0
 			);
-			this->C = Point(
-				pos + 
-				rotate(Vector2f(0,-cLC),angle + ( 180*(M_PI/180) - (VB/2 + VC/2))),
-				mass/3.0,pinned
-			);
+			glRotatef(angle*-1*(180/M_PI),0,0,1);
+			glBegin(GL_POLYGON);
+				glVertex2f(-dimensions.x*scaling_factor,-dimensions.y*scaling_factor);
+				glVertex2f(dimensions.x*scaling_factor,-dimensions.y*scaling_factor);
+				glVertex2f(dimensions.x*scaling_factor,dimensions.y*scaling_factor);
+				glVertex2f(-dimensions.x*scaling_factor,dimensions.y*scaling_factor);
+			glEnd();
 		}
 	public:
-		void project(Vector2f ext, float dt) {
-			this->A.project(ext,dt);
-			this->B.project(ext,dt);
-			this->C.project(ext,dt);
+		void visit(PeasantObject &obj) {
+			printf("Rendering generic object\n");
 		}
-		void self_solve(float dt) {
-			float real_p;
-			float realdiff;
-			int i = 0;
-			do {
-				Vector2f AB = (A.proj_pos - B.proj_pos);
-				Vector2f BC = (B.proj_pos - C.proj_pos);
-				Vector2f CA = (C.proj_pos - A.proj_pos);
+		void visit(PeasantObjectRectangle &obj) {
+			renderBox(obj.body->GetPosition(),obj.body->GetAngle(),obj.dimensions,obj.color);
+		}
+		void visit(PeasantObjectGround &obj) {
+			renderBox(obj.body->GetPosition(),obj.body->GetAngle(),obj.dimensions,obj.color);
+		}
+		void visit(PeasantObjectBox &obj) {
+			renderBox(obj.body->GetPosition(),obj.body->GetAngle(),obj.dimensions,obj.color);
+		}
 
-				float real_a = BC.length();
-				float real_b = CA.length();
-				float real_c = AB.length();
+};
 
-				float a_diff = real_a - a;
-				float b_diff = real_b - b;
-				float c_diff = real_c - c;
+class Engine {
+	public:
+		Render *render;
+		World *world;
+		Visitor *visitor;
+	public:
+		Engine(RenderType rtype) {
+			switch (rtype) {
+				case RT_SDL_OPENGL:
+					this->render = new RenderSDLOpengl;
+					break;
+			}
+			this->world = new World;
+		}
+		~Engine() {
+			delete this->world;
+			delete this->render;
+		}
+	public:
+		void init(
+				int screen_width = 800, 
+				int screen_height = 600, 
+				int bpp = 32, 
+				string title = "Peasantformer"
+			) {
+			render->init(screen_width,screen_height,bpp,title);
+		}
+		void mainLoop() {
+			SDL_Event event;
+			bool quit = false;
+
+			Timer intervaller;
+			Timer frame_meter;
+			intervaller.start();
+			frame_meter.start();
+
+			float max_fps = 100;
+			float min_fps= 1;
+			float update_interval = 1.0 / max_fps;
+			float max_cycles_per_frame = max_fps / min_fps;
+
+			float last_frame_time = 0;
+			float cycles_left_over = 0;
+			float current_time;
+			float update_iterations;
+
+			int frames = 0;
+
+
+			while (!quit) {
 				
-				if (fabs(b_diff) > 0.0) {
-					this->A.F += CA.normalize() * b_diff /2 ;
-					this->C.F -= CA.normalize() * b_diff /2 ;
+				current_time=(float)SDL_GetTicks()/1000.0;
+				update_iterations = ((current_time - last_frame_time) + cycles_left_over);
+				if (update_iterations > (max_cycles_per_frame * update_interval)) {
+					update_iterations = max_cycles_per_frame * update_interval;
 				}
-				if (fabs(c_diff) > 0.0) {
-					this->A.F -= AB.normalize() * c_diff /2 ;
-					this->B.F += AB.normalize() * c_diff /2 ;
+				
+				while (update_iterations >= update_interval) {
+					SDL_PollEvent(&event);
+					if (event.type == SDL_QUIT)
+						quit = true;
+					update_iterations -= update_interval;
+					world->iterate();
+					render->clear();			
+
+					for (
+						b2Body *p = world->world->GetBodyList(); 
+						p->GetNext() != NULL; 
+						p = p->GetNext()
+					) {
+						PeasantObject *pobject = (PeasantObject *)p->GetUserData();
+						pobject->accept(*render);
+					}
+
+					render->flip();
+				
+
 				}
-				if (fabs(a_diff) > 0.0) {
-					this->B.F -= BC.normalize() * a_diff /2 ;
-					this->C.F += BC.normalize() * a_diff /2 ;
+				frames++;
+
+				if (frame_meter.get_ticks() > 1000 ) {
+					printf("TICK %f @ %f\n",frames / (double)(frame_meter.get_ticks()/1000),(double)(frame_meter.get_ticks())/frames);
+					frame_meter.start();
+					frames = 0;
 				}
 
-				this->A.correct(dt);
-				this->B.correct(dt);
-				this->C.correct(dt);
-
-
-				real_a = (B.proj_pos - C.proj_pos).length();
-				real_b = (C.proj_pos - A.proj_pos).length();
-				real_c = (A.proj_pos - B.proj_pos).length();
-
-				real_p = (real_a + real_b + real_c)/2;
-
-				realdiff = 0;
-				realdiff += fabs(real_a - a);
-				realdiff += fabs(real_b - b);
-				realdiff += fabs(real_c - c);
-				i++;
-			} while(fabs(real_p - p) > 1 || realdiff > 1);
-		}
-		void update(float dt) {
-			Vector2f prev = A.pos;
-
-			this->A.apply(dt);
-			this->B.apply(dt);
-			this->C.apply(dt);
-
-			Vector2f LA = A.pos + rotate((A.pos - C.pos),-VA/2);
-			Vector2f LC = C.pos + rotate((C.pos - A.pos),VC/2);
-			lines_intersect(A.pos,LA,C.pos,LC,&this->pos);
-
-			if (p < 500) {
-			R1 = A.pos;
-			R2 = A.pos + A.V * 100;
-			}
-			
-			Vector2f LAV = A.pos + Vector2f(-A.V.y,A.V.x);
-			Vector2f LBV = B.pos + Vector2f(-B.V.y,B.V.x);
-			
-
-			if (lines_paralell(A.pos,LAV,B.pos,LBV)) {
-				this->W = 0;
-			} else {
-				lines_intersect(A.pos,LAV,B.pos,LBV,&this->rot_center);
-				Vector2f rv = rot_center - A.pos;
-				this->W = A.V.length() * sin(fullAngleOfVector(rv,A.V)) / rv.length();
-			}
-
-			if (fabs(W) < 0.0001) {
-				this->V = A.V;
-			} else {
-				this->V = ((rot_center - pos) * W);
+				cycles_left_over = update_iterations;
+				last_frame_time = current_time;
 			}
 		}
-		void apply_impulse(Vector2f place, Vector2f normal, float amount) {
-			float bounceness = 0.001;
-			
-			Vector2f PP = pos - place;
-
-			Vector2f PA = pos - A.pos;
-			Vector2f PB = pos - B.pos;
-			Vector2f PC = pos - C.pos;
-			
-			float CA = (PP - PA).length();
-			float CB = (PP - PB).length();
-			float CC = (PP - PC).length();
-			
-			//printf("B: %f %f %f\n",CA,CB,CC);
-			
-			normalize_three(&CA,&CB,&CC);
-
-			CC = 1 - CC;
-			CB = 1 - CB;
-			CA = 1 - CA;
-			
-			//printf("A: %f %f %f\n",CA,CB,CC);
-			//
-
-			Vector2f RA = place - pos;
-
-			float wdiff = (normal.y * RA.x - normal.x * RA.y) / inertia;
-
-			printf(">>> %f\n",wdiff);
-
-			Vector2f PA_norm = Vector2f(PA.y,-PA.x).normalize();
-			Vector2f PB_norm = Vector2f(PB.y,-PB.x).normalize();
-			Vector2f PC_norm = Vector2f(PC.y,-PC.x).normalize();
-
-			A.V += normal * (amount / mass) * bounceness;
-			B.V += normal * (amount / mass) * bounceness;
-			C.V += normal * (amount / mass) * bounceness;
-
-			A.V += PA_norm * wdiff / 3;
-			B.V += PB_norm * wdiff / 3;
-			C.V += PC_norm * wdiff / 3;
-
-
+		void make_scene(void) {
+			PeasantObjectGround *ground = this->world->addPlane(b2Vec2(50,0),0.0,b2Vec2(50,10));
+			ground->color.Set(0.5,0.2,0.2);
+			for (int n=0; n < 20; n++) {
+			for (int i=0; i < 100; i++) {
+			PeasantObjectBox *box = this->world->addBox(
+					b2Vec2(10+i*0.7,70-n*0.7),
+					-20*(M_PI/180),
+					b2Vec2(0.2,0.2),
+					0.1,
+					0.5
+			);
+			}
+			}
+//			ground->color.Set(0.5,0.2,0.2);
 		}
-		float calculate_impulse(Vector2f Res, Vector2f normal, Triangle *obj) {
-			//float imp = ((PT.V + obj->V) * (obj->mass + mass)).length(); 
 
-			float imp = (V * mass).length();
-			printf("%f %f\n",imp, V.length());
-			return imp;
-		}
-		void solve(Triangle *ti) {
-			Vector2f Res;
-			Vector2f normal;
-			Vector2f diff;
-			float imp;
-			
-			Vector2f ACB = A.pos - (A.pos - B.pos) / 2;
-			Vector2f BCC = B.pos - (B.pos - C.pos) / 2;
-			Vector2f CCA = C.pos - (C.pos - A.pos) / 2;
-			
-			Vector2f PACB = A.prev_pos - (A.prev_pos - B.prev_pos) / 2;
-			Vector2f PBCC = B.prev_pos - (B.prev_pos - C.prev_pos) / 2;
-			Vector2f PCCA = C.prev_pos - (C.prev_pos - A.prev_pos) / 2;
-	
-			
-			if (lines_intersect(pos,CCA,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,CCA,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,CCA,ti->B.pos,ti->C.pos,&Res)
-			) {	
-				normal = V.normalize() * -1;
-//				normal = (PCCA - CCA);
-				diff = (Res - CCA);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				A.pos += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}	
-			if (lines_intersect(pos,BCC,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,BCC,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,BCC,ti->B.pos,ti->C.pos,&Res)
-			) {	
-				normal = V.normalize() * -1;
-//				normal = (PBCC - BCC);
-				diff = (Res - BCC);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				A.pos += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}	
-			if (lines_intersect(pos,ACB,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,ACB,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,ACB,ti->B.pos,ti->C.pos,&Res)
-			) {	
-				normal = V.normalize() * -1;
-//				normal = (PACB - ACB);
-				diff = (Res - ACB);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				A.pos += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			
-			if (lines_intersect(pos,A.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,A.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,A.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = V.normalize() * -1;
-//				normal = (A.prev_pos - A.pos);
-				Vector2f diff = (A.prev_pos - A.pos);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-//				A.pos += diff;;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			if (lines_intersect(pos,B.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,B.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,B.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = V.normalize() * -1;
-//				normal = (B.prev_pos - B.pos);
-				Vector2f diff = (B.prev_pos - B.pos);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-//				A.pos += diff;;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			if (lines_intersect(pos,C.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,C.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,C.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = V.normalize() * -1;
-//				normal = (C.prev_pos - C.pos);
-				Vector2f diff = (C.prev_pos - C.pos);
-				A.V += diff;
-				B.V += diff;
-				C.V += diff;
-//				B.pos += diff;
-//				C.pos += diff;
-//				A.pos += diff;;
-				imp = calculate_impulse(Res,normal,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			
-			/*
-			if (lines_intersect(pos,A.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,A.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,A.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = (A.prev_pos-A.pos).normalize();
-				Vector2f diff = (Res - A.pos);
-				B.pos += diff;
-				C.pos += diff;
-				A.pos += diff;;
-				imp = calculate_impulse(A,Res,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			if (lines_intersect(pos,B.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,B.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,B.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = (B.prev_pos-B.pos).normalize();
-				Vector2f diff = (Res - B.pos);
-				B.pos += diff;
-				C.pos += diff;
-				A.pos += diff;
-				imp = calculate_impulse(B,Res,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			if (lines_intersect(pos,C.pos,ti->A.pos,ti->C.pos,&Res)
-			 || lines_intersect(pos,C.pos,ti->A.pos,ti->B.pos,&Res)
-			 || lines_intersect(pos,C.pos,ti->B.pos,ti->C.pos,&Res)
-			) {
-				normal = (C.prev_pos-C.pos).normalize();
-				Vector2f diff = (Res - C.pos);
-				B.pos += diff;
-				C.pos += diff;
-				A.pos += diff;
-				imp = calculate_impulse(C,Res,ti);
-				apply_impulse(Res,normal,imp);
-			}
-			*/
-	
+};
+
+
+int main(int argc, char **argv) {
+	Engine *engine = new Engine(RT_SDL_OPENGL);
+
+	engine->init(800,600,32,",д,Я,Й,Б,");
+
+	engine->make_scene();
+
+	engine->mainLoop();
+}
 
 /*
+enum BodyType {
+	BT_GENERIC,
+	BT_GROUND,
+	BT_DYN_RECTANGLE,
+	BT_LAST
+};
 
-			if (lines_intersect(ti->pos,ti->A.pos,A.pos,C.pos,&Res)
-			 || lines_intersect(ti->pos,ti->A.pos,A.pos,B.pos,&Res)
-			 || lines_intersect(ti->pos,ti->A.pos,B.pos,C.pos,&Res)
-			) {
-				apply_impulse(Res,(ti->A.pos-ti->A.prev_pos).normalize(),calculate_impulse(ti->A,Res));
-			}
-			if (lines_intersect(ti->pos,ti->B.pos,A.pos,C.pos,&Res)
-			 || lines_intersect(ti->pos,ti->B.pos,A.pos,B.pos,&Res)
-			 || lines_intersect(ti->pos,ti->B.pos,B.pos,C.pos,&Res)
-			) {
-				apply_impulse(Res,(ti->B.pos-ti->B.prev_pos).normalize(),calculate_impulse(ti->B,Res));
-			}
-			if (lines_intersect(ti->pos,ti->C.pos,A.pos,C.pos,&Res)
-			 || lines_intersect(ti->pos,ti->C.pos,A.pos,B.pos,&Res)
-			 || lines_intersect(ti->pos,ti->C.pos,B.pos,C.pos,&Res)
-			) {
-				apply_impulse(Res,(ti->C.pos-ti->C.prev_pos).normalize(),calculate_impulse(ti->C,Res));
-			}
-*/
+float pusf = 10;
+int screen_width = 800;
+int screen_height = 600;
 
+class BodyInfo {
+	public:
+		std::string name;
+		BodyType type;
+		b2Vec2 dimensions;
+	public:
+		BodyInfo() {
+			this->name = "Generic object";
+			this->type = BT_GENERIC;
 		}
-		void draw() {
-			glColor3f(1.0,0.0,0.0);
-			glLoadIdentity();
-			glTranslatef(A.pos.x,A.pos.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				float z = i * (M_PI/180);
-				glVertex2f(10*cos(z),10*sin(z));
-			}
-			glEnd();
+		BodyInfo(b2Vec2 dimensions) {
+			this->dimensions = dimensions;
+		}
+		virtual ~BodyInfo() {};
+	public:
+		virtual void render() = 0;
+};
 
+class BodyInfo_ground : public BodyInfo {
+	public:
+		b2Vec2 dimensions;
+	public:
+		BodyInfo_ground(b2Vec2 dimensions) {
+			this->name = "Ground object";
+			this->type = BT_GROUND;
+			this->dimensions = dimensions;
+		}
+	public:
+		void render() {}
+		void render(b2Vec2 pos, float32 angle) {
 
-			glColor3f(0.0,1.0,0.0);
-			glLoadIdentity();
-			glTranslatef(B.pos.x,B.pos.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				float z = i * (M_PI/180);
-				glVertex2f(10*cos(z),10*sin(z));
-			}
-			glEnd();
-
-
-			glColor3f(0.0,0.0,1.0);
-			glLoadIdentity();
-			glTranslatef(C.pos.x,C.pos.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				float z = i * (M_PI/180);
-				glVertex2f(10*cos(z),10*sin(z));
-			}
-			glEnd();
-			
-			glColor3f(1.0,1.0,1.0);
-			glLoadIdentity();
-			glTranslatef(pos.x,pos.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				float z = i * (M_PI/180);
-				glVertex2f(10*cos(z),10*sin(z));
-			}
-			glEnd();
-			
-			glColor3f(1.0,1.0,0.0);
-			glLoadIdentity();
-			glTranslatef(rot_center.x,rot_center.y,0);
-			glBegin(GL_POLYGON);
-			for (int i=0; i <= 360; i++) {
-				float z = i * (M_PI/180);
-				glVertex2f(10*cos(z),10*sin(z));
-			}
-			glEnd();
-
-			
-			glColor3f(1.0,1.0,1.0);
-			glLoadIdentity();
-			glBegin(GL_LINE_LOOP);
-				glVertex2f(A.pos.x,A.pos.y);
-				glVertex2f(B.pos.x,B.pos.y);
-				glVertex2f(C.pos.x,C.pos.y);
-			glEnd();
 		}
 };
 
+class BodyInfo_rectangle : public BodyInfo {
+	public:
+		b2Vec2 dimensions;
+	public:
+		BodyInfo_rectangle(b2Vec2 dimensions) {
+			this->name = "Rectangle object";
+			this->type = BT_DYN_RECTANGLE;
+			this->dimensions = dimensions;
+		}
+	public:
+		void render() {};
+		void render(b2Vec2 pos, float32 angle) {
+			printf("%f\n",dimensions.y);
+
+			glColor3f(1.0,1.0,0.0);
+			glLoadIdentity();
+			glTranslatef(pos.x*pusf,pos.y*pusf*-1+screen_width,0);
+			glBegin(GL_POLYGON);
+				glVertex2f(-dimensions.x*pusf,-dimensions.y*pusf);
+				glVertex2f(dimensions.x*pusf,-dimensions.y*pusf);
+				glVertex2f(dimensions.x*pusf,dimensions.y*pusf);
+				glVertex2f(-dimensions.x*pusf,dimensions.y*pusf);
+			glEnd();
+		}
+};
 
 
 class World {
 	public:
-		Array<Triangle> triamgles;
-		std::list<Triangle *> objects;
-		Vector2f gravity;
-		float dt;
-	public:
-		World() :
-			gravity(0,0.098),
-			dt(0.02)
-		{}
-	public:
-		void add_triangle(Vector2f pos, float a, float b, float c, bool pinned = false, float angle = 0) {
-			size_t num;
-			num = this->triamgles.add_item(Triangle(pos,a,b,c,pinned,angle));
-			this->objects.push_back(this->triamgles.get_find_ref(num));
+		b2AABB worldAABB;
+		b2Vec2 gravity;
+		bool doSleep;
+		float32 timeStep;
+		int32 iterations;
+		b2World *world;
 
+	public:
+		World() {
+			this->worldAABB.lowerBound.Set(-100,-100);
+			this->worldAABB.upperBound.Set(100,100);
+			this->gravity = b2Vec2(0,-0.1);
+			this->doSleep = true;
+			this->timeStep = 1.0 / 60.0;
+			this->iterations = 10;
+
+			this->world = new b2World(worldAABB,gravity,doSleep);
 		}
+	public:
 		void iterate() {
-			for (
-				std::list<Triangle*>::iterator it = this->objects.begin();
-				it != this->objects.end();
-				it++) 
-			{
-				(*it)->project(gravity,dt);
-			}
-			for (
-				std::list<Triangle*>::iterator it = this->objects.begin();
-				it != this->objects.end();
-				it++) 
-			{
-				(*it)->self_solve(dt);
-				(*it)->update(dt);
-			}
-			
-			for (
-				std::list<Triangle*>::iterator it = this->objects.begin();
-				it != this->objects.end();
-				it++) 
-			{
-				std::list<Triangle*>::iterator ti = it;
-				ti++;
-				for (; ti != this->objects.end(); ti++) {
-					(*it)->solve(*ti);
-				}
-			}
-			
+			world->Step(timeStep,iterations);
 		}
+	public:
 		void draw() {
-			for (
-				std::list<Triangle*>::iterator it = this->objects.begin();
-				it != this->objects.end();
-				it++) 
-			{
-				(*it)->draw();
+			for (b2Body *p = world->GetBodyList(); p->GetNext() != NULL; p = p->GetNext()) {
+				b2Vec2 pos = p->GetPosition();
+				float32 angle = p->GetAngle();
+				BodyInfo *info = (BodyInfo *)p->GetUserData();
+
+				switch (info->type) {
+					case BT_GENERIC:
+						info->render();
+						break;
+					case BT_GROUND:
+						((BodyInfo_ground*)p->GetUserData())->render(pos,angle);
+						break;
+					case BT_DYN_RECTANGLE:
+						((BodyInfo_rectangle*)p->GetUserData())->render(pos,angle);
+						break;
+					case BT_LAST:
+						break;
+				}
+				//printf("%d\n",info->type);
 			}
-			glLoadIdentity();
-			glLineWidth(5);
-			glBegin(GL_LINES);
-				glColor3f(1,0,0);
-				glVertex2f(R1.x,R1.y);
-				glVertex2f(R2.x,R2.y);
-				
-				glColor3f(0,0,1);
-				glVertex2f(R3.x,R3.y);
-				glVertex2f(R4.x,R4.y);
+		}
+	public:
+		void addBody_ground(b2Vec2 pos, b2Vec2 dimensions) {
+			b2BodyDef groundBodyDef;
+			groundBodyDef.position = pos;
 			
-				glColor3f(0,1,0);
-				glVertex2f(R5.x,R5.y);
-				glVertex2f(R6.x,R6.y);
-			glEnd();
-			glLineWidth(1);
+			b2Body* ground = world->CreateBody(&groundBodyDef);
+			
+			b2PolygonDef groundShapeDef;
+			groundShapeDef.SetAsBox(dimensions.x, dimensions.y);
+			
+			ground->CreateShape(&groundShapeDef);
+
+			ground->SetUserData(new BodyInfo_ground(dimensions));
+		}
+		void addDynBody_rectangle(b2Vec2 pos, b2Vec2 dimensions) {
+			b2BodyDef bodyDef;
+			bodyDef.position = pos;
+
+			b2Body *body = world->CreateBody(&bodyDef);
+
+			b2PolygonDef shapeDef;
+			shapeDef.SetAsBox(dimensions.x,dimensions.y);
+			shapeDef.density = 1;
+			shapeDef.friction = 0.3;
+
+			body->CreateShape(&shapeDef);
+			body->SetMassFromShapes();
+			
+			body->SetUserData(new BodyInfo_rectangle(dimensions));
 		}
 };
 
+
 int main (int argc, char **argv) {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_SetVideoMode(800,600,32, SDL_OPENGL);
+	SDL_SetVideoMode(screen_width,screen_height,32, SDL_OPENGL);
 	SDL_WM_SetCaption(",д,Я,Й,Б,",NULL);
 	glClearColor(0,0,0,0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0,800, 600,0,-1,1);
+	glOrtho(0,screen_width,screen_height,0,-1,1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
+	
 	World world;
 
 
-	world.add_triangle(Vector2f(300,200),100,100,100,false,-0*(M_PI/180));
-	//world.add_triangle(Vector2f(300,50),100,100,100,false,-45*(M_PI/180));
-	//world.add_triangle(Vector2f(300,350),100,100,100,false,-0*(M_PI/180));
-	world.add_triangle(Vector2f(400,700),500,800,500,true,-180*(M_PI/180));
+	world.addBody_ground(b2Vec2(0,10),b2Vec2(50,10));
+	world.addDynBody_rectangle(b2Vec2(10,50),b2Vec2(1,1));
 
-		
-	//world.add_triangle(Vector2f(400,600),800,200,true,);
-	//test();
+	b2Vec2 gravity(0.0f, -0.9f);
+	bool doSleep = true;
+	b2AABB worldAABB;
+	worldAABB.lowerBound.Set(-100.0f, -100.0f);
+	worldAABB.upperBound.Set(100.0f, 100.0f);
+	
+	b2World world(worldAABB, gravity, doSleep);
+
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+	b2Body* ground = world.CreateBody(&groundBodyDef);
+	b2PolygonDef groundShapeDef;
+	groundShapeDef.SetAsBox(50.0f, 10.0f);
+	ground->CreateShape(&groundShapeDef);
+
+
+
+
+
+	b2BodyDef bodyDef;
+	bodyDef.position.Set(0.0f, 50.0f);
+	bodyDef.angle = 0.30 * b2_pi;
+	b2Body* body = world.CreateBody(&bodyDef);
+
+	b2PolygonDef shapeDef;
+	shapeDef.SetAsBox(1.0f, 1.0f);
+	shapeDef.density = 1.0f;
+	shapeDef.friction = 0.3f;
+	shapeDef.restitution = 1;
+	body->CreateShape(&shapeDef);
+	body->SetMassFromShapes();
+
+	float32 timeStep = 1.0f / 60.0f;
+	int32 iterations = 10;
 
 	SDL_Event event;
 	bool quit = false;
@@ -611,8 +675,12 @@ int main (int argc, char **argv) {
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT)
 			quit = true;
-
+	
 		world.iterate();
+//		world.Step(timeStep,iterations);
+//		b2Vec2 position = body->GetPosition();
+//		float32 angle = body->GetAngle();
+//		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -621,4 +689,5 @@ int main (int argc, char **argv) {
 		SDL_GL_SwapBuffers();
 
 	}
-}
+a}
+*/
