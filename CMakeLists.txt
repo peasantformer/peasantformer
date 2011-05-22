@@ -61,6 +61,16 @@ target_link_libraries(proto-plainiohighlevel proto-plainio)
 
 ########################################################################
 
+project(Database)
+set (database_src ../src/Database/DBInterface/DBInterface.cpp)
+set (database_src ${database_src}
+		../src/Database/DBInterface/SQLiteInterface.cpp
+	)
+add_library(database-interface STATIC ${database_src})
+
+
+########################################################################
+
 #project(PhysTest)
 #include(FindOpenGL)
 #include(FindSDL)
@@ -116,6 +126,8 @@ set(server_lib
 	data-object
 	data-section
 	data-world
+
+	database-interface
 	
 	proto-network
 	proto-networkhighlevel
@@ -128,14 +140,19 @@ if (WIN32)
 	)
 	add_definitions(-DPTW32_STATIC_LIB )
 	add_library(pthread_static STATIC IMPORTED)
-		set_property(TARGET pthread_static PROPERTY IMPORTED_LOCATION ../lib/pthread-w32/libpthread-w32-GC.a)
+	set_property(TARGET pthread_static PROPERTY IMPORTED_LOCATION ../lib/pthread-w32/libpthread-w32-GC.a)
+
+	add_library(sqlite3_static STATIC IMPORTED)
+	set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION ../lib/sqlite/sqlite3.dll)
 	set(server_lib ${server_lib}
 		pthread_static
+		sqlite3_static
 		ws2_32
 	)	
 elseif (UNIX)
 	set(server_lib ${server_lib}
 		pthread
+		sqlite3
 	)	
 endif (WIN32)
 add_executable(peasantformer-server ${server_src})

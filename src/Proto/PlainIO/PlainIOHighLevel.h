@@ -2,6 +2,8 @@
 #define PEASANTFORMER_Proto_PlainIOHighLevel
 
 #include <vector>
+#include <string.h>
+#include <wctype.h>
 
 #include "PlainIO.h"
 
@@ -10,6 +12,8 @@ class pio_string {
 		std::vector<wchar_t> data;
 		char *cstr;
 		wchar_t *wstr;
+		size_t cstr_len;
+		size_t wstr_len;
 	private:
 		void wchar_to_data(const wchar_t *);
 		void data_to_wchar();
@@ -21,11 +25,15 @@ class pio_string {
 
 		~pio_string();
 	public:
-		size_t length();
+		pio_string & operator=(pio_string const &r);
 		wchar_t &operator[](size_t);
+	public:
+		size_t length();
 		const wchar_t *w_str();
 		const char *c_str();
 		void clear();
+		void filter(bool (*predicate)(wchar_t));
+		void weedout_control();
 };
 
 #endif

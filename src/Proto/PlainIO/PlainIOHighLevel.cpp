@@ -14,6 +14,7 @@ void pio_string::data_to_wchar() {
 	size_t length = data.size();
 
 	this->wstr = new wchar_t[length + 1];
+	this->wstr_len = length + 1;
 
 	std::vector<wchar_t>::iterator it;
 	int i;
@@ -25,6 +26,8 @@ void pio_string::data_to_wchar() {
 void pio_string::init() {
 	this->cstr = NULL;
 	this->wstr = NULL;
+	this->cstr_len = 0;
+	this->wstr_len = 0;
 }
 
 pio_string::pio_string() {
@@ -74,6 +77,21 @@ size_t pio_string::length() {
 wchar_t &pio_string::operator[](size_t i) {
 	return this->data[i];
 }
+pio_string & pio_string::operator=(pio_string const &r) {
+	if (&r == this) return *this;
+	this->data = r.data;
+	this->cstr = NULL;
+	this->wstr = NULL;
+	if (r.cstr != NULL) {
+		this->cstr = new char[cstr_len];
+		strncpy(this->cstr,r.cstr,cstr_len);
+	}
+	if (r.wstr != NULL) {
+		this->wstr = new wchar_t[wstr_len];
+		wcsncpy(this->wstr,r.wstr,wstr_len);
+	}
+	return *this;
+}
 
 const wchar_t *pio_string::w_str() {
 	this->data_to_wchar();
@@ -89,9 +107,23 @@ const char *pio_string::c_str() {
 	buffsize = wcstoutf8s(NULL,this->wstr,0);
 	
 	this->cstr = new char[buffsize+1];
+	this->cstr_len = buffsize + 1;
 
 	wcstoutf8s(this->cstr,this->wstr,buffsize);
 	this->cstr[buffsize] = '\0';
 
 	return this->cstr;
+}
+
+void pio_string::filter(bool (*predicate)(wchar_t)) {
+	for (size_t i=0; i < this->length(); i++) {
+		if ((*predicate)(this->data[i])) {
+			this->data.erase(this->data.begin()+i);
+			i--;
+		}
+	}
+}
+
+void pio_string::weedout_control() {
+	this->filter((bool(*)(wchar_t))iswcntrl);
 }

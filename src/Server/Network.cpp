@@ -43,15 +43,22 @@ void *ServerEngine::login_server(void *data) {
 				delete engine->pending_connections[i];
 			} else {
 				plain_buffer[nbytes] = '\0';
-				char name[33] = {0};
-				char password_hash[193] = {0};
+				wchar_t plain_name[33] = {0};
+				wchar_t plain_password_hash[33] = {0};
 //				for (int z=0; z < nbytes; z++) {
 //					printf("%d ",plain_buffer[z]);
 //				}
-				printf("%s\n",pio_string(plain_buffer).c_str());
-				//printf("%s\n",plain_buffer);
-				//sscanf(plain_buffer,"LOGIN %32c %192c",password_hash,name);
-				//printf("%s - %s\n",name,password_hash);
+				pio_string pstr = pio_string(plain_buffer);
+				swscanf(pstr.w_str(),L"LOGIN %32lc %32lc",plain_password_hash,plain_name);
+				pio_string name(plain_name);
+				pio_string password_hash(plain_password_hash);
+				
+				name.weedout_control();
+				password_hash.weedout_control();
+
+
+
+				printf("%s - %s\n",name.c_str(),password_hash.c_str());
 			}
 
 		}

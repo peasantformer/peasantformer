@@ -50,6 +50,16 @@ class PendingConnection : public Connection {
 		}
 };
 
+class EstablishedConnection : public PendingConnection {
+	public:
+		EstablishedConnection() {
+		}
+		EstablishedConnection(struct sockaddr_storage remote_addr) :
+			PendingConnection(remote_addr)
+		{
+		}
+};
+
 class ServerEngine {
 	private:
 		int listen_socket_v4;
