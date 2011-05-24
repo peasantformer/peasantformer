@@ -46,7 +46,7 @@ class DatabaseInterface {
 		bool isDone();
 		bool isRow();
 	public:
-		DatabaseInterface(const pio_string &filename);
+		DatabaseInterface(pio_string &filename);
 		~DatabaseInterface();
 	public:
 		int open(const char *filename);

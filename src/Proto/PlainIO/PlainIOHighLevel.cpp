@@ -93,11 +93,11 @@ pio_string & pio_string::operator=(pio_string const &r) {
 	return *this;
 }
 
-const wchar_t *pio_string::w_str() const {
+const wchar_t *pio_string::w_str()  {
 	this->data_to_wchar();
 	return this->wstr;
 }
-const char *pio_string::c_str() const {
+const char *pio_string::c_str() {
 	this->data_to_wchar();
 	if (this->cstr != NULL) delete this->cstr;
 

@@ -1,6 +1,6 @@
 #include "DBInterface.h"
 
-DatabaseInterface::DatabaseInterface(const pio_string &filename) {
+DatabaseInterface::DatabaseInterface(pio_string &filename) {
 	this->handle = NULL;
 	this->stmt = NULL;
 	this->stmt_tail = NULL;

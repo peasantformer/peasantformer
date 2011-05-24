@@ -31,8 +31,8 @@ class pio_string {
 		std::vector<wchar_t> get_data() const;
 		void append(const pio_string &);
 		size_t length();
-		const wchar_t *w_str() const;
-		const char *c_str() const;
+		const wchar_t *w_str();
+		const char *c_str();
 		void clear();
 		void set(pio_string);
 		void filter(bool (*predicate)(wchar_t));
