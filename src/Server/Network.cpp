@@ -6,6 +6,7 @@ void *ServerEngine::game_server(void *data) {
 
 	}
 	pthread_exit(NULL);
+	return NULL;
 }
 void *ServerEngine::login_server(void *data) {
 	ServerEngine *engine = (ServerEngine *)data;
@@ -50,8 +51,20 @@ void *ServerEngine::login_server(void *data) {
 //				}
 				pio_string pstr = pio_string(plain_buffer);
 				swscanf(pstr.w_str(),L"LOGIN %32lc %32lc",plain_password_hash,plain_name);
+
 				pio_string name(plain_name);
 				pio_string password_hash(plain_password_hash);
+
+				if (password_hash.length() != 32) {
+					FD_CLR((unsigned int)i,&engine->pending_socks);
+					printf("Pending connection %s closed due to invalid auth.\n",engine->pending_connections[i]->address_literal);
+					delete engine->pending_connections[i];
+
+					pnh_send_str(i,engine->nmsgs->get("password_hash_too_short"));
+	///				send(i,close_message,sizeof(close_message),0);
+					pn_close(i);
+					continue;
+				}
 				
 				name.weedout_control();
 				password_hash.weedout_control();
@@ -67,6 +80,7 @@ void *ServerEngine::login_server(void *data) {
 
 
 	pthread_exit(NULL);
+	return NULL;
 }
 void *ServerEngine::connection_server(void *data) {
 	ServerEngine *engine = (ServerEngine *)data;
@@ -99,6 +113,7 @@ void *ServerEngine::connection_server(void *data) {
 	}
 	
 	pthread_exit(NULL);
+	return NULL;
 }
 
 

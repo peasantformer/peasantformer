@@ -16,8 +16,8 @@
 #endif
 
 void pio_init();
-size_t utf8stowcs(wchar_t *, char *,size_t);
-size_t wcstoutf8s(char *, wchar_t *,size_t);
+size_t utf8stowcs(wchar_t *, const char *,size_t);
+size_t wcstoutf8s(char *, const wchar_t *,size_t);
 
 
 #endif

@@ -70,3 +70,8 @@ int pnh_bind_to_addr_port(const char *hostname, const char *port, int af, int so
 
 	return sock;
 }
+
+int pnh_send_str(int fd, const char *buf) {
+	return send(fd,buf,strlen(buf),0);
+}
+

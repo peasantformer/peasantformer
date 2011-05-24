@@ -12,6 +12,8 @@
 #include <Proto/PlainIO/PlainIOHighLevel.h>
 #include <Data/CircularBuffer/CircularBuffer.h>
 #include <Data/World/World.h>
+#include <Database/DBL/DBL.h>
+#include <Comm/NetworkMessages/Messages.h>
 
 using namespace std;
 
@@ -80,6 +82,9 @@ class ServerEngine {
 		std::map<int,PendingConnection *> pending_connections;
 		char bind_addres_literal_v4[INET6_ADDRSTRLEN];
 		char bind_addres_literal_v6[INET6_ADDRSTRLEN];
+	public:		
+		DataBase *db;
+		NetworkMessages *nmsgs;
 	private:
 		World *world;
 	public:
@@ -98,6 +103,8 @@ class ServerEngine {
 			this->bind_addres_literal_v6[0] = '\0';
 			
 			this->world = new World;
+			this->db = new DataBase("db");
+			this->nmsgs = new NetworkMessages("text/network_server_english.txt");
 
 			pio_init();
 		}
@@ -107,6 +114,7 @@ class ServerEngine {
 				delete it->second;
 			}
 			delete this->world;
+			delete this->db;
 		}
 	public:
 		int setup_server_on_addr_port(const char *hostname, const char *port);

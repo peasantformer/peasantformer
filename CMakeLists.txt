@@ -62,11 +62,12 @@ target_link_libraries(proto-plainiohighlevel proto-plainio)
 ########################################################################
 
 project(Database)
-set (database_src ../src/Database/DBInterface/DBInterface.cpp)
-set (database_src ${database_src}
-		../src/Database/DBInterface/SQLiteInterface.cpp
-	)
-add_library(database-interface STATIC ${database_src})
+add_library(database-interface STATIC ../src/Database/DBInterface/DBInterface.cpp)
+add_library(database-db STATIC 
+	../src/Database/DBL/DBL.cpp
+	../src/Database/DBL/Login/Login.cpp
+)
+target_link_libraries(database-db database-interface)
 
 
 ########################################################################
@@ -127,7 +128,7 @@ set(server_lib
 	data-section
 	data-world
 
-	database-interface
+	database-db
 	
 	proto-network
 	proto-networkhighlevel
@@ -143,7 +144,7 @@ if (WIN32)
 	set_property(TARGET pthread_static PROPERTY IMPORTED_LOCATION ../lib/pthread-w32/libpthread-w32-GC.a)
 
 	add_library(sqlite3_static STATIC IMPORTED)
-	set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION ../lib/sqlite/sqlite3.dll)
+	set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION ../lib/sqlite/sqlite3.a)
 	set(server_lib ${server_lib}
 		pthread_static
 		sqlite3_static

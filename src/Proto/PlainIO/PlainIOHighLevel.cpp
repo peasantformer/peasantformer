@@ -54,7 +54,7 @@ void pio_string::clear() {
 }
 
 
-pio_string::pio_string(char *source) {
+pio_string::pio_string(const char *source) {
 	this->init();
 
 	size_t buffsize = 0;
@@ -93,11 +93,11 @@ pio_string & pio_string::operator=(pio_string const &r) {
 	return *this;
 }
 
-const wchar_t *pio_string::w_str() {
+const wchar_t *pio_string::w_str() const {
 	this->data_to_wchar();
 	return this->wstr;
 }
-const char *pio_string::c_str() {
+const char *pio_string::c_str() const {
 	this->data_to_wchar();
 	if (this->cstr != NULL) delete this->cstr;
 
@@ -123,7 +123,32 @@ void pio_string::filter(bool (*predicate)(wchar_t)) {
 		}
 	}
 }
+void pio_string::set(pio_string str) {
+	std::vector<wchar_t> oth_data = str.get_data();
+	this->data = oth_data;
+}
 
 void pio_string::weedout_control() {
 	this->filter((bool(*)(wchar_t))iswcntrl);
 }
+std::vector<wchar_t> pio_string::get_data() const {
+	return this->data;
+}
+
+void pio_string::append(const pio_string &oth) {
+	std::vector<wchar_t> oth_data = oth.get_data();
+	for (size_t i=0; i < oth_data.size(); i++) {
+		wchar_t ch = oth_data[i];
+		this->data.push_back(ch);
+	}
+}
+
+bool operator<(pio_string const& l,pio_string const& r) {
+	return l.get_data() < r.get_data();
+}
+pio_string operator+(pio_string & l, pio_string const& r) {
+	l.append(r);
+	return l;
+}
+
+
