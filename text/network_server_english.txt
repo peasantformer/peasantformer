@@ -1,3 +1,4 @@
 invalid_message Invalid message
-password_hash_too_short Your password hash is not of length 32
+password_hash_too_short password_hash_too_short Your password hash is not of length 32
+wrong_auth wrong_auth Wrong authentification data
 last_message Last Message

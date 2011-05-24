@@ -70,6 +70,22 @@ pio_string::pio_string(const char *source) {
 	delete wch;
 }
 
+pio_string::pio_string(const unsigned char *source) {
+	this->init();
+
+	size_t buffsize = 0;
+	buffsize = utf8stowcs(NULL,(const char*)source,0);
+
+	wchar_t *wch = new wchar_t[buffsize+1];
+	
+	utf8stowcs(wch,(const char*)source,buffsize);
+	wch[buffsize] = '\0';
+
+	this->wchar_to_data(wch);
+
+	delete wch;
+}
+
 size_t pio_string::length() {
 	return this->data.size();
 }
@@ -126,6 +142,15 @@ void pio_string::filter(bool (*predicate)(wchar_t)) {
 void pio_string::set(pio_string str) {
 	std::vector<wchar_t> oth_data = str.get_data();
 	this->data = oth_data;
+}
+void pio_string::set(const char *str) {
+	this->set(pio_string(str));
+}
+void pio_string::set(const unsigned char *str) {
+	this->set(pio_string(str));
+}
+void pio_string::set(const wchar_t *str) {
+	this->set(pio_string(str));
 }
 
 void pio_string::weedout_control() {

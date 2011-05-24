@@ -40,7 +40,7 @@ void *ServerEngine::login_server(void *data) {
 			if ((nbytes = recv(i,plain_buffer,sizeof(plain_buffer)-1,0)) <= 0) {
 				pn_close(i);
 				FD_CLR((unsigned int)i,&engine->pending_socks);
-				printf("Pending connection %s closet by client.\n",engine->pending_connections[i]->address_literal);
+				printf("Pending connection %s closed by client.\n",engine->pending_connections[i]->address_literal);
 				delete engine->pending_connections[i];
 			} else {
 				plain_buffer[nbytes] = '\0';
@@ -69,9 +69,31 @@ void *ServerEngine::login_server(void *data) {
 				name.weedout_control();
 				password_hash.weedout_control();
 
+				pio_string got_username;
+				pio_string got_nickname;
+				pio_string got_hash;
+				
+				int ret;
 
+				ret = engine->db->login->lookup_user_by_password_username(
+					name,
+					password_hash,
+					got_username,
+					got_nickname,
+					got_hash
+				);
+				
+				if (ret < 0) {
+					FD_CLR((unsigned int)i,&engine->pending_socks);
+					printf("Pending connection %s closed due to failed auth.\n",engine->pending_connections[i]->address_literal);
+					delete engine->pending_connections[i];
 
-				printf("%s - %s\n",name.c_str(),password_hash.c_str());
+					pnh_send_str(i,engine->nmsgs->get("wrong_auth"));
+					pn_close(i);
+					continue;
+				}
+
+				printf("%s - %s\n",got_username.c_str(),got_hash.c_str());
 			}
 
 		}

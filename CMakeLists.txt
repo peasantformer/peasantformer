@@ -63,6 +63,10 @@ target_link_libraries(proto-plainiohighlevel proto-plainio)
 
 project(Database)
 add_library(database-interface STATIC ../src/Database/DBInterface/DBInterface.cpp)
+add_library(sqlite3_static STATIC IMPORTED)
+set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION
+		../lib/sqlite/libsqlite3.a)
+target_link_libraries(database-interface sqlite3_static)
 add_library(database-db STATIC 
 	../src/Database/DBL/DBL.cpp
 	../src/Database/DBL/Login/Login.cpp
@@ -143,11 +147,10 @@ if (WIN32)
 	add_library(pthread_static STATIC IMPORTED)
 	set_property(TARGET pthread_static PROPERTY IMPORTED_LOCATION ../lib/pthread-w32/libpthread-w32-GC.a)
 
-	add_library(sqlite3_static STATIC IMPORTED)
-	set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION ../lib/sqlite/sqlite3.a)
+
 	set(server_lib ${server_lib}
 		pthread_static
-		sqlite3_static
+		#		sqlite3_static
 		ws2_32
 	)	
 elseif (UNIX)

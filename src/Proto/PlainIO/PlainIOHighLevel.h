@@ -22,6 +22,7 @@ class pio_string {
 		pio_string();
 		pio_string(const wchar_t *);
 		pio_string(const char *);
+		pio_string(const unsigned char *);
 
 		~pio_string();
 	public:
@@ -35,6 +36,9 @@ class pio_string {
 		const char *c_str();
 		void clear();
 		void set(pio_string);
+		void set(const char *);
+		void set(const unsigned char *);
+		void set(const wchar_t *);
 		void filter(bool (*predicate)(wchar_t));
 		void weedout_control();
 };

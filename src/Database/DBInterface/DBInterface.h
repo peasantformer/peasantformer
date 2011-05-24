@@ -2,8 +2,10 @@
 #define PEASANTFORMER_Database_Interface
 
 #include <stdio.h>
+#include <map>
 
 #include <Proto/PlainIO/PlainIOHighLevel.h>
+#include <Data/Hash/Hash.h>
 #include <sqlite3.h> 
 
 class DatabaseInterface {
@@ -12,6 +14,7 @@ class DatabaseInterface {
 		sqlite3_stmt *stmt;
 		const char *stmt_tail;
 		int retcode;
+		Hash *results;
 	public:
 		static const int RET_OK = SQLITE_OK;
 		static const int RET_ERROR = SQLITE_ERROR;
@@ -50,7 +53,7 @@ class DatabaseInterface {
 		~DatabaseInterface();
 	public:
 		int open(const char *filename);
-		int prepare(const char *statement, int length);
+		int prepare(pio_string &statement);
 		int step();
 
 		int column_type(int col);
@@ -59,6 +62,10 @@ class DatabaseInterface {
 		const unsigned char *column_text(int col);
 		int column_bytes(int col);
 
+		pio_string get_text(pio_string col);
+		int get_int(pio_string col);
+		double get_double(pio_string col);
+
 		int finalize();
 
 		int close();
@@ -66,7 +73,7 @@ class DatabaseInterface {
 		int bind_double(int pos, double value);
 		int bind_int(int pos, int value);
 		int bind_null(int pos);
-		int bind_text(int pos, const char *value, int length);
+		int bind_text(int pos, pio_string value);
 };
 
 #endif
