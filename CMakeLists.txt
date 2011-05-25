@@ -68,11 +68,13 @@ project(Server)
 add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
 #add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
 add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
+add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
 
 set(server_lib
 	server-network
 	#server-database
 	server-world
+	server-connections
 	
 	proto-messages
 	proto-plainiohighlevel
