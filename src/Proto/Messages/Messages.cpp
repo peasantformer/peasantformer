@@ -3,7 +3,8 @@
 Messages::Messages(pio_string filename) {
 	FILE *fh;
 	fh = fopen(filename.c_str(),"r");
-	int ret;
+	
+	short ret;
 	wchar_t id[1024] = {0};
 	wchar_t msg[1024] = {0};
 	while ((ret = fwscanf(fh,L"%1024l[a-z_] ",id)) > 0) {
@@ -24,7 +25,6 @@ Messages::Messages(pio_string filename) {
 			msg[i] = '\0';
 		}
 	}
-	//fscanf(fh,""
 	fclose(fh);
 }
 const char *Messages::get(pio_string id)  {

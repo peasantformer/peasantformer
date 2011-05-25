@@ -16,6 +16,7 @@ include_directories(
 
 project(Data)
 add_library(data-hash           STATIC ../src/Data/Hash/Hash.cpp)
+add_library(data-circus         STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
 
 ########################################################################
 
@@ -61,24 +62,36 @@ add_library(proto-plainiohighlevel STATIC ../src/Proto/PlainIO/PlainIOHighLevel.
 target_link_libraries(proto-plainiohighlevel proto-plainio)
 
 add_library(proto-messages         STATIC ../src/Proto/Messages/Messages.cpp)
+add_library(proto-database         STATIC ../src/Proto/Database/Database.cpp)
+set(proto-database_libs data-hash)
+if (WIN32)
+	add_library(sqlite3_static STATIC IMPORTED)
+	set_property(TARGET sqlite3_static PROPERTY IMPORTED_LOCATION ../lib/sqlite/libsqlite3.a)	
+	set(proto-database_libs ${proto-database_libs}
+		sqlite3_static
+	)
+endif (WIN32)
+target_link_libraries(proto-database ${proto-database_libs})
 
 ########################################################################
 
 project(Server)
 add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
-#add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
+add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
 add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
+target_link_libraries(server-world data-circus)	
 add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
 
 set(server_lib
 	server-network
-	#server-database
+	server-database
 	server-world
 	server-connections
 	
 	proto-messages
 	proto-plainiohighlevel
 	proto-networkhighlevel
+	proto-database
 )
 
 if (WIN32)

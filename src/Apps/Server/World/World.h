@@ -4,10 +4,12 @@
 class ServerWorld;
 
 #include <Apps/Server/Server.h>
+#include <Data/CircularBuffer/CircularBuffer.h>
 
 class ServerWorld {
 	private:
 		Server *engine;
+		CircularBuffer<wchar_t> *circus;
 	private:
 		static void *game_server(void *raw_data);
 	public:

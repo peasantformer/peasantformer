@@ -19,6 +19,11 @@ ServerNetwork::ServerNetwork(Server *srvr, pio_string msgs_prefix) {
 	this->nmsgs = new Messages(msgs_prefix + "/network_server_english.txt");
 }
 
+void ServerNetwork::accept_connection(int remote_sock) {
+	this->connections[remote_sock] = ConnectionAccepted(this->connections_pending[remote_sock]);
+	
+}
+
 void *ServerNetwork::login_server(void *raw_data) {
 	ServerNetwork *network_engine = (ServerNetwork *)raw_data;
 
@@ -76,11 +81,38 @@ void *ServerNetwork::login_server(void *raw_data) {
 				pio_string got_username;
 				pio_string got_nickname;
 				pio_string got_password_hash;
+				pio_string got_email;
 				
 				int ret;
 				
-			}
+				ret = network_engine->engine->db->user_lookup_by_password_username(
+					password_hash, name,
+					got_password_hash,
+					got_username,
+					got_nickname,
+					got_email
 					
+				);
+				
+				if (ret < 0) {
+					FD_CLR((unsigned int)i,&network_engine->fd_pending_socks);
+					printf("Pending connection %s closed due to wrong auth.\n",network_engine->connections_pending[i].address_literal);
+					network_engine->connections_pending.erase(i);
+					pnh_send_str(i,network_engine->nmsgs->get("wrong_auth"));
+					pn_close(i);
+					continue;
+				}
+				
+				pnh_send_str(i,network_engine->nmsgs->get("successful_auth"));
+				printf("[%s] User %s authed with nick %s\n",network_engine->connections_pending[i].address_literal,got_username.c_str(),got_nickname.c_str());
+				network_engine->accept_connection(i);
+				network_engine->connections_pending.erase(i);
+				FD_CLR((unsigned int)i,&network_engine->fd_pending_socks);
+				FD_SET((unsigned int)i,&network_engine->fd_accepted_socks);
+				if (i > network_engine->fd_accepted_socks_max) {
+					network_engine->fd_accepted_socks_max = i;
+				}
+			}
 		}
 	}
 
@@ -148,13 +180,13 @@ int ServerNetwork::setup_server_on_addr_port_ipv4(pio_string addr, pio_string po
 }
 
 int ServerNetwork::setup_server_on_addr_port_ipv6(pio_string addr, pio_string port) {
+	
 	const char * hostname = addr.c_str();
 	if (hostname[0] == '\0') {
 		hostname = NULL;
 	}
-	//printf("%s\n",this->bind_addres_literal_v6);
 	this->listen_socket_v6 = pnh_bind_to_addr_port(NULL,port.c_str(),AF_INET6,SOCK_STREAM,this->bind_addres_literal_v6);
-	/*
+	
 	if (pn_socket_invalid(this->listen_socket_v6)) {
 		printf("[ipv6] Failed to bind at %s:%s\n",addr.c_str(),port.c_str());
 		return -1;
@@ -165,7 +197,7 @@ int ServerNetwork::setup_server_on_addr_port_ipv6(pio_string addr, pio_string po
 	if (this->listen_socket_v6 > this->fd_listen_socks_max) {
 		this->fd_listen_socks_max = this->listen_socket_v6;
 	}
-	*/
+	
 	return 0;
 }
 

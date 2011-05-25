@@ -19,44 +19,16 @@ class HashHolder {
 
 		HashHolderType type;
 	public:
-		HashHolder() {
-			this->type = HASHHOLDER_NULL;
-		}
-		HashHolder(int value) {
-			this->type = HASHHOLDER_INT;
-
-			this->double_value = value;
-			this->text_value = pio_string("");
-			this->int_value = value;
-		}
-		HashHolder(double value) {
-			this->type = HASHHOLDER_DOUBLE;
-
-			this->int_value =  value;
-			this->text_value = pio_string("");
-			this->double_value = value;
-		}
-		HashHolder(pio_string value) {
-			this->type = HASHHOLDER_TEXT;
-
-			this->int_value = 0;
-			this->double_value = 0;
-			this->text_value = value;
-		}
+		HashHolder();
+		HashHolder(int value);
+		HashHolder(double value);
+		HashHolder(pio_string value);
 	public:
-		HashHolderType get_type() {
-			return this->type;
-		}
+		HashHolderType get_type();
 
-		int get_int() {
-			return int_value;
-		}
-		double get_double() {
-			return double_value;
-		}
-		pio_string get_text() {
-			return text_value;
-		}
+		int get_int();
+		double get_double();
+		pio_string get_text();
 };
 
 class Hash {
