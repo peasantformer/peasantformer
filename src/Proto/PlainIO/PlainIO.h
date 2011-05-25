@@ -2,16 +2,13 @@
 #define PEASANTFORMER_Proto_PlainIO
 
 #include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
 
 #ifdef _WIN32
 
 #include <windows.h>
-
-#else
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <wchar.h>
 
 #endif
 

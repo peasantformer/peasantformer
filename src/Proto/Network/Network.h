@@ -1,6 +1,8 @@
 #ifndef PEASANTFORMER_Proto_Network
 #define PEASANTFORMER_Proto_Network
 
+
+
 #ifdef _WIN32
 
 #ifdef _WIN32_WINNT

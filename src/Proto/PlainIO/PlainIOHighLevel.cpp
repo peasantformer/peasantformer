@@ -9,7 +9,10 @@ void pio_string::wchar_to_data(const wchar_t *text) {
 
 
 void pio_string::data_to_wchar() {
-	if (this->wstr != NULL) delete this->wstr;
+	if (this->wstr != NULL) {
+		delete[] this->wstr;
+		this->wstr = NULL;
+	}
 	
 	size_t length = data.size();
 
@@ -41,14 +44,20 @@ pio_string::pio_string(const wchar_t *source) {
 }
 
 pio_string::~pio_string() {
-	delete this->cstr;
-	delete this->wstr;
+	if (this->cstr != NULL) {
+		delete[] this->cstr;
+		this->cstr = NULL;
+	}
+	if (this->wstr != NULL) {
+		delete[] this->wstr;
+		this->wstr = NULL;
+	}
 }
 
 void pio_string::clear() {
 	this->data.clear();
-	delete this->cstr;
-	delete this->wstr;
+	delete[] this->cstr;
+	delete[] this->wstr;
 	this->cstr = NULL;
 	this->wstr = NULL;
 }
@@ -67,7 +76,8 @@ pio_string::pio_string(const char *source) {
 
 	this->wchar_to_data(wch);
 
-	delete wch;
+	delete[] wch;
+	wch = NULL;
 }
 
 pio_string::pio_string(const unsigned char *source) {
@@ -83,7 +93,8 @@ pio_string::pio_string(const unsigned char *source) {
 
 	this->wchar_to_data(wch);
 
-	delete wch;
+	delete[] wch;
+	wch = NULL;
 }
 
 size_t pio_string::length() {
@@ -93,6 +104,7 @@ size_t pio_string::length() {
 wchar_t &pio_string::operator[](size_t i) {
 	return this->data[i];
 }
+
 pio_string & pio_string::operator=(pio_string const &r) {
 	if (&r == this) return *this;
 	this->data = r.data;
@@ -115,7 +127,10 @@ const wchar_t *pio_string::w_str()  {
 }
 const char *pio_string::c_str() {
 	this->data_to_wchar();
-	if (this->cstr != NULL) delete this->cstr;
+	if (this->cstr != NULL) {
+		 delete[] this->cstr;
+		 this->cstr = NULL;
+	 }
 
 	this->data_to_wchar();
 
@@ -171,6 +186,7 @@ void pio_string::append(const pio_string &oth) {
 bool operator<(pio_string const& l,pio_string const& r) {
 	return l.get_data() < r.get_data();
 }
+
 pio_string operator+(pio_string & l, pio_string const& r) {
 	l.append(r);
 	return l;
