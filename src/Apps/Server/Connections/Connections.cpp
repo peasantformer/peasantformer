@@ -4,7 +4,7 @@ Connection::Connection() {
 }
 Connection::Connection(struct sockaddr_storage remote_addr) {
 	this->remote_addr = remote_addr;
-	pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);;
+	pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);
 }
 
 
@@ -33,4 +33,6 @@ ConnectionAccepted::ConnectionAccepted() :
 
 ConnectionAccepted::ConnectionAccepted(ConnectionPending pend) {
 	this->isLogged = pend.isLogged;
+	this->remote_addr = pend.remote_addr;
+	pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);
 }

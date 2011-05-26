@@ -17,6 +17,7 @@ class ServerNetwork {
 	public:
 		fd_set fd_accepted_socks;
 		int fd_accepted_socks_max;
+		std::map<int,ConnectionAccepted> connections;
 	private:
 		Server *engine;
 		bool do_ipv4;
@@ -37,7 +38,6 @@ class ServerNetwork {
 		char bind_addres_literal_v6[INET6_ADDRSTRLEN];
 		
 		std::map<int,ConnectionPending> connections_pending;
-		std::map<int,ConnectionAccepted> connections;
 	private:
 		static void *connection_server(void *raw_data);
 		static void *login_server(void *raw_data);

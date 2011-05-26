@@ -14,6 +14,7 @@ class ServerWorld {
 		static void *game_server(void *raw_data);
 	public:
 		ServerWorld(Server *srvr);
+		~ServerWorld();
 	public:
 		void setup_world();
 };

@@ -79,7 +79,7 @@ project(Server)
 add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
 add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
 add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
-target_link_libraries(server-world data-circus)	
+target_link_libraries(server-world data-circus)	# we don't really need that :P
 add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
 
 set(server_lib
