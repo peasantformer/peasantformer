@@ -12,6 +12,7 @@ class Messages {
 		Messages(pio_string filename);
 	public:
 		const char *get(pio_string id);
+		const char *getln(pio_string id);
 		size_t length(pio_string id);
 };
 

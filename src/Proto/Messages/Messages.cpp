@@ -18,7 +18,7 @@ Messages::Messages(pio_string filename) {
 			}
 			msg[i++] = ch;
 		}
-		msg[i-1] = '\0';
+		msg[i] = '\0';
 		this->messages[pio_string(id)] = pio_string(msg);
 		for (int i=0; i < 1024; i++) {
 			id[i] = '\0';

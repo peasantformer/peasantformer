@@ -18,6 +18,7 @@ class ServerNetwork {
 		fd_set fd_accepted_socks;
 		int fd_accepted_socks_max;
 		std::map<int,ConnectionAccepted> connections;
+		Messages *nmsgs;
 	private:
 		Server *engine;
 		bool do_ipv4;
@@ -31,8 +32,6 @@ class ServerNetwork {
 		
 		fd_set fd_pending_socks;
 		int fd_pending_socks_max;
-		
-		Messages *nmsgs;
 		
 		char bind_addres_literal_v4[INET_ADDRSTRLEN];
 		char bind_addres_literal_v6[INET6_ADDRSTRLEN];

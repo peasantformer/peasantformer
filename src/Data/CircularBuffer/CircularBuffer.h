@@ -96,7 +96,7 @@ int CircularBuffer<T>::write(const T *source, size_t len) {
 	const T *s;
 	size_t w = 0;
 
-	for (this->ptr_end, s = source; len > 0; this->ptr_end++, s++, len--) {
+	for (s = source; len > 0; this->ptr_end++, s++, len--) {
 		if (this->ptr_end > (this->buffer + this->buffsize - 1)) this->ptr_end = this->buffer;
 		if (this->ptr_end == this->ptr_begin && this->fill > 0) { 
 			break; 
@@ -117,7 +117,7 @@ int CircularBuffer<T>::read(T *dest, size_t len) {
 	T *d;
 	size_t r = 0;
 
-	for (this->ptr_begin, d = dest; len > 0; this->ptr_begin++,d++,len--) {
+	for (d = dest; len > 0; this->ptr_begin++,d++,len--) {
 		if (this->ptr_begin > (this->buffer + this->buffsize - 1)) this->ptr_begin = this->buffer;
 		if (this->ptr_begin == this->ptr_end && this->fill == 0) { 
 			break; 
@@ -148,14 +148,15 @@ int CircularBuffer<T>::peek_str(T *dest, size_t len) {
 	T *p = this->ptr_begin;
 	T *d;
 	size_t r = 0;
+	this->peek_fill = this->fill;
 
-	for (p, d = dest; len > 0; p++,d++,len--) {
+	for (d = dest; len > 0; p++,d++,len--) {
 		if (p > (this->buffer + this->buffsize - 1)) p = this->buffer;
 		if (p == this->ptr_end && this->fill == 0) { 
 			break; 
 		}
 		if (dest != NULL) {
-			*d = *this->ptr_begin;
+			*d = *p;
 		}
 		this->peek_fill--;
 		r++;

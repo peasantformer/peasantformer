@@ -1,5 +1,6 @@
-invalid_message Invalid message
-password_hash_too_short password_hash_too_short Your password hash is not of length 32
-wrong_auth wrong_auth Wrong authentification data
-successful_auth successful_auth Authentification was successful
-last_message Last Message
+invalid_message			000000	Invalid message
+password_hash_too_short 000001	Your password hash is not of length 32
+wrong_auth				000002	Wrong authentification data
+successful_auth			000003	Authentification was successful
+login_successful		000004	You are logged in
+last_message			999999	Last Message

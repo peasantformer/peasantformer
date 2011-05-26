@@ -6,12 +6,15 @@ class ServerWorld;
 #include <Apps/Server/Server.h>
 #include <Data/CircularBuffer/CircularBuffer.h>
 
+#include <wctype.h>
+
 class ServerWorld {
 	private:
 		Server *engine;
-		CircularBuffer<wchar_t> *circus;
 	private:
 		static void *game_server(void *raw_data);
+	private:
+		int scroll_till_opcode(CircularBuffer<wchar_t> &buffer);
 	public:
 		ServerWorld(Server *srvr);
 		~ServerWorld();
