@@ -68,7 +68,15 @@ void *ServerWorld::game_server(void *raw_data) {
 				int ret;
 				ret = world_engine->scroll_till_opcode(circus);
 				if (!ret) {
-					printf("fail\n");
+					printf("[%s] invalid query. Dropping foreigh connection.",world_engine->engine->network->connections[i].address_literal);
+					world_engine->engine->network->connections.erase(i);
+					FD_CLR((unsigned int)i,&world_engine->engine->network->fd_accepted_socks);
+					//pnh_send_str(i,world_engine->engine->network->nmsgs->get("invalid_query"));
+					if (plain_buffer[nbytes-1] == '\n') {
+						plain_buffer[nbytes-1] = '\0';
+					}
+					pnh_send_fstr(i,1024,world_engine->engine->network->nmsgs->get("invalid_query"),plain_buffer);
+					pn_close(i);
 					continue;
 				}
 			}

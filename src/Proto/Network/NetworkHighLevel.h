@@ -2,6 +2,9 @@
 #define PEASANTFORMER_Proto_NetworkHighLevel
 
 #include <string.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "Network.h"
 
@@ -12,6 +15,7 @@ int pnh_get_sockaddr_storage_literal(struct sockaddr_storage *, char *);
 int pnh_iterate_addrinfo(struct addrinfo *, struct addrinfo *);
 int pnh_bind_to_addr_port(const char *, const char *, int, int, char *);
 int pnh_send_str(int,const char *);
+int pnh_send_fstr(int, size_t, const char*, ...);
 
 
 #endif

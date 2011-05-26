@@ -3,4 +3,5 @@ password_hash_too_short 000001	Your password hash is not of length 32
 wrong_auth				000002	Wrong authentification data
 successful_auth			000003	Authentification was successful
 login_successful		000004	You are logged in
+invalid_query			000005	Invalid request "%s"
 last_message			999999	Last Message

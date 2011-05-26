@@ -74,4 +74,13 @@ int pnh_bind_to_addr_port(const char *hostname, const char *port, int af, int so
 int pnh_send_str(int fd, const char *buf) {
 	return send(fd,buf,strlen(buf),0);
 }
-
+int pnh_send_fstr(int fd, size_t bufflen, const char *fmt, ...) {
+	va_list ap;
+	char *buf = (char*)malloc(bufflen * sizeof(char));
+	va_start(ap, fmt);
+	vsnprintf(buf,bufflen,fmt,ap);
+	va_end(ap);
+	int ret = send(fd,buf,strlen(buf),0);
+	free(buf);
+	return ret;
+}
