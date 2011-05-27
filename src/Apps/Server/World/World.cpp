@@ -31,7 +31,7 @@ int ServerWorld::scroll_till_opcode(CircularBuffer<wchar_t> &buffer) {
 
 void *ServerWorld::game_server(void *raw_data) {
 	ServerWorld *world_engine = (ServerWorld *)raw_data;
-	ServerNetwork *network_engine = world_engine->engine->network;
+	//ServerNetwork *network_engine = world_engine->engine->network;
 
 
 	struct timeval timeout;
@@ -44,13 +44,14 @@ void *ServerWorld::game_server(void *raw_data) {
 	
 	while (true) {
 		
-		read_fds = network_engine->fd_accepted_socks;
+//		read_fds = network_engine->fd_accepted_socks;
 		
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 1000 * 1000;
 		
-		pn_select(network_engine->fd_accepted_socks_max + 1, &read_fds, NULL, NULL, &timeout);
-		for (int i=0; i <= network_engine->fd_accepted_socks_max; i++) {
+		//pn_select(network_engine->fd_accepted_socks_max + 1, &read_fds, NULL, NULL, &timeout);
+		//for (int i=0; i <= network_engine->fd_accepted_socks_max; i++) {
+			/*
 			if (!FD_ISSET(i,&network_engine->fd_accepted_socks)) continue;
 			if (network_engine->connections[i].isLogged == false) {
 				network_engine->connections[i].isLogged = true;
@@ -92,7 +93,8 @@ void *ServerWorld::game_server(void *raw_data) {
 				
 				printf("%d >%s<\n",opcode,pio_string(wchar_buffer).c_str());
 			}
-		}
+			*/
+		//}
 	}
 	pthread_exit(NULL);
 	return NULL;

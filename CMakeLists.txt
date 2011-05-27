@@ -17,6 +17,7 @@ include_directories(
 project(Data)
 add_library(data-hash           STATIC ../src/Data/Hash/Hash.cpp)
 add_library(data-circus         STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
+add_library(data-connections    STATIC ../src/Data/Connections/Connections.cpp)
 
 ########################################################################
 
@@ -77,16 +78,20 @@ target_link_libraries(proto-database ${proto-database_libs})
 
 project(Server)
 add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
+target_link_libraries(server-network data-connections)
 add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
 add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
 target_link_libraries(server-world data-circus)	# we don't really need that :P
 add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
+target_link_libraries(server-connections data-connections)
+add_library(server-parser            STATIC ../src/Apps/Server/Parser/Parser.cpp)
 
 set(server_lib
 	server-network
 	server-database
 	server-world
 	server-connections
+	server-parser
 	
 	proto-messages
 	proto-plainiohighlevel
