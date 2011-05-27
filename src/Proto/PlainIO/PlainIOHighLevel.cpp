@@ -154,6 +154,13 @@ void pio_string::filter(bool (*predicate)(wchar_t)) {
 		}
 	}
 }
+
+void pio_string::strip_right(bool (*predicate)(wchar_t)) {
+	for (size_t i = (this->length() - 1); i >= 0 && (*predicate)(this->data[i]); i--) {
+		this->data.erase(this->data.begin()+i);
+	}
+}
+
 void pio_string::set(pio_string str) {
 	std::vector<wchar_t> oth_data = str.get_data();
 	this->data = oth_data;

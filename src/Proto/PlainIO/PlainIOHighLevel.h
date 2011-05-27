@@ -40,6 +40,8 @@ class pio_string {
 		void set(const unsigned char *);
 		void set(const wchar_t *);
 		void filter(bool (*predicate)(wchar_t));
+		void strip_right(bool (*predicate)(wchar_t));
+		void strip_left(bool (*predicate)(wchar_t)); // not implemented
 		void weedout_control();
 };
 bool operator<(pio_string const& l,pio_string const& r);
