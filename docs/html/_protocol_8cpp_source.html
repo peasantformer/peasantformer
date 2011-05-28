@@ -60,17 +60,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Protocol/Protocol.cpp</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_protocol_8h.html">Protocol.h</a>&quot;</span>
+<a href="_protocol_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_protocol_8h.html">Protocol.h</a>&quot;</span>
 <a name="l00002"></a>00002 
-<a name="l00003"></a><a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e">00003</a> <a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e" title="Protocol constructor.">Protocol::Protocol</a>(<span class="keywordtype">int</span> buffsize, <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *msgs) {
-<a name="l00004"></a>00004     this-&gt;msgs = <a class="code" href="class_protocol.html#aeac7c97e42d699ab817ebcdb4c70b676" title="messages pointer">msgs</a>;
-<a name="l00005"></a>00005     this-&gt;buffsize = <a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>;  
-<a name="l00006"></a>00006     this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a> = <span class="keyword">new</span> <a class="code" href="class_circular_buffer.html">CircularBuffer&lt;wchar_t&gt;</a>(<a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>);
-<a name="l00007"></a>00007 }
-<a name="l00008"></a>00008 
-<a name="l00009"></a><a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead">00009</a> <a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead" title="Protocol destructor.">Protocol::~Protocol</a>() {
-<a name="l00010"></a>00010     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a>;
-<a name="l00011"></a>00011 }
+<a name="l00004"></a>00004 
+<a name="l00005"></a><a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e">00005</a> <a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e" title="Protocol constructor.">Protocol::Protocol</a>(<span class="keywordtype">int</span> buffsize, <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *msgs) {
+<a name="l00006"></a>00006     this-&gt;msgs = <a class="code" href="class_protocol.html#aeac7c97e42d699ab817ebcdb4c70b676" title="messages pointer">msgs</a>;
+<a name="l00007"></a>00007     this-&gt;buffsize = <a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>;  
+<a name="l00008"></a>00008     this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a> = <span class="keyword">new</span> <a class="code" href="class_circular_buffer.html">CircularBuffer&lt;wchar_t&gt;</a>(<a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>);
+<a name="l00009"></a>00009 }
+<a name="l00010"></a>00010 
+<a name="l00011"></a><a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead">00011</a> <a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead" title="Protocol destructor.">Protocol::~Protocol</a>() {
+<a name="l00012"></a>00012     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a>;
+<a name="l00013"></a>00013 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -87,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:54:22 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

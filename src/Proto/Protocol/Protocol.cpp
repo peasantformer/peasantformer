@@ -1,5 +1,7 @@
 #include "Protocol.h"
 
+/// @file
+
 Protocol::Protocol(int buffsize, Messages *msgs) {
 	this->msgs = msgs;
 	this->buffsize = buffsize;	
