@@ -1,0 +1,268 @@
+\hypertarget{class_database}{
+\section{Database Class Reference}
+\label{class_database}\index{Database@{Database}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_database_ab0a1d1538a25bfa00c6352a252b12266}{
+bool {\bfseries isDone} ()}
+\label{class_database_ab0a1d1538a25bfa00c6352a252b12266}
+
+\item 
+\hypertarget{class_database_a35b1670b80ef1613ec46557b39fce747}{
+bool {\bfseries isRow} ()}
+\label{class_database_a35b1670b80ef1613ec46557b39fce747}
+
+\item 
+\hypertarget{class_database_af10802a282835dcaea9f62a228639e83}{
+{\bfseries Database} (\hyperlink{classpio__string}{pio\_\-string} filename)}
+\label{class_database_af10802a282835dcaea9f62a228639e83}
+
+\item 
+\hypertarget{class_database_a35d7c683b9701edfc443de4014a3d2ec}{
+int {\bfseries open} (const char $\ast$filename)}
+\label{class_database_a35d7c683b9701edfc443de4014a3d2ec}
+
+\item 
+\hypertarget{class_database_a3e3011ab9edc71dd2f969396851cafe3}{
+int {\bfseries prepare} (\hyperlink{classpio__string}{pio\_\-string} \&statement)}
+\label{class_database_a3e3011ab9edc71dd2f969396851cafe3}
+
+\item 
+\hypertarget{class_database_ab6315456244d709fe49a6ca1224699b4}{
+int {\bfseries step} ()}
+\label{class_database_ab6315456244d709fe49a6ca1224699b4}
+
+\item 
+\hypertarget{class_database_a77823607f3234bc56cc8c8e5d683987c}{
+int {\bfseries column\_\-type} (int col)}
+\label{class_database_a77823607f3234bc56cc8c8e5d683987c}
+
+\item 
+\hypertarget{class_database_ac87bc4a4accf784bf6a6b5968c4c3848}{
+double {\bfseries column\_\-double} (int col)}
+\label{class_database_ac87bc4a4accf784bf6a6b5968c4c3848}
+
+\item 
+\hypertarget{class_database_a347b2d1f78938aa158f567a8990ce743}{
+int {\bfseries column\_\-int} (int col)}
+\label{class_database_a347b2d1f78938aa158f567a8990ce743}
+
+\item 
+\hypertarget{class_database_a8e67637c124e417274522e41f0cf3796}{
+const unsigned char $\ast$ {\bfseries column\_\-text} (int col)}
+\label{class_database_a8e67637c124e417274522e41f0cf3796}
+
+\item 
+\hypertarget{class_database_a5ac37027c76b693585cabb3671db4180}{
+int {\bfseries column\_\-bytes} (int col)}
+\label{class_database_a5ac37027c76b693585cabb3671db4180}
+
+\item 
+\hypertarget{class_database_acdd45530020083da8bff5cba01beecaa}{
+\hyperlink{classpio__string}{pio\_\-string} {\bfseries get\_\-text} (\hyperlink{classpio__string}{pio\_\-string} col)}
+\label{class_database_acdd45530020083da8bff5cba01beecaa}
+
+\item 
+\hypertarget{class_database_adb0a2dc17a361c52db2454f13d80c75e}{
+int {\bfseries get\_\-int} (\hyperlink{classpio__string}{pio\_\-string} col)}
+\label{class_database_adb0a2dc17a361c52db2454f13d80c75e}
+
+\item 
+\hypertarget{class_database_a17ba509b5e2aedebb7b791bc3bb3201f}{
+double {\bfseries get\_\-double} (\hyperlink{classpio__string}{pio\_\-string} col)}
+\label{class_database_a17ba509b5e2aedebb7b791bc3bb3201f}
+
+\item 
+\hypertarget{class_database_a3a865ad865c97dca74073fbee66e80e4}{
+int {\bfseries finalize} ()}
+\label{class_database_a3a865ad865c97dca74073fbee66e80e4}
+
+\item 
+\hypertarget{class_database_a9b0c49501592440fd474f38738c3255c}{
+int {\bfseries close} ()}
+\label{class_database_a9b0c49501592440fd474f38738c3255c}
+
+\item 
+\hypertarget{class_database_af49ad3a99a723dcbb6a00272aeff142d}{
+int {\bfseries bind\_\-double} (int pos, double value)}
+\label{class_database_af49ad3a99a723dcbb6a00272aeff142d}
+
+\item 
+\hypertarget{class_database_a2dc1e05cc3fbab8470beddcd7ca8a8bf}{
+int {\bfseries bind\_\-int} (int pos, int value)}
+\label{class_database_a2dc1e05cc3fbab8470beddcd7ca8a8bf}
+
+\item 
+\hypertarget{class_database_a53cb4f16d6585eb1c057cc3abef909a9}{
+int {\bfseries bind\_\-null} (int pos)}
+\label{class_database_a53cb4f16d6585eb1c057cc3abef909a9}
+
+\item 
+\hypertarget{class_database_a1211687261b7ef8db7f737de9647fa8a}{
+int {\bfseries bind\_\-text} (int pos, \hyperlink{classpio__string}{pio\_\-string} value)}
+\label{class_database_a1211687261b7ef8db7f737de9647fa8a}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_database_a42111ce8d1048e8f2f4287516b223a34}{
+static const int {\bfseries RET\_\-OK} = SQLITE\_\-OK}
+\label{class_database_a42111ce8d1048e8f2f4287516b223a34}
+
+\item 
+\hypertarget{class_database_ae859867896f50a88cf0001d1e5ee2196}{
+static const int {\bfseries RET\_\-ERROR} = SQLITE\_\-ERROR}
+\label{class_database_ae859867896f50a88cf0001d1e5ee2196}
+
+\item 
+\hypertarget{class_database_ad65975119fd4984c924275157ffa3c9f}{
+static const int {\bfseries RET\_\-INTERNAL} = SQLITE\_\-INTERNAL}
+\label{class_database_ad65975119fd4984c924275157ffa3c9f}
+
+\item 
+\hypertarget{class_database_a01f2a921d8f55194ed94405fc3a884ab}{
+static const int {\bfseries RET\_\-PERM} = SQLITE\_\-PERM}
+\label{class_database_a01f2a921d8f55194ed94405fc3a884ab}
+
+\item 
+\hypertarget{class_database_ae1d0e8f2af97e0feb29108eb31d066f6}{
+static const int {\bfseries RET\_\-ABORT} = SQLITE\_\-ABORT}
+\label{class_database_ae1d0e8f2af97e0feb29108eb31d066f6}
+
+\item 
+\hypertarget{class_database_aaf87a3bc4d2bf2f382ae829611cb42de}{
+static const int {\bfseries RET\_\-BUSY} = SQLITE\_\-BUSY}
+\label{class_database_aaf87a3bc4d2bf2f382ae829611cb42de}
+
+\item 
+\hypertarget{class_database_a602104a7071ac6725aaf9985613af122}{
+static const int {\bfseries RET\_\-LOCKED} = SQLITE\_\-LOCKED}
+\label{class_database_a602104a7071ac6725aaf9985613af122}
+
+\item 
+\hypertarget{class_database_a497f9224175d3f64860f59e8275db652}{
+static const int {\bfseries RET\_\-NOMEM} = SQLITE\_\-NOMEM}
+\label{class_database_a497f9224175d3f64860f59e8275db652}
+
+\item 
+\hypertarget{class_database_adefe1fa4c8ffd0f759f4cfb3e76612e5}{
+static const int {\bfseries RET\_\-READONLY} = SQLITE\_\-READONLY}
+\label{class_database_adefe1fa4c8ffd0f759f4cfb3e76612e5}
+
+\item 
+\hypertarget{class_database_afccdcf8a8720bc99485daa138be17158}{
+static const int {\bfseries RET\_\-INTERRUPT} = SQLITE\_\-INTERRUPT}
+\label{class_database_afccdcf8a8720bc99485daa138be17158}
+
+\item 
+\hypertarget{class_database_a55077b6f30b3b82aefa739855debef6c}{
+static const int {\bfseries RET\_\-IOERR} = SQLITE\_\-IOERR}
+\label{class_database_a55077b6f30b3b82aefa739855debef6c}
+
+\item 
+\hypertarget{class_database_a95b4b785aaef860b142791e81e41cfc5}{
+static const int {\bfseries RET\_\-CORRUPT} = SQLITE\_\-CORRUPT}
+\label{class_database_a95b4b785aaef860b142791e81e41cfc5}
+
+\item 
+\hypertarget{class_database_a2ff620ed5ad3dcf19caf95f34b0b9f8d}{
+static const int {\bfseries RET\_\-NOTFOUND} = SQLITE\_\-NOTFOUND}
+\label{class_database_a2ff620ed5ad3dcf19caf95f34b0b9f8d}
+
+\item 
+\hypertarget{class_database_a27b8d57b890a223888c05f60d95275a4}{
+static const int {\bfseries RET\_\-FULL} = SQLITE\_\-FULL}
+\label{class_database_a27b8d57b890a223888c05f60d95275a4}
+
+\item 
+\hypertarget{class_database_a8f0d44bca3000d8f29febdf97eebc4b3}{
+static const int {\bfseries RET\_\-CANTOPEN} = SQLITE\_\-CANTOPEN}
+\label{class_database_a8f0d44bca3000d8f29febdf97eebc4b3}
+
+\item 
+\hypertarget{class_database_a6ba1597a7fdff79812e8afeec4179975}{
+static const int {\bfseries RET\_\-PROTOCOL} = SQLITE\_\-PROTOCOL}
+\label{class_database_a6ba1597a7fdff79812e8afeec4179975}
+
+\item 
+\hypertarget{class_database_a3f1efcdd58dcec591cc7bcf4c7f6e40d}{
+static const int {\bfseries RET\_\-EMPTY} = SQLITE\_\-EMPTY}
+\label{class_database_a3f1efcdd58dcec591cc7bcf4c7f6e40d}
+
+\item 
+\hypertarget{class_database_a929b853cbd2074dc647fd554ffd17cb0}{
+static const int {\bfseries RET\_\-SCHEMA} = SQLITE\_\-SCHEMA}
+\label{class_database_a929b853cbd2074dc647fd554ffd17cb0}
+
+\item 
+\hypertarget{class_database_aa18a95fb963300f11ff256d125123174}{
+static const int {\bfseries RET\_\-TOOBIG} = SQLITE\_\-TOOBIG}
+\label{class_database_aa18a95fb963300f11ff256d125123174}
+
+\item 
+\hypertarget{class_database_a12493e4a82057e9a71510546c1264084}{
+static const int {\bfseries RET\_\-CONSTRAINT} = SQLITE\_\-CONSTRAINT}
+\label{class_database_a12493e4a82057e9a71510546c1264084}
+
+\item 
+\hypertarget{class_database_a3e743a4be7781638c122df304796b567}{
+static const int {\bfseries RET\_\-MISMATCH} = SQLITE\_\-MISMATCH}
+\label{class_database_a3e743a4be7781638c122df304796b567}
+
+\item 
+\hypertarget{class_database_aaa1c8f2a6a8019bded318c1c5e387392}{
+static const int {\bfseries RET\_\-MISUSE} = SQLITE\_\-MISUSE}
+\label{class_database_aaa1c8f2a6a8019bded318c1c5e387392}
+
+\item 
+\hypertarget{class_database_a29876a9218eca89f8766bbc2c80c344c}{
+static const int {\bfseries RET\_\-NOLFS} = SQLITE\_\-NOLFS}
+\label{class_database_a29876a9218eca89f8766bbc2c80c344c}
+
+\item 
+\hypertarget{class_database_a2804df17df10798c0567631b93948045}{
+static const int {\bfseries RET\_\-AUTH} = SQLITE\_\-AUTH}
+\label{class_database_a2804df17df10798c0567631b93948045}
+
+\item 
+\hypertarget{class_database_af05a6bb43481d96c0e90eff664f60cb8}{
+static const int {\bfseries RET\_\-FORMAT} = SQLITE\_\-FORMAT}
+\label{class_database_af05a6bb43481d96c0e90eff664f60cb8}
+
+\item 
+\hypertarget{class_database_a02d9c6d2467efbb6a4d863e889070845}{
+static const int {\bfseries RET\_\-RANGE} = SQLITE\_\-RANGE}
+\label{class_database_a02d9c6d2467efbb6a4d863e889070845}
+
+\item 
+\hypertarget{class_database_a33b24214a439242ec0f7a7581601515a}{
+static const int {\bfseries RET\_\-NOTADB} = SQLITE\_\-NOTADB}
+\label{class_database_a33b24214a439242ec0f7a7581601515a}
+
+\item 
+\hypertarget{class_database_afd60440bc204450e31c36e0004e39cb8}{
+static const int {\bfseries RET\_\-ROW} = SQLITE\_\-ROW}
+\label{class_database_afd60440bc204450e31c36e0004e39cb8}
+
+\item 
+\hypertarget{class_database_ac00fd3b5a6171893812b2e69bd76d05b}{
+static const int {\bfseries RET\_\-DONE} = SQLITE\_\-DONE}
+\label{class_database_ac00fd3b5a6171893812b2e69bd76d05b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 11 of file Database.h.
+
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/Proto/Database/Database.h\item 
+src/Proto/Database/Database.cpp\end{DoxyCompactItemize}

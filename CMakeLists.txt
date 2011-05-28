@@ -78,20 +78,20 @@ add_library(proto-protocol       STATIC ../src/Proto/Protocol/Protocol.cpp)
 ########################################################################
 
 project(Server)
-add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
-add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
-add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
-target_link_libraries(server-world data-circus)	# we don't really need that :P
-add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
-target_link_libraries(server-connections data-connections)
-add_library(server-protocol          STATIC ../src/Apps/Server/Protocol/Protocol.cpp)
+#add_library(server-network           STATIC ../src/Apps/Server/Network/Network.cpp)
+#add_library(server-database          STATIC ../src/Apps/Server/Database/Database.cpp)
+#add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
+#target_link_libraries(server-world data-circus)	# we don't really need that :P
+#add_library(server-connections       STATIC ../src/Apps/Server/Connections/Connections.cpp)
+#target_link_libraries(server-connections data-connections)
+#add_library(server-protocol          STATIC ../src/Apps/Server/Protocol/Protocol.cpp)
 
 set(server_lib
-	server-network
-	server-database
-	server-world
-	server-connections
-	server-protocol
+	#server-network
+	#server-database
+	#server-world
+	#server-connections
+	#server-protocol
 	
 	proto-messages
 	proto-plainiohighlevel

@@ -3,13 +3,16 @@
 
 #include <Proto/PlainIO/PlainIOHighLevel.h>
 #include <Proto/Network/NetworkHighLevel.h>
+#include <Proto/Messages/Messages.h>
 #include <Data/CircularBuffer/CircularBuffer.h>
 
 class Protocol {
 	private:
-		
+		int buffsize;
+		Messages *msgs;
+		CircularBuffer<wchar_t> *circus;
 	public:
-		Protocol();
+		Protocol(int buffsize, Messages *msgs);
 		~Protocol();
 	public:
 };

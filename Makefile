@@ -1,6 +1,9 @@
-all: native
+all: native docs
 
-native:
+docs: native
+	doxygen docs/doxygen-config
+
+native: 
 	cd build-native; cmake .; make;
 
 cross-win32:
