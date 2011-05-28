@@ -100,11 +100,13 @@ class pio_string {
 };
 
 /// operator compare-less for pio strings
+/// @return bool
 bool operator<(
 	pio_string const& l, ///< [in] left string
 	pio_string const& r ///< [in] right string
 );
 /// operator of string concat
+/// @return resulting string
 pio_string operator+(
 	pio_string const& l, ///< [out] string append to
 	pio_string const& r ///< [in] string append from

@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Peasantformer&#160;<span id="projectnumber">0.01-dev</span></div>
    <div id="projectbrief">2D platfromer named PeasantFormer</div>
@@ -29,7 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,7 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>Globals</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -63,32 +64,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Network/NetworkHighLevel.h File Reference</h1>  </div>
 </div>
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;stdarg.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="_network_8h_source.html">Network.h</a>&quot;</code><br/>
+</div>
 <p><a href="_network_high_level_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#aa3aafa6818c01ae9d688563aa1bd3ab5">pnh_set_hints</a> (struct addrinfo *hnits, int family, int socktype, int flags)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">hints setup helper function  <a href="#aa3aafa6818c01ae9d688563aa1bd3ab5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a02728a48771aca5fb535499c157340f3">pnh_set_hints</a> (struct addrinfo *hints, int family, int socktype, int flags)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#acb12f32fbb1661843754a4b378a1a9d2">pnh_get_in_addr</a> (const struct sockaddr *sa)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a9815b25e5da48499200ebc9d15ac8b63">pnh_get_addrinfo_literal</a> (const struct addrinfo *res, char *addres_literal)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">het addres literal from addrinfo  <a href="#a9815b25e5da48499200ebc9d15ac8b63"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#aa5b5333a63289ccc42654849bf0b06ff">pnh_get_sockaddr_storage_literal</a> (struct sockaddr_storage *res, char *addres_literal)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">get sockaddr storage literal  <a href="#aa5b5333a63289ccc42654849bf0b06ff"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a27f2ce5ac08c1b6c280a9ffd050b4c43">pnh_get_addrinfo_literal</a> (const struct addrinfo *res, char *address_literal)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#aee8cfd7130d4f890ec0a8a522180ddee">pnh_get_sockaddr_storage_literal</a> (struct sockaddr_storage *res, char *address_literal)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a0f2c9ccbe44809eba9c0dc98b72f25c5">pnh_iterate_addrinfo</a> (struct addrinfo *info, struct addrinfo *res)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">iterate addrinfo till get some sane addrinfo struct  <a href="#a0f2c9ccbe44809eba9c0dc98b72f25c5"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a0a6b0ee9116a1c1a7a838bad698a887a">pnh_bind_to_addr_port</a> (const char *hostname, const char *port, int af, int socktype, char *addres_literal)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">bind to specified addres and port  <a href="#a0a6b0ee9116a1c1a7a838bad698a887a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a4490bde75697400f2566e4830a852dfd">pnh_bind_to_addr_port</a> (const char *hostname, const char *port, int af, int socktype, char *address_literal)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#a9e72c682cfa19fbc061fe9f6e3fb13aa">pnh_send_str</a> (int fd, const char *buf)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">socket send string wrapper  <a href="#a9e72c682cfa19fbc061fe9f6e3fb13aa"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_high_level_8h.html#af609ef4a5612f5cba2945f457cf6981f">pnh_send_fstr</a> (int fd, size_t bufflen, const char *fmt,...)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">socket send formatted string wrapper  <a href="#af609ef4a5612f5cba2945f457cf6981f"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition in file <a class="el" href="_network_high_level_8h_source.html">NetworkHighLevel.h</a>.</p>
-</div><hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a0a6b0ee9116a1c1a7a838bad698a887a"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_bind_to_addr_port" ref="a0a6b0ee9116a1c1a7a838bad698a887a" args="(const char *hostname, const char *port, int af, int socktype, char *addres_literal)" -->
+<div class="textblock"></div><hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a4490bde75697400f2566e4830a852dfd"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_bind_to_addr_port" ref="a4490bde75697400f2566e4830a852dfd" args="(const char *hostname, const char *port, int af, int socktype, char *address_literal)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -120,7 +117,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>addres_literal</em>&#160;</td>
+          <td class="paramname"><em>address_literal</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -130,24 +127,22 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>bind to specified addres and port </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">hostname</td><td>addres (hostname) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>port </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">af</td><td>address family </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>socket type </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">addres_literal</td><td>addres literal </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00059">59</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a9815b25e5da48499200ebc9d15ac8b63"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_get_addrinfo_literal" ref="a9815b25e5da48499200ebc9d15ac8b63" args="(const struct addrinfo *res, char *addres_literal)" -->
+<a class="anchor" id="a27f2ce5ac08c1b6c280a9ffd050b4c43"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_get_addrinfo_literal" ref="a27f2ce5ac08c1b6c280a9ffd050b4c43" args="(const struct addrinfo *res, char *address_literal)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -161,7 +156,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>addres_literal</em>&#160;</td>
+          <td class="paramname"><em>address_literal</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -171,17 +166,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>het addres literal from addrinfo </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>addrinfo struct </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">addres_literal</td><td>addres literal string buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal string buffer </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00019">19</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -207,11 +200,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00012">12</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aa5b5333a63289ccc42654849bf0b06ff"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_get_sockaddr_storage_literal" ref="aa5b5333a63289ccc42654849bf0b06ff" args="(struct sockaddr_storage *res, char *addres_literal)" -->
+<a class="anchor" id="aee8cfd7130d4f890ec0a8a522180ddee"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_get_sockaddr_storage_literal" ref="aee8cfd7130d4f890ec0a8a522180ddee" args="(struct sockaddr_storage *res, char *address_literal)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -225,7 +216,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>addres_literal</em>&#160;</td>
+          <td class="paramname"><em>address_literal</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -235,17 +226,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>get sockaddr storage literal </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>sockaddr_storage struct </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">addres_literal</td><td>addres literal string buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal string buffer </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00027">27</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -273,8 +262,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>iterate addrinfo till get some sane addrinfo struct </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>adrinfo struct </td></tr>
@@ -282,8 +271,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00031">31</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -323,8 +310,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>socket send formatted string wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>count of sent bytes </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket file descriptor </td></tr>
@@ -333,8 +320,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00079">79</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -362,8 +347,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>socket send string wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>coutn of sent bytes </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket file descriptor </td></tr>
@@ -372,11 +357,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00076">76</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aa3aafa6818c01ae9d688563aa1bd3ab5"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_set_hints" ref="aa3aafa6818c01ae9d688563aa1bd3ab5" args="(struct addrinfo *hnits, int family, int socktype, int flags)" -->
+<a class="anchor" id="a02728a48771aca5fb535499c157340f3"></a><!-- doxytag: member="NetworkHighLevel.h::pnh_set_hints" ref="a02728a48771aca5fb535499c157340f3" args="(struct addrinfo *hints, int family, int socktype, int flags)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -384,7 +367,7 @@ Functions</h2></td></tr>
           <td class="memname">int pnh_set_hints </td>
           <td>(</td>
           <td class="paramtype">struct addrinfo *&#160;</td>
-          <td class="paramname"><em>hnits</em>, </td>
+          <td class="paramname"><em>hints</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -412,19 +395,17 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>hints setup helper function </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">hnits</td><td>hints structure to set </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">hints</td><td>hints structure to set </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">family</td><td>address family </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>socket type </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>flags </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -434,7 +415,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -443,7 +424,7 @@ Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 20:10:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

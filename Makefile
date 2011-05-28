@@ -1,6 +1,6 @@
 all: native docs
 
-docs: $(shell find src -type f) docs/doxygen-config
+docs: $(shell find src build-native -type f) docs/doxygen-config
 	doxygen docs/doxygen-config
 
 native: 
@@ -18,3 +18,8 @@ clean:
 	cd build-native; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 	rm -rf modules CMakeFiles CMakeCache.txt
 	rm -rf docs/html
+
+commit:
+	git add docs src
+	git commit -a
+	git push

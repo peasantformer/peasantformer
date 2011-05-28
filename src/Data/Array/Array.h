@@ -33,6 +33,7 @@ class Array {
 			return this->data[i];
 		}
 		/// Asignment operator.
+		/// @return resulting expression
 		Array & operator=(
 			Array const &r ///< [in] Right hand expression
 		) {

@@ -43,6 +43,7 @@ const char * inet_ntop(
 /// @return 0, at the moment in all cases
 int pn_init();
 /// getaddrinfo wrapper
+/// @return regular errno code
 int pn_getaddrinfo(
 	const char *node, ///< [in] node to use
 	const char *service, ///< [in] service to use
@@ -63,35 +64,41 @@ const char * pn_inet_ntop(
 	socklen_t size ///< [in] size of addr strcuture
 );
 /// socket() wrapper
+/// @return regular errno code
 int pn_socket(
 	int domain, ///< [in] domain
 	int type, ///< [in] type
 	int protocol ///< [in] protocol
 );
 /// connect wrapper
+/// @return regular errno code
 int pn_connect(
 	int sockfd, ///< [in] socket connect to
 	const struct sockaddr *addr, ///< [in] addr struct
 	socklen_t addrlen ///< [in] addr struct length
 );
 /// listen wrapper
+/// @return regular errno code
 int pn_listen(
 	int sockfd, ///< [in] socket to listen 
 	int backlog ///< [in] number of pending connections
 );
 /// bind wrapper
+/// @return regular errno code
 int pn_bind(
 	int sockfd, ///< [in] socket to bind
 	const struct sockaddr *addr, ///< [in] addr struct
 	socklen_t addrlen ///< [in] addr struct length
 );
 /// accept wrapper
+/// @return regular errno code
 int pn_accept(
-	int sockfd, ///< [in] socket to accept
+	int fd, ///< [in] socket to accept
 	struct sockaddr *addr, ///< [in] addr struct
 	socklen_t *addrlen ///< [in] addr struct length
 );
 /// select wrapper
+/// @return regular errno code
 int pn_select(
 	int nfds, ///< [out] maximum of fds + 1
 	fd_set *readfds, ///< [in,out] read fds
@@ -105,6 +112,7 @@ int pn_socket_invalid(
 	int fd ///< [in] socket to check
 );
 /// setsocketopt wrapper
+/// @return regular errno code
 int pn_setsockopt(
 	int fd, ///< [in] socket fd
 	int level, ///< [in] API level
@@ -113,6 +121,7 @@ int pn_setsockopt(
 	socklen_t len ///< [in] option length
 );
 /// close fd wrapper
+/// @return regular errno code
 int pn_close(
 	int fd ///< [in] file descriptor to close
 );

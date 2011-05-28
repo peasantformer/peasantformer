@@ -15,9 +15,11 @@ include_directories(
 ########################################################################
 
 project(Data)
-add_library(data-hash           STATIC ../src/Data/Hash/Hash.cpp)
-add_library(data-circus         STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
-add_library(data-connections    STATIC ../src/Data/Connections/Connections.cpp)
+add_library(data-hash               STATIC ../src/Data/Hash/Hash.cpp)
+add_library(data-circus             STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
+add_library(data-connection         STATIC ../src/Data/Connection/Connection.cpp)
+add_library(data-connectionPending  STATIC ../src/Data/Connection/ConnectionPending.cpp)
+add_library(data-connectionAccepted STATIC ../src/Data/Connection/ConnectionAccepted.cpp)
 
 ########################################################################
 
@@ -73,7 +75,7 @@ if (WIN32)
 	)
 endif (WIN32)
 target_link_libraries(proto-database ${proto-database_libs})
-add_library(proto-protocol       STATIC ../src/Proto/Protocol/Protocol.cpp)
+#add_library(proto-protocol       STATIC ../src/Proto/Protocol/Protocol.cpp)
 
 ########################################################################
 

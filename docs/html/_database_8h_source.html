@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Peasantformer&#160;<span id="projectnumber">0.01-dev</span></div>
    <div id="projectbrief">2D platfromer named PeasantFormer</div>
@@ -29,7 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,7 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>Globals</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <div class="header">
@@ -71,108 +72,108 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00010"></a>00010 <span class="preprocessor">#include &lt;Data/Hash/Hash.h&gt;</span>
 <a name="l00011"></a>00011 <span class="preprocessor">#include &lt;sqlite3.h&gt;</span> 
 <a name="l00012"></a>00012 
-<a name="l00016"></a><a class="code" href="class_database.html">00016</a> <span class="keyword">class </span><a class="code" href="class_database.html" title="Database routines class.">Database</a> {
-<a name="l00017"></a>00017     <span class="keyword">private</span>:
-<a name="l00018"></a><a class="code" href="class_database.html#af4d89a4376adf0c6526c36e889a1a9df">00018</a>         sqlite3 *<a class="code" href="class_database.html#af4d89a4376adf0c6526c36e889a1a9df" title="database handle">handle</a>; 
-<a name="l00019"></a><a class="code" href="class_database.html#a4bc0e62de07e5991562cfc9cbf987a26">00019</a>         sqlite3_stmt *<a class="code" href="class_database.html#a4bc0e62de07e5991562cfc9cbf987a26" title="sql statement">stmt</a>; 
-<a name="l00020"></a><a class="code" href="class_database.html#a6e497f80714deeb78ea81ef99cf17512">00020</a>         <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="class_database.html#a6e497f80714deeb78ea81ef99cf17512" title="sql statement rejected tail pointer">stmt_tail</a>; 
-<a name="l00021"></a><a class="code" href="class_database.html#aa886e55254d2f32748ed8ee62ac80c4e">00021</a>         <span class="keywordtype">int</span> <a class="code" href="class_database.html#aa886e55254d2f32748ed8ee62ac80c4e" title="return code of last method call">retcode</a>; 
-<a name="l00022"></a><a class="code" href="class_database.html#aeea23e5c1efc3aa8d50ebad6f57492f4">00022</a>         <a class="code" href="class_hash.html" title="Hash class.">Hash</a> *<a class="code" href="class_database.html#aeea23e5c1efc3aa8d50ebad6f57492f4" title="results from query">results</a>; 
-<a name="l00023"></a>00023     <span class="keyword">public</span>:
-<a name="l00024"></a><a class="code" href="class_database.html#a42111ce8d1048e8f2f4287516b223a34">00024</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a42111ce8d1048e8f2f4287516b223a34" title="retcode OK">RET_OK</a> = SQLITE_OK; 
-<a name="l00025"></a><a class="code" href="class_database.html#ae859867896f50a88cf0001d1e5ee2196">00025</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ae859867896f50a88cf0001d1e5ee2196" title="retcode ERROR">RET_ERROR</a> = SQLITE_ERROR; 
-<a name="l00026"></a><a class="code" href="class_database.html#ad65975119fd4984c924275157ffa3c9f">00026</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ad65975119fd4984c924275157ffa3c9f" title="retcode INTERNAL">RET_INTERNAL</a> = SQLITE_INTERNAL; 
-<a name="l00027"></a><a class="code" href="class_database.html#a01f2a921d8f55194ed94405fc3a884ab">00027</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a01f2a921d8f55194ed94405fc3a884ab" title="retcode PERM">RET_PERM</a> = SQLITE_PERM; 
-<a name="l00028"></a><a class="code" href="class_database.html#ae1d0e8f2af97e0feb29108eb31d066f6">00028</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ae1d0e8f2af97e0feb29108eb31d066f6" title="retcode ABORT">RET_ABORT</a> = SQLITE_ABORT; 
-<a name="l00029"></a><a class="code" href="class_database.html#aaf87a3bc4d2bf2f382ae829611cb42de">00029</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aaf87a3bc4d2bf2f382ae829611cb42de" title="retcode BUSY">RET_BUSY</a> = SQLITE_BUSY; 
-<a name="l00030"></a><a class="code" href="class_database.html#a602104a7071ac6725aaf9985613af122">00030</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a602104a7071ac6725aaf9985613af122" title="retcode LOCKED">RET_LOCKED</a> = SQLITE_LOCKED; 
-<a name="l00031"></a><a class="code" href="class_database.html#a497f9224175d3f64860f59e8275db652">00031</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a497f9224175d3f64860f59e8275db652" title="retcode NOMEM">RET_NOMEM</a> = SQLITE_NOMEM; 
-<a name="l00032"></a><a class="code" href="class_database.html#adefe1fa4c8ffd0f759f4cfb3e76612e5">00032</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#adefe1fa4c8ffd0f759f4cfb3e76612e5" title="retcode READONLY">RET_READONLY</a> = SQLITE_READONLY; 
-<a name="l00033"></a><a class="code" href="class_database.html#afccdcf8a8720bc99485daa138be17158">00033</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#afccdcf8a8720bc99485daa138be17158" title="retcode INTERRUPT">RET_INTERRUPT</a> = SQLITE_INTERRUPT; 
-<a name="l00034"></a><a class="code" href="class_database.html#a55077b6f30b3b82aefa739855debef6c">00034</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a55077b6f30b3b82aefa739855debef6c" title="retcode IOERR">RET_IOERR</a> = SQLITE_IOERR; 
-<a name="l00035"></a><a class="code" href="class_database.html#a95b4b785aaef860b142791e81e41cfc5">00035</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a95b4b785aaef860b142791e81e41cfc5" title="retcode CORRUPT">RET_CORRUPT</a> = SQLITE_CORRUPT; 
-<a name="l00036"></a><a class="code" href="class_database.html#a2ff620ed5ad3dcf19caf95f34b0b9f8d">00036</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2ff620ed5ad3dcf19caf95f34b0b9f8d" title="retcode NOTFOUND">RET_NOTFOUND</a> = SQLITE_NOTFOUND; 
-<a name="l00037"></a><a class="code" href="class_database.html#a27b8d57b890a223888c05f60d95275a4">00037</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a27b8d57b890a223888c05f60d95275a4" title="retcode FULL">RET_FULL</a> = SQLITE_FULL; 
-<a name="l00038"></a><a class="code" href="class_database.html#a8f0d44bca3000d8f29febdf97eebc4b3">00038</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a8f0d44bca3000d8f29febdf97eebc4b3" title="retcode CANTOPEN">RET_CANTOPEN</a> = SQLITE_CANTOPEN; 
-<a name="l00039"></a><a class="code" href="class_database.html#a6ba1597a7fdff79812e8afeec4179975">00039</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a6ba1597a7fdff79812e8afeec4179975" title="retcode PROTOCO:">RET_PROTOCOL</a> = SQLITE_PROTOCOL; 
-<a name="l00040"></a><a class="code" href="class_database.html#a3f1efcdd58dcec591cc7bcf4c7f6e40d">00040</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3f1efcdd58dcec591cc7bcf4c7f6e40d" title="retcode EMPTY">RET_EMPTY</a> = SQLITE_EMPTY; 
-<a name="l00041"></a><a class="code" href="class_database.html#a929b853cbd2074dc647fd554ffd17cb0">00041</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a929b853cbd2074dc647fd554ffd17cb0" title="retcode SCHEMA">RET_SCHEMA</a> = SQLITE_SCHEMA; 
-<a name="l00042"></a><a class="code" href="class_database.html#aa18a95fb963300f11ff256d125123174">00042</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aa18a95fb963300f11ff256d125123174" title="retcode TOOBIG">RET_TOOBIG</a> = SQLITE_TOOBIG; 
-<a name="l00043"></a><a class="code" href="class_database.html#a12493e4a82057e9a71510546c1264084">00043</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a12493e4a82057e9a71510546c1264084" title="retcode CONSTRAINT">RET_CONSTRAINT</a> = SQLITE_CONSTRAINT; 
-<a name="l00044"></a><a class="code" href="class_database.html#a3e743a4be7781638c122df304796b567">00044</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3e743a4be7781638c122df304796b567" title="retcode MISMATCH">RET_MISMATCH</a> = SQLITE_MISMATCH; 
-<a name="l00045"></a><a class="code" href="class_database.html#aaa1c8f2a6a8019bded318c1c5e387392">00045</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aaa1c8f2a6a8019bded318c1c5e387392" title="retcode MISUSE">RET_MISUSE</a> = SQLITE_MISUSE; 
-<a name="l00046"></a><a class="code" href="class_database.html#a29876a9218eca89f8766bbc2c80c344c">00046</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a29876a9218eca89f8766bbc2c80c344c" title="retcode NOLFS">RET_NOLFS</a> = SQLITE_NOLFS; 
-<a name="l00047"></a><a class="code" href="class_database.html#a2804df17df10798c0567631b93948045">00047</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2804df17df10798c0567631b93948045" title="retcode AUTH">RET_AUTH</a> = SQLITE_AUTH; 
-<a name="l00048"></a><a class="code" href="class_database.html#af05a6bb43481d96c0e90eff664f60cb8">00048</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#af05a6bb43481d96c0e90eff664f60cb8" title="retcode FORMAT">RET_FORMAT</a> = SQLITE_FORMAT; 
-<a name="l00049"></a><a class="code" href="class_database.html#a02d9c6d2467efbb6a4d863e889070845">00049</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a02d9c6d2467efbb6a4d863e889070845" title="retcode RANGE">RET_RANGE</a> = SQLITE_RANGE; 
-<a name="l00050"></a><a class="code" href="class_database.html#a33b24214a439242ec0f7a7581601515a">00050</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a33b24214a439242ec0f7a7581601515a" title="retcode NOTAB">RET_NOTADB</a> = SQLITE_NOTADB; 
-<a name="l00051"></a><a class="code" href="class_database.html#afd60440bc204450e31c36e0004e39cb8">00051</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#afd60440bc204450e31c36e0004e39cb8" title="retcode ROW">RET_ROW</a> = SQLITE_ROW; 
-<a name="l00052"></a><a class="code" href="class_database.html#ac00fd3b5a6171893812b2e69bd76d05b">00052</a>         <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ac00fd3b5a6171893812b2e69bd76d05b" title="retcode DONE">RET_DONE</a> = SQLITE_DONE; 
-<a name="l00053"></a>00053     <span class="keyword">public</span>:
-<a name="l00055"></a>00055         <span class="keywordtype">bool</span> <a class="code" href="class_database.html#ab0a1d1538a25bfa00c6352a252b12266" title="Is query done?">isDone</a>();
-<a name="l00057"></a>00057         <span class="keywordtype">bool</span> <a class="code" href="class_database.html#a35b1670b80ef1613ec46557b39fce747" title="Is next row pending?">isRow</a>();
-<a name="l00058"></a>00058     <span class="keyword">public</span>:
-<a name="l00060"></a>00060         <a class="code" href="class_database.html#af10802a282835dcaea9f62a228639e83" title="Create database class from filename.">Database</a>(
-<a name="l00061"></a>00061             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> filename 
-<a name="l00062"></a>00062         );
-<a name="l00064"></a>00064         <a class="code" href="class_database.html#a84d399a2ad58d69daab9b05330e1316d" title="Database destructor ^^.">~Database</a>();
-<a name="l00065"></a>00065     <span class="keyword">public</span>:
-<a name="l00067"></a>00067         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a35d7c683b9701edfc443de4014a3d2ec" title="Open database file.">open</a>(
-<a name="l00068"></a>00068             <span class="keyword">const</span> <span class="keywordtype">char</span> *filename 
-<a name="l00069"></a>00069         );
-<a name="l00071"></a>00071         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3e3011ab9edc71dd2f969396851cafe3" title="Prepare SQL statement.">prepare</a>(
-<a name="l00072"></a>00072             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> &amp;statement 
-<a name="l00073"></a>00073         );
-<a name="l00075"></a>00075         <span class="keywordtype">int</span> <a class="code" href="class_database.html#ab6315456244d709fe49a6ca1224699b4" title="Iterate prepared statement.">step</a>();
+<a name="l00014"></a><a class="code" href="class_database.html">00014</a> <span class="keyword">class </span><a class="code" href="class_database.html" title="Database routines class.">Database</a> {
+<a name="l00015"></a>00015         <span class="keyword">private</span>:
+<a name="l00016"></a><a class="code" href="class_database.html#af4d89a4376adf0c6526c36e889a1a9df">00016</a>                 sqlite3 *<a class="code" href="class_database.html#af4d89a4376adf0c6526c36e889a1a9df" title="database handle">handle</a>; 
+<a name="l00017"></a><a class="code" href="class_database.html#a4bc0e62de07e5991562cfc9cbf987a26">00017</a>                 sqlite3_stmt *<a class="code" href="class_database.html#a4bc0e62de07e5991562cfc9cbf987a26" title="sql statement">stmt</a>; 
+<a name="l00018"></a><a class="code" href="class_database.html#a6e497f80714deeb78ea81ef99cf17512">00018</a>                 <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="class_database.html#a6e497f80714deeb78ea81ef99cf17512" title="sql statement rejected tail pointer">stmt_tail</a>; 
+<a name="l00019"></a><a class="code" href="class_database.html#aa886e55254d2f32748ed8ee62ac80c4e">00019</a>                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#aa886e55254d2f32748ed8ee62ac80c4e" title="return code of last method call">retcode</a>; 
+<a name="l00020"></a><a class="code" href="class_database.html#aeea23e5c1efc3aa8d50ebad6f57492f4">00020</a>                 <a class="code" href="class_hash.html" title="Hash class.">Hash</a> *<a class="code" href="class_database.html#aeea23e5c1efc3aa8d50ebad6f57492f4" title="results from query">results</a>; 
+<a name="l00021"></a>00021         <span class="keyword">public</span>:
+<a name="l00022"></a><a class="code" href="class_database.html#a42111ce8d1048e8f2f4287516b223a34">00022</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a42111ce8d1048e8f2f4287516b223a34" title="retcode OK">RET_OK</a> = SQLITE_OK; 
+<a name="l00023"></a><a class="code" href="class_database.html#ae859867896f50a88cf0001d1e5ee2196">00023</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ae859867896f50a88cf0001d1e5ee2196" title="retcode ERROR">RET_ERROR</a> = SQLITE_ERROR; 
+<a name="l00024"></a><a class="code" href="class_database.html#ad65975119fd4984c924275157ffa3c9f">00024</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ad65975119fd4984c924275157ffa3c9f" title="retcode INTERNAL">RET_INTERNAL</a> = SQLITE_INTERNAL; 
+<a name="l00025"></a><a class="code" href="class_database.html#a01f2a921d8f55194ed94405fc3a884ab">00025</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a01f2a921d8f55194ed94405fc3a884ab" title="retcode PERM">RET_PERM</a> = SQLITE_PERM; 
+<a name="l00026"></a><a class="code" href="class_database.html#ae1d0e8f2af97e0feb29108eb31d066f6">00026</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ae1d0e8f2af97e0feb29108eb31d066f6" title="retcode ABORT">RET_ABORT</a> = SQLITE_ABORT; 
+<a name="l00027"></a><a class="code" href="class_database.html#aaf87a3bc4d2bf2f382ae829611cb42de">00027</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aaf87a3bc4d2bf2f382ae829611cb42de" title="retcode BUSY">RET_BUSY</a> = SQLITE_BUSY; 
+<a name="l00028"></a><a class="code" href="class_database.html#a602104a7071ac6725aaf9985613af122">00028</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a602104a7071ac6725aaf9985613af122" title="retcode LOCKED">RET_LOCKED</a> = SQLITE_LOCKED; 
+<a name="l00029"></a><a class="code" href="class_database.html#a497f9224175d3f64860f59e8275db652">00029</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a497f9224175d3f64860f59e8275db652" title="retcode NOMEM">RET_NOMEM</a> = SQLITE_NOMEM; 
+<a name="l00030"></a><a class="code" href="class_database.html#adefe1fa4c8ffd0f759f4cfb3e76612e5">00030</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#adefe1fa4c8ffd0f759f4cfb3e76612e5" title="retcode READONLY">RET_READONLY</a> = SQLITE_READONLY; 
+<a name="l00031"></a><a class="code" href="class_database.html#afccdcf8a8720bc99485daa138be17158">00031</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#afccdcf8a8720bc99485daa138be17158" title="retcode INTERRUPT">RET_INTERRUPT</a> = SQLITE_INTERRUPT; 
+<a name="l00032"></a><a class="code" href="class_database.html#a55077b6f30b3b82aefa739855debef6c">00032</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a55077b6f30b3b82aefa739855debef6c" title="retcode IOERR">RET_IOERR</a> = SQLITE_IOERR; 
+<a name="l00033"></a><a class="code" href="class_database.html#a95b4b785aaef860b142791e81e41cfc5">00033</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a95b4b785aaef860b142791e81e41cfc5" title="retcode CORRUPT">RET_CORRUPT</a> = SQLITE_CORRUPT; 
+<a name="l00034"></a><a class="code" href="class_database.html#a2ff620ed5ad3dcf19caf95f34b0b9f8d">00034</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2ff620ed5ad3dcf19caf95f34b0b9f8d" title="retcode NOTFOUND">RET_NOTFOUND</a> = SQLITE_NOTFOUND; 
+<a name="l00035"></a><a class="code" href="class_database.html#a27b8d57b890a223888c05f60d95275a4">00035</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a27b8d57b890a223888c05f60d95275a4" title="retcode FULL">RET_FULL</a> = SQLITE_FULL; 
+<a name="l00036"></a><a class="code" href="class_database.html#a8f0d44bca3000d8f29febdf97eebc4b3">00036</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a8f0d44bca3000d8f29febdf97eebc4b3" title="retcode CANTOPEN">RET_CANTOPEN</a> = SQLITE_CANTOPEN; 
+<a name="l00037"></a><a class="code" href="class_database.html#a6ba1597a7fdff79812e8afeec4179975">00037</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a6ba1597a7fdff79812e8afeec4179975" title="retcode PROTOCO:">RET_PROTOCOL</a> = SQLITE_PROTOCOL; 
+<a name="l00038"></a><a class="code" href="class_database.html#a3f1efcdd58dcec591cc7bcf4c7f6e40d">00038</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3f1efcdd58dcec591cc7bcf4c7f6e40d" title="retcode EMPTY">RET_EMPTY</a> = SQLITE_EMPTY; 
+<a name="l00039"></a><a class="code" href="class_database.html#a929b853cbd2074dc647fd554ffd17cb0">00039</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a929b853cbd2074dc647fd554ffd17cb0" title="retcode SCHEMA">RET_SCHEMA</a> = SQLITE_SCHEMA; 
+<a name="l00040"></a><a class="code" href="class_database.html#aa18a95fb963300f11ff256d125123174">00040</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aa18a95fb963300f11ff256d125123174" title="retcode TOOBIG">RET_TOOBIG</a> = SQLITE_TOOBIG; 
+<a name="l00041"></a><a class="code" href="class_database.html#a12493e4a82057e9a71510546c1264084">00041</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a12493e4a82057e9a71510546c1264084" title="retcode CONSTRAINT">RET_CONSTRAINT</a> = SQLITE_CONSTRAINT; 
+<a name="l00042"></a><a class="code" href="class_database.html#a3e743a4be7781638c122df304796b567">00042</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3e743a4be7781638c122df304796b567" title="retcode MISMATCH">RET_MISMATCH</a> = SQLITE_MISMATCH; 
+<a name="l00043"></a><a class="code" href="class_database.html#aaa1c8f2a6a8019bded318c1c5e387392">00043</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#aaa1c8f2a6a8019bded318c1c5e387392" title="retcode MISUSE">RET_MISUSE</a> = SQLITE_MISUSE; 
+<a name="l00044"></a><a class="code" href="class_database.html#a29876a9218eca89f8766bbc2c80c344c">00044</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a29876a9218eca89f8766bbc2c80c344c" title="retcode NOLFS">RET_NOLFS</a> = SQLITE_NOLFS; 
+<a name="l00045"></a><a class="code" href="class_database.html#a2804df17df10798c0567631b93948045">00045</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2804df17df10798c0567631b93948045" title="retcode AUTH">RET_AUTH</a> = SQLITE_AUTH; 
+<a name="l00046"></a><a class="code" href="class_database.html#af05a6bb43481d96c0e90eff664f60cb8">00046</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#af05a6bb43481d96c0e90eff664f60cb8" title="retcode FORMAT">RET_FORMAT</a> = SQLITE_FORMAT; 
+<a name="l00047"></a><a class="code" href="class_database.html#a02d9c6d2467efbb6a4d863e889070845">00047</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a02d9c6d2467efbb6a4d863e889070845" title="retcode RANGE">RET_RANGE</a> = SQLITE_RANGE; 
+<a name="l00048"></a><a class="code" href="class_database.html#a33b24214a439242ec0f7a7581601515a">00048</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#a33b24214a439242ec0f7a7581601515a" title="retcode NOTAB">RET_NOTADB</a> = SQLITE_NOTADB; 
+<a name="l00049"></a><a class="code" href="class_database.html#afd60440bc204450e31c36e0004e39cb8">00049</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#afd60440bc204450e31c36e0004e39cb8" title="retcode ROW">RET_ROW</a> = SQLITE_ROW; 
+<a name="l00050"></a><a class="code" href="class_database.html#ac00fd3b5a6171893812b2e69bd76d05b">00050</a>                 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="class_database.html#ac00fd3b5a6171893812b2e69bd76d05b" title="retcode DONE">RET_DONE</a> = SQLITE_DONE; 
+<a name="l00051"></a>00051         <span class="keyword">public</span>:
+<a name="l00053"></a>00053                 <span class="keywordtype">bool</span> <a class="code" href="class_database.html#ab0a1d1538a25bfa00c6352a252b12266" title="Is query done?">isDone</a>();
+<a name="l00055"></a>00055                 <span class="keywordtype">bool</span> <a class="code" href="class_database.html#a35b1670b80ef1613ec46557b39fce747" title="Is next row pending?">isRow</a>();
+<a name="l00056"></a>00056         <span class="keyword">public</span>:
+<a name="l00058"></a>00058                 <a class="code" href="class_database.html#af10802a282835dcaea9f62a228639e83" title="Create database class from filename.">Database</a>(
+<a name="l00059"></a>00059                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> filename 
+<a name="l00060"></a>00060                 );
+<a name="l00062"></a>00062                 <a class="code" href="class_database.html#a84d399a2ad58d69daab9b05330e1316d" title="Database destructor ^^.">~Database</a>();
+<a name="l00063"></a>00063         <span class="keyword">public</span>:
+<a name="l00066"></a>00066                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a35d7c683b9701edfc443de4014a3d2ec">open</a>(
+<a name="l00067"></a>00067                         <span class="keyword">const</span> <span class="keywordtype">char</span> *filename 
+<a name="l00068"></a>00068                 );
+<a name="l00071"></a>00071                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3e3011ab9edc71dd2f969396851cafe3">prepare</a>(
+<a name="l00072"></a>00072                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> &amp;statement 
+<a name="l00073"></a>00073                 );
+<a name="l00075"></a>00075                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#ab6315456244d709fe49a6ca1224699b4" title="Iterate prepared statement.">step</a>();
 <a name="l00076"></a>00076 
-<a name="l00078"></a>00078         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a77823607f3234bc56cc8c8e5d683987c">column_type</a>(
-<a name="l00079"></a>00079             <span class="keywordtype">int</span> col 
-<a name="l00080"></a>00080         );
-<a name="l00082"></a>00082         <span class="keywordtype">double</span> <a class="code" href="class_database.html#ac87bc4a4accf784bf6a6b5968c4c3848">column_double</a>(
-<a name="l00083"></a>00083             <span class="keywordtype">int</span> col 
-<a name="l00084"></a>00084         );
-<a name="l00086"></a>00086         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a347b2d1f78938aa158f567a8990ce743">column_int</a>(
-<a name="l00087"></a>00087             <span class="keywordtype">int</span> col 
-<a name="l00088"></a>00088         );
-<a name="l00090"></a>00090         <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *<a class="code" href="class_database.html#a8e67637c124e417274522e41f0cf3796">column_text</a>(
-<a name="l00091"></a>00091             <span class="keywordtype">int</span> col 
-<a name="l00092"></a>00092         );
-<a name="l00094"></a>00094         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a5ac37027c76b693585cabb3671db4180">column_bytes</a>(
-<a name="l00095"></a>00095             <span class="keywordtype">int</span> col 
-<a name="l00096"></a>00096         );
+<a name="l00078"></a>00078                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a77823607f3234bc56cc8c8e5d683987c">column_type</a>(
+<a name="l00079"></a>00079                         <span class="keywordtype">int</span> col 
+<a name="l00080"></a>00080                 );
+<a name="l00082"></a>00082                 <span class="keywordtype">double</span> <a class="code" href="class_database.html#ac87bc4a4accf784bf6a6b5968c4c3848">column_double</a>(
+<a name="l00083"></a>00083                         <span class="keywordtype">int</span> col 
+<a name="l00084"></a>00084                 );
+<a name="l00086"></a>00086                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a347b2d1f78938aa158f567a8990ce743">column_int</a>(
+<a name="l00087"></a>00087                         <span class="keywordtype">int</span> col 
+<a name="l00088"></a>00088                 );
+<a name="l00090"></a>00090                 <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *<a class="code" href="class_database.html#a8e67637c124e417274522e41f0cf3796">column_text</a>(
+<a name="l00091"></a>00091                         <span class="keywordtype">int</span> col 
+<a name="l00092"></a>00092                 );
+<a name="l00094"></a>00094                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a5ac37027c76b693585cabb3671db4180">column_bytes</a>(
+<a name="l00095"></a>00095                         <span class="keywordtype">int</span> col 
+<a name="l00096"></a>00096                 );
 <a name="l00097"></a>00097 
-<a name="l00099"></a>00099         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_database.html#acdd45530020083da8bff5cba01beecaa">get_text</a>(
-<a name="l00100"></a>00100             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
-<a name="l00101"></a>00101         );
-<a name="l00103"></a>00103         <span class="keywordtype">int</span> <a class="code" href="class_database.html#adb0a2dc17a361c52db2454f13d80c75e">get_int</a>(
-<a name="l00104"></a>00104             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
-<a name="l00105"></a>00105         );
-<a name="l00107"></a>00107         <span class="keywordtype">double</span> <a class="code" href="class_database.html#a17ba509b5e2aedebb7b791bc3bb3201f">get_double</a>(
-<a name="l00108"></a>00108             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
-<a name="l00109"></a>00109         );
-<a name="l00110"></a>00110         
-<a name="l00112"></a>00112         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3a865ad865c97dca74073fbee66e80e4" title="Finalize current transaction.">finalize</a>();
+<a name="l00099"></a>00099                 <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_database.html#acdd45530020083da8bff5cba01beecaa">get_text</a>(
+<a name="l00100"></a>00100                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
+<a name="l00101"></a>00101                 );
+<a name="l00103"></a>00103                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#adb0a2dc17a361c52db2454f13d80c75e">get_int</a>(
+<a name="l00104"></a>00104                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
+<a name="l00105"></a>00105                 );
+<a name="l00107"></a>00107                 <span class="keywordtype">double</span> <a class="code" href="class_database.html#a17ba509b5e2aedebb7b791bc3bb3201f">get_double</a>(
+<a name="l00108"></a>00108                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> col 
+<a name="l00109"></a>00109                 );
+<a name="l00110"></a>00110                 
+<a name="l00112"></a>00112                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a3a865ad865c97dca74073fbee66e80e4" title="Finalize current transaction.">finalize</a>();
 <a name="l00113"></a>00113 
-<a name="l00115"></a>00115         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a9b0c49501592440fd474f38738c3255c" title="Close db handle.">close</a>();
-<a name="l00116"></a>00116         
-<a name="l00118"></a>00118         <span class="keywordtype">int</span> <a class="code" href="class_database.html#af49ad3a99a723dcbb6a00272aeff142d" title="Bind double to sql statement query.">bind_double</a>(
-<a name="l00119"></a>00119             <span class="keywordtype">int</span> pos, 
-<a name="l00120"></a>00120             <span class="keywordtype">double</span> value 
-<a name="l00121"></a>00121         );
-<a name="l00123"></a>00123         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2dc1e05cc3fbab8470beddcd7ca8a8bf" title="Bind int to sql statement query.">bind_int</a>(
-<a name="l00124"></a>00124             <span class="keywordtype">int</span> pos, 
-<a name="l00125"></a>00125             <span class="keywordtype">int</span> value 
-<a name="l00126"></a>00126         );
-<a name="l00128"></a>00128         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a53cb4f16d6585eb1c057cc3abef909a9" title="Bind null to sql statement query.">bind_null</a>(
-<a name="l00129"></a>00129             <span class="keywordtype">int</span> pos 
-<a name="l00130"></a>00130         );
-<a name="l00132"></a>00132         <span class="keywordtype">int</span> <a class="code" href="class_database.html#a1211687261b7ef8db7f737de9647fa8a" title="Bind text to sql statement query.">bind_text</a>(
-<a name="l00133"></a>00133             <span class="keywordtype">int</span> pos,  
-<a name="l00134"></a>00134             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
-<a name="l00135"></a>00135         );
-<a name="l00136"></a>00136 };
-<a name="l00137"></a>00137 
-<a name="l00138"></a>00138 <span class="preprocessor">#endif</span>
+<a name="l00115"></a>00115                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a9b0c49501592440fd474f38738c3255c" title="Close db handle.">close</a>();
+<a name="l00116"></a>00116                 
+<a name="l00119"></a>00119                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#af49ad3a99a723dcbb6a00272aeff142d">bind_double</a>(
+<a name="l00120"></a>00120                         <span class="keywordtype">int</span> pos, 
+<a name="l00121"></a>00121                         <span class="keywordtype">double</span> value 
+<a name="l00122"></a>00122                 );
+<a name="l00125"></a>00125                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a2dc1e05cc3fbab8470beddcd7ca8a8bf">bind_int</a>(
+<a name="l00126"></a>00126                         <span class="keywordtype">int</span> pos, 
+<a name="l00127"></a>00127                         <span class="keywordtype">int</span> value 
+<a name="l00128"></a>00128                 );
+<a name="l00131"></a>00131                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a53cb4f16d6585eb1c057cc3abef909a9">bind_null</a>(
+<a name="l00132"></a>00132                         <span class="keywordtype">int</span> pos 
+<a name="l00133"></a>00133                 );
+<a name="l00136"></a>00136                 <span class="keywordtype">int</span> <a class="code" href="class_database.html#a1211687261b7ef8db7f737de9647fa8a">bind_text</a>(
+<a name="l00137"></a>00137                         <span class="keywordtype">int</span> pos,  
+<a name="l00138"></a>00138                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
+<a name="l00139"></a>00139                 );
+<a name="l00140"></a>00140 };
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -180,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -189,7 +190,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 20:10:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

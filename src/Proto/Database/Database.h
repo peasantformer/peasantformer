@@ -11,8 +11,6 @@
 #include <sqlite3.h> 
 
 /// Database routines class.
-///
-/// Currently supports sqlite3 only.
 class Database {
 	private:
 		sqlite3 *handle; ///< database handle
@@ -64,10 +62,12 @@ class Database {
 		~Database();
 	public:
 		/// Open database file
+		/// @return dunno
 		int open(
 			const char *filename ///< [in] filepath
 		);
 		/// Prepare SQL statement
+		/// @return dunno
 		int prepare(
 			pio_string &statement ///< [in] statement string
 		);
@@ -97,15 +97,15 @@ class Database {
 
 		/// @return column as pio_string text
 		pio_string get_text(
-			pio_string col /// <[in] column name
+			pio_string col ///< [in] column name
 		);
 		/// @return column as int
 		int get_int(
-			pio_string col /// <[in] column name
+			pio_string col ///< [in] column name
 		);
 		/// @return column as double
 		double get_double(
-			pio_string col /// <[in] column name
+			pio_string col ///< [in] column name
 		);
 		
 		/// Finalize current transaction.
@@ -115,20 +115,24 @@ class Database {
 		int close();
 		
 		/// Bind double to sql statement query
+		/// @return bind result
 		int bind_double(
 			int pos, ///< [in] parameter number
 			double value ///< [in] double value
 		);
 		/// Bind int to sql statement query
+		/// @return bind result
 		int bind_int(
 			int pos, ///< [in] parameter number
 			int value ///< [in] int value
 		);
 		/// Bind null to sql statement query
+		/// @return bind result
 		int bind_null(
 			int pos ///< [in] parameter number
 		);
 		/// Bind text to sql statement query
+		/// @return bind result
 		int bind_text(
 			int pos,  ///< [in] parameter number
 			pio_string value ///< [in] text value

@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Peasantformer&#160;<span id="projectnumber">0.01-dev</span></div>
    <div id="projectbrief">2D platfromer named PeasantFormer</div>
@@ -29,7 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,7 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>Globals</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -63,26 +64,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Network/NetworkWin32.cpp File Reference</h1>  </div>
 </div>
 <div class="contents">
-
-<p><a href="_network_win32_8cpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+<div class="textblock"><code>#include &quot;<a class="el" href="_network_win32_8h_source.html">NetworkWin32.h</a>&quot;</code><br/>
+</div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_win32_8cpp.html#aaf2799c8ea7f24c7f5b3bb608a357dac">inet_ntop6</a> (struct in6_addr *r, char *buf, socklen_t size)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">inplementatuon of inet_ntop6 for windows.  <a href="#aaf2799c8ea7f24c7f5b3bb608a357dac"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_win32_8cpp.html#a63a39b1d8d095193987180a01ddaafe6">inet_ntop</a> (int family, const void *addr, char *buf, socklen_t size)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">inplementatuon of inet_ntop for windows.  <a href="#a63a39b1d8d095193987180a01ddaafe6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_win32_8cpp.html#a4cab402440a9e55910d34aceea8cd16a">pn_setsockopt</a> (int fd, int level, int optname, const void *optval, socklen_t len)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">setsocketopt wrapper  <a href="#a4cab402440a9e55910d34aceea8cd16a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_win32_8cpp.html#aec0ca6e46f8a7fa9c86f2644d05494a4">pn_socket_invalid</a> (int fd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if socket is valid  <a href="#aec0ca6e46f8a7fa9c86f2644d05494a4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_win32_8cpp.html#ab811947045c2c95578dc1b16d78f858d">pn_close</a> (int fd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">close fd wrapper  <a href="#ab811947045c2c95578dc1b16d78f858d"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition in file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
-</div><hr/><h2>Function Documentation</h2>
+<div class="textblock"></div><hr/><h2>Function Documentation</h2>
 <a class="anchor" id="a63a39b1d8d095193987180a01ddaafe6"></a><!-- doxytag: member="NetworkWin32.cpp::inet_ntop" ref="a63a39b1d8d095193987180a01ddaafe6" args="(int family, const void *addr, char *buf, socklen_t size)" -->
 <div class="memitem">
 <div class="memproto">
@@ -119,7 +112,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>inplementatuon of inet_ntop for windows. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>INET[6]_ADDRSTRLEN sized string </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -131,8 +123,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00059">59</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
 
 </div>
 </div>
@@ -166,7 +156,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>inplementatuon of inet_ntop6 for windows. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>INET6_ADDRSTRLEN sized string </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -177,8 +166,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,16 +183,14 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>close fd wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>file descriptor to close </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00079">79</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
 
 </div>
 </div>
@@ -251,8 +236,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>setsocketopt wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket fd </td></tr>
@@ -263,8 +248,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00073">73</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
 
 </div>
 </div>
@@ -282,7 +265,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>checks if socket is valid </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>non-zero if true </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -292,8 +274,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00076">76</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
-
 </div>
 </div>
 </div>
@@ -302,7 +282,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -311,7 +291,7 @@ Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 20:10:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

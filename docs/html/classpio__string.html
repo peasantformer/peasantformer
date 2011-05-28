@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Peasantformer&#160;<span id="projectnumber">0.01-dev</span></div>
    <div id="projectbrief">2D platfromer named PeasantFormer</div>
@@ -29,7 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -72,6 +73,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#_details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a>&gt;</code></p>
+
+<p><a href="classpio__string-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -91,9 +94,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ab87758253574fb2bcb0da52809e71d8d">~pio_string</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy destructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpio__string.html">pio_string</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a22cee63eb6600e417145545ca2c9a62b">operator=</a> (<a class="el" href="classpio__string.html">pio_string</a> const &amp;r)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a22cee63eb6600e417145545ca2c9a62b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">wchar_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a584b489a98436663fdcca068ad98e3b7">operator[]</a> (size_t i)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscripting operator.  <a href="#a584b489a98436663fdcca068ad98e3b7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9842f10a7044bad535a05c4db3926c2c"></a><!-- doxytag: member="pio_string::get_data" ref="a9842f10a7044bad535a05c4db3926c2c" args="() const " -->
 std::vector&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a9842f10a7044bad535a05c4db3926c2c">get_data</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get internal data representation as it is. <br/></td></tr>
@@ -116,9 +117,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a0178727065be3bae0d661e805fd7d3fc">filter</a> (bool(*predicate)(wchar_t))</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Filter string using predicate function.  <a href="#a0178727065be3bae0d661e805fd7d3fc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ad5e596f6881910e88ce4158ed11d82fd">strip_right</a> (bool(*predicate)(wchar_t))</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop characters from left side of the string while predicate returns true.  <a href="#ad5e596f6881910e88ce4158ed11d82fd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a1ad0a5e2b0c3ed0c97344e0f98f6d7bc">strip_left</a> (bool(*predicate)(wchar_t))</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop characters from right side of the string while predicate return true.  <a href="#a1ad0a5e2b0c3ed0c97344e0f98f6d7bc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad09edd9237813908fe56b3f740dcba25"></a><!-- doxytag: member="pio_string::weedout_control" ref="ad09edd9237813908fe56b3f740dcba25" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ad09edd9237813908fe56b3f740dcba25">weedout_control</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as filter(iswspace) <br/></td></tr>
@@ -127,7 +126,6 @@ Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ae6e08c2e713bff1f7932c7898471344c">wchar_to_data</a> (const wchar_t *text)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Widechar to internal data repesentation converter.  <a href="#ae6e08c2e713bff1f7932c7898471344c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a156e634ee35cab7d8501fe99e441a906">data_to_wchar</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal data to widechar representation conveter.  <a href="#a156e634ee35cab7d8501fe99e441a906"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a905b209a99863931ea5511c5755fb452"></a><!-- doxytag: member="pio_string::init" ref="a905b209a99863931ea5511c5755fb452" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a905b209a99863931ea5511c5755fb452">init</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization function. <br/></td></tr>
@@ -151,8 +149,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>pio string; unicode-aware text representation in wchar_t. </p>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8h_source.html#l00013">13</a> of file <a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a>.</p>
 </div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="ae932868b0af57d49b8116bb590ae03c1"></a><!-- doxytag: member="pio_string::append" ref="ae932868b0af57d49b8116bb590ae03c1" args="(const pio_string &amp;oth)" -->
 <div class="memitem">
@@ -177,8 +173,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00187">187</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a6db4f48d7a67a04e3bbeccf3e2e98117"></a><!-- doxytag: member="pio_string::c_str" ref="a6db4f48d7a67a04e3bbeccf3e2e98117" args="()" -->
@@ -196,8 +190,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>c-string string representation </dd></dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00130">130</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a156e634ee35cab7d8501fe99e441a906"></a><!-- doxytag: member="pio_string::data_to_wchar" ref="a156e634ee35cab7d8501fe99e441a906" args="()" -->
@@ -213,11 +205,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div>
 <div class="memdoc">
-
-<p>Internal data to widechar representation conveter. </p>
-<p>writes to this-&gt;wstr </p>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00013">13</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+<p>Internal data to widechar representation conveter. writes to this-&gt;wstr </p>
 
 </div>
 </div>
@@ -244,8 +232,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00151">151</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="aebdae04024c8bb5ab162b7b01648a94a"></a><!-- doxytag: member="pio_string::length" ref="aebdae04024c8bb5ab162b7b01648a94a" args="()" -->
@@ -263,8 +249,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>length of the string </dd></dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00102">102</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a22cee63eb6600e417145545ca2c9a62b"></a><!-- doxytag: member="pio_string::operator=" ref="a22cee63eb6600e417145545ca2c9a62b" args="(pio_string const &amp;r)" -->
@@ -281,7 +265,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div>
 <div class="memdoc">
-
 <p>Assignment operator. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -290,8 +273,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00110">110</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -309,7 +290,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div>
 <div class="memdoc">
-
 <p>Subscripting operator. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>wchar_t </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -318,8 +298,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00106">106</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -346,8 +324,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00170">170</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a9fb6aa5b363de30ebfd940c2f597f323"></a><!-- doxytag: member="pio_string::set" ref="a9fb6aa5b363de30ebfd940c2f597f323" args="(const wchar_t *)" -->
@@ -372,8 +348,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00176">176</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -400,8 +374,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00166">166</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a790a5321a8fa820ecf81f5e8332dea1c"></a><!-- doxytag: member="pio_string::set" ref="a790a5321a8fa820ecf81f5e8332dea1c" args="(const unsigned char *)" -->
@@ -427,8 +399,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00173">173</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc"></a><!-- doxytag: member="pio_string::strip_left" ref="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc" args="(bool(*predicate)(wchar_t))" -->
@@ -445,9 +415,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div>
 <div class="memdoc">
-
-<p>Drop characters from right side of the string while predicate return true. </p>
-<p>*NOT*IMPLEMENTED*YET* </p>
+<p>Drop characters from right side of the string while predicate return true. *NOT*IMPLEMENTED*YET* </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">predicate</td><td>given predicate function </td></tr>
@@ -471,7 +439,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
       </table>
 </div>
 <div class="memdoc">
-
 <p>Drop characters from left side of the string while predicate returns true. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -479,8 +446,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00160">160</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -498,8 +463,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>widechar string representation </dd></dl>
-
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00126">126</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
 
 </div>
 </div>
@@ -526,13 +489,11 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00005">5</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Proto/PlainIO/<a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a></li>
-<li>src/Proto/PlainIO/<a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a></li>
+<li>src/Proto/PlainIO/<a class="el" href="_plain_i_o_high_level_8cpp.html">PlainIOHighLevel.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -540,7 +501,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -549,7 +510,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 20:10:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

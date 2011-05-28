@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Peasantformer&#160;<span id="projectnumber">0.01-dev</span></div>
    <div id="projectbrief">2D platfromer named PeasantFormer</div>
@@ -29,7 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,7 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>Globals</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 </div>
@@ -63,148 +64,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Network/Network.h File Reference</h1>  </div>
 </div>
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;sys/types.h&gt;</code><br/>
+<code>#include &lt;sys/socket.h&gt;</code><br/>
+<code>#include &lt;netdb.h&gt;</code><br/>
+<code>#include &lt;arpa/inet.h&gt;</code><br/>
+<code>#include &lt;unistd.h&gt;</code><br/>
+</div>
 <p><a href="_network_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#aaf2799c8ea7f24c7f5b3bb608a357dac">inet_ntop6</a> (struct in6_addr *r, char *buf, socklen_t size)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">inplementatuon of inet_ntop6 for windows.  <a href="#aaf2799c8ea7f24c7f5b3bb608a357dac"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a63a39b1d8d095193987180a01ddaafe6">inet_ntop</a> (int family, const void *addr, char *buf, socklen_t size)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">inplementatuon of inet_ntop for windows.  <a href="#a63a39b1d8d095193987180a01ddaafe6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a6b9f59476dba2e7bbd15de5a1a1c94e7">pn_init</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">initialize network for current program  <a href="#a6b9f59476dba2e7bbd15de5a1a1c94e7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a389c1571bb529cbd35bb2940d50e89f1">pn_getaddrinfo</a> (const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">getaddrinfo wrapper  <a href="#a389c1571bb529cbd35bb2940d50e89f1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a65db9f5c74275cede7c8517d4ce36942">pn_freeaddrinfo</a> (struct addrinfo *res)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">freeaddrinfo wrapper  <a href="#a65db9f5c74275cede7c8517d4ce36942"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a990058f27307d0b77cc5bbe2204680ab">pn_inet_ntop</a> (int af, const void *src, char *dst, socklen_t size)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">inet_ntop wrapper  <a href="#a990058f27307d0b77cc5bbe2204680ab"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a9feda7d7fd636c384783c2443c1acfba">pn_socket</a> (int domain, int type, int protocol)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">socket() wrapper  <a href="#a9feda7d7fd636c384783c2443c1acfba"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#af65f13e8258fb6ba43ca5c6db0b23317">pn_connect</a> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">connect wrapper  <a href="#af65f13e8258fb6ba43ca5c6db0b23317"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a31519c72de510a20abce0c88c45bfa3f">pn_listen</a> (int sockfd, int backlog)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">listen wrapper  <a href="#a31519c72de510a20abce0c88c45bfa3f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#aa88a14c2f43e5907c518ad0edef9a449">pn_bind</a> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">bind wrapper  <a href="#aa88a14c2f43e5907c518ad0edef9a449"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a4357a28638481d73580377135a916cb1">pn_accept</a> (int sockfd, struct sockaddr *addr, socklen_t *addrlen)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">accept wrapper  <a href="#a4357a28638481d73580377135a916cb1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a83d17211f8d0b542855d334834771ac5">pn_accept</a> (int fd, struct sockaddr *addr, socklen_t *addrlen)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a0291e4febc38654fb6eec5c5c9664301">pn_select</a> (int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *time)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">select wrapper  <a href="#a0291e4febc38654fb6eec5c5c9664301"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#aec0ca6e46f8a7fa9c86f2644d05494a4">pn_socket_invalid</a> (int fd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if socket is valid  <a href="#aec0ca6e46f8a7fa9c86f2644d05494a4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#a4cab402440a9e55910d34aceea8cd16a">pn_setsockopt</a> (int fd, int level, int optname, const void *optval, socklen_t len)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">setsocketopt wrapper  <a href="#a4cab402440a9e55910d34aceea8cd16a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#ab811947045c2c95578dc1b16d78f858d">pn_close</a> (int fd)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">close fd wrapper  <a href="#ab811947045c2c95578dc1b16d78f858d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_network_8h.html#af4cb66b5bb771f0135366f207f7c177d">pn_quit</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">deinitialize network for current program  <a href="#af4cb66b5bb771f0135366f207f7c177d"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition in file <a class="el" href="_network_8h_source.html">Network.h</a>.</p>
-</div><hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a63a39b1d8d095193987180a01ddaafe6"></a><!-- doxytag: member="Network.h::inet_ntop" ref="a63a39b1d8d095193987180a01ddaafe6" args="(int family, const void *addr, char *buf, socklen_t size)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* inet_ntop </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>family</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>addr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">socklen_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>inplementatuon of inet_ntop for windows. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>INET[6]_ADDRSTRLEN sized string </dd></dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">family</td><td>addres famoly - ipv4 or ipv6 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">addr</td><td>addr structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buf</td><td>bufer where to write resulting string </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>size of addr structure </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00059">59</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aaf2799c8ea7f24c7f5b3bb608a357dac"></a><!-- doxytag: member="Network.h::inet_ntop6" ref="aaf2799c8ea7f24c7f5b3bb608a357dac" args="(struct in6_addr *r, char *buf, socklen_t size)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* inet_ntop6 </td>
-          <td>(</td>
-          <td class="paramtype">struct in6_addr *&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">socklen_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>inplementatuon of inet_ntop6 for windows. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>INET6_ADDRSTRLEN sized string </dd></dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>in6_addr structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buf</td><td>buffer where to write resulting string </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>size of in6_addr </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_network_win32_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_win32_8cpp_source.html">NetworkWin32.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4357a28638481d73580377135a916cb1"></a><!-- doxytag: member="Network.h::pn_accept" ref="a4357a28638481d73580377135a916cb1" args="(int sockfd, struct sockaddr *addr, socklen_t *addrlen)" -->
+<div class="textblock"></div><hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a83d17211f8d0b542855d334834771ac5"></a><!-- doxytag: member="Network.h::pn_accept" ref="a83d17211f8d0b542855d334834771ac5" args="(int fd, struct sockaddr *addr, socklen_t *addrlen)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -212,7 +100,7 @@ Functions</h2></td></tr>
           <td class="memname">int pn_accept </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sockfd</em>, </td>
+          <td class="paramname"><em>fd</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -234,18 +122,16 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>accept wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket to accept </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket to accept </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">addr</td><td>addr struct </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">addrlen</td><td>addr struct length </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00030">30</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -279,8 +165,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>bind wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket to bind </td></tr>
@@ -289,8 +175,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00027">27</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -308,16 +192,14 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>close fd wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>file descriptor to close </td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_unix_8cpp_source.html#l00011">11</a> of file <a class="el" href="_network_unix_8cpp_source.html">NetworkUnix.cpp</a>.</p>
 
 </div>
 </div>
@@ -351,8 +233,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>connect wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket connect to </td></tr>
@@ -361,8 +243,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00021">21</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -388,8 +268,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00012">12</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -429,8 +307,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>getaddrinfo wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>node to use </td></tr>
@@ -440,8 +318,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00008">8</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -481,7 +357,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>inet_ntop wrapper </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>INET[6]_ADDRSTRLEN-sized string representation of address </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -493,8 +368,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00015">15</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -511,11 +384,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>initialize network for current program </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0, at the moment in all cases </dd></dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -543,8 +413,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>listen wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket to listen </td></tr>
@@ -552,8 +422,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00024">24</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -570,11 +438,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>deinitialize network for current program </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0, at the moment in all cases </dd></dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00036">36</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -620,8 +485,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>select wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">nfds</td><td>maximum of fds + 1 </td></tr>
@@ -632,8 +497,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00033">33</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -679,8 +542,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>setsocketopt wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket fd </td></tr>
@@ -691,8 +554,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_unix_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_unix_8cpp_source.html">NetworkUnix.cpp</a>.</p>
 
 </div>
 </div>
@@ -726,8 +587,8 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>socket() wrapper </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>regular errno code </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">domain</td><td>domain </td></tr>
@@ -736,8 +597,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-<p>Definition at line <a class="el" href="_network_8cpp_source.html#l00018">18</a> of file <a class="el" href="_network_8cpp_source.html">Network.cpp</a>.</p>
 
 </div>
 </div>
@@ -755,7 +614,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
 <p>checks if socket is valid </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>non-zero if true </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -765,8 +623,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_network_unix_8cpp_source.html#l00008">8</a> of file <a class="el" href="_network_unix_8cpp_source.html">NetworkUnix.cpp</a>.</p>
-
 </div>
 </div>
 </div>
@@ -775,7 +631,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -784,7 +640,7 @@ Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 20:10:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>
