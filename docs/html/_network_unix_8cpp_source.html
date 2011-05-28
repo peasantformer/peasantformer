@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,6 +52,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>Globals</span></a></li>
     </ul>
   </div>
 <div class="header">
@@ -59,17 +60,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Network/NetworkUnix.cpp</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;NetworkUnix.h&quot;</span>
+<a href="_network_unix_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_network_unix_8h.html">NetworkUnix.h</a>&quot;</span>
 <a name="l00002"></a>00002 
-<a name="l00003"></a>00003 <span class="keywordtype">int</span> pn_setsockopt(<span class="keywordtype">int</span> fd, <span class="keywordtype">int</span> level, <span class="keywordtype">int</span> optname, <span class="keyword">const</span> <span class="keywordtype">void</span> *optval, socklen_t len) {
-<a name="l00004"></a>00004         <span class="keywordflow">return</span> setsockopt(fd,level,optname,optval,len);
-<a name="l00005"></a>00005 }
-<a name="l00006"></a>00006 <span class="keywordtype">int</span> pn_socket_invalid(<span class="keywordtype">int</span> fd) {
-<a name="l00007"></a>00007         <span class="keywordflow">return</span> (fd &lt; 0);
-<a name="l00008"></a>00008 }
-<a name="l00009"></a>00009 <span class="keywordtype">int</span> pn_close(<span class="keywordtype">int</span> fd) {
-<a name="l00010"></a>00010         <span class="keywordflow">return</span> close(fd);
-<a name="l00011"></a>00011 }
+<a name="l00004"></a>00004 
+<a name="l00005"></a><a class="code" href="_network_unix_8cpp.html#a4cab402440a9e55910d34aceea8cd16a">00005</a> <span class="keywordtype">int</span> <a class="code" href="_network_8h.html#a4cab402440a9e55910d34aceea8cd16a" title="setsocketopt wrapper">pn_setsockopt</a>(<span class="keywordtype">int</span> fd, <span class="keywordtype">int</span> level, <span class="keywordtype">int</span> optname, <span class="keyword">const</span> <span class="keywordtype">void</span> *optval, socklen_t len) {
+<a name="l00006"></a>00006     <span class="keywordflow">return</span> setsockopt(fd,level,optname,optval,len);
+<a name="l00007"></a>00007 }
+<a name="l00008"></a><a class="code" href="_network_unix_8cpp.html#aec0ca6e46f8a7fa9c86f2644d05494a4">00008</a> <span class="keywordtype">int</span> <a class="code" href="_network_8h.html#aec0ca6e46f8a7fa9c86f2644d05494a4" title="checks if socket is valid">pn_socket_invalid</a>(<span class="keywordtype">int</span> fd) {
+<a name="l00009"></a>00009     <span class="keywordflow">return</span> (fd &lt; 0);
+<a name="l00010"></a>00010 }
+<a name="l00011"></a><a class="code" href="_network_unix_8cpp.html#ab811947045c2c95578dc1b16d78f858d">00011</a> <span class="keywordtype">int</span> <a class="code" href="_network_8h.html#ab811947045c2c95578dc1b16d78f858d" title="close fd wrapper">pn_close</a>(<span class="keywordtype">int</span> fd) {
+<a name="l00012"></a>00012     <span class="keywordflow">return</span> close(fd);
+<a name="l00013"></a>00013 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -77,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:51 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

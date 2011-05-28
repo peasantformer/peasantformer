@@ -1,5 +1,7 @@
 #include "NetworkWin32.h"
 
+/// @file
+
 const char *inet_ntop6(struct in6_addr *r, char *buf, socklen_t size) {
 	char tmp[46];
 	char *p;

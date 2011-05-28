@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,22 +51,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <h1>ConnectionPending Class Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="ConnectionPending" --><!-- doxytag: inherits="Connection" --><div class="dynheader">
+<!-- doxytag: class="ConnectionPending" --><!-- doxytag: inherits="Connection" -->
+<p>Pending connection class.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_connections_8h_source.html">Connections.h</a>&gt;</code></p>
+<div class="dynheader">
 Inheritance diagram for ConnectionPending:</div>
 <div class="dyncontent">
  <div class="center">
@@ -76,30 +78,14 @@ Inheritance diagram for ConnectionPending:</div>
 <area href="class_connection_accepted.html" alt="ConnectionAccepted" shape="rect" coords="0,112,130,136"/>
 </map>
  </div></div>
-
-<p><a href="class_connection_pending-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e99ee4183e24de1b4b4aa044238be12"></a><!-- doxytag: member="ConnectionPending::ConnectionPending" ref="a6e99ee4183e24de1b4b4aa044238be12" args="(int sock_fd, struct sockaddr_storage remote_addr, int buffsize, Messages *msgs)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>ConnectionPending</b> (int sock_fd, struct sockaddr_storage remote_addr, int buffsize, <a class="el" href="class_messages.html">Messages</a> *msgs)</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3bab2d6eaa16cdba80a083a09b46e13"></a><!-- doxytag: member="ConnectionPending::isLogged" ref="ae3bab2d6eaa16cdba80a083a09b46e13" args="" -->
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isLogged</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4d8ca44db902d704f07a119503419d1"></a><!-- doxytag: member="ConnectionPending::iterations" ref="ae4d8ca44db902d704f07a119503419d1" args="" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>iterations</b></td></tr>
-<tr><td colspan="2"><h2><a name="friends"></a>
-Friends</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41f46ab960f4c1cc7a3e3efe66f5c8c4"></a><!-- doxytag: member="ConnectionPending::ConnectionAccepted" ref="a41f46ab960f4c1cc7a3e3efe66f5c8c4" args="" -->
-class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection_pending.html#a41f46ab960f4c1cc7a3e3efe66f5c8c4">ConnectionAccepted</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_connections_8h_source.html#l00023">23</a> of file <a class="el" href="_connections_8h_source.html">Connections.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>Pending connection class. </p>
+
+<p>Definition at line <a class="el" href="_connections_8h_source.html#l00018">18</a> of file <a class="el" href="_connections_8h_source.html">Connections.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/Data/Connections/<a class="el" href="_connections_8h_source.html">Connections.h</a></li>
-<li>src/Data/Connections/<a class="el" href="_connections_8cpp_source.html">Connections.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -107,7 +93,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -116,7 +102,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,6 +52,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>Globals</span></a></li>
     </ul>
   </div>
 <div class="header">
@@ -59,42 +60,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Network/Network.cpp</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;Network.h&quot;</span>
+<a href="_network_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_network_8h.html">Network.h</a>&quot;</span>
 <a name="l00002"></a>00002 
-<a name="l00003"></a>00003 <span class="keywordtype">int</span> pn_init() {
-<a name="l00004"></a>00004         <span class="keywordflow">return</span> 0;
-<a name="l00005"></a>00005 }
-<a name="l00006"></a>00006 <span class="keywordtype">int</span> pn_getaddrinfo(<span class="keyword">const</span> <span class="keywordtype">char</span> *node, <span class="keyword">const</span> <span class="keywordtype">char</span> *service, <span class="keyword">const</span> <span class="keyword">struct</span> addrinfo *hints, <span class="keyword">struct</span> addrinfo **res) {
-<a name="l00007"></a>00007         <span class="keywordflow">return</span> getaddrinfo(node,service,hints,res);
-<a name="l00008"></a>00008 
-<a name="l00009"></a>00009 }
-<a name="l00010"></a>00010 <span class="keywordtype">void</span> pn_freeaddrinfo(<span class="keyword">struct</span> addrinfo *res) {
-<a name="l00011"></a>00011         freeaddrinfo(res);
-<a name="l00012"></a>00012 }
-<a name="l00013"></a>00013 <span class="keyword">const</span> <span class="keywordtype">char</span> * pn_inet_ntop(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">void</span> *src, <span class="keywordtype">char</span> *dst, socklen_t size) {
-<a name="l00014"></a>00014         <span class="keywordflow">return</span> inet_ntop(af,src,dst,size);
-<a name="l00015"></a>00015 }
-<a name="l00016"></a>00016 <span class="keywordtype">int</span> pn_socket(<span class="keywordtype">int</span> domain, <span class="keywordtype">int</span> type, <span class="keywordtype">int</span> protocol) {
-<a name="l00017"></a>00017         <span class="keywordflow">return</span> socket(domain, type, protocol);
-<a name="l00018"></a>00018 }
-<a name="l00019"></a>00019 <span class="keywordtype">int</span> pn_connect(<span class="keywordtype">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr, socklen_t addrlen) {
-<a name="l00020"></a>00020         <span class="keywordflow">return</span> connect(sockfd, addr, addrlen);
-<a name="l00021"></a>00021 }
-<a name="l00022"></a>00022 <span class="keywordtype">int</span> pn_listen(<span class="keywordtype">int</span> sockfd, <span class="keywordtype">int</span> backlog) {
-<a name="l00023"></a>00023         <span class="keywordflow">return</span> listen(sockfd, backlog);
-<a name="l00024"></a>00024 }
-<a name="l00025"></a>00025 <span class="keywordtype">int</span> pn_bind(<span class="keywordtype">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr, socklen_t addrlen) {
-<a name="l00026"></a>00026         <span class="keywordflow">return</span> bind (sockfd, addr, addrlen);
-<a name="l00027"></a>00027 }
-<a name="l00028"></a>00028 <span class="keywordtype">int</span> pn_accept(<span class="keywordtype">int</span> fd, <span class="keyword">struct</span> sockaddr *addr, socklen_t *addrlen) {
-<a name="l00029"></a>00029         <span class="keywordflow">return</span> accept(fd,addr,addrlen);
-<a name="l00030"></a>00030 }
-<a name="l00031"></a>00031 <span class="keywordtype">int</span> pn_select(<span class="keywordtype">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="keyword">struct</span> timeval * time) {
-<a name="l00032"></a>00032         <span class="keywordflow">return</span> select(nfds, readfds, writefds, exceptfds, time);
-<a name="l00033"></a>00033 }
-<a name="l00034"></a>00034 <span class="keywordtype">int</span> pn_quit() {
-<a name="l00035"></a>00035         <span class="keywordflow">return</span> 0;
-<a name="l00036"></a>00036 }
+<a name="l00004"></a>00004 
+<a name="l00005"></a><a class="code" href="_network_8h.html#a6b9f59476dba2e7bbd15de5a1a1c94e7">00005</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a6b9f59476dba2e7bbd15de5a1a1c94e7" title="initialize network for current program">pn_init</a>() {
+<a name="l00006"></a>00006     <span class="keywordflow">return</span> 0;
+<a name="l00007"></a>00007 }
+<a name="l00008"></a><a class="code" href="_network_8h.html#a389c1571bb529cbd35bb2940d50e89f1">00008</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a389c1571bb529cbd35bb2940d50e89f1" title="getaddrinfo wrapper">pn_getaddrinfo</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *node, <span class="keyword">const</span> <span class="keywordtype">char</span> *service, <span class="keyword">const</span> <span class="keyword">struct</span> addrinfo *hints, <span class="keyword">struct</span> addrinfo **res) {
+<a name="l00009"></a>00009     <span class="keywordflow">return</span> getaddrinfo(node,service,hints,res);
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 }
+<a name="l00012"></a><a class="code" href="_network_8h.html#a65db9f5c74275cede7c8517d4ce36942">00012</a> <span class="keywordtype">void</span> <a class="code" href="_network_8cpp.html#a65db9f5c74275cede7c8517d4ce36942" title="freeaddrinfo wrapper">pn_freeaddrinfo</a>(<span class="keyword">struct</span> addrinfo *res) {
+<a name="l00013"></a>00013     freeaddrinfo(res);
+<a name="l00014"></a>00014 }
+<a name="l00015"></a><a class="code" href="_network_8h.html#a990058f27307d0b77cc5bbe2204680ab">00015</a> <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code" href="_network_8cpp.html#a990058f27307d0b77cc5bbe2204680ab" title="inet_ntop wrapper">pn_inet_ntop</a>(<span class="keywordtype">int</span> af, <span class="keyword">const</span> <span class="keywordtype">void</span> *src, <span class="keywordtype">char</span> *dst, socklen_t size) {
+<a name="l00016"></a>00016     <span class="keywordflow">return</span> <a class="code" href="_network_8h.html#a63a39b1d8d095193987180a01ddaafe6" title="inplementatuon of inet_ntop for windows.">inet_ntop</a>(af,src,dst,size);
+<a name="l00017"></a>00017 }
+<a name="l00018"></a><a class="code" href="_network_8h.html#a9feda7d7fd636c384783c2443c1acfba">00018</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a9feda7d7fd636c384783c2443c1acfba" title="socket() wrapper">pn_socket</a>(<span class="keywordtype">int</span> domain, <span class="keywordtype">int</span> type, <span class="keywordtype">int</span> protocol) {
+<a name="l00019"></a>00019     <span class="keywordflow">return</span> socket(domain, type, protocol);
+<a name="l00020"></a>00020 }
+<a name="l00021"></a><a class="code" href="_network_8h.html#af65f13e8258fb6ba43ca5c6db0b23317">00021</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#af65f13e8258fb6ba43ca5c6db0b23317" title="connect wrapper">pn_connect</a>(<span class="keywordtype">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr, socklen_t addrlen) {
+<a name="l00022"></a>00022     <span class="keywordflow">return</span> connect(sockfd, addr, addrlen);
+<a name="l00023"></a>00023 }
+<a name="l00024"></a><a class="code" href="_network_8h.html#a31519c72de510a20abce0c88c45bfa3f">00024</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a31519c72de510a20abce0c88c45bfa3f" title="listen wrapper">pn_listen</a>(<span class="keywordtype">int</span> sockfd, <span class="keywordtype">int</span> backlog) {
+<a name="l00025"></a>00025     <span class="keywordflow">return</span> listen(sockfd, backlog);
+<a name="l00026"></a>00026 }
+<a name="l00027"></a><a class="code" href="_network_8h.html#aa88a14c2f43e5907c518ad0edef9a449">00027</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#aa88a14c2f43e5907c518ad0edef9a449" title="bind wrapper">pn_bind</a>(<span class="keywordtype">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *addr, socklen_t addrlen) {
+<a name="l00028"></a>00028     <span class="keywordflow">return</span> bind (sockfd, addr, addrlen);
+<a name="l00029"></a>00029 }
+<a name="l00030"></a><a class="code" href="_network_8h.html#a4357a28638481d73580377135a916cb1">00030</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a83d17211f8d0b542855d334834771ac5" title="accept wrapper">pn_accept</a>(<span class="keywordtype">int</span> fd, <span class="keyword">struct</span> sockaddr *addr, socklen_t *addrlen) {
+<a name="l00031"></a>00031     <span class="keywordflow">return</span> accept(fd,addr,addrlen);
+<a name="l00032"></a>00032 }
+<a name="l00033"></a><a class="code" href="_network_8h.html#a0291e4febc38654fb6eec5c5c9664301">00033</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#a0291e4febc38654fb6eec5c5c9664301" title="select wrapper">pn_select</a>(<span class="keywordtype">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="keyword">struct</span> timeval * time) {
+<a name="l00034"></a>00034     <span class="keywordflow">return</span> select(nfds, readfds, writefds, exceptfds, time);
+<a name="l00035"></a>00035 }
+<a name="l00036"></a><a class="code" href="_network_8h.html#af4cb66b5bb771f0135366f207f7c177d">00036</a> <span class="keywordtype">int</span> <a class="code" href="_network_8cpp.html#af4cb66b5bb771f0135366f207f7c177d" title="deinitialize network for current program">pn_quit</a>() {
+<a name="l00037"></a>00037     <span class="keywordflow">return</span> 0;
+<a name="l00038"></a>00038 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -102,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,7 +113,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:51 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

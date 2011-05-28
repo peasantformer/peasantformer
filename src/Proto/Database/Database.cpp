@@ -1,5 +1,7 @@
 #include "Database.h"
 
+/// @file
+
 Database::Database(pio_string filename) {
 	this->handle = NULL;
 	this->stmt = NULL;
@@ -83,6 +85,7 @@ int Database::column_bytes(int col) {
 int Database::finalize() {
 	int ret;
 	ret = sqlite3_finalize(this->stmt);
+	this->results->clear();
 	this->stmt = NULL;
 	this->stmt_tail = NULL;
 	this->retcode = -1;

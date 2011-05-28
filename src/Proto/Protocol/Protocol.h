@@ -1,18 +1,21 @@
 #ifndef PEASANTFORMER_Proto_Protocol
 #define PEASANTFORMER_Proto_Protocol
 
-#include <Proto/PlainIO/PlainIOHighLevel.h>
-#include <Proto/Network/NetworkHighLevel.h>
+/// @file
+
 #include <Proto/Messages/Messages.h>
 #include <Data/CircularBuffer/CircularBuffer.h>
 
+/// Protocol class
 class Protocol {
 	private:
-		int buffsize;
-		Messages *msgs;
-		CircularBuffer<wchar_t> *circus;
+		int buffsize; ///< size of protocol buffer
+		Messages *msgs; ///< messages pointer
+		CircularBuffer<wchar_t> *circus; ///< circular buffer for current connection
 	public:
+		/// Protocol constructor
 		Protocol(int buffsize, Messages *msgs);
+		/// Protocol destructor
 		~Protocol();
 	public:
 };

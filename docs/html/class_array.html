@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,48 +51,271 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <h1>Array&lt; T &gt; Class Template Reference</h1>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="Array" -->
-<p><a href="class_array-members.html">List of all members.</a></p>
+<p><a class="el" href="class_array.html" title="Array container.">Array</a> container.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_array_8h_source.html">Array.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69261a311adc661f7c6aff81c69af5db"></a><!-- doxytag: member="Array::operator[]" ref="a69261a311adc661f7c6aff81c69af5db" args="(size_t i)" -->
-T &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_t i)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8a1cc7e264a8c2bd9a3d467b72aafe1"></a><!-- doxytag: member="Array::operator=" ref="ab8a1cc7e264a8c2bd9a3d467b72aafe1" args="(Array const &amp;r)" -->
-<a class="el" href="class_array.html">Array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_array.html">Array</a> const &amp;r)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e3b0afea4d718b963e8f3986bac10cf"></a><!-- doxytag: member="Array::add_item" ref="a4e3b0afea4d718b963e8f3986bac10cf" args="(T item)" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>add_item</b> (T item)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ddf1f8ee3569bdd11cef33141585d79"></a><!-- doxytag: member="Array::find" ref="a9ddf1f8ee3569bdd11cef33141585d79" args="(size_t id)" -->
-std::map&lt; size_t, T &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (size_t id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00cf17af426633d75b9103d5620e1612"></a><!-- doxytag: member="Array::get_find_ref" ref="a00cf17af426633d75b9103d5620e1612" args="(size_t id)" -->
-T *&#160;</td><td class="memItemRight" valign="bottom"><b>get_find_ref</b> (size_t id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a298b0c967be0537583d753e984b5c8a8"></a><!-- doxytag: member="Array::del_item" ref="a298b0c967be0537583d753e984b5c8a8" args="(size_t i)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>del_item</b> (size_t i)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1bdb396081a4900d33e7d36b86cc8ef"></a><!-- doxytag: member="Array::size" ref="aa1bdb396081a4900d33e7d36b86cc8ef" args="() const " -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae25f6d485704fca18289aa16e10b2fa8"></a><!-- doxytag: member="Array::Array" ref="ae25f6d485704fca18289aa16e10b2fa8" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#ae25f6d485704fca18289aa16e10b2fa8">Array</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy constuctor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab89a85b1ddb86864096acdcc0db439e"></a><!-- doxytag: member="Array::~Array" ref="aab89a85b1ddb86864096acdcc0db439e" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#aab89a85b1ddb86864096acdcc0db439e">~Array</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy destructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a69261a311adc661f7c6aff81c69af5db">operator[]</a> (size_t i)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscripting operator.  <a href="#a69261a311adc661f7c6aff81c69af5db"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array.html">Array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#ab8a1cc7e264a8c2bd9a3d467b72aafe1">operator=</a> (<a class="el" href="class_array.html">Array</a> const &amp;r)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Asignment operator.  <a href="#ab8a1cc7e264a8c2bd9a3d467b72aafe1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a4e3b0afea4d718b963e8f3986bac10cf">add_item</a> (T item)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds item to container.  <a href="#a4e3b0afea4d718b963e8f3986bac10cf"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::map&lt; size_t, T &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a9ddf1f8ee3569bdd11cef33141585d79">find</a> (size_t id)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">matches element by key.  <a href="#a9ddf1f8ee3569bdd11cef33141585d79"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a00cf17af426633d75b9103d5620e1612">get_find_ref</a> (size_t id)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns refference to to item with specified key.  <a href="#a00cf17af426633d75b9103d5620e1612"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a298b0c967be0537583d753e984b5c8a8">del_item</a> (size_t i)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">deletes item by given key.  <a href="#a298b0c967be0537583d753e984b5c8a8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#aa1bdb396081a4900d33e7d36b86cc8ef">size</a> () const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns number of contained elements.  <a href="#aa1bdb396081a4900d33e7d36b86cc8ef"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac19d187420e7bd8a80c939201e3c2824"></a><!-- doxytag: member="Array::clear" ref="ac19d187420e7bd8a80c939201e3c2824" args="()" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#ac19d187420e7bd8a80c939201e3c2824">clear</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">wipes out array <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad09132184cd3aafaf9b4101de2bf3405"></a><!-- doxytag: member="Array::count" ref="ad09132184cd3aafaf9b4101de2bf3405" args="" -->
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#ad09132184cd3aafaf9b4101de2bf3405">count</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">count of elements stored in <a class="el" href="class_array.html" title="Array container.">Array</a> <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3893ee8c8b50751f4fa66bba2e2cfe79"></a><!-- doxytag: member="Array::data" ref="a3893ee8c8b50751f4fa66bba2e2cfe79" args="" -->
+std::map&lt; size_t, T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array.html#a3893ee8c8b50751f4fa66bba2e2cfe79">data</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">actual data of the <a class="el" href="class_array.html" title="Array container.">Array</a> <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T&gt;<br/>
  class Array&lt; T &gt;</h3>
 
+<p><a class="el" href="class_array.html" title="Array container.">Array</a> container. </p>
 
-<p>Definition at line <a class="el" href="_array_8h_source.html#l00008">8</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00012">12</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+</div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a4e3b0afea4d718b963e8f3986bac10cf"></a><!-- doxytag: member="Array::add_item" ref="a4e3b0afea4d718b963e8f3986bac10cf" args="(T item)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="class_array.html">Array</a>&lt; T &gt;::add_item </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Adds item to container. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>index of added item </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">item</td><td>item to store </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00048">48</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a298b0c967be0537583d753e984b5c8a8"></a><!-- doxytag: member="Array::del_item" ref="a298b0c967be0537583d753e984b5c8a8" args="(size_t i)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_array.html">Array</a>&lt; T &gt;::del_item </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>deletes item by given key. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>item key </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00070">70</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ddf1f8ee3569bdd11cef33141585d79"></a><!-- doxytag: member="Array::find" ref="a9ddf1f8ee3569bdd11cef33141585d79" args="(size_t id)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;size_t,T&gt;::iterator <a class="el" href="class_array.html">Array</a>&lt; T &gt;::find </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>matches element by key. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>iterator to matched element </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>key of the element </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00057">57</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a00cf17af426633d75b9103d5620e1612"></a><!-- doxytag: member="Array::get_find_ref" ref="a00cf17af426633d75b9103d5620e1612" args="(size_t id)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T* <a class="el" href="class_array.html">Array</a>&lt; T &gt;::get_find_ref </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns refference to to item with specified key. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>reference to matched element </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>key of the element </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00064">64</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8a1cc7e264a8c2bd9a3d467b72aafe1"></a><!-- doxytag: member="Array::operator=" ref="ab8a1cc7e264a8c2bd9a3d467b72aafe1" args="(Array const &amp;r)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_array.html">Array</a>&amp; <a class="el" href="class_array.html">Array</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_array.html">Array</a>&lt; T &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Asignment operator. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>Right hand expression </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00036">36</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a69261a311adc661f7c6aff81c69af5db"></a><!-- doxytag: member="Array::operator[]" ref="a69261a311adc661f7c6aff81c69af5db" args="(size_t i)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T&amp; <a class="el" href="class_array.html">Array</a>&lt; T &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Subscripting operator. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>subscripted value </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>index of element </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00030">30</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa1bdb396081a4900d33e7d36b86cc8ef"></a><!-- doxytag: member="Array::size" ref="aa1bdb396081a4900d33e7d36b86cc8ef" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="class_array.html">Array</a>&lt; T &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns number of contained elements. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>number of contained elements </dd></dl>
+
+<p>Definition at line <a class="el" href="_array_8h_source.html#l00076">76</a> of file <a class="el" href="_array_8h_source.html">Array.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/Data/Array/<a class="el" href="_array_8h_source.html">Array.h</a></li>
 </ul>
 </div>
@@ -101,7 +324,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -110,7 +333,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:51 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

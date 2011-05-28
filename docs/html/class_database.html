@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,130 +51,615 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a>  </div>
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <h1>Database Class Reference</h1>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="Database" -->
-<p><a href="class_database-members.html">List of all members.</a></p>
+<p><a class="el" href="class_database.html" title="Database routines class.">Database</a> routines class.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_database_8h_source.html">Database.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab0a1d1538a25bfa00c6352a252b12266"></a><!-- doxytag: member="Database::isDone" ref="ab0a1d1538a25bfa00c6352a252b12266" args="()" -->
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isDone</b> ()</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ab0a1d1538a25bfa00c6352a252b12266">isDone</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Is query done? <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35b1670b80ef1613ec46557b39fce747"></a><!-- doxytag: member="Database::isRow" ref="a35b1670b80ef1613ec46557b39fce747" args="()" -->
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isRow</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af10802a282835dcaea9f62a228639e83"></a><!-- doxytag: member="Database::Database" ref="af10802a282835dcaea9f62a228639e83" args="(pio_string filename)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>Database</b> (<a class="el" href="classpio__string.html">pio_string</a> filename)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35d7c683b9701edfc443de4014a3d2ec"></a><!-- doxytag: member="Database::open" ref="a35d7c683b9701edfc443de4014a3d2ec" args="(const char *filename)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>open</b> (const char *filename)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e3011ab9edc71dd2f969396851cafe3"></a><!-- doxytag: member="Database::prepare" ref="a3e3011ab9edc71dd2f969396851cafe3" args="(pio_string &amp;statement)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>prepare</b> (<a class="el" href="classpio__string.html">pio_string</a> &amp;statement)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a35b1670b80ef1613ec46557b39fce747">isRow</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Is next row pending? <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#af10802a282835dcaea9f62a228639e83">Database</a> (<a class="el" href="classpio__string.html">pio_string</a> filename)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Create database class from filename.  <a href="#af10802a282835dcaea9f62a228639e83"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84d399a2ad58d69daab9b05330e1316d"></a><!-- doxytag: member="Database::~Database" ref="a84d399a2ad58d69daab9b05330e1316d" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a84d399a2ad58d69daab9b05330e1316d">~Database</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_database.html" title="Database routines class.">Database</a> destructor ^^. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a35d7c683b9701edfc443de4014a3d2ec">open</a> (const char *filename)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Open database file.  <a href="#a35d7c683b9701edfc443de4014a3d2ec"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a3e3011ab9edc71dd2f969396851cafe3">prepare</a> (<a class="el" href="classpio__string.html">pio_string</a> &amp;statement)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare SQL statement.  <a href="#a3e3011ab9edc71dd2f969396851cafe3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6315456244d709fe49a6ca1224699b4"></a><!-- doxytag: member="Database::step" ref="ab6315456244d709fe49a6ca1224699b4" args="()" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>step</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77823607f3234bc56cc8c8e5d683987c"></a><!-- doxytag: member="Database::column_type" ref="a77823607f3234bc56cc8c8e5d683987c" args="(int col)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>column_type</b> (int col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac87bc4a4accf784bf6a6b5968c4c3848"></a><!-- doxytag: member="Database::column_double" ref="ac87bc4a4accf784bf6a6b5968c4c3848" args="(int col)" -->
-double&#160;</td><td class="memItemRight" valign="bottom"><b>column_double</b> (int col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a347b2d1f78938aa158f567a8990ce743"></a><!-- doxytag: member="Database::column_int" ref="a347b2d1f78938aa158f567a8990ce743" args="(int col)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>column_int</b> (int col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e67637c124e417274522e41f0cf3796"></a><!-- doxytag: member="Database::column_text" ref="a8e67637c124e417274522e41f0cf3796" args="(int col)" -->
-const unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><b>column_text</b> (int col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ac37027c76b693585cabb3671db4180"></a><!-- doxytag: member="Database::column_bytes" ref="a5ac37027c76b693585cabb3671db4180" args="(int col)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>column_bytes</b> (int col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acdd45530020083da8bff5cba01beecaa"></a><!-- doxytag: member="Database::get_text" ref="acdd45530020083da8bff5cba01beecaa" args="(pio_string col)" -->
-<a class="el" href="classpio__string.html">pio_string</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_text</b> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb0a2dc17a361c52db2454f13d80c75e"></a><!-- doxytag: member="Database::get_int" ref="adb0a2dc17a361c52db2454f13d80c75e" args="(pio_string col)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>get_int</b> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17ba509b5e2aedebb7b791bc3bb3201f"></a><!-- doxytag: member="Database::get_double" ref="a17ba509b5e2aedebb7b791bc3bb3201f" args="(pio_string col)" -->
-double&#160;</td><td class="memItemRight" valign="bottom"><b>get_double</b> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ab6315456244d709fe49a6ca1224699b4">step</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterate prepared statement. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a77823607f3234bc56cc8c8e5d683987c">column_type</a> (int col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ac87bc4a4accf784bf6a6b5968c4c3848">column_double</a> (int col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a347b2d1f78938aa158f567a8990ce743">column_int</a> (int col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a8e67637c124e417274522e41f0cf3796">column_text</a> (int col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a5ac37027c76b693585cabb3671db4180">column_bytes</a> (int col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#acdd45530020083da8bff5cba01beecaa">get_text</a> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#adb0a2dc17a361c52db2454f13d80c75e">get_int</a> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a17ba509b5e2aedebb7b791bc3bb3201f">get_double</a> (<a class="el" href="classpio__string.html">pio_string</a> col)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a865ad865c97dca74073fbee66e80e4"></a><!-- doxytag: member="Database::finalize" ref="a3a865ad865c97dca74073fbee66e80e4" args="()" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>finalize</b> ()</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a3a865ad865c97dca74073fbee66e80e4">finalize</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalize current transaction. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b0c49501592440fd474f38738c3255c"></a><!-- doxytag: member="Database::close" ref="a9b0c49501592440fd474f38738c3255c" args="()" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af49ad3a99a723dcbb6a00272aeff142d"></a><!-- doxytag: member="Database::bind_double" ref="af49ad3a99a723dcbb6a00272aeff142d" args="(int pos, double value)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>bind_double</b> (int pos, double value)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2dc1e05cc3fbab8470beddcd7ca8a8bf"></a><!-- doxytag: member="Database::bind_int" ref="a2dc1e05cc3fbab8470beddcd7ca8a8bf" args="(int pos, int value)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>bind_int</b> (int pos, int value)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a53cb4f16d6585eb1c057cc3abef909a9"></a><!-- doxytag: member="Database::bind_null" ref="a53cb4f16d6585eb1c057cc3abef909a9" args="(int pos)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>bind_null</b> (int pos)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1211687261b7ef8db7f737de9647fa8a"></a><!-- doxytag: member="Database::bind_text" ref="a1211687261b7ef8db7f737de9647fa8a" args="(int pos, pio_string value)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>bind_text</b> (int pos, <a class="el" href="classpio__string.html">pio_string</a> value)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a9b0c49501592440fd474f38738c3255c">close</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Close db handle. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#af49ad3a99a723dcbb6a00272aeff142d">bind_double</a> (int pos, double value)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind double to sql statement query.  <a href="#af49ad3a99a723dcbb6a00272aeff142d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a2dc1e05cc3fbab8470beddcd7ca8a8bf">bind_int</a> (int pos, int value)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind int to sql statement query.  <a href="#a2dc1e05cc3fbab8470beddcd7ca8a8bf"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a53cb4f16d6585eb1c057cc3abef909a9">bind_null</a> (int pos)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind null to sql statement query.  <a href="#a53cb4f16d6585eb1c057cc3abef909a9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a1211687261b7ef8db7f737de9647fa8a">bind_text</a> (int pos, <a class="el" href="classpio__string.html">pio_string</a> value)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind text to sql statement query.  <a href="#a1211687261b7ef8db7f737de9647fa8a"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42111ce8d1048e8f2f4287516b223a34"></a><!-- doxytag: member="Database::RET_OK" ref="a42111ce8d1048e8f2f4287516b223a34" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_OK</b> = SQLITE_OK</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a42111ce8d1048e8f2f4287516b223a34">RET_OK</a> = SQLITE_OK</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode OK <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae859867896f50a88cf0001d1e5ee2196"></a><!-- doxytag: member="Database::RET_ERROR" ref="ae859867896f50a88cf0001d1e5ee2196" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_ERROR</b> = SQLITE_ERROR</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ae859867896f50a88cf0001d1e5ee2196">RET_ERROR</a> = SQLITE_ERROR</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode ERROR <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad65975119fd4984c924275157ffa3c9f"></a><!-- doxytag: member="Database::RET_INTERNAL" ref="ad65975119fd4984c924275157ffa3c9f" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_INTERNAL</b> = SQLITE_INTERNAL</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ad65975119fd4984c924275157ffa3c9f">RET_INTERNAL</a> = SQLITE_INTERNAL</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode INTERNAL <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01f2a921d8f55194ed94405fc3a884ab"></a><!-- doxytag: member="Database::RET_PERM" ref="a01f2a921d8f55194ed94405fc3a884ab" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_PERM</b> = SQLITE_PERM</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a01f2a921d8f55194ed94405fc3a884ab">RET_PERM</a> = SQLITE_PERM</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode PERM <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1d0e8f2af97e0feb29108eb31d066f6"></a><!-- doxytag: member="Database::RET_ABORT" ref="ae1d0e8f2af97e0feb29108eb31d066f6" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_ABORT</b> = SQLITE_ABORT</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ae1d0e8f2af97e0feb29108eb31d066f6">RET_ABORT</a> = SQLITE_ABORT</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode ABORT <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf87a3bc4d2bf2f382ae829611cb42de"></a><!-- doxytag: member="Database::RET_BUSY" ref="aaf87a3bc4d2bf2f382ae829611cb42de" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_BUSY</b> = SQLITE_BUSY</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#aaf87a3bc4d2bf2f382ae829611cb42de">RET_BUSY</a> = SQLITE_BUSY</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode BUSY <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a602104a7071ac6725aaf9985613af122"></a><!-- doxytag: member="Database::RET_LOCKED" ref="a602104a7071ac6725aaf9985613af122" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_LOCKED</b> = SQLITE_LOCKED</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a602104a7071ac6725aaf9985613af122">RET_LOCKED</a> = SQLITE_LOCKED</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode LOCKED <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a497f9224175d3f64860f59e8275db652"></a><!-- doxytag: member="Database::RET_NOMEM" ref="a497f9224175d3f64860f59e8275db652" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_NOMEM</b> = SQLITE_NOMEM</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a497f9224175d3f64860f59e8275db652">RET_NOMEM</a> = SQLITE_NOMEM</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode NOMEM <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adefe1fa4c8ffd0f759f4cfb3e76612e5"></a><!-- doxytag: member="Database::RET_READONLY" ref="adefe1fa4c8ffd0f759f4cfb3e76612e5" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_READONLY</b> = SQLITE_READONLY</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#adefe1fa4c8ffd0f759f4cfb3e76612e5">RET_READONLY</a> = SQLITE_READONLY</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode READONLY <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afccdcf8a8720bc99485daa138be17158"></a><!-- doxytag: member="Database::RET_INTERRUPT" ref="afccdcf8a8720bc99485daa138be17158" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_INTERRUPT</b> = SQLITE_INTERRUPT</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#afccdcf8a8720bc99485daa138be17158">RET_INTERRUPT</a> = SQLITE_INTERRUPT</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode INTERRUPT <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55077b6f30b3b82aefa739855debef6c"></a><!-- doxytag: member="Database::RET_IOERR" ref="a55077b6f30b3b82aefa739855debef6c" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_IOERR</b> = SQLITE_IOERR</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a55077b6f30b3b82aefa739855debef6c">RET_IOERR</a> = SQLITE_IOERR</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode IOERR <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95b4b785aaef860b142791e81e41cfc5"></a><!-- doxytag: member="Database::RET_CORRUPT" ref="a95b4b785aaef860b142791e81e41cfc5" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_CORRUPT</b> = SQLITE_CORRUPT</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a95b4b785aaef860b142791e81e41cfc5">RET_CORRUPT</a> = SQLITE_CORRUPT</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode CORRUPT <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ff620ed5ad3dcf19caf95f34b0b9f8d"></a><!-- doxytag: member="Database::RET_NOTFOUND" ref="a2ff620ed5ad3dcf19caf95f34b0b9f8d" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_NOTFOUND</b> = SQLITE_NOTFOUND</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a2ff620ed5ad3dcf19caf95f34b0b9f8d">RET_NOTFOUND</a> = SQLITE_NOTFOUND</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode NOTFOUND <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27b8d57b890a223888c05f60d95275a4"></a><!-- doxytag: member="Database::RET_FULL" ref="a27b8d57b890a223888c05f60d95275a4" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_FULL</b> = SQLITE_FULL</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a27b8d57b890a223888c05f60d95275a4">RET_FULL</a> = SQLITE_FULL</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode FULL <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f0d44bca3000d8f29febdf97eebc4b3"></a><!-- doxytag: member="Database::RET_CANTOPEN" ref="a8f0d44bca3000d8f29febdf97eebc4b3" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_CANTOPEN</b> = SQLITE_CANTOPEN</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a8f0d44bca3000d8f29febdf97eebc4b3">RET_CANTOPEN</a> = SQLITE_CANTOPEN</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode CANTOPEN <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ba1597a7fdff79812e8afeec4179975"></a><!-- doxytag: member="Database::RET_PROTOCOL" ref="a6ba1597a7fdff79812e8afeec4179975" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_PROTOCOL</b> = SQLITE_PROTOCOL</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a6ba1597a7fdff79812e8afeec4179975">RET_PROTOCOL</a> = SQLITE_PROTOCOL</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode PROTOCO: <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f1efcdd58dcec591cc7bcf4c7f6e40d"></a><!-- doxytag: member="Database::RET_EMPTY" ref="a3f1efcdd58dcec591cc7bcf4c7f6e40d" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_EMPTY</b> = SQLITE_EMPTY</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a3f1efcdd58dcec591cc7bcf4c7f6e40d">RET_EMPTY</a> = SQLITE_EMPTY</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode EMPTY <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a929b853cbd2074dc647fd554ffd17cb0"></a><!-- doxytag: member="Database::RET_SCHEMA" ref="a929b853cbd2074dc647fd554ffd17cb0" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_SCHEMA</b> = SQLITE_SCHEMA</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a929b853cbd2074dc647fd554ffd17cb0">RET_SCHEMA</a> = SQLITE_SCHEMA</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode SCHEMA <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa18a95fb963300f11ff256d125123174"></a><!-- doxytag: member="Database::RET_TOOBIG" ref="aa18a95fb963300f11ff256d125123174" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_TOOBIG</b> = SQLITE_TOOBIG</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#aa18a95fb963300f11ff256d125123174">RET_TOOBIG</a> = SQLITE_TOOBIG</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode TOOBIG <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12493e4a82057e9a71510546c1264084"></a><!-- doxytag: member="Database::RET_CONSTRAINT" ref="a12493e4a82057e9a71510546c1264084" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_CONSTRAINT</b> = SQLITE_CONSTRAINT</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a12493e4a82057e9a71510546c1264084">RET_CONSTRAINT</a> = SQLITE_CONSTRAINT</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode CONSTRAINT <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e743a4be7781638c122df304796b567"></a><!-- doxytag: member="Database::RET_MISMATCH" ref="a3e743a4be7781638c122df304796b567" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_MISMATCH</b> = SQLITE_MISMATCH</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a3e743a4be7781638c122df304796b567">RET_MISMATCH</a> = SQLITE_MISMATCH</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode MISMATCH <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa1c8f2a6a8019bded318c1c5e387392"></a><!-- doxytag: member="Database::RET_MISUSE" ref="aaa1c8f2a6a8019bded318c1c5e387392" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_MISUSE</b> = SQLITE_MISUSE</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#aaa1c8f2a6a8019bded318c1c5e387392">RET_MISUSE</a> = SQLITE_MISUSE</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode MISUSE <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29876a9218eca89f8766bbc2c80c344c"></a><!-- doxytag: member="Database::RET_NOLFS" ref="a29876a9218eca89f8766bbc2c80c344c" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_NOLFS</b> = SQLITE_NOLFS</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a29876a9218eca89f8766bbc2c80c344c">RET_NOLFS</a> = SQLITE_NOLFS</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode NOLFS <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2804df17df10798c0567631b93948045"></a><!-- doxytag: member="Database::RET_AUTH" ref="a2804df17df10798c0567631b93948045" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_AUTH</b> = SQLITE_AUTH</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a2804df17df10798c0567631b93948045">RET_AUTH</a> = SQLITE_AUTH</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode AUTH <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af05a6bb43481d96c0e90eff664f60cb8"></a><!-- doxytag: member="Database::RET_FORMAT" ref="af05a6bb43481d96c0e90eff664f60cb8" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_FORMAT</b> = SQLITE_FORMAT</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#af05a6bb43481d96c0e90eff664f60cb8">RET_FORMAT</a> = SQLITE_FORMAT</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode FORMAT <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02d9c6d2467efbb6a4d863e889070845"></a><!-- doxytag: member="Database::RET_RANGE" ref="a02d9c6d2467efbb6a4d863e889070845" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_RANGE</b> = SQLITE_RANGE</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a02d9c6d2467efbb6a4d863e889070845">RET_RANGE</a> = SQLITE_RANGE</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode RANGE <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33b24214a439242ec0f7a7581601515a"></a><!-- doxytag: member="Database::RET_NOTADB" ref="a33b24214a439242ec0f7a7581601515a" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_NOTADB</b> = SQLITE_NOTADB</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a33b24214a439242ec0f7a7581601515a">RET_NOTADB</a> = SQLITE_NOTADB</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode NOTAB <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd60440bc204450e31c36e0004e39cb8"></a><!-- doxytag: member="Database::RET_ROW" ref="afd60440bc204450e31c36e0004e39cb8" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_ROW</b> = SQLITE_ROW</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#afd60440bc204450e31c36e0004e39cb8">RET_ROW</a> = SQLITE_ROW</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode ROW <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac00fd3b5a6171893812b2e69bd76d05b"></a><!-- doxytag: member="Database::RET_DONE" ref="ac00fd3b5a6171893812b2e69bd76d05b" args="" -->
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_DONE</b> = SQLITE_DONE</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#ac00fd3b5a6171893812b2e69bd76d05b">RET_DONE</a> = SQLITE_DONE</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">retcode DONE <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4d89a4376adf0c6526c36e889a1a9df"></a><!-- doxytag: member="Database::handle" ref="af4d89a4376adf0c6526c36e889a1a9df" args="" -->
+sqlite3 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#af4d89a4376adf0c6526c36e889a1a9df">handle</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">database handle <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4bc0e62de07e5991562cfc9cbf987a26"></a><!-- doxytag: member="Database::stmt" ref="a4bc0e62de07e5991562cfc9cbf987a26" args="" -->
+sqlite3_stmt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a4bc0e62de07e5991562cfc9cbf987a26">stmt</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">sql statement <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e497f80714deeb78ea81ef99cf17512"></a><!-- doxytag: member="Database::stmt_tail" ref="a6e497f80714deeb78ea81ef99cf17512" args="" -->
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#a6e497f80714deeb78ea81ef99cf17512">stmt_tail</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">sql statement rejected tail pointer <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa886e55254d2f32748ed8ee62ac80c4e"></a><!-- doxytag: member="Database::retcode" ref="aa886e55254d2f32748ed8ee62ac80c4e" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#aa886e55254d2f32748ed8ee62ac80c4e">retcode</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return code of last method call <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeea23e5c1efc3aa8d50ebad6f57492f4"></a><!-- doxytag: member="Database::results" ref="aeea23e5c1efc3aa8d50ebad6f57492f4" args="" -->
+<a class="el" href="class_hash.html">Hash</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database.html#aeea23e5c1efc3aa8d50ebad6f57492f4">results</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">results from query <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_database_8h_source.html#l00011">11</a> of file <a class="el" href="_database_8h_source.html">Database.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p><a class="el" href="class_database.html" title="Database routines class.">Database</a> routines class. </p>
+<p>Currently supports sqlite3 only. </p>
+
+<p>Definition at line <a class="el" href="_database_8h_source.html#l00016">16</a> of file <a class="el" href="_database_8h_source.html">Database.h</a>.</p>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="af10802a282835dcaea9f62a228639e83"></a><!-- doxytag: member="Database::Database" ref="af10802a282835dcaea9f62a228639e83" args="(pio_string filename)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Database::Database </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Create database class from filename. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>file path </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00005">5</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="af49ad3a99a723dcbb6a00272aeff142d"></a><!-- doxytag: member="Database::bind_double" ref="af49ad3a99a723dcbb6a00272aeff142d" args="(int pos, double value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::bind_double </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Bind double to sql statement query. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>parameter number </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>double value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00106">106</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2dc1e05cc3fbab8470beddcd7ca8a8bf"></a><!-- doxytag: member="Database::bind_int" ref="a2dc1e05cc3fbab8470beddcd7ca8a8bf" args="(int pos, int value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::bind_int </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Bind int to sql statement query. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>parameter number </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>int value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00110">110</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53cb4f16d6585eb1c057cc3abef909a9"></a><!-- doxytag: member="Database::bind_null" ref="a53cb4f16d6585eb1c057cc3abef909a9" args="(int pos)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::bind_null </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Bind null to sql statement query. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>parameter number </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00114">114</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1211687261b7ef8db7f737de9647fa8a"></a><!-- doxytag: member="Database::bind_text" ref="a1211687261b7ef8db7f737de9647fa8a" args="(int pos, pio_string value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::bind_text </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Bind text to sql statement query. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>parameter number </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>text value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00118">118</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5ac37027c76b693585cabb3671db4180"></a><!-- doxytag: member="Database::column_bytes" ref="a5ac37027c76b693585cabb3671db4180" args="(int col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::column_bytes </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>size of column as text </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00077">77</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac87bc4a4accf784bf6a6b5968c4c3848"></a><!-- doxytag: member="Database::column_double" ref="ac87bc4a4accf784bf6a6b5968c4c3848" args="(int col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Database::column_double </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as double </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00065">65</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a347b2d1f78938aa158f567a8990ce743"></a><!-- doxytag: member="Database::column_int" ref="a347b2d1f78938aa158f567a8990ce743" args="(int col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::column_int </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as int </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00069">69</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e67637c124e417274522e41f0cf3796"></a><!-- doxytag: member="Database::column_text" ref="a8e67637c124e417274522e41f0cf3796" args="(int col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const unsigned char * Database::column_text </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as text </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00073">73</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a77823607f3234bc56cc8c8e5d683987c"></a><!-- doxytag: member="Database::column_type" ref="a77823607f3234bc56cc8c8e5d683987c" args="(int col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::column_type </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column type </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>column index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00061">61</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17ba509b5e2aedebb7b791bc3bb3201f"></a><!-- doxytag: member="Database::get_double" ref="a17ba509b5e2aedebb7b791bc3bb3201f" args="(pio_string col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Database::get_double </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as double </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>&lt;[in] column name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00140">140</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adb0a2dc17a361c52db2454f13d80c75e"></a><!-- doxytag: member="Database::get_int" ref="adb0a2dc17a361c52db2454f13d80c75e" args="(pio_string col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::get_int </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as int </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>&lt;[in] column name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00137">137</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acdd45530020083da8bff5cba01beecaa"></a><!-- doxytag: member="Database::get_text" ref="acdd45530020083da8bff5cba01beecaa" args="(pio_string col)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classpio__string.html">pio_string</a> Database::get_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>col</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>column as <a class="el" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> text </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>&lt;[in] column name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00134">134</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a35d7c683b9701edfc443de4014a3d2ec"></a><!-- doxytag: member="Database::open" ref="a35d7c683b9701edfc443de4014a3d2ec" args="(const char *filename)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::open </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Open database file. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>filepath </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00020">20</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3e3011ab9edc71dd2f969396851cafe3"></a><!-- doxytag: member="Database::prepare" ref="a3e3011ab9edc71dd2f969396851cafe3" args="(pio_string &amp;statement)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Database::prepare </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a> &amp;&#160;</td>
+          <td class="paramname"><em>statement</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Prepare SQL statement. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">statement</td><td>statement string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_database_8cpp_source.html#l00025">25</a> of file <a class="el" href="_database_8cpp_source.html">Database.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Proto/Database/<a class="el" href="_database_8h_source.html">Database.h</a></li>
 <li>src/Proto/Database/<a class="el" href="_database_8cpp_source.html">Database.cpp</a></li>
 </ul>
@@ -184,7 +669,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_DONE<
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -193,7 +678,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>RET_DONE<
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

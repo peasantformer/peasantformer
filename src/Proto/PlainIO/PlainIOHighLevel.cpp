@@ -1,5 +1,7 @@
 #include "PlainIOHighLevel.h"
 
+/// @file
+
 void pio_string::wchar_to_data(const wchar_t *text) {
 	size_t length = wcslen(text);
 	for (size_t i=0; i < length; i++) {
@@ -192,11 +194,13 @@ void pio_string::append(const pio_string &oth) {
 
 bool operator<(pio_string const& l,pio_string const& r) {
 	return l.get_data() < r.get_data();
+	return false;
 }
 
-pio_string operator+(pio_string & l, pio_string const& r) {
-	l.append(r);
-	return l;
+pio_string operator+(pio_string const& l, pio_string const& r) {
+	pio_string a(l);
+	a.append(r);
+	return a;
 }
 
 

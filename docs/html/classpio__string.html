@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,67 +51,486 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <h1>pio_string Class Reference</h1>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="pio_string" -->
-<p><a href="classpio__string-members.html">List of all members.</a></p>
+<p>pio string; unicode-aware text representation in wchar_t.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9027effd5a09728767d09097ccd2c019"></a><!-- doxytag: member="pio_string::pio_string" ref="a9027effd5a09728767d09097ccd2c019" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a9027effd5a09728767d09097ccd2c019">pio_string</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy consructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bd0f5f40db3f65faf17078584dfc7c0"></a><!-- doxytag: member="pio_string::pio_string" ref="a9bd0f5f40db3f65faf17078584dfc7c0" args="(const wchar_t *)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>pio_string</b> (const wchar_t *)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a9bd0f5f40db3f65faf17078584dfc7c0">pio_string</a> (const wchar_t *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Contructor from widechar string. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a421efc512a30212f57d3255b199b0436"></a><!-- doxytag: member="pio_string::pio_string" ref="a421efc512a30212f57d3255b199b0436" args="(const char *)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>pio_string</b> (const char *)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a421efc512a30212f57d3255b199b0436">pio_string</a> (const char *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from refular c string. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab72437ecfba5b07f3d429adf3f4af999"></a><!-- doxytag: member="pio_string::pio_string" ref="ab72437ecfba5b07f3d429adf3f4af999" args="(const unsigned char *)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>pio_string</b> (const unsigned char *)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22cee63eb6600e417145545ca2c9a62b"></a><!-- doxytag: member="pio_string::operator=" ref="a22cee63eb6600e417145545ca2c9a62b" args="(pio_string const &amp;r)" -->
-<a class="el" href="classpio__string.html">pio_string</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classpio__string.html">pio_string</a> const &amp;r)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99e604dfe190fdf79c2374bc16f1d6cf"></a><!-- doxytag: member="pio_string::operator[]" ref="a99e604dfe190fdf79c2374bc16f1d6cf" args="(size_t)" -->
-wchar_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_t)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ab72437ecfba5b07f3d429adf3f4af999">pio_string</a> (const unsigned char *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from unsigned char c string. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab87758253574fb2bcb0da52809e71d8d"></a><!-- doxytag: member="pio_string::~pio_string" ref="ab87758253574fb2bcb0da52809e71d8d" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ab87758253574fb2bcb0da52809e71d8d">~pio_string</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy destructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpio__string.html">pio_string</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a22cee63eb6600e417145545ca2c9a62b">operator=</a> (<a class="el" href="classpio__string.html">pio_string</a> const &amp;r)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a22cee63eb6600e417145545ca2c9a62b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">wchar_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a584b489a98436663fdcca068ad98e3b7">operator[]</a> (size_t i)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscripting operator.  <a href="#a584b489a98436663fdcca068ad98e3b7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9842f10a7044bad535a05c4db3926c2c"></a><!-- doxytag: member="pio_string::get_data" ref="a9842f10a7044bad535a05c4db3926c2c" args="() const " -->
-std::vector&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_data</b> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbb6e15965eb055be7ca234b6bf11b2a"></a><!-- doxytag: member="pio_string::append" ref="abbb6e15965eb055be7ca234b6bf11b2a" args="(const pio_string &amp;)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>append</b> (const <a class="el" href="classpio__string.html">pio_string</a> &amp;)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aebdae04024c8bb5ab162b7b01648a94a"></a><!-- doxytag: member="pio_string::length" ref="aebdae04024c8bb5ab162b7b01648a94a" args="()" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>length</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5d0daebb8a8699c5fb5d14529aff54f"></a><!-- doxytag: member="pio_string::w_str" ref="af5d0daebb8a8699c5fb5d14529aff54f" args="()" -->
-const wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><b>w_str</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6db4f48d7a67a04e3bbeccf3e2e98117"></a><!-- doxytag: member="pio_string::c_str" ref="a6db4f48d7a67a04e3bbeccf3e2e98117" args="()" -->
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>c_str</b> ()</td></tr>
+std::vector&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a9842f10a7044bad535a05c4db3926c2c">get_data</a> () const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get internal data representation as it is. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ae932868b0af57d49b8116bb590ae03c1">append</a> (const <a class="el" href="classpio__string.html">pio_string</a> &amp;oth)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Append supplied string to this one.  <a href="#ae932868b0af57d49b8116bb590ae03c1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#aebdae04024c8bb5ab162b7b01648a94a">length</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#af5d0daebb8a8699c5fb5d14529aff54f">w_str</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a6db4f48d7a67a04e3bbeccf3e2e98117">c_str</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a687666dc7568f47ed54b366e35ff8ea6"></a><!-- doxytag: member="pio_string::clear" ref="a687666dc7568f47ed54b366e35ff8ea6" args="()" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7dee12ba039ad47865b861003b35132e"></a><!-- doxytag: member="pio_string::set" ref="a7dee12ba039ad47865b861003b35132e" args="(pio_string)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (<a class="el" href="classpio__string.html">pio_string</a>)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc8f32d80d811b884629ad5a95982703"></a><!-- doxytag: member="pio_string::set" ref="abc8f32d80d811b884629ad5a95982703" args="(const char *)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (const char *)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a790a5321a8fa820ecf81f5e8332dea1c"></a><!-- doxytag: member="pio_string::set" ref="a790a5321a8fa820ecf81f5e8332dea1c" args="(const unsigned char *)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (const unsigned char *)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fb6aa5b363de30ebfd940c2f597f323"></a><!-- doxytag: member="pio_string::set" ref="a9fb6aa5b363de30ebfd940c2f597f323" args="(const wchar_t *)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (const wchar_t *)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0178727065be3bae0d661e805fd7d3fc"></a><!-- doxytag: member="pio_string::filter" ref="a0178727065be3bae0d661e805fd7d3fc" args="(bool(*predicate)(wchar_t))" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>filter</b> (bool(*predicate)(wchar_t))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5e596f6881910e88ce4158ed11d82fd"></a><!-- doxytag: member="pio_string::strip_right" ref="ad5e596f6881910e88ce4158ed11d82fd" args="(bool(*predicate)(wchar_t))" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>strip_right</b> (bool(*predicate)(wchar_t))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc"></a><!-- doxytag: member="pio_string::strip_left" ref="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc" args="(bool(*predicate)(wchar_t))" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>strip_left</b> (bool(*predicate)(wchar_t))</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a687666dc7568f47ed54b366e35ff8ea6">clear</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear string contents. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a6a2457875ad0f25690c79a880bcaf5c2">set</a> (<a class="el" href="classpio__string.html">pio_string</a> str)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set string to a given value.  <a href="#a6a2457875ad0f25690c79a880bcaf5c2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#abc8f32d80d811b884629ad5a95982703">set</a> (const char *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set string to a given value.  <a href="#abc8f32d80d811b884629ad5a95982703"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a790a5321a8fa820ecf81f5e8332dea1c">set</a> (const unsigned char *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set string to a given value.  <a href="#a790a5321a8fa820ecf81f5e8332dea1c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a9fb6aa5b363de30ebfd940c2f597f323">set</a> (const wchar_t *)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set string to a given value.  <a href="#a9fb6aa5b363de30ebfd940c2f597f323"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a0178727065be3bae0d661e805fd7d3fc">filter</a> (bool(*predicate)(wchar_t))</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Filter string using predicate function.  <a href="#a0178727065be3bae0d661e805fd7d3fc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ad5e596f6881910e88ce4158ed11d82fd">strip_right</a> (bool(*predicate)(wchar_t))</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop characters from left side of the string while predicate returns true.  <a href="#ad5e596f6881910e88ce4158ed11d82fd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a1ad0a5e2b0c3ed0c97344e0f98f6d7bc">strip_left</a> (bool(*predicate)(wchar_t))</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop characters from right side of the string while predicate return true.  <a href="#a1ad0a5e2b0c3ed0c97344e0f98f6d7bc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad09edd9237813908fe56b3f740dcba25"></a><!-- doxytag: member="pio_string::weedout_control" ref="ad09edd9237813908fe56b3f740dcba25" args="()" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>weedout_control</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ad09edd9237813908fe56b3f740dcba25">weedout_control</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as filter(iswspace) <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ae6e08c2e713bff1f7932c7898471344c">wchar_to_data</a> (const wchar_t *text)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Widechar to internal data repesentation converter.  <a href="#ae6e08c2e713bff1f7932c7898471344c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a156e634ee35cab7d8501fe99e441a906">data_to_wchar</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal data to widechar representation conveter.  <a href="#a156e634ee35cab7d8501fe99e441a906"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a905b209a99863931ea5511c5755fb452"></a><!-- doxytag: member="pio_string::init" ref="a905b209a99863931ea5511c5755fb452" args="()" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a905b209a99863931ea5511c5755fb452">init</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization function. <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad827b89a55488a8aaca52e3f1e297732"></a><!-- doxytag: member="pio_string::data" ref="ad827b89a55488a8aaca52e3f1e297732" args="" -->
+std::vector&lt; wchar_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#ad827b89a55488a8aaca52e3f1e297732">data</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">wchar_t string data <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24f6c701c0276b13f2bab185bf91a2e9"></a><!-- doxytag: member="pio_string::cstr" ref="a24f6c701c0276b13f2bab185bf91a2e9" args="" -->
+char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a24f6c701c0276b13f2bab185bf91a2e9">cstr</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">c-string representation, including null-terminator <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62f5a37785832a6284d241ed8542ae03"></a><!-- doxytag: member="pio_string::wstr" ref="a62f5a37785832a6284d241ed8542ae03" args="" -->
+wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a62f5a37785832a6284d241ed8542ae03">wstr</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">widechar-string representation, including null-terminator <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86fc2edc74de50525a0e6f7aaddfd4eb"></a><!-- doxytag: member="pio_string::cstr_len" ref="a86fc2edc74de50525a0e6f7aaddfd4eb" args="" -->
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a86fc2edc74de50525a0e6f7aaddfd4eb">cstr_len</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">length of c-string representation <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4447603702439dd6bc1b0915218138c0"></a><!-- doxytag: member="pio_string::wstr_len" ref="a4447603702439dd6bc1b0915218138c0" args="" -->
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpio__string.html#a4447603702439dd6bc1b0915218138c0">wstr_len</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">length of widechar-string representation <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_plain_i_o_high_level_8h_source.html#l00010">10</a> of file <a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>pio string; unicode-aware text representation in wchar_t. </p>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8h_source.html#l00013">13</a> of file <a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a>.</p>
+</div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ae932868b0af57d49b8116bb590ae03c1"></a><!-- doxytag: member="pio_string::append" ref="ae932868b0af57d49b8116bb590ae03c1" args="(const pio_string &amp;oth)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classpio__string.html">pio_string</a> &amp;&#160;</td>
+          <td class="paramname"><em>oth</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Append supplied string to this one. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oth</td><td>other string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00187">187</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6db4f48d7a67a04e3bbeccf3e2e98117"></a><!-- doxytag: member="pio_string::c_str" ref="a6db4f48d7a67a04e3bbeccf3e2e98117" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * pio_string::c_str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>c-string string representation </dd></dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00130">130</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a156e634ee35cab7d8501fe99e441a906"></a><!-- doxytag: member="pio_string::data_to_wchar" ref="a156e634ee35cab7d8501fe99e441a906" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::data_to_wchar </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Internal data to widechar representation conveter. </p>
+<p>writes to this-&gt;wstr </p>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00013">13</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0178727065be3bae0d661e805fd7d3fc"></a><!-- doxytag: member="pio_string::filter" ref="a0178727065be3bae0d661e805fd7d3fc" args="(bool(*predicate)(wchar_t))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::filter </td>
+          <td>(</td>
+          <td class="paramtype">bool(*)(wchar_t)&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Filter string using predicate function. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>given predicate function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00151">151</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aebdae04024c8bb5ab162b7b01648a94a"></a><!-- doxytag: member="pio_string::length" ref="aebdae04024c8bb5ab162b7b01648a94a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t pio_string::length </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>length of the string </dd></dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00102">102</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a22cee63eb6600e417145545ca2c9a62b"></a><!-- doxytag: member="pio_string::operator=" ref="a22cee63eb6600e417145545ca2c9a62b" args="(pio_string const &amp;r)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classpio__string.html">pio_string</a> &amp; pio_string::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a> const &amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Assignment operator. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>right-hand expression </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00110">110</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a584b489a98436663fdcca068ad98e3b7"></a><!-- doxytag: member="pio_string::operator[]" ref="a584b489a98436663fdcca068ad98e3b7" args="(size_t i)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wchar_t &amp; pio_string::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Subscripting operator. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>wchar_t </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>char index </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00106">106</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc8f32d80d811b884629ad5a95982703"></a><!-- doxytag: member="pio_string::set" ref="abc8f32d80d811b884629ad5a95982703" args="(const char *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::set </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set string to a given value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>given string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00170">170</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9fb6aa5b363de30ebfd940c2f597f323"></a><!-- doxytag: member="pio_string::set" ref="a9fb6aa5b363de30ebfd940c2f597f323" args="(const wchar_t *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::set </td>
+          <td>(</td>
+          <td class="paramtype">const wchar_t *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set string to a given value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>given string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00176">176</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a2457875ad0f25690c79a880bcaf5c2"></a><!-- doxytag: member="pio_string::set" ref="a6a2457875ad0f25690c79a880bcaf5c2" args="(pio_string str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set string to a given value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>given string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00166">166</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a790a5321a8fa820ecf81f5e8332dea1c"></a><!-- doxytag: member="pio_string::set" ref="a790a5321a8fa820ecf81f5e8332dea1c" args="(const unsigned char *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::set </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set string to a given value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>given string </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00173">173</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc"></a><!-- doxytag: member="pio_string::strip_left" ref="a1ad0a5e2b0c3ed0c97344e0f98f6d7bc" args="(bool(*predicate)(wchar_t))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::strip_left </td>
+          <td>(</td>
+          <td class="paramtype">bool(*)(wchar_t)&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Drop characters from right side of the string while predicate return true. </p>
+<p>*NOT*IMPLEMENTED*YET* </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>given predicate function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad5e596f6881910e88ce4158ed11d82fd"></a><!-- doxytag: member="pio_string::strip_right" ref="ad5e596f6881910e88ce4158ed11d82fd" args="(bool(*predicate)(wchar_t))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::strip_right </td>
+          <td>(</td>
+          <td class="paramtype">bool(*)(wchar_t)&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Drop characters from left side of the string while predicate returns true. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>given predicate function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00160">160</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af5d0daebb8a8699c5fb5d14529aff54f"></a><!-- doxytag: member="pio_string::w_str" ref="af5d0daebb8a8699c5fb5d14529aff54f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const wchar_t * pio_string::w_str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>widechar string representation </dd></dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00126">126</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae6e08c2e713bff1f7932c7898471344c"></a><!-- doxytag: member="pio_string::wchar_to_data" ref="ae6e08c2e713bff1f7932c7898471344c" args="(const wchar_t *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_string::wchar_to_data </td>
+          <td>(</td>
+          <td class="paramtype">const wchar_t *&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Widechar to internal data repesentation converter. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>widechar data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_plain_i_o_high_level_8cpp_source.html#l00005">5</a> of file <a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Proto/PlainIO/<a class="el" href="_plain_i_o_high_level_8h_source.html">PlainIOHighLevel.h</a></li>
 <li>src/Proto/PlainIO/<a class="el" href="_plain_i_o_high_level_8cpp_source.html">PlainIOHighLevel.cpp</a></li>
 </ul>
@@ -121,7 +540,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>weedout_control</b> (
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -130,7 +549,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>weedout_control</b> (
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

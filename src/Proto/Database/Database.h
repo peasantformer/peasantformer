@@ -1,6 +1,8 @@
 #ifndef PEASANTFORMER_Proto_Database
 #define PEASANTFORMER_Proto_Database
 
+/// @file
+
 #include <stdio.h>
 #include <map>
 
@@ -8,72 +10,129 @@
 #include <Data/Hash/Hash.h>
 #include <sqlite3.h> 
 
+/// Database routines class.
+///
+/// Currently supports sqlite3 only.
 class Database {
 	private:
-		sqlite3 *handle;
-		sqlite3_stmt *stmt;
-		const char *stmt_tail;
-		int retcode;
-		Hash *results;
+		sqlite3 *handle; ///< database handle
+		sqlite3_stmt *stmt; ///< sql statement
+		const char *stmt_tail; ///< sql statement rejected tail pointer
+		int retcode; ///< return code of last method call
+		Hash *results; ///< results from query
 	public:
-		static const int RET_OK = SQLITE_OK;
-		static const int RET_ERROR = SQLITE_ERROR;
-		static const int RET_INTERNAL = SQLITE_INTERNAL;
-		static const int RET_PERM = SQLITE_PERM;
-		static const int RET_ABORT = SQLITE_ABORT;
-		static const int RET_BUSY = SQLITE_BUSY;
-		static const int RET_LOCKED = SQLITE_LOCKED;
-		static const int RET_NOMEM = SQLITE_NOMEM;
-		static const int RET_READONLY = SQLITE_READONLY;
-		static const int RET_INTERRUPT = SQLITE_INTERRUPT;
-		static const int RET_IOERR = SQLITE_IOERR;
-		static const int RET_CORRUPT = SQLITE_CORRUPT;
-		static const int RET_NOTFOUND = SQLITE_NOTFOUND;
-		static const int RET_FULL = SQLITE_FULL;
-		static const int RET_CANTOPEN = SQLITE_CANTOPEN;
-		static const int RET_PROTOCOL = SQLITE_PROTOCOL;
-		static const int RET_EMPTY = SQLITE_EMPTY;
-		static const int RET_SCHEMA = SQLITE_SCHEMA;
-		static const int RET_TOOBIG = SQLITE_TOOBIG;
-		static const int RET_CONSTRAINT = SQLITE_CONSTRAINT;
-		static const int RET_MISMATCH = SQLITE_MISMATCH;
-		static const int RET_MISUSE = SQLITE_MISUSE;
-		static const int RET_NOLFS = SQLITE_NOLFS;
-		static const int RET_AUTH = SQLITE_AUTH;
-		static const int RET_FORMAT = SQLITE_FORMAT;
-		static const int RET_RANGE = SQLITE_RANGE;
-		static const int RET_NOTADB = SQLITE_NOTADB;
-		static const int RET_ROW = SQLITE_ROW;
-		static const int RET_DONE = SQLITE_DONE;
+		static const int RET_OK = SQLITE_OK; ///< retcode OK
+		static const int RET_ERROR = SQLITE_ERROR; ///< retcode ERROR
+		static const int RET_INTERNAL = SQLITE_INTERNAL; ///< retcode INTERNAL
+		static const int RET_PERM = SQLITE_PERM; ///< retcode PERM
+		static const int RET_ABORT = SQLITE_ABORT; ///< retcode ABORT
+		static const int RET_BUSY = SQLITE_BUSY; ///< retcode BUSY
+		static const int RET_LOCKED = SQLITE_LOCKED; ///< retcode LOCKED
+		static const int RET_NOMEM = SQLITE_NOMEM; ///< retcode NOMEM
+		static const int RET_READONLY = SQLITE_READONLY; ///< retcode READONLY
+		static const int RET_INTERRUPT = SQLITE_INTERRUPT; ///< retcode INTERRUPT
+		static const int RET_IOERR = SQLITE_IOERR; ///< retcode IOERR
+		static const int RET_CORRUPT = SQLITE_CORRUPT; ///< retcode CORRUPT
+		static const int RET_NOTFOUND = SQLITE_NOTFOUND; ///< retcode NOTFOUND
+		static const int RET_FULL = SQLITE_FULL; ///< retcode FULL
+		static const int RET_CANTOPEN = SQLITE_CANTOPEN; ///< retcode CANTOPEN
+		static const int RET_PROTOCOL = SQLITE_PROTOCOL; ///< retcode PROTOCO:
+		static const int RET_EMPTY = SQLITE_EMPTY; ///< retcode EMPTY
+		static const int RET_SCHEMA = SQLITE_SCHEMA; ///< retcode SCHEMA
+		static const int RET_TOOBIG = SQLITE_TOOBIG; ///< retcode TOOBIG
+		static const int RET_CONSTRAINT = SQLITE_CONSTRAINT; ///< retcode CONSTRAINT
+		static const int RET_MISMATCH = SQLITE_MISMATCH; ///< retcode MISMATCH
+		static const int RET_MISUSE = SQLITE_MISUSE; ///< retcode MISUSE
+		static const int RET_NOLFS = SQLITE_NOLFS; ///< retcode NOLFS
+		static const int RET_AUTH = SQLITE_AUTH; ///< retcode AUTH
+		static const int RET_FORMAT = SQLITE_FORMAT; ///< retcode FORMAT
+		static const int RET_RANGE = SQLITE_RANGE; ///< retcode RANGE
+		static const int RET_NOTADB = SQLITE_NOTADB; ///< retcode NOTAB
+		static const int RET_ROW = SQLITE_ROW; ///< retcode ROW
+		static const int RET_DONE = SQLITE_DONE; ///< retcode DONE
 	public:
+		/// Is query done?
 		bool isDone();
+		/// Is next row pending?
 		bool isRow();
 	public:
-		Database(pio_string filename);
+		/// Create database class from filename
+		Database(
+			pio_string filename ///< [in] file path
+		);
+		/// Database destructor ^^
 		~Database();
 	public:
-		int open(const char *filename);
-		int prepare(pio_string &statement);
+		/// Open database file
+		int open(
+			const char *filename ///< [in] filepath
+		);
+		/// Prepare SQL statement
+		int prepare(
+			pio_string &statement ///< [in] statement string
+		);
+		/// Iterate prepared statement
 		int step();
 
-		int column_type(int col);
-		double column_double(int col);
-		int column_int(int col);
-		const unsigned char *column_text(int col);
-		int column_bytes(int col);
+		/// @return column type
+		int column_type(
+			int col ///< [in] column index
+		);
+		/// @return column as double
+		double column_double(
+			int col ///< [in] column index
+		);
+		/// @return column as int
+		int column_int(
+			int col ///< [in] column index
+		);
+		/// @return column as text
+		const unsigned char *column_text(
+			int col ///< [in] column index
+		);
+		/// @return size of column as text
+		int column_bytes(
+			int col ///< [in] column index
+		);
 
-		pio_string get_text(pio_string col);
-		int get_int(pio_string col);
-		double get_double(pio_string col);
-
+		/// @return column as pio_string text
+		pio_string get_text(
+			pio_string col /// <[in] column name
+		);
+		/// @return column as int
+		int get_int(
+			pio_string col /// <[in] column name
+		);
+		/// @return column as double
+		double get_double(
+			pio_string col /// <[in] column name
+		);
+		
+		/// Finalize current transaction.
 		int finalize();
 
+		/// Close db handle.
 		int close();
 		
-		int bind_double(int pos, double value);
-		int bind_int(int pos, int value);
-		int bind_null(int pos);
-		int bind_text(int pos, pio_string value);
+		/// Bind double to sql statement query
+		int bind_double(
+			int pos, ///< [in] parameter number
+			double value ///< [in] double value
+		);
+		/// Bind int to sql statement query
+		int bind_int(
+			int pos, ///< [in] parameter number
+			int value ///< [in] int value
+		);
+		/// Bind null to sql statement query
+		int bind_null(
+			int pos ///< [in] parameter number
+		);
+		/// Bind text to sql statement query
+		int bind_text(
+			int pos,  ///< [in] parameter number
+			pio_string value ///< [in] text value
+		);
 };
 
 #endif

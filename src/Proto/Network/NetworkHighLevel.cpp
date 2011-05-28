@@ -1,5 +1,7 @@
 #include "NetworkHighLevel.h"
 
+/// @file
+
 int pnh_set_hints(struct addrinfo *hints, int family, int socktype, int flags) {
 	memset(hints,0,sizeof(struct addrinfo));
 	hints->ai_family = family;

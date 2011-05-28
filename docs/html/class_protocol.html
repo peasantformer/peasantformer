@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,30 +51,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <h1>Protocol Class Reference</h1>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="Protocol" -->
-<p><a href="class_protocol-members.html">List of all members.</a></p>
+<p><a class="el" href="class_protocol.html" title="Protocol class.">Protocol</a> class.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_protocol_8h_source.html">Protocol.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9cc8d0ecfd74fca379135a036921856e"></a><!-- doxytag: member="Protocol::Protocol" ref="a9cc8d0ecfd74fca379135a036921856e" args="(int buffsize, Messages *msgs)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>Protocol</b> (int buffsize, <a class="el" href="class_messages.html">Messages</a> *msgs)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e">Protocol</a> (int <a class="el" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd">buffsize</a>, <a class="el" href="class_messages.html">Messages</a> *<a class="el" href="class_protocol.html#aeac7c97e42d699ab817ebcdb4c70b676">msgs</a>)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_protocol.html" title="Protocol class.">Protocol</a> constructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae78a2bc284f521aa47f3fd7718e23ead"></a><!-- doxytag: member="Protocol::~Protocol" ref="ae78a2bc284f521aa47f3fd7718e23ead" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead">~Protocol</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_protocol.html" title="Protocol class.">Protocol</a> destructor. <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3438f068d6f37c8858a2d5ff6a234abd"></a><!-- doxytag: member="Protocol::buffsize" ref="a3438f068d6f37c8858a2d5ff6a234abd" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd">buffsize</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">size of protocol buffer <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeac7c97e42d699ab817ebcdb4c70b676"></a><!-- doxytag: member="Protocol::msgs" ref="aeac7c97e42d699ab817ebcdb4c70b676" args="" -->
+<a class="el" href="class_messages.html">Messages</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_protocol.html#aeac7c97e42d699ab817ebcdb4c70b676">msgs</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">messages pointer <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8101cee80999607bd3cbbf338a050c5"></a><!-- doxytag: member="Protocol::circus" ref="ad8101cee80999607bd3cbbf338a050c5" args="" -->
+<a class="el" href="class_circular_buffer.html">CircularBuffer</a>&lt; wchar_t &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5">circus</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">circular buffer for current connection <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_protocol_8h_source.html#l00009">9</a> of file <a class="el" href="_protocol_8h_source.html">Protocol.h</a>.</p>
+<div class="textblock"><p><a class="el" href="class_protocol.html" title="Protocol class.">Protocol</a> class. </p>
+
+<p>Definition at line <a class="el" href="_protocol_8h_source.html#l00010">10</a> of file <a class="el" href="_protocol_8h_source.html">Protocol.h</a>.</p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Proto/Protocol/<a class="el" href="_protocol_8h_source.html">Protocol.h</a></li>
 <li>src/Proto/Protocol/<a class="el" href="_protocol_8cpp_source.html">Protocol.cpp</a></li>
@@ -85,7 +106,7 @@ Public Member Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -94,7 +115,7 @@ Public Member Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

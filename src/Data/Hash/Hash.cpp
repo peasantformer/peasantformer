@@ -1,5 +1,7 @@
 #include "Hash.h"
 
+/// @file
+
 HashHolder::HashHolder() {
 	this->type = HASHHOLDER_NULL;
 }
@@ -36,4 +38,31 @@ double HashHolder::get_double() {
 }
 pio_string HashHolder::get_text() {
 	return text_value;
+}
+
+
+
+
+
+
+void Hash::clear() {
+	this->data.clear();
+}
+void Hash::put(pio_string key, int value) {
+	this->data[key] = HashHolder(value);
+}
+void Hash::put(pio_string key, double value) {
+	this->data[key] = HashHolder(value);
+}
+void Hash::put(pio_string key, pio_string value) {
+	this->data[key] = HashHolder(value);
+}
+int Hash::get_int(pio_string key) {
+	return this->data[key].get_int();
+}
+double Hash::get_double(pio_string key) {
+	return this->data[key].get_double();
+}
+pio_string Hash::get_text(pio_string key) {
+	return this->data[key].get_text();
 }

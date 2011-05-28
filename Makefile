@@ -1,6 +1,6 @@
 all: native docs
 
-docs: native
+docs: $(shell find src -type f) docs/doxygen-config
 	doxygen docs/doxygen-config
 
 native: 
@@ -17,3 +17,4 @@ clean:
 	cd build-cross-win32; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 	cd build-native; rm -fr CMakeCache.txt CMakeFiles cmake_install.cmake Makefile
 	rm -rf modules CMakeFiles CMakeCache.txt
+	rm -rf docs/html

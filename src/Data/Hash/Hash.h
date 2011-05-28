@@ -1,63 +1,92 @@
 #ifndef PEASANTFORMER_Data_Hash
 #define PEASANTFORMER_Data_Hash
 
+/// @file
+
 #include <map>
 #include <Proto/PlainIO/PlainIOHighLevel.h>
 
+/// Hash holder type enum.
 enum HashHolderType {
-	HASHHOLDER_NULL,
-	HASHHOLDER_INT,
-	HASHHOLDER_DOUBLE,
-	HASHHOLDER_TEXT
+	HASHHOLDER_NULL, ///< Holder is NULL
+	HASHHOLDER_INT, ///< Holder is int
+	HASHHOLDER_DOUBLE, ///< Holder is double
+	HASHHOLDER_TEXT ///< holder is text
 };
 
+/// HashHolder class.
 class HashHolder {
 	private:
-		int int_value;
-		double double_value;
-		pio_string text_value;
+		int int_value; ///< int holder value 
+		double double_value; ///< double holder value
+		pio_string text_value; ///< text holder value
 
-		HashHolderType type;
+		HashHolderType type; ///< holder type
 	public:
+		/// Dummy constructor.
 		HashHolder();
-		HashHolder(int value);
-		HashHolder(double value);
-		HashHolder(pio_string value);
+		/// Int constructor.
+		HashHolder(
+			int value ///< [in] int value.
+		);
+		/// Double constructor.
+		HashHolder(
+			double value ///< [in] double value.
+		);
+		/// Text constructor
+		HashHolder(
+			pio_string value ///< [in] text value.
+		);
 	public:
+		/// @return holder type
 		HashHolderType get_type();
 
+		/// @return int value
 		int get_int();
+		
+		/// @return double value
 		double get_double();
+		
+		/// @return text value
 		pio_string get_text();
 };
 
+/// Hash class.
 class Hash {
 	private:
-		std::map<pio_string,HashHolder> data;
+		std::map<pio_string,HashHolder> data; ///< data stored in hash
 	public:
-		void clear() {
-			this->data.clear();
-		}
+		/// Clears hash from contents
+		void clear();
 	public:
-		void put(pio_string key, int value) {
-			this->data[key] = HashHolder(value);
-		}
-		void put(pio_string key, double value) {
-			this->data[key] = HashHolder(value);
-		}
-		void put(pio_string key, pio_string value) {
-			this->data[key] = HashHolder(value);
-		}
+		/// Stores int value in hash.
+		void put(
+			pio_string key, ///< [in] key
+			int value ///< [in] int value
+		);
+		/// Stores double value in hash.
+		void put(
+			pio_string key,  ///< [in] key
+			double value ///< [in] double value
+		);
+		/// Stores text value in hash.
+		void put(
+			pio_string key, ///< [in] key
+			pio_string value ///< [in] text value
+		);
 	public:
-		int get_int(pio_string key) {
-			return this->data[key].get_int();
-		}
-		double get_double(pio_string key) {
-			return this->data[key].get_double();
-		}
-		pio_string get_text(pio_string key) {
-			return this->data[key].get_text();
-		}
+		/// @return int value
+		int get_int(
+			pio_string key ///< [in] key
+		);
+		/// @return double value
+		double get_double(
+			pio_string key ///< [in] key
+		);
+		/// @return text value
+		pio_string get_text(
+			pio_string key ///< [in] key
+		);
 };
 
 #endif

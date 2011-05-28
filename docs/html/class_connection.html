@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -51,21 +51,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 </div>
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
 <h1>Connection Class Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Connection" --><div class="dynheader">
+<!-- doxytag: class="Connection" -->
+<p>Basic connection class.  
+<a href="#_details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_connections_8h_source.html">Connections.h</a>&gt;</code></p>
+<div class="dynheader">
 Inheritance diagram for Connection:</div>
 <div class="dyncontent">
  <div class="center">
@@ -75,30 +78,14 @@ Inheritance diagram for Connection:</div>
 <area href="class_connection_accepted.html" alt="ConnectionAccepted" shape="rect" coords="0,112,130,136"/>
 </map>
  </div></div>
-
-<p><a href="class_connection-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59ac09cacc53b2ed1f5e544892271da3"></a><!-- doxytag: member="Connection::Connection" ref="a59ac09cacc53b2ed1f5e544892271da3" args="(int sock_fd, struct sockaddr_storage remote_addr, int buffsize, Messages *msgs)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>Connection</b> (int sock_fd, struct sockaddr_storage remote_addr, int buffsize, <a class="el" href="class_messages.html">Messages</a> *msgs)</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9042dc7286458dbc9655d836edb20e0"></a><!-- doxytag: member="Connection::remote_addr" ref="af9042dc7286458dbc9655d836edb20e0" args="" -->
-struct sockaddr_storage&#160;</td><td class="memItemRight" valign="bottom"><b>remote_addr</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e2ae0f93aa1dcf12bae2bb0eadd28e2"></a><!-- doxytag: member="Connection::address_literal" ref="a0e2ae0f93aa1dcf12bae2bb0eadd28e2" args="[INET6_ADDRSTRLEN]" -->
-char&#160;</td><td class="memItemRight" valign="bottom"><b>address_literal</b> [INET6_ADDRSTRLEN]</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a45198e52d812d771dd32487dcf8a4003"></a><!-- doxytag: member="Connection::sock_fd" ref="a45198e52d812d771dd32487dcf8a4003" args="" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>sock_fd</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe79c3f0728a2090117e486fa9af66fb"></a><!-- doxytag: member="Connection::proto" ref="abe79c3f0728a2090117e486fa9af66fb" args="" -->
-<a class="el" href="class_protocol.html">Protocol</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>proto</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_connections_8h_source.html#l00011">11</a> of file <a class="el" href="_connections_8h_source.html">Connections.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>Basic connection class. </p>
+
+<p>Definition at line <a class="el" href="_connections_8h_source.html#l00013">13</a> of file <a class="el" href="_connections_8h_source.html">Connections.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/Data/Connections/<a class="el" href="_connections_8h_source.html">Connections.h</a></li>
-<li>src/Data/Connections/<a class="el" href="_connections_8cpp_source.html">Connections.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -106,7 +93,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>sock_fd</b></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -115,7 +102,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>sock_fd</b></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:52 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

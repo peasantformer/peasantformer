@@ -1,5 +1,7 @@
 #include "Messages.h"
 
+/// @file
+
 Messages::Messages(pio_string filename) {
 	FILE *fh;
 	fh = fopen(filename.c_str(),"r");

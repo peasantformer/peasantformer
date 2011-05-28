@@ -29,7 +29,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -52,6 +52,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>Globals</span></a></li>
     </ul>
   </div>
 <div class="header">
@@ -59,13 +60,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>src/Proto/Protocol/Protocol.cpp</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;Protocol.h&quot;</span>
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_protocol_8h.html">Protocol.h</a>&quot;</span>
 <a name="l00002"></a>00002 
-<a name="l00003"></a>00003 Protocol::Protocol(<span class="keywordtype">int</span> buffsize, <a class="code" href="class_messages.html">Messages</a> *msgs) {
-<a name="l00004"></a>00004         this-&gt;msgs = msgs;
-<a name="l00005"></a>00005         this-&gt;buffsize = buffsize;      
-<a name="l00006"></a>00006         this-&gt;circus = <span class="keyword">new</span> <a class="code" href="class_circular_buffer.html">CircularBuffer&lt;wchar_t&gt;</a>(buffsize);
+<a name="l00003"></a><a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e">00003</a> <a class="code" href="class_protocol.html#a9cc8d0ecfd74fca379135a036921856e" title="Protocol constructor.">Protocol::Protocol</a>(<span class="keywordtype">int</span> buffsize, <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *msgs) {
+<a name="l00004"></a>00004     this-&gt;msgs = <a class="code" href="class_protocol.html#aeac7c97e42d699ab817ebcdb4c70b676" title="messages pointer">msgs</a>;
+<a name="l00005"></a>00005     this-&gt;buffsize = <a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>;  
+<a name="l00006"></a>00006     this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a> = <span class="keyword">new</span> <a class="code" href="class_circular_buffer.html">CircularBuffer&lt;wchar_t&gt;</a>(<a class="code" href="class_protocol.html#a3438f068d6f37c8858a2d5ff6a234abd" title="size of protocol buffer">buffsize</a>);
 <a name="l00007"></a>00007 }
+<a name="l00008"></a>00008 
+<a name="l00009"></a><a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead">00009</a> <a class="code" href="class_protocol.html#ae78a2bc284f521aa47f3fd7718e23ead" title="Protocol destructor.">Protocol::~Protocol</a>() {
+<a name="l00010"></a>00010     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_protocol.html#ad8101cee80999607bd3cbbf338a050c5" title="circular buffer for current connection">circus</a>;
+<a name="l00011"></a>00011 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -73,7 +78,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 14:17:51 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 19:50:41 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>
