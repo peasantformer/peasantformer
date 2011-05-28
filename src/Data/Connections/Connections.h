@@ -3,7 +3,7 @@
 
 #include <Proto/Network/NetworkHighLevel.h>
 #include <Proto/PlainIO/PlainIOHighLevel.h>
-#include <Data/CircularBuffer/CircularBuffer.h>
+
 
 class Connection {
 	public:
@@ -20,10 +20,13 @@ class ConnectionPending : public Connection {
 	public:
 		bool isLogged;
 		int iterations;
+
 	public:
 		ConnectionPending();
 		ConnectionPending(struct sockaddr_storage remote_addr);
-		virtual ~ConnectionPending() {}
+		virtual ~ConnectionPending() {
+			delete this->circus;
+		}
 };
 
 class ConnectionAccepted : public ConnectionPending {
@@ -31,7 +34,6 @@ class ConnectionAccepted : public ConnectionPending {
 		pio_string username;
 		pio_string password_hash;
 		pio_string nickname;
-		CircularBuffer<wchar_t> *circus;
 	public:
 		ConnectionAccepted();
 		ConnectionAccepted(ConnectionPending);

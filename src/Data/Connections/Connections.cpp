@@ -33,5 +33,4 @@ ConnectionAccepted::ConnectionAccepted(ConnectionPending pend) {
 	this->isLogged = pend.isLogged;
 	this->remote_addr = pend.remote_addr;
 	pnh_get_sockaddr_storage_literal(&remote_addr,address_literal);
-	this->circus = new CircularBuffer<wchar_t>(1024);
 }

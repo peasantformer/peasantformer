@@ -4,12 +4,11 @@
 class Server;
 
 #include <pthread.h>
-#include <Proto/Messages/Messages.h>
 #include <Proto/PlainIO/PlainIOHighLevel.h>
 #include <Apps/Server/Network/Network.h>
 #include <Apps/Server/Database/Database.h>
 #include <Apps/Server/World/World.h>
-#include <Apps/Server/Parser/Parser.h>
+#include <Apps/Server/Protocol/Protocol.h>
 #include <Apps/Server/Connections/Connections.h>
 
 class Server {
@@ -17,9 +16,8 @@ class Server {
 		ServerNetwork *network;
 		ServerDatabase *db;
 		ServerWorld *world;
-		ServerParser *parser;
+		ServerProtocol *protocol;
 		ServerConnections *connections;
-		Messages *nmsgs;
 	public:
 		Server();
 		~Server();

@@ -3,8 +3,6 @@
 
 class ServerNetwork;
 
-#include <map>
-
 #include <string.h>
 
 #include <Apps/Server/Server.h>
@@ -25,8 +23,8 @@ class ServerNetwork {
 		int listen_socket_v4;
 		int listen_socket_v6;
 		
-		fd_set fd_listen_socks;
-		int fd_listen_socks_max;
+		//!//fd_set fd_listen_socks;
+		//!//int fd_listen_socks_max;
 		
 		//fd_set fd_pending_socks;
 		//int fd_pending_socks_max;
@@ -36,8 +34,8 @@ class ServerNetwork {
 		
 		//std::map<int,ConnectionPending> connections_pending;
 	private:
-		static void *connection_server(void *raw_data);
-		static void *login_server(void *raw_data);
+		//!//static void *connection_server(void *raw_data);
+		//!//static void *login_server(void *raw_data);
 	
 		int setup_server_on_addr_port_ipv4(pio_string hostname, pio_string port);
 		int setup_server_on_addr_port_ipv6(pio_string hostname, pio_string port);
@@ -48,6 +46,8 @@ class ServerNetwork {
 		ServerNetwork(Server *srvr);
 	public:
 		void setup_server_on_addr_port(pio_string addr, pio_string port);
+		int get_listen_socket_v4();
+		int get_listen_socket_v6();
 };
 
 #endif

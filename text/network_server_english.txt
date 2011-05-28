@@ -1,9 +1,9 @@
-invalid_message			000000	Invalid Message
-hello_kitty				000001	Hi there little kitty! Welocme to peasantformer!
-login					000002	LOGIN %32l[a-fA-F0-9] %32lc
-password_hash_too_short 000003	Your password hash is not of length 32
-wrong_auth				000004	Wrong authentification data
-successful_auth			000005	Authentification was successful
-login_successful		000006	You are logged in
-invalid_query			000007	Invalid request "%s"
-last_message			999999	Last Message
+invalid_message		OP000000	Invalid Message
+hello_kitty			OP000001	Hi there little kitty! Welocme to peasantformer!
+login				OP000002	LOGIN %32l[a-fA-F0-9] %32lc
+hash_too_short		OP000003	Your password hash is not of length 32
+wrong_auth			OP000004	Wrong authentification data
+successful_auth		OP000005	Authentification was successful
+login_successful	OP000006	You are logged in
+invalid_query		OP000007	Invalid request "%s"
+last_message		OP999999	Last Message

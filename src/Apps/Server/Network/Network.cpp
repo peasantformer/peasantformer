@@ -7,10 +7,10 @@ ServerNetwork::ServerNetwork(Server *srvr) {
 	
 	this->listen_socket_v4 = -1;
 	this->listen_socket_v6 = -1;
-	FD_ZERO(&this->fd_listen_socks);
+//	FD_ZERO(&this->fd_listen_socks);
 	//FD_ZERO(&this->fd_pending_socks);
 	//FD_ZERO(&this->fd_accepted_socks);
-	this->fd_listen_socks_max = -1;
+//	this->fd_listen_socks_max = -1;
 	//this->fd_pending_socks_max = -1;
 	//this->fd_accepted_socks_max = -1;
 	memset(this->bind_addres_literal_v4,0,INET_ADDRSTRLEN);
@@ -23,6 +23,7 @@ ServerNetwork::ServerNetwork(Server *srvr) {
 	//this->connections[remote_sock] = ConnectionAccepted(this->connections_pending[remote_sock]);
 //}
 
+/*
 void *ServerNetwork::login_server(void *raw_data) {
 	ServerNetwork *network_engine = (ServerNetwork *)raw_data;
 
@@ -86,7 +87,7 @@ void *ServerNetwork::connection_server(void *raw_data) {
 	pthread_exit(NULL);
 	return NULL;
 }
-
+*/
 
 int ServerNetwork::setup_server_on_addr_port_ipv4(pio_string addr, pio_string port) {
 	const char * hostname = addr.c_str();
@@ -100,10 +101,10 @@ int ServerNetwork::setup_server_on_addr_port_ipv4(pio_string addr, pio_string po
 	}
 	printf("[ipv4] Peasantformer server successfuly binded at %s:%s\n",this->bind_addres_literal_v4,port.c_str());
 	pn_listen(this->listen_socket_v4,10);
-	FD_SET((unsigned int)this->listen_socket_v4, &this->fd_listen_socks);
-	if (this->listen_socket_v4 > this->fd_listen_socks_max) {
-		this->fd_listen_socks_max = this->listen_socket_v4;
-	}
+	//FD_SET((unsigned int)this->listen_socket_v4, &this->fd_listen_socks);
+	//if (this->listen_socket_v4 > this->fd_listen_socks_max) {
+		//this->fd_listen_socks_max = this->listen_socket_v4;
+	//}
 	return 0;
 }
 
@@ -121,12 +122,20 @@ int ServerNetwork::setup_server_on_addr_port_ipv6(pio_string addr, pio_string po
 	}
 	printf("[ipv6] Peasantformer server successfuly binded at %s:%s\n",this->bind_addres_literal_v6,port.c_str());
 	pn_listen(this->listen_socket_v6,10);
-	FD_SET((unsigned int)this->listen_socket_v6, &this->fd_listen_socks);
-	if (this->listen_socket_v6 > this->fd_listen_socks_max) {
-		this->fd_listen_socks_max = this->listen_socket_v6;
-	}
+	//FD_SET((unsigned int)this->listen_socket_v6, &this->fd_listen_socks);
+	//if (this->listen_socket_v6 > this->fd_listen_socks_max) {
+		//this->fd_listen_socks_max = this->listen_socket_v6;
+	//}
 	
 	return 0;
+}
+
+int ServerNetwork::get_listen_socket_v4() {
+	return this->listen_socket_v4;
+}
+
+int ServerNetwork::get_listen_socket_v6() {
+	return this->listen_socket_v6;
 }
 
 void ServerNetwork::setup_server_on_addr_port(pio_string addr, pio_string port) {
@@ -146,15 +155,9 @@ void ServerNetwork::setup_server_on_addr_port(pio_string addr, pio_string port) 
 		setup_server_on_addr_port_ipv6(addr,port);
 	}
 		
-	pthread_t connection_server_thread;
-	pthread_t login_server_thread;
+
 	
-	pthread_create(&connection_server_thread,NULL,connection_server,this);
-	printf("Connection server fired up\n");
-	
-	
-	pthread_create(&login_server_thread,NULL,login_server,this);
-	printf("Login server fired up\n");
+
 	
 	//pthread_exit(NULL);
 }
