@@ -14,7 +14,7 @@ ConnectionAccepted::ConnectionAccepted(int sockfd, struct sockaddr_storage remot
 ConnectionAccepted::ConnectionAccepted(ConnectionPending pend) {
 	this->sockfd = pend.sockfd;
 	this->buffsize = pend.buffsize;
-	this->circus = new CircularBuffer(buffsize);
+	//this->circus = new CircularBuffer(buffsize);
 	this->opcode = pend.opcode;
-	this->plain_buffer = new wchar_t[pend.buffsize];
+	//this->plain_buffer = new wchar_t[pend.buffsize];
 }

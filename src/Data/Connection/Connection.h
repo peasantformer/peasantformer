@@ -15,6 +15,9 @@ class Connection {
 		CircularBuffer *circus;                 ///< circular buffer for that connection
 		int opcode;                             ///< last opcode read from network
 		wchar_t *plain_buffer;                  ///< plain wchar buffer
+		char  *raw_buffer;                      ///< plain char buffer
+		
+		size_t raw_bytes;                       ///< plaim char buffer read bytes
 		struct sockaddr_storage remote_addr;    ///< remote addr struct
 		char address_literal[INET6_ADDRSTRLEN]; ///< remote address literal value
 		
@@ -29,6 +32,13 @@ class Connection {
 		);
 		/// Destructor
 		virtual ~Connection();
+	public:
+		/// Asignment operator
+		/// @return Connection refference
+		Connection & operator=(
+			Connection const &r ///< [in] Right hand expression
+		);
+
 	
 };
 

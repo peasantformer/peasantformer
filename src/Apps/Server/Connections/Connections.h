@@ -41,7 +41,7 @@ class ServerConnections {
 		/// Adds pending connection to pending connection list
 		void add_pending_connection(
 			unsigned int sockfd,                 ///< [in] socket file descriptor
-			struct sockaddr_storage remote_addr, ///< [in]	 remote addr struct
+			struct sockaddr_storage remote_addr, ///< [in] remote addr struct
 			size_t buffsize                      ///< [in] buffer size
 		);
 		/// Accepts pending conection and promotes it to "accepted" state

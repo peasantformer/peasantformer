@@ -48,6 +48,12 @@ class CircularBuffer {
 			const wchar_t *source, ///< [in] source string to write into the buffer
 			size_t len ///< [in] source string length
 		);
+		/// Write C string to the buffer, converting it to wchar_t
+		/// @return writed chars count
+		int write(
+			const char *source, ///< [in] source C string to write into the buffer
+			size_t len          ///< [in] source string length
+		);
 		/// Reads contents of buffer.
 		/// @return number of read characters
 		int read(

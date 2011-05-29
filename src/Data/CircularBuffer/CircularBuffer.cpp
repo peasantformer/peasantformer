@@ -52,6 +52,10 @@ size_t CircularBuffer::backward_dist() {
 	return this->buffsize - this->forward_dist();
 }
 
+int CircularBuffer::write(const char *source, size_t len) {
+	pio_string pnn(source);	
+}
+
 int CircularBuffer::write(const wchar_t *source, size_t len) {
 	const wchar_t *s;
 	size_t w = 0;

@@ -2,8 +2,13 @@
 
 /// @file
 
-void pio_string::wchar_to_data(const wchar_t *text) {
-	size_t length = wcslen(text);
+void pio_string::wchar_to_data(const wchar_t *text, int len) {
+	size_t length;
+	if (len < 0) {
+		length = wcslen(text);
+	} else {
+		length = len;
+	}
 	for (size_t i=0; i < length; i++) {
 		this->data.push_back(text[i]);
 	}
@@ -64,6 +69,22 @@ void pio_string::clear() {
 	this->wstr = NULL;
 }
 
+pio_string::pio_string(const char *source, size_t len) {
+	this->init();
+
+	size_t buffsize = 0;
+	buffsize = utf8stowcs(NULL,source,0);
+
+	wchar_t *wch = new wchar_t[buffsize+1];
+	
+	utf8stowcs(wch,source,buffsize);
+	wch[buffsize] = '\0';
+
+	this->wchar_to_data(wch,len);
+
+	delete[] wch;
+	wch = NULL;
+}
 
 pio_string::pio_string(const char *source) {
 	this->init();

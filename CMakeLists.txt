@@ -24,6 +24,10 @@ target_link_libraries(data-connection
 	data-circus
 )
 add_library(data-connectionPending  STATIC ../src/Data/Connection/ConnectionPending.cpp)
+target_link_libraries(data-connectionPending
+	data-connection
+	data-circus
+)
 add_library(data-connectionAccepted STATIC ../src/Data/Connection/ConnectionAccepted.cpp)
 
 ########################################################################

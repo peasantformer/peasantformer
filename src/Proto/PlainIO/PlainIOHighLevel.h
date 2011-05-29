@@ -20,7 +20,8 @@ class pio_string {
 	private:
 		/// Widechar to internal data repesentation converter
 		void wchar_to_data(
-			const wchar_t *text ///< widechar data
+			const wchar_t *text, ///< widechar data
+			int len = -1     ///< widechar length
 		);
 		/// Internal data to widechar representation conveter.
 		/// writes to this->wstr
@@ -31,11 +32,22 @@ class pio_string {
 		/// Dummy consructor.
 		pio_string();
 		/// Contructor from widechar string.
-		pio_string(const wchar_t *);
+		pio_string(
+			const wchar_t *source ///< source string to convert from
+		);
 		/// Constructor from refular c string.
-		pio_string(const char *);
+		pio_string(
+			const char *source ///< source string to convert from
+		);
+		/// Constructor from refular c string with limited length.
+		pio_string(
+			const char *source, ///< source string to convert from
+			size_t len          ///< max length of convertin string
+		);
 		/// Constructor from unsigned char c string.
-		pio_string(const unsigned char *);
+		pio_string(
+			const unsigned char *source ///<  source string to covert from
+		);
 
 		/// Dummy destructor.
 		~pio_string();

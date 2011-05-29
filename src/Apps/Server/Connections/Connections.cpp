@@ -17,6 +17,9 @@ ServerConnections::~ServerConnections() {
 
 void ServerConnections::add_listen_socket(unsigned int sockfd) {
 	FD_SET(sockfd,&this->listen_socks);
+	if ((int)sockfd > this->listen_socks_max) {
+		this->listen_socks_max = sockfd;
+	}
 }
 
 
