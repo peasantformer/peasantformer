@@ -68,29 +68,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00006"></a><a class="code" href="class_server.html#ad5ec9462b520e59f7ea831e157ee5e59">00006</a> <a class="code" href="class_server.html#ad5ec9462b520e59f7ea831e157ee5e59" title="Main constructor.">Server::Server</a>() {
 <a name="l00007"></a>00007     this-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a> = <span class="keyword">new</span> <a class="code" href="class_server_connections.html" title="Connections management class.">ServerConnections</a>(<span class="keyword">this</span>);
 <a name="l00008"></a>00008     this-&gt;<a class="code" href="class_server.html#a2e388d9d523c2503b307e1901f945445" title="Network class.">network</a> = <span class="keyword">new</span> <a class="code" href="class_server_network.html" title="Server-side networking class.">ServerNetwork</a>(<span class="keyword">this</span>);
-<a name="l00009"></a>00009 }
-<a name="l00010"></a>00010 
-<a name="l00011"></a><a class="code" href="class_server.html#a4b3aa2579cb1c8cd1d069582c14d0fa6">00011</a> <a class="code" href="class_server.html#a4b3aa2579cb1c8cd1d069582c14d0fa6" title="Destructor.">Server::~Server</a>() {
-<a name="l00012"></a>00012     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>;
-<a name="l00013"></a>00013     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a2e388d9d523c2503b307e1901f945445" title="Network class.">network</a>;
-<a name="l00014"></a>00014 }
-<a name="l00015"></a>00015 
-<a name="l00016"></a>00016 
-<a name="l00019"></a><a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00019</a> <span class="keywordtype">int</span> <a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(
-<a name="l00020"></a>00020     <span class="keywordtype">int</span> argc,   
-<a name="l00021"></a>00021     <span class="keywordtype">char</span> **argv 
-<a name="l00022"></a>00022 ) {
-<a name="l00023"></a>00023 <span class="preprocessor">#ifdef _WIN32</span>
-<a name="l00024"></a>00024 <span class="preprocessor"></span>    pthread_win32_process_attach_np();
-<a name="l00025"></a>00025 <span class="preprocessor">#endif</span>
-<a name="l00026"></a>00026 <span class="preprocessor"></span>
-<a name="l00027"></a>00027     <a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *engine = <span class="keyword">new</span> <a class="code" href="class_server.html" title="Server side meta-class.">Server</a>;
-<a name="l00028"></a>00028     
+<a name="l00009"></a>00009     this-&gt;<a class="code" href="class_server.html#a6369c3e4c3346675ff8b5dd664a7d59d" title="Connection server.">connection_server</a> = <span class="keyword">new</span> <a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a>(<span class="keyword">this</span>);
+<a name="l00010"></a>00010     this-&gt;<a class="code" href="class_server.html#ab60d194698eb3732158663aa35b6887f" title="LoginServer.">login_server</a> = <span class="keyword">new</span> <a class="code" href="class_login_server.html" title="Login managing server.">LoginServer</a>(<span class="keyword">this</span>);
+<a name="l00011"></a>00011     this-&gt;<a class="code" href="class_server.html#a854e2f0b2316a4fb4c6af9f3ecfaeb78" title="WorldInteractorServer.">winteract_server</a> = <span class="keyword">new</span> <a class="code" href="class_world_interactor_server.html" title="World interacting server.">WorldInteractorServer</a>(<span class="keyword">this</span>);
+<a name="l00012"></a>00012 }
+<a name="l00013"></a>00013 
+<a name="l00014"></a><a class="code" href="class_server.html#a4b3aa2579cb1c8cd1d069582c14d0fa6">00014</a> <a class="code" href="class_server.html#a4b3aa2579cb1c8cd1d069582c14d0fa6" title="Destructor.">Server::~Server</a>() {
+<a name="l00015"></a>00015     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>;
+<a name="l00016"></a>00016     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a2e388d9d523c2503b307e1901f945445" title="Network class.">network</a>;
+<a name="l00017"></a>00017     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a6369c3e4c3346675ff8b5dd664a7d59d" title="Connection server.">connection_server</a>;
+<a name="l00018"></a>00018     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#ab60d194698eb3732158663aa35b6887f" title="LoginServer.">login_server</a>;
+<a name="l00019"></a>00019     <span class="keyword">delete</span> this-&gt;<a class="code" href="class_server.html#a854e2f0b2316a4fb4c6af9f3ecfaeb78" title="WorldInteractorServer.">winteract_server</a>;
+<a name="l00020"></a>00020 }
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00025"></a><a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00025</a> <span class="keywordtype">int</span> <a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(
+<a name="l00026"></a>00026     <span class="keywordtype">int</span> argc,   
+<a name="l00027"></a>00027     <span class="keywordtype">char</span> **argv 
+<a name="l00028"></a>00028 ) {
 <a name="l00029"></a>00029 <span class="preprocessor">#ifdef _WIN32</span>
-<a name="l00030"></a>00030 <span class="preprocessor"></span>    pthread_win32_process_detach_np();
+<a name="l00030"></a>00030 <span class="preprocessor"></span>    pthread_win32_process_attach_np();
 <a name="l00031"></a>00031 <span class="preprocessor">#endif</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span>    <span class="keywordflow">return</span> 0;
-<a name="l00033"></a>00033 }
+<a name="l00032"></a>00032 <span class="preprocessor"></span>
+<a name="l00033"></a>00033     <a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *engine = <span class="keyword">new</span> <a class="code" href="class_server.html" title="Server side meta-class.">Server</a>;
+<a name="l00034"></a>00034     engine-&gt;<a class="code" href="class_server.html#a2e388d9d523c2503b307e1901f945445" title="Network class.">network</a>-&gt;<a class="code" href="class_server_network.html#a80342efe04c90e47495a4387bc54c1be" title="Sets up listening server on specified address and port.">setup</a>(<span class="stringliteral">&quot;&quot;</span>,<span class="stringliteral">&quot;50600&quot;</span>);
+<a name="l00035"></a>00035     pthread_t connection_server_thread = engine-&gt;<a class="code" href="class_server.html#a6369c3e4c3346675ff8b5dd664a7d59d" title="Connection server.">connection_server</a>-&gt;<a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">setup</a>();
+<a name="l00036"></a>00036     pthread_t login_server_thread = engine-&gt;<a class="code" href="class_server.html#ab60d194698eb3732158663aa35b6887f" title="LoginServer.">login_server</a>-&gt;<a class="code" href="class_login_server.html#a830fcee8b1d3bb527588b136f788ecaa">setup</a>();
+<a name="l00037"></a>00037     pthread_t winteract_server_thread = engine-&gt;<a class="code" href="class_server.html#a854e2f0b2316a4fb4c6af9f3ecfaeb78" title="WorldInteractorServer.">winteract_server</a>-&gt;<a class="code" href="class_world_interactor_server.html#a3f8ab413d619ba7f21ccc0694ec7b99b">setup</a>();
+<a name="l00038"></a>00038     
+<a name="l00039"></a>00039     pthread_join(connection_server_thread,NULL);
+<a name="l00040"></a>00040     pthread_join(login_server_thread,NULL);
+<a name="l00041"></a>00041     pthread_join(winteract_server_thread,NULL);
+<a name="l00042"></a>00042     
+<a name="l00043"></a>00043     <span class="keyword">delete</span> engine;
+<a name="l00044"></a>00044 <span class="preprocessor">#ifdef _WIN32</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>    pthread_win32_process_detach_np();
+<a name="l00046"></a>00046 <span class="preprocessor">#endif</span>
+<a name="l00047"></a>00047 <span class="preprocessor"></span>    <span class="keywordflow">return</span> 0;
+<a name="l00048"></a>00048 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -107,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

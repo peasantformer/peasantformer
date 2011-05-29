@@ -65,19 +65,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 This is the complete list of members for <a class="el" href="class_server_connections.html">ServerConnections</a>, including all inherited members.<table>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a231e61b1e69dca4ab15567ab444698a1">accept_pending_connection</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#abc64deb222a88f879b3272988170e9ee">accept_pending_connection</a>(unsigned int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a70239aac0c49b6a5f4046a7d6d443bc5">accepted_connections</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a48550dc8f70e93bbbe020b0fade941d3">accepted_socks</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#afc41d9b86652fa5b2591ee9a8229b656">accepted_socks_max</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#ac43d1d5f2d500d867fac174f41da32e3">add_listen_socket</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a552d7910eea62e0d784f78eb97b9e78b">add_pending_connection</a>(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a23e30383da12ab997759b162917bba71">drop_accepted_connection</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a8bf6d5024dadc3cba62b6ee698b7db6c">drop_pending_connection</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a618b220d0e6b3e185f7a5fab5ac546bd">add_listen_socket</a>(unsigned int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#aef7d918f7863cbb3cc0d4883ccef6125">add_pending_connection</a>(unsigned int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a36486d980b17aba82143c13f9193d910">drop_accepted_connection</a>(unsigned int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a62c168ad39c2e47dedae3dd4cc4e36f1">drop_pending_connection</a>(unsigned int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a486faf5fa6207dd908265756f5eee4a5">engine</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a733691761dd1b2729f8a1537910c7224">get_accepted_socks_fd_set</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a3334ad689329f7b080cb293144e67dc1">get_accepted_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#ad897838b6275290c88af8f0380835053">get_listen_socks_fd_set</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a7c45a5e2714f904f71756265273f1e84">get_listen_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a3e50dbc8580a012415296ef748cb65af">get_pending_connection</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a98c087e2d9075ce1e82134da1b372191">get_pending_socks_fd_set</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a5bd51b2892a45913e56bd6e1f1151864">get_pending_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a58b9e80cc6f435d100d7b93fabec2563">listen_socks</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#ad8a42f99651d6ace517359273624a9bb">listen_socks_max</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#aa7b21b257b6936178ff6d8b8fc7f427c">operator[]</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
@@ -101,7 +104,7 @@ This is the complete list of members for <a class="el" href="class_server_connec
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:58 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

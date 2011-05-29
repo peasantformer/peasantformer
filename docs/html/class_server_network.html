@@ -78,14 +78,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83cc9897480a010f2ca25462200971a8"></a><!-- doxytag: member="ServerNetwork::ServerNetwork" ref="a83cc9897480a010f2ca25462200971a8" args="(Server *srvr)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a83cc9897480a010f2ca25462200971a8">ServerNetwork</a> (<a class="el" href="class_server.html">Server</a> *srvr)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a83cc9897480a010f2ca25462200971a8">ServerNetwork</a> (<a class="el" href="class_server.html">Server</a> *srvr)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a83cc9897480a010f2ca25462200971a8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a492e063c7ef70ec220ebf4a2e55feded"></a><!-- doxytag: member="ServerNetwork::~ServerNetwork" ref="a492e063c7ef70ec220ebf4a2e55feded" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a492e063c7ef70ec220ebf4a2e55feded">~ServerNetwork</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a9eca99887cceeac8c1a5d14a2815a9fd">setup_server_on_address_port</a> (<a class="el" href="classpio__string.html">pio_string</a> address, <a class="el" href="classpio__string.html">pio_string</a> port)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up listening server on specified address and port.  <a href="#a9eca99887cceeac8c1a5d14a2815a9fd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a80342efe04c90e47495a4387bc54c1be">setup</a> (<a class="el" href="classpio__string.html">pio_string</a> address, <a class="el" href="classpio__string.html">pio_string</a> port)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up listening server on specified address and port.  <a href="#a80342efe04c90e47495a4387bc54c1be"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#affc79d016aaa7817421ae86449dee2b4">get_ipv4_socket</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a71cce1d1be887969f9c2e6b9285ab330">get_ipv6_socket</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
@@ -114,7 +113,35 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="textblock"><p>Server-side networking class. </p>
 
 <p>Definition at line <a class="el" href="_apps_2_server_2_network_2_network_8h_source.html#l00013">13</a> of file <a class="el" href="_apps_2_server_2_network_2_network_8h_source.html">Network.h</a>.</p>
-</div><hr/><h2>Member Function Documentation</h2>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a83cc9897480a010f2ca25462200971a8"></a><!-- doxytag: member="ServerNetwork::ServerNetwork" ref="a83cc9897480a010f2ca25462200971a8" args="(Server *srvr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ServerNetwork::ServerNetwork </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_server.html">Server</a> *&#160;</td>
+          <td class="paramname"><em>srvr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Constructor. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">srvr</td><td><a class="el" href="class_server.html" title="Server side meta-class.">Server</a> class instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_apps_2_server_2_network_2_network_8cpp_source.html#l00003">3</a> of file <a class="el" href="_apps_2_server_2_network_2_network_8cpp_source.html">Network.cpp</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="affc79d016aaa7817421ae86449dee2b4"></a><!-- doxytag: member="ServerNetwork::get_ipv4_socket" ref="affc79d016aaa7817421ae86449dee2b4" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -151,12 +178,12 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a9eca99887cceeac8c1a5d14a2815a9fd"></a><!-- doxytag: member="ServerNetwork::setup_server_on_address_port" ref="a9eca99887cceeac8c1a5d14a2815a9fd" args="(pio_string address, pio_string port)" -->
+<a class="anchor" id="a80342efe04c90e47495a4387bc54c1be"></a><!-- doxytag: member="ServerNetwork::setup" ref="a80342efe04c90e47495a4387bc54c1be" args="(pio_string address, pio_string port)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ServerNetwork::setup_server_on_address_port </td>
+          <td class="memname">void ServerNetwork::setup </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classpio__string.html">pio_string</a>&#160;</td>
           <td class="paramname"><em>address</em>, </td>
@@ -284,7 +311,7 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:58 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

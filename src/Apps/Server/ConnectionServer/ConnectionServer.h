@@ -3,6 +3,8 @@
 
 /// @file
 
+class ConnectionServer;
+
 #include <pthread.h>
 #include <Apps/Server/Server.h>
 #include <Proto/Network/NetworkHighLevel.h>
@@ -19,7 +21,9 @@ class ConnectionServer {
 		);
 	public:
 		/// Constructor.
-		ConnectionServer(Server *srvr);
+		ConnectionServer(
+			Server *srvr ///< Servr instance.
+		);
 		/// Destructor.
 		~ConnectionServer();
 	public:

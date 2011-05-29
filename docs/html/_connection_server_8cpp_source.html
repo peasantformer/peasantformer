@@ -64,28 +64,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &quot;<a class="code" href="_connection_server_8h.html">ConnectionServer.h</a>&quot;</span>
 <a name="l00002"></a>00002 
 <a name="l00003"></a><a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">00003</a> <span class="keywordtype">void</span> *<a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">ConnectionServer::connection_server</a>(<span class="keywordtype">void</span> *data) {
-<a name="l00004"></a>00004     pthread_exit(NULL);
-<a name="l00005"></a>00005     <span class="keywordflow">return</span> NULL;
-<a name="l00006"></a>00006 }
-<a name="l00007"></a>00007 
-<a name="l00008"></a><a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e">00008</a> <a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e" title="Constructor.">ConnectionServer::ConnectionServer</a>(<a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *srvr) {
-<a name="l00009"></a>00009 }
-<a name="l00010"></a>00010 
-<a name="l00011"></a><a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96">00011</a> <a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96" title="Destructor.">ConnectionServer::~ConnectionServer</a>() {
-<a name="l00012"></a>00012 }
-<a name="l00013"></a>00013 
-<a name="l00014"></a><a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">00014</a> pthread_t <a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">ConnectionServer::setup</a>() {
-<a name="l00015"></a>00015     pthread_t connection_server_thread;
-<a name="l00016"></a>00016     pthread_attr_t attr;
-<a name="l00017"></a>00017     
-<a name="l00018"></a>00018     pthread_attr_init(&amp;attr);
-<a name="l00019"></a>00019     pthread_attr_setdetachstate(&amp;attr,PTHREAD_CREATE_DETACHED);
-<a name="l00020"></a>00020     
-<a name="l00021"></a>00021     pthread_create(&amp;connection_server_thread,&amp;attr,<a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">connection_server</a>,<span class="keyword">this</span>);
-<a name="l00022"></a>00022     pthread_attr_destroy(&amp;attr);
-<a name="l00023"></a>00023     
-<a name="l00024"></a>00024     <span class="keywordflow">return</span> connection_server_thread;
-<a name="l00025"></a>00025 }
+<a name="l00004"></a>00004     <a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a> *connserver = (<a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a>*)data;
+<a name="l00005"></a>00005     
+<a name="l00006"></a>00006     <span class="keyword">struct </span>sockaddr_storage remote_addr;
+<a name="l00007"></a>00007     socklen_t addrlen;
+<a name="l00008"></a>00008     <span class="keywordtype">int</span> remote_sock;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010     fd_set read_fds;
+<a name="l00011"></a>00011     fd_set real_fds;
+<a name="l00012"></a>00012     
+<a name="l00013"></a>00013     <span class="keywordflow">while</span> (<span class="keyword">true</span>) {
+<a name="l00014"></a>00014         real_fds = connserver-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#ad897838b6275290c88af8f0380835053">get_listen_socks_fd_set</a>(); 
+<a name="l00015"></a>00015         read_fds = real_fds;
+<a name="l00016"></a>00016         <a class="code" href="_proto_2_network_2_network_8cpp.html#a0291e4febc38654fb6eec5c5c9664301">pn_select</a>(connserver-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#a7c45a5e2714f904f71756265273f1e84">get_listen_socks_max</a>() + 1, &amp;read_fds, NULL, NULL, NULL);
+<a name="l00017"></a>00017         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt;= connserver-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#a7c45a5e2714f904f71756265273f1e84">get_listen_socks_max</a>(); i++) {
+<a name="l00018"></a>00018             <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;real_fds)) <span class="keywordflow">continue</span>;
+<a name="l00019"></a>00019             addrlen = <span class="keyword">sizeof</span>(remote_addr);
+<a name="l00020"></a>00020             remote_sock = <a class="code" href="_proto_2_network_2_network_8cpp.html#a83d17211f8d0b542855d334834771ac5">pn_accept</a>(i,(<span class="keyword">struct</span> sockaddr *)&amp;remote_addr,&amp;addrlen);
+<a name="l00021"></a>00021             connserver-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#aef7d918f7863cbb3cc0d4883ccef6125" title="Adds pending connection to pending connection list.">add_pending_connection</a>(remote_sock,remote_addr,connserver-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>-&gt;<a class="code" href="class_server.html#af50c0b66f357963cce721557d71c9e61" title="default buffers size">buffsize</a>);
+<a name="l00022"></a>00022         }
+<a name="l00023"></a>00023     }
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025     pthread_exit(NULL);
+<a name="l00026"></a>00026     <span class="keywordflow">return</span> NULL;
+<a name="l00027"></a>00027 }
+<a name="l00028"></a>00028 
+<a name="l00029"></a><a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e">00029</a> <a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e" title="Constructor.">ConnectionServer::ConnectionServer</a>(<a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *srvr) {
+<a name="l00030"></a>00030     this-&gt;<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a> = srvr;
+<a name="l00031"></a>00031 }
+<a name="l00032"></a>00032 
+<a name="l00033"></a><a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96">00033</a> <a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96" title="Destructor.">ConnectionServer::~ConnectionServer</a>() {
+<a name="l00034"></a>00034 }
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">00036</a> pthread_t <a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">ConnectionServer::setup</a>() {
+<a name="l00037"></a>00037     pthread_t connection_server_thread;
+<a name="l00038"></a>00038     pthread_attr_t attr;
+<a name="l00039"></a>00039     
+<a name="l00040"></a>00040     pthread_attr_init(&amp;attr);
+<a name="l00041"></a>00041     pthread_attr_setdetachstate(&amp;attr,PTHREAD_CREATE_JOINABLE);
+<a name="l00042"></a>00042     
+<a name="l00043"></a>00043     pthread_create(&amp;connection_server_thread,&amp;attr,<a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">connection_server</a>,<span class="keyword">this</span>);
+<a name="l00044"></a>00044     pthread_attr_destroy(&amp;attr);
+<a name="l00045"></a>00045     
+<a name="l00046"></a>00046     <span class="keywordflow">return</span> connection_server_thread;
+<a name="l00047"></a>00047 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -102,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -41,9 +41,11 @@ int ServerNetwork::setup_server_on_ipv6_address_port(pio_string address,pio_stri
 	return 0;
 }
 
-void ServerNetwork::setup_server_on_address_port(pio_string address, pio_string port) {
+void ServerNetwork::setup(pio_string address, pio_string port) {
 #ifndef IPV6_V6ONLY
 	setup_server_on_ipv4_address_port(address,port);
+#else
+	printf("[ipv4] Your system supports dula-ip stack. Seperate ipv4 socket is not needed\n");
 #endif
 	setup_server_on_ipv6_address_port(address,port);
 }

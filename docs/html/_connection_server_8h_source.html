@@ -65,25 +65,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define PEASANTFORMER_Apps_Server_ConnectionServer</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
 <a name="l00005"></a>00005 
-<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
-<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;Apps/Server/Server.h&gt;</span>
-<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;Proto/Network/NetworkHighLevel.h&gt;</span>
-<a name="l00009"></a>00009 
-<a name="l00011"></a><a class="code" href="class_connection_server.html">00011</a> <span class="keyword">class </span><a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a> {
-<a name="l00012"></a>00012     <span class="keyword">private</span>:
-<a name="l00013"></a><a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73">00013</a>         <a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>; 
+<a name="l00006"></a>00006 <span class="keyword">class </span><a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a>;
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &lt;Apps/Server/Server.h&gt;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;Proto/Network/NetworkHighLevel.h&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00013"></a><a class="code" href="class_connection_server.html">00013</a> <span class="keyword">class </span><a class="code" href="class_connection_server.html" title="Connection managing server.">ConnectionServer</a> {
 <a name="l00014"></a>00014     <span class="keyword">private</span>:
-<a name="l00017"></a>00017         <span class="keyword">static</span> <span class="keywordtype">void</span> *<a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">connection_server</a>(
-<a name="l00018"></a>00018             <span class="keywordtype">void</span> *data 
-<a name="l00019"></a>00019         );
-<a name="l00020"></a>00020     <span class="keyword">public</span>:
-<a name="l00022"></a>00022         <a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e" title="Constructor.">ConnectionServer</a>(<a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *srvr);
-<a name="l00024"></a>00024         <a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96" title="Destructor.">~ConnectionServer</a>();
-<a name="l00025"></a>00025     <span class="keyword">public</span>:
-<a name="l00028"></a>00028         pthread_t <a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">setup</a>();
-<a name="l00029"></a>00029 };
-<a name="l00030"></a>00030 
-<a name="l00031"></a>00031 <span class="preprocessor">#endif</span>
+<a name="l00015"></a><a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73">00015</a>         <a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *<a class="code" href="class_connection_server.html#ad4fa16b948dd493b805c6935d4f39d73" title="Server instance.">engine</a>; 
+<a name="l00016"></a>00016     <span class="keyword">private</span>:
+<a name="l00019"></a>00019         <span class="keyword">static</span> <span class="keywordtype">void</span> *<a class="code" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">connection_server</a>(
+<a name="l00020"></a>00020             <span class="keywordtype">void</span> *data 
+<a name="l00021"></a>00021         );
+<a name="l00022"></a>00022     <span class="keyword">public</span>:
+<a name="l00024"></a>00024         <a class="code" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e" title="Constructor.">ConnectionServer</a>(
+<a name="l00025"></a>00025             <a class="code" href="class_server.html" title="Server side meta-class.">Server</a> *srvr 
+<a name="l00026"></a>00026         );
+<a name="l00028"></a>00028         <a class="code" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96" title="Destructor.">~ConnectionServer</a>();
+<a name="l00029"></a>00029     <span class="keyword">public</span>:
+<a name="l00032"></a>00032         pthread_t <a class="code" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">setup</a>();
+<a name="l00033"></a>00033 };
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -100,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

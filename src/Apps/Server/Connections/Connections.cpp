@@ -15,33 +15,34 @@ ServerConnections::ServerConnections(Server *srvr) {
 ServerConnections::~ServerConnections() {
 }
 
-void ServerConnections::add_listen_socket(int sockfd) {
+void ServerConnections::add_listen_socket(unsigned int sockfd) {
 	FD_SET(sockfd,&this->listen_socks);
 }
 
-void ServerConnections::add_pending_connection(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize) {
+
+void ServerConnections::add_pending_connection(unsigned int sockfd, struct sockaddr_storage remote_addr, size_t buffsize) {
 	this->pending_connections[sockfd] = ConnectionPending(sockfd,remote_addr,buffsize);
 	FD_SET(sockfd,&this->pending_socks);
-	if (sockfd > this->pending_socks_max) {
+	if ((int)sockfd > this->pending_socks_max) {
 		this->pending_socks_max = sockfd;
 	}
 }
-void ServerConnections::accept_pending_connection(int sockfd) {
+void ServerConnections::accept_pending_connection(unsigned int sockfd) {
 	this->accepted_connections[sockfd] = ConnectionAccepted(this->pending_connections[sockfd]);
 	this->pending_connections.erase(sockfd);
 	FD_CLR(sockfd,&this->pending_socks);
 	FD_SET(sockfd,&this->accepted_socks);
-	if (sockfd > this->accepted_socks_max) {
+	if ((int)sockfd > this->accepted_socks_max) {
 		this->accepted_socks_max = sockfd;
 	}
 }
 
-void ServerConnections::drop_pending_connection(int sockfd) {
+void ServerConnections::drop_pending_connection(unsigned int sockfd) {
 	this->pending_connections.erase(sockfd);
 	FD_CLR(sockfd,&this->pending_socks);
 }
 
-void ServerConnections::drop_accepted_connection(int sockfd) {
+void ServerConnections::drop_accepted_connection(unsigned int sockfd) {
 	this->accepted_connections.erase(sockfd);
 	FD_CLR(sockfd,&this->accepted_socks);
 }
@@ -64,4 +65,16 @@ fd_set ServerConnections::get_accepted_socks_fd_set() {
 
 fd_set ServerConnections::get_listen_socks_fd_set() {
 	return this->listen_socks;
+}
+
+int ServerConnections::get_listen_socks_max() {
+	return this->listen_socks_max;
+}
+
+int ServerConnections::get_pending_socks_max() {
+	return this->pending_socks_max;
+}
+
+int ServerConnections::get_accepted_socks_max() {
+	return this->accepted_socks_max;
 }

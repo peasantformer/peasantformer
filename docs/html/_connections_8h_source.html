@@ -93,22 +93,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00033"></a>00033         );
 <a name="l00035"></a>00035         <a class="code" href="class_server_connections.html#a237f6210a793b829ec465ffcbb933383" title="Destructor.">~ServerConnections</a>();
 <a name="l00036"></a>00036     <span class="keyword">public</span>:
-<a name="l00038"></a>00038         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#ac43d1d5f2d500d867fac174f41da32e3" title="Adds listen socket.">add_listen_socket</a>(
-<a name="l00039"></a>00039             <span class="keywordtype">int</span> sockfd 
+<a name="l00038"></a>00038         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a618b220d0e6b3e185f7a5fab5ac546bd" title="Adds listen socket.">add_listen_socket</a>(
+<a name="l00039"></a>00039             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sockfd 
 <a name="l00040"></a>00040         );
-<a name="l00042"></a>00042         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a552d7910eea62e0d784f78eb97b9e78b" title="Adds pending connection to pending connection list.">add_pending_connection</a>(
-<a name="l00043"></a>00043             <span class="keywordtype">int</span> sockfd,                          
+<a name="l00042"></a>00042         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#aef7d918f7863cbb3cc0d4883ccef6125" title="Adds pending connection to pending connection list.">add_pending_connection</a>(
+<a name="l00043"></a>00043             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sockfd,                 
 <a name="l00044"></a>00044             <span class="keyword">struct</span> sockaddr_storage remote_addr, 
 <a name="l00045"></a>00045             <span class="keywordtype">size_t</span> buffsize                      
 <a name="l00046"></a>00046         );
-<a name="l00048"></a>00048         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a231e61b1e69dca4ab15567ab444698a1" title="Accepts pending conection and promotes it to &amp;quot;accepted&amp;quot; state.">accept_pending_connection</a>(
-<a name="l00049"></a>00049             <span class="keywordtype">int</span> sockfd 
+<a name="l00048"></a>00048         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#abc64deb222a88f879b3272988170e9ee" title="Accepts pending conection and promotes it to &amp;quot;accepted&amp;quot; state.">accept_pending_connection</a>(
+<a name="l00049"></a>00049             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sockfd 
 <a name="l00050"></a>00050         );
-<a name="l00052"></a>00052         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a8bf6d5024dadc3cba62b6ee698b7db6c" title="Drops existing pending connection.">drop_pending_connection</a>(
-<a name="l00053"></a>00053             <span class="keywordtype">int</span> sockfd 
+<a name="l00052"></a>00052         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a62c168ad39c2e47dedae3dd4cc4e36f1" title="Drops existing pending connection.">drop_pending_connection</a>(
+<a name="l00053"></a>00053             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sockfd 
 <a name="l00054"></a>00054         );
-<a name="l00056"></a>00056         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a23e30383da12ab997759b162917bba71" title="Drops existing accepted connection.">drop_accepted_connection</a>(
-<a name="l00057"></a>00057             <span class="keywordtype">int</span> sockfd 
+<a name="l00056"></a>00056         <span class="keywordtype">void</span> <a class="code" href="class_server_connections.html#a36486d980b17aba82143c13f9193d910" title="Drops existing accepted connection.">drop_accepted_connection</a>(
+<a name="l00057"></a>00057             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sockfd 
 <a name="l00058"></a>00058         );
 <a name="l00061"></a>00061         <a class="code" href="class_connection_accepted.html" title="Accepted connection class.">ConnectionAccepted</a> &amp; <a class="code" href="class_server_connections.html#aa7b21b257b6936178ff6d8b8fc7f427c">operator[] </a>(
 <a name="l00062"></a>00062             <span class="keywordtype">int</span> i 
@@ -123,9 +123,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00075"></a>00075         fd_set <a class="code" href="class_server_connections.html#a98c087e2d9075ce1e82134da1b372191">get_pending_socks_fd_set</a>();
 <a name="l00076"></a>00076         
 <a name="l00078"></a>00078         fd_set <a class="code" href="class_server_connections.html#ad897838b6275290c88af8f0380835053">get_listen_socks_fd_set</a>();
-<a name="l00079"></a>00079 };
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="preprocessor">#endif</span>
+<a name="l00079"></a>00079         
+<a name="l00081"></a>00081         <span class="keywordtype">int</span> <a class="code" href="class_server_connections.html#a7c45a5e2714f904f71756265273f1e84">get_listen_socks_max</a>();
+<a name="l00082"></a>00082         
+<a name="l00084"></a>00084         <span class="keywordtype">int</span> <a class="code" href="class_server_connections.html#a5bd51b2892a45913e56bd6e1f1151864">get_pending_socks_max</a>();
+<a name="l00085"></a>00085         
+<a name="l00087"></a>00087         <span class="keywordtype">int</span> <a class="code" href="class_server_connections.html#a3334ad689329f7b080cb293144e67dc1">get_accepted_socks_max</a>();
+<a name="l00088"></a>00088 };
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -142,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

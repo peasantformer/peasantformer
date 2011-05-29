@@ -34,13 +34,13 @@ class ServerNetwork {
 	public:
 		/// Constructor
 		ServerNetwork(
-			Server *srvr // Server class instance.
+			Server *srvr ///< Server class instance.
 		);
 		/// Destructor
 		~ServerNetwork();
 	public:
 		/// Sets up listening server on specified address and port
-		void setup_server_on_address_port(
+		void setup(
 			pio_string address, ///< [in] address to bind
 			pio_string port     ///< [in] port to bind
 		);

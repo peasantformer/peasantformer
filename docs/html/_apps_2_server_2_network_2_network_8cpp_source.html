@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00021"></a>00021     }
 <a name="l00022"></a>00022     printf(<span class="stringliteral">&quot;[ipv4] Peasantformer server successfuly binded at %s:%s\n&quot;</span>,this-&gt;<a class="code" href="class_server_network.html#ad257bdd8d896376125a291887ad9e555" title="bind ipv4 address literal">ipv4_addr_literal</a>,port.<a class="code" href="classpio__string.html#a6db4f48d7a67a04e3bbeccf3e2e98117">c_str</a>());
 <a name="l00023"></a>00023     <a class="code" href="_proto_2_network_2_network_8cpp.html#a31519c72de510a20abce0c88c45bfa3f">pn_listen</a>(this-&gt;<a class="code" href="class_server_network.html#a07071809a55d651d802907001e877fd6" title="ipv4 socket file descriptor">ipv4_socket</a>,10);
-<a name="l00024"></a>00024     this-&gt;<a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3" title="server class instance">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#ac43d1d5f2d500d867fac174f41da32e3" title="Adds listen socket.">add_listen_socket</a>(this-&gt;<a class="code" href="class_server_network.html#a07071809a55d651d802907001e877fd6" title="ipv4 socket file descriptor">ipv4_socket</a>);
+<a name="l00024"></a>00024     this-&gt;<a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3" title="server class instance">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#a618b220d0e6b3e185f7a5fab5ac546bd" title="Adds listen socket.">add_listen_socket</a>(this-&gt;<a class="code" href="class_server_network.html#a07071809a55d651d802907001e877fd6" title="ipv4 socket file descriptor">ipv4_socket</a>);
 <a name="l00025"></a>00025     <span class="keywordflow">return</span> 0;
 <a name="l00026"></a>00026 }
 <a name="l00027"></a>00027 
@@ -100,16 +100,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00037"></a>00037     }
 <a name="l00038"></a>00038     printf(<span class="stringliteral">&quot;[ipv6] Peasantformer server successfuly binded at %s:%s\n&quot;</span>,this-&gt;<a class="code" href="class_server_network.html#a7ec1182f2efcb7285fe08527bbbc62b0" title="bind ipv6 address literal">ipv6_addr_literal</a>,port.<a class="code" href="classpio__string.html#a6db4f48d7a67a04e3bbeccf3e2e98117">c_str</a>());
 <a name="l00039"></a>00039     <a class="code" href="_proto_2_network_2_network_8cpp.html#a31519c72de510a20abce0c88c45bfa3f">pn_listen</a>(this-&gt;<a class="code" href="class_server_network.html#ad632b727a48fd499a21ffb72849f677e" title="ipv6socket file descriptor">ipv6_socket</a>,10);
-<a name="l00040"></a>00040     this-&gt;<a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3" title="server class instance">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#ac43d1d5f2d500d867fac174f41da32e3" title="Adds listen socket.">add_listen_socket</a>(this-&gt;<a class="code" href="class_server_network.html#ad632b727a48fd499a21ffb72849f677e" title="ipv6socket file descriptor">ipv6_socket</a>);
+<a name="l00040"></a>00040     this-&gt;<a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3" title="server class instance">engine</a>-&gt;<a class="code" href="class_server.html#a3dbc98052ca613a486f1545dd9f7ec54" title="Connections.">connections</a>-&gt;<a class="code" href="class_server_connections.html#a618b220d0e6b3e185f7a5fab5ac546bd" title="Adds listen socket.">add_listen_socket</a>(this-&gt;<a class="code" href="class_server_network.html#ad632b727a48fd499a21ffb72849f677e" title="ipv6socket file descriptor">ipv6_socket</a>);
 <a name="l00041"></a>00041     <span class="keywordflow">return</span> 0;
 <a name="l00042"></a>00042 }
 <a name="l00043"></a>00043 
-<a name="l00044"></a><a class="code" href="class_server_network.html#a9eca99887cceeac8c1a5d14a2815a9fd">00044</a> <span class="keywordtype">void</span> <a class="code" href="class_server_network.html#a9eca99887cceeac8c1a5d14a2815a9fd" title="Sets up listening server on specified address and port.">ServerNetwork::setup_server_on_address_port</a>(<a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> address, <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> port) {
+<a name="l00044"></a><a class="code" href="class_server_network.html#a80342efe04c90e47495a4387bc54c1be">00044</a> <span class="keywordtype">void</span> <a class="code" href="class_server_network.html#a80342efe04c90e47495a4387bc54c1be" title="Sets up listening server on specified address and port.">ServerNetwork::setup</a>(<a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> address, <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> port) {
 <a name="l00045"></a>00045 <span class="preprocessor">#ifndef IPV6_V6ONLY</span>
 <a name="l00046"></a>00046 <span class="preprocessor"></span>    <a class="code" href="class_server_network.html#a20a75f4f055098a3f06085b9d93ea38c">setup_server_on_ipv4_address_port</a>(address,port);
-<a name="l00047"></a>00047 <span class="preprocessor">#endif</span>
-<a name="l00048"></a>00048 <span class="preprocessor"></span>    <a class="code" href="class_server_network.html#a1cdaa15608c0767c8adf3f225c5e597f">setup_server_on_ipv6_address_port</a>(address,port);
-<a name="l00049"></a>00049 }
+<a name="l00047"></a>00047 <span class="preprocessor">#else</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span>    printf(<span class="stringliteral">&quot;[ipv4] Your system supports dula-ip stack. Seperate ipv4 socket is not needed\n&quot;</span>);
+<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>    <a class="code" href="class_server_network.html#a1cdaa15608c0767c8adf3f225c5e597f">setup_server_on_ipv6_address_port</a>(address,port);
+<a name="l00051"></a>00051 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -126,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 15:34:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>
