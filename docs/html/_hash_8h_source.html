@@ -69,68 +69,68 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00007"></a>00007 <span class="preprocessor">#include &lt;Proto/PlainIO/PlainIOHighLevel.h&gt;</span>
 <a name="l00008"></a>00008 
 <a name="l00010"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d">00010</a> <span class="keyword">enum</span> <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d" title="Hash holder type enum.">HashHolderType</a> {
-<a name="l00011"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da4fe23e30eda087b1679cb78604e5d470">00011</a>         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da4fe23e30eda087b1679cb78604e5d470" title="Holder is NULL.">HASHHOLDER_NULL</a>, 
-<a name="l00012"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da1c5c71c9b6e5331d05071dd9624d34ba">00012</a>         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da1c5c71c9b6e5331d05071dd9624d34ba" title="Holder is int.">HASHHOLDER_INT</a>, 
-<a name="l00013"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da6909597637cdf89661f4a1bea7637663">00013</a>         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da6909597637cdf89661f4a1bea7637663" title="Holder is double.">HASHHOLDER_DOUBLE</a>, 
-<a name="l00014"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2dac2333387736fb5b828c59bb43526ec06">00014</a>         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2dac2333387736fb5b828c59bb43526ec06" title="holder is text">HASHHOLDER_TEXT</a> 
+<a name="l00011"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da4fe23e30eda087b1679cb78604e5d470">00011</a>     <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da4fe23e30eda087b1679cb78604e5d470" title="Holder is NULL.">HASHHOLDER_NULL</a>, 
+<a name="l00012"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da1c5c71c9b6e5331d05071dd9624d34ba">00012</a>     <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da1c5c71c9b6e5331d05071dd9624d34ba" title="Holder is int.">HASHHOLDER_INT</a>, 
+<a name="l00013"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da6909597637cdf89661f4a1bea7637663">00013</a>     <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2da6909597637cdf89661f4a1bea7637663" title="Holder is double.">HASHHOLDER_DOUBLE</a>, 
+<a name="l00014"></a><a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2dac2333387736fb5b828c59bb43526ec06">00014</a>     <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2dac2333387736fb5b828c59bb43526ec06" title="holder is text">HASHHOLDER_TEXT</a> 
 <a name="l00015"></a>00015 };
 <a name="l00016"></a>00016 
 <a name="l00018"></a><a class="code" href="class_hash_holder.html">00018</a> <span class="keyword">class </span><a class="code" href="class_hash_holder.html" title="HashHolder class.">HashHolder</a> {
-<a name="l00019"></a>00019         <span class="keyword">private</span>:
-<a name="l00020"></a><a class="code" href="class_hash_holder.html#ab80a2c90fec6e6a55e3eef0f1c944749">00020</a>                 <span class="keywordtype">int</span> <a class="code" href="class_hash_holder.html#ab80a2c90fec6e6a55e3eef0f1c944749" title="int holder value">int_value</a>; 
-<a name="l00021"></a><a class="code" href="class_hash_holder.html#a57e9e6fa5104d82395c86875f46c155d">00021</a>                 <span class="keywordtype">double</span> <a class="code" href="class_hash_holder.html#a57e9e6fa5104d82395c86875f46c155d" title="double holder value">double_value</a>; 
-<a name="l00022"></a><a class="code" href="class_hash_holder.html#ae844bf82a6e75687d503c4bb1405e4fb">00022</a>                 <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash_holder.html#ae844bf82a6e75687d503c4bb1405e4fb" title="text holder value">text_value</a>; 
+<a name="l00019"></a>00019     <span class="keyword">private</span>:
+<a name="l00020"></a><a class="code" href="class_hash_holder.html#ab80a2c90fec6e6a55e3eef0f1c944749">00020</a>         <span class="keywordtype">int</span> <a class="code" href="class_hash_holder.html#ab80a2c90fec6e6a55e3eef0f1c944749" title="int holder value">int_value</a>; 
+<a name="l00021"></a><a class="code" href="class_hash_holder.html#a57e9e6fa5104d82395c86875f46c155d">00021</a>         <span class="keywordtype">double</span> <a class="code" href="class_hash_holder.html#a57e9e6fa5104d82395c86875f46c155d" title="double holder value">double_value</a>; 
+<a name="l00022"></a><a class="code" href="class_hash_holder.html#ae844bf82a6e75687d503c4bb1405e4fb">00022</a>         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash_holder.html#ae844bf82a6e75687d503c4bb1405e4fb" title="text holder value">text_value</a>; 
 <a name="l00023"></a>00023 
-<a name="l00024"></a><a class="code" href="class_hash_holder.html#a94da56935209e1a0ac0f6a970a05bc82">00024</a>                 <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d" title="Hash holder type enum.">HashHolderType</a> <a class="code" href="class_hash_holder.html#a94da56935209e1a0ac0f6a970a05bc82" title="holder type">type</a>; 
-<a name="l00025"></a>00025         <span class="keyword">public</span>:
-<a name="l00027"></a>00027                 <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>();
-<a name="l00029"></a>00029                 <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
-<a name="l00030"></a>00030                         <span class="keywordtype">int</span> value 
-<a name="l00031"></a>00031                 );
-<a name="l00033"></a>00033                 <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
-<a name="l00034"></a>00034                         <span class="keywordtype">double</span> value 
-<a name="l00035"></a>00035                 );
-<a name="l00037"></a>00037                 <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
-<a name="l00038"></a>00038                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
-<a name="l00039"></a>00039                 );
-<a name="l00040"></a>00040         <span class="keyword">public</span>:
-<a name="l00042"></a>00042                 <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d" title="Hash holder type enum.">HashHolderType</a> <a class="code" href="class_hash_holder.html#ada2186dc1df2c84bbdbd1f83dacb0b4f">get_type</a>();
+<a name="l00024"></a><a class="code" href="class_hash_holder.html#a94da56935209e1a0ac0f6a970a05bc82">00024</a>         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d" title="Hash holder type enum.">HashHolderType</a> <a class="code" href="class_hash_holder.html#a94da56935209e1a0ac0f6a970a05bc82" title="holder type">type</a>; 
+<a name="l00025"></a>00025     <span class="keyword">public</span>:
+<a name="l00027"></a>00027         <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>();
+<a name="l00029"></a>00029         <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
+<a name="l00030"></a>00030             <span class="keywordtype">int</span> value 
+<a name="l00031"></a>00031         );
+<a name="l00033"></a>00033         <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
+<a name="l00034"></a>00034             <span class="keywordtype">double</span> value 
+<a name="l00035"></a>00035         );
+<a name="l00037"></a>00037         <a class="code" href="class_hash_holder.html#ac8c367c464b2de0034e4f9199f62aaa2" title="Dummy constructor.">HashHolder</a>(
+<a name="l00038"></a>00038             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
+<a name="l00039"></a>00039         );
+<a name="l00040"></a>00040     <span class="keyword">public</span>:
+<a name="l00042"></a>00042         <a class="code" href="_hash_8h.html#a902f3ae2db92a49602e66c6f6383de2d" title="Hash holder type enum.">HashHolderType</a> <a class="code" href="class_hash_holder.html#ada2186dc1df2c84bbdbd1f83dacb0b4f">get_type</a>();
 <a name="l00043"></a>00043 
-<a name="l00045"></a>00045                 <span class="keywordtype">int</span> <a class="code" href="class_hash_holder.html#a578e3f3b2e2ce14a6d3f818d0d5b39de">get_int</a>();
-<a name="l00046"></a>00046                 
-<a name="l00048"></a>00048                 <span class="keywordtype">double</span> <a class="code" href="class_hash_holder.html#aed0538cc9b91f480c73d1139c954f055">get_double</a>();
-<a name="l00049"></a>00049                 
-<a name="l00051"></a>00051                 <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash_holder.html#a2d54658cdace31b2d1a5800f5b852bbf">get_text</a>();
+<a name="l00045"></a>00045         <span class="keywordtype">int</span> <a class="code" href="class_hash_holder.html#a578e3f3b2e2ce14a6d3f818d0d5b39de">get_int</a>();
+<a name="l00046"></a>00046         
+<a name="l00048"></a>00048         <span class="keywordtype">double</span> <a class="code" href="class_hash_holder.html#aed0538cc9b91f480c73d1139c954f055">get_double</a>();
+<a name="l00049"></a>00049         
+<a name="l00051"></a>00051         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash_holder.html#a2d54658cdace31b2d1a5800f5b852bbf">get_text</a>();
 <a name="l00052"></a>00052 };
 <a name="l00053"></a>00053 
 <a name="l00055"></a><a class="code" href="class_hash.html">00055</a> <span class="keyword">class </span><a class="code" href="class_hash.html" title="Hash class.">Hash</a> {
-<a name="l00056"></a>00056         <span class="keyword">private</span>:
-<a name="l00057"></a><a class="code" href="class_hash.html#a22826e5a329f21cbf68d9a197846d1a8">00057</a>                 std::map&lt;pio_string,HashHolder&gt; <a class="code" href="class_hash.html#a22826e5a329f21cbf68d9a197846d1a8" title="data stored in hash">data</a>; 
-<a name="l00058"></a>00058         <span class="keyword">public</span>:
-<a name="l00060"></a>00060                 <span class="keywordtype">void</span> <a class="code" href="class_hash.html#a963f99b6362f2efcf2bcf6213a6c5841" title="Clears hash from contents.">clear</a>();
-<a name="l00061"></a>00061         <span class="keyword">public</span>:
-<a name="l00063"></a>00063                 <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
-<a name="l00064"></a>00064                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key, 
-<a name="l00065"></a>00065                         <span class="keywordtype">int</span> value 
-<a name="l00066"></a>00066                 );
-<a name="l00068"></a>00068                 <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
-<a name="l00069"></a>00069                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key,  
-<a name="l00070"></a>00070                         <span class="keywordtype">double</span> value 
-<a name="l00071"></a>00071                 );
-<a name="l00073"></a>00073                 <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
-<a name="l00074"></a>00074                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key, 
-<a name="l00075"></a>00075                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
-<a name="l00076"></a>00076                 );
-<a name="l00077"></a>00077         <span class="keyword">public</span>:
-<a name="l00079"></a>00079                 <span class="keywordtype">int</span> <a class="code" href="class_hash.html#a573e07025e60ff99dfb2135275589f11">get_int</a>(
-<a name="l00080"></a>00080                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
-<a name="l00081"></a>00081                 );
-<a name="l00083"></a>00083                 <span class="keywordtype">double</span> <a class="code" href="class_hash.html#a5949c5d318f8f2376de8af435a9d82d3">get_double</a>(
-<a name="l00084"></a>00084                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
-<a name="l00085"></a>00085                 );
-<a name="l00087"></a>00087                 <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash.html#a82ffe69d8ad1ad98656c2c5094660893">get_text</a>(
-<a name="l00088"></a>00088                         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
-<a name="l00089"></a>00089                 );
+<a name="l00056"></a>00056     <span class="keyword">private</span>:
+<a name="l00057"></a><a class="code" href="class_hash.html#a22826e5a329f21cbf68d9a197846d1a8">00057</a>         std::map&lt;pio_string,HashHolder&gt; <a class="code" href="class_hash.html#a22826e5a329f21cbf68d9a197846d1a8" title="data stored in hash">data</a>; 
+<a name="l00058"></a>00058     <span class="keyword">public</span>:
+<a name="l00060"></a>00060         <span class="keywordtype">void</span> <a class="code" href="class_hash.html#a963f99b6362f2efcf2bcf6213a6c5841" title="Clears hash from contents.">clear</a>();
+<a name="l00061"></a>00061     <span class="keyword">public</span>:
+<a name="l00063"></a>00063         <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
+<a name="l00064"></a>00064             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key, 
+<a name="l00065"></a>00065             <span class="keywordtype">int</span> value 
+<a name="l00066"></a>00066         );
+<a name="l00068"></a>00068         <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
+<a name="l00069"></a>00069             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key,  
+<a name="l00070"></a>00070             <span class="keywordtype">double</span> value 
+<a name="l00071"></a>00071         );
+<a name="l00073"></a>00073         <span class="keywordtype">void</span> <a class="code" href="class_hash.html#af1c4262d1f5e67665e3f98aabeb58ca4" title="Stores int value in hash.">put</a>(
+<a name="l00074"></a>00074             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key, 
+<a name="l00075"></a>00075             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> value 
+<a name="l00076"></a>00076         );
+<a name="l00077"></a>00077     <span class="keyword">public</span>:
+<a name="l00079"></a>00079         <span class="keywordtype">int</span> <a class="code" href="class_hash.html#a573e07025e60ff99dfb2135275589f11">get_int</a>(
+<a name="l00080"></a>00080             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
+<a name="l00081"></a>00081         );
+<a name="l00083"></a>00083         <span class="keywordtype">double</span> <a class="code" href="class_hash.html#a5949c5d318f8f2376de8af435a9d82d3">get_double</a>(
+<a name="l00084"></a>00084             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
+<a name="l00085"></a>00085         );
+<a name="l00087"></a>00087         <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> <a class="code" href="class_hash.html#a82ffe69d8ad1ad98656c2c5094660893">get_text</a>(
+<a name="l00088"></a>00088             <a class="code" href="classpio__string.html" title="pio string; unicode-aware text representation in wchar_t.">pio_string</a> key 
+<a name="l00089"></a>00089         );
 <a name="l00090"></a>00090 };
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092 <span class="preprocessor">#endif</span>
@@ -150,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

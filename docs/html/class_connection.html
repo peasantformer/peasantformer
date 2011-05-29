@@ -60,6 +60,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
 <h1>Connection Class Reference</h1>  </div>
 </div>
@@ -79,12 +82,96 @@ Inheritance diagram for Connection:</div>
 <area href="class_connection_accepted.html" alt="ConnectionAccepted" shape="rect" coords="0,112,130,136"/>
 </map>
  </div></div>
+
+<p><a href="class_connection-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9de94289ca6259f94ef6aeba3b134a77"></a><!-- doxytag: member="Connection::Connection" ref="a9de94289ca6259f94ef6aeba3b134a77" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a9de94289ca6259f94ef6aeba3b134a77">Connection</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy constructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#ab89ffc92f20c7f4efc44d98980de99cf">Connection</a> (int <a class="el" href="class_connection.html#affb5b6c8650e2c244ab4719fe281a548">sockfd</a>, struct sockaddr_storage <a class="el" href="class_connection.html#af9042dc7286458dbc9655d836edb20e0">remote_addr</a>, size_t <a class="el" href="class_connection.html#a1912c39739ab91266c9aec73b8f791bd">buffsize</a>)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Real constructor.  <a href="#ab89ffc92f20c7f4efc44d98980de99cf"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e4352edf667bea83001569e9da8a24d"></a><!-- doxytag: member="Connection::~Connection" ref="a2e4352edf667bea83001569e9da8a24d" args="()" -->
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a2e4352edf667bea83001569e9da8a24d">~Connection</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affb5b6c8650e2c244ab4719fe281a548"></a><!-- doxytag: member="Connection::sockfd" ref="affb5b6c8650e2c244ab4719fe281a548" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#affb5b6c8650e2c244ab4719fe281a548">sockfd</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">socket file descriptor <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1912c39739ab91266c9aec73b8f791bd"></a><!-- doxytag: member="Connection::buffsize" ref="a1912c39739ab91266c9aec73b8f791bd" args="" -->
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a1912c39739ab91266c9aec73b8f791bd">buffsize</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">circular and plain buffers size <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5b31b1f97f7ebccf764f999c87bae0f"></a><!-- doxytag: member="Connection::circus" ref="aa5b31b1f97f7ebccf764f999c87bae0f" args="" -->
+<a class="el" href="class_circular_buffer.html">CircularBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f">circus</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">circular buffer for that connection <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4bfcf484760f2f19b20ae35d1f507a2b"></a><!-- doxytag: member="Connection::opcode" ref="a4bfcf484760f2f19b20ae35d1f507a2b" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a4bfcf484760f2f19b20ae35d1f507a2b">opcode</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">last opcode read from network <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a142daea480a79bf59fa667358dc303"></a><!-- doxytag: member="Connection::plain_buffer" ref="a3a142daea480a79bf59fa667358dc303" args="" -->
+wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a3a142daea480a79bf59fa667358dc303">plain_buffer</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">plain wchar buffer <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9042dc7286458dbc9655d836edb20e0"></a><!-- doxytag: member="Connection::remote_addr" ref="af9042dc7286458dbc9655d836edb20e0" args="" -->
+struct sockaddr_storage&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#af9042dc7286458dbc9655d836edb20e0">remote_addr</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">remote addr struct <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e2ae0f93aa1dcf12bae2bb0eadd28e2"></a><!-- doxytag: member="Connection::address_literal" ref="a0e2ae0f93aa1dcf12bae2bb0eadd28e2" args="[INET6_ADDRSTRLEN]" -->
+char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a0e2ae0f93aa1dcf12bae2bb0eadd28e2">address_literal</a> [INET6_ADDRSTRLEN]</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">remote address literal value <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Basic connection class. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+
+<p>Definition at line <a class="el" href="_connection_8h_source.html#l00011">11</a> of file <a class="el" href="_connection_8h_source.html">Connection.h</a>.</p>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ab89ffc92f20c7f4efc44d98980de99cf"></a><!-- doxytag: member="Connection::Connection" ref="ab89ffc92f20c7f4efc44d98980de99cf" args="(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Connection::Connection </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct sockaddr_storage&#160;</td>
+          <td class="paramname"><em>remote_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>buffsize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Real constructor. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket file descriptor </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">remote_addr</td><td>remote addr struct </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffsize</td><td>buffers size </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00014">14</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Data/Connection/<a class="el" href="_connection_8h_source.html">Connection.h</a></li>
+<li>src/Data/Connection/<a class="el" href="_connection_8cpp_source.html">Connection.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -101,7 +188,7 @@ Inheritance diagram for Connection:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

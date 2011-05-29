@@ -60,6 +60,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <h1>ConnectionPending Class Reference</h1>  </div>
 </div>
@@ -79,12 +81,70 @@ Inheritance diagram for ConnectionPending:</div>
 <area href="class_connection_accepted.html" alt="ConnectionAccepted" shape="rect" coords="0,112,130,136"/>
 </map>
  </div></div>
+
+<p><a href="class_connection_pending-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32c81837080d25959b00bc87cba0a1ec"></a><!-- doxytag: member="ConnectionPending::ConnectionPending" ref="a32c81837080d25959b00bc87cba0a1ec" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection_pending.html#a32c81837080d25959b00bc87cba0a1ec">ConnectionPending</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy constructor. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection_pending.html#a1afd96d23277403d6ee0be6ebf170dae">ConnectionPending</a> (int <a class="el" href="class_connection.html#affb5b6c8650e2c244ab4719fe281a548">sockfd</a>, struct sockaddr_storage <a class="el" href="class_connection.html#af9042dc7286458dbc9655d836edb20e0">remote_addr</a>, size_t <a class="el" href="class_connection.html#a1912c39739ab91266c9aec73b8f791bd">buffsize</a>)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Real constructor.  <a href="#a1afd96d23277403d6ee0be6ebf170dae"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Pending connection class. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+
+<p>Definition at line <a class="el" href="_connection_pending_8h_source.html#l00009">9</a> of file <a class="el" href="_connection_pending_8h_source.html">ConnectionPending.h</a>.</p>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a1afd96d23277403d6ee0be6ebf170dae"></a><!-- doxytag: member="ConnectionPending::ConnectionPending" ref="a1afd96d23277403d6ee0be6ebf170dae" args="(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ConnectionPending::ConnectionPending </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct sockaddr_storage&#160;</td>
+          <td class="paramname"><em>remote_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>buffsize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Real constructor. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sockfd</td><td>socket file descriptor </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">remote_addr</td><td>remote addr struct </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffsize</td><td>buffer size </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_connection_pending_8cpp_source.html#l00009">9</a> of file <a class="el" href="_connection_pending_8cpp_source.html">ConnectionPending.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Data/Connection/<a class="el" href="_connection_pending_8h_source.html">ConnectionPending.h</a></li>
+<li>src/Data/Connection/<a class="el" href="_connection_pending_8cpp_source.html">ConnectionPending.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -101,7 +161,7 @@ Inheritance diagram for ConnectionPending:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

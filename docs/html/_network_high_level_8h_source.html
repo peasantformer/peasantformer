@@ -70,45 +70,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00008"></a>00008 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00009"></a>00009 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00010"></a>00010 
-<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="_network_8h.html">Network.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="_proto_2_network_2_network_8h.html">Network.h</a>&quot;</span>
 <a name="l00012"></a>00012 
 <a name="l00015"></a>00015 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#a02728a48771aca5fb535499c157340f3">pnh_set_hints</a>(
-<a name="l00016"></a>00016         <span class="keyword">struct</span> addrinfo *hints, 
-<a name="l00017"></a>00017         <span class="keywordtype">int</span> family, 
-<a name="l00018"></a>00018         <span class="keywordtype">int</span> socktype, 
-<a name="l00019"></a>00019         <span class="keywordtype">int</span> flags 
+<a name="l00016"></a>00016     <span class="keyword">struct</span> addrinfo *hints, 
+<a name="l00017"></a>00017     <span class="keywordtype">int</span> family, 
+<a name="l00018"></a>00018     <span class="keywordtype">int</span> socktype, 
+<a name="l00019"></a>00019     <span class="keywordtype">int</span> flags 
 <a name="l00020"></a>00020 );
 <a name="l00022"></a>00022 <span class="keywordtype">void</span> * <a class="code" href="_network_high_level_8cpp.html#acb12f32fbb1661843754a4b378a1a9d2">pnh_get_in_addr</a>(
-<a name="l00023"></a>00023         <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *sa 
+<a name="l00023"></a>00023     <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *sa 
 <a name="l00024"></a>00024 );
 <a name="l00027"></a>00027 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#a27f2ce5ac08c1b6c280a9ffd050b4c43">pnh_get_addrinfo_literal</a>(
-<a name="l00028"></a>00028         <span class="keyword">const</span> <span class="keyword">struct</span> addrinfo *res, 
-<a name="l00029"></a>00029         <span class="keywordtype">char</span> *address_literal 
+<a name="l00028"></a>00028     <span class="keyword">const</span> <span class="keyword">struct</span> addrinfo *res, 
+<a name="l00029"></a>00029     <span class="keywordtype">char</span> *address_literal 
 <a name="l00030"></a>00030 );
 <a name="l00033"></a>00033 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#aee8cfd7130d4f890ec0a8a522180ddee">pnh_get_sockaddr_storage_literal</a>(
-<a name="l00034"></a>00034         <span class="keyword">struct</span> sockaddr_storage *res, 
-<a name="l00035"></a>00035         <span class="keywordtype">char</span> *address_literal 
+<a name="l00034"></a>00034     <span class="keyword">struct</span> sockaddr_storage *res, 
+<a name="l00035"></a>00035     <span class="keywordtype">char</span> *address_literal 
 <a name="l00036"></a>00036 );
 <a name="l00039"></a>00039 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#a0f2c9ccbe44809eba9c0dc98b72f25c5">pnh_iterate_addrinfo</a>(
-<a name="l00040"></a>00040         <span class="keyword">struct</span> addrinfo *info, 
-<a name="l00041"></a>00041         <span class="keyword">struct</span> addrinfo *res 
+<a name="l00040"></a>00040     <span class="keyword">struct</span> addrinfo *info, 
+<a name="l00041"></a>00041     <span class="keyword">struct</span> addrinfo *res 
 <a name="l00042"></a>00042 );
 <a name="l00045"></a>00045 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#a4490bde75697400f2566e4830a852dfd">pnh_bind_to_addr_port</a>(
-<a name="l00046"></a>00046         <span class="keyword">const</span> <span class="keywordtype">char</span> *hostname, 
-<a name="l00047"></a>00047         <span class="keyword">const</span> <span class="keywordtype">char</span> *port, 
-<a name="l00048"></a>00048         <span class="keywordtype">int</span> af, 
-<a name="l00049"></a>00049         <span class="keywordtype">int</span> socktype, 
-<a name="l00050"></a>00050         <span class="keywordtype">char</span> *address_literal 
+<a name="l00046"></a>00046     <span class="keyword">const</span> <span class="keywordtype">char</span> *hostname, 
+<a name="l00047"></a>00047     <span class="keyword">const</span> <span class="keywordtype">char</span> *port, 
+<a name="l00048"></a>00048     <span class="keywordtype">int</span> af, 
+<a name="l00049"></a>00049     <span class="keywordtype">int</span> socktype, 
+<a name="l00050"></a>00050     <span class="keywordtype">char</span> *address_literal 
 <a name="l00051"></a>00051 );
 <a name="l00054"></a>00054 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#a9e72c682cfa19fbc061fe9f6e3fb13aa">pnh_send_str</a>(
-<a name="l00055"></a>00055         <span class="keywordtype">int</span> fd, 
-<a name="l00056"></a>00056         <span class="keyword">const</span> <span class="keywordtype">char</span> *buf 
+<a name="l00055"></a>00055     <span class="keywordtype">int</span> fd, 
+<a name="l00056"></a>00056     <span class="keyword">const</span> <span class="keywordtype">char</span> *buf 
 <a name="l00057"></a>00057 );
 <a name="l00060"></a>00060 <span class="keywordtype">int</span> <a class="code" href="_network_high_level_8cpp.html#af609ef4a5612f5cba2945f457cf6981f">pnh_send_fstr</a>(
-<a name="l00061"></a>00061         <span class="keywordtype">int</span> fd, 
-<a name="l00062"></a>00062         <span class="keywordtype">size_t</span> bufflen, 
-<a name="l00063"></a>00063         <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, 
-<a name="l00064"></a>00064         ...
+<a name="l00061"></a>00061     <span class="keywordtype">int</span> fd, 
+<a name="l00062"></a>00062     <span class="keywordtype">size_t</span> bufflen, 
+<a name="l00063"></a>00063     <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt, 
+<a name="l00064"></a>00064     ...
 <a name="l00065"></a>00065 );
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067 
@@ -129,7 +129,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -90,8 +90,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>accept_pending_connection()
+: <a class="el" href="class_server_connections.html#a231e61b1e69dca4ab15567ab444698a1">ServerConnections</a>
+</li>
 <li>add_item()
 : <a class="el" href="class_array.html#a4e3b0afea4d718b963e8f3986bac10cf">Array&lt; T &gt;</a>
+</li>
+<li>add_listen_socket()
+: <a class="el" href="class_server_connections.html#ac43d1d5f2d500d867fac174f41da32e3">ServerConnections</a>
+</li>
+<li>add_pending_connection()
+: <a class="el" href="class_server_connections.html#a552d7910eea62e0d784f78eb97b9e78b">ServerConnections</a>
 </li>
 <li>append()
 : <a class="el" href="classpio__string.html#ae932868b0af57d49b8116bb590ae03c1">pio_string</a>
@@ -104,7 +113,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>backward_dist()
-: <a class="el" href="class_circular_buffer.html#aa583d852e1fce49a98875b5548ca7571">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f">CircularBuffer</a>
 </li>
 <li>bind_double()
 : <a class="el" href="class_database.html#af49ad3a99a723dcbb6a00272aeff142d">Database</a>
@@ -126,13 +135,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classpio__string.html#a6db4f48d7a67a04e3bbeccf3e2e98117">pio_string</a>
 </li>
 <li>CircularBuffer()
-: <a class="el" href="class_circular_buffer.html#ace36067ba768a7ee692bc3fe61dca803">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c">CircularBuffer</a>
 </li>
 <li>clear()
 : <a class="el" href="class_hash.html#a963f99b6362f2efcf2bcf6213a6c5841">Hash</a>
 , <a class="el" href="classpio__string.html#a687666dc7568f47ed54b366e35ff8ea6">pio_string</a>
 , <a class="el" href="class_array.html#ac19d187420e7bd8a80c939201e3c2824">Array&lt; T &gt;</a>
-, <a class="el" href="class_circular_buffer.html#a26caa4ec94de2f342f32b6558ac697eb">CircularBuffer&lt; T &gt;</a>
+, <a class="el" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384">CircularBuffer</a>
 </li>
 <li>close()
 : <a class="el" href="class_database.html#a9b0c49501592440fd474f38738c3255c">Database</a>
@@ -152,6 +161,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>column_type()
 : <a class="el" href="class_database.html#a77823607f3234bc56cc8c8e5d683987c">Database</a>
 </li>
+<li>Connection()
+: <a class="el" href="class_connection.html#a9de94289ca6259f94ef6aeba3b134a77">Connection</a>
+</li>
+<li>connection_server()
+: <a class="el" href="class_connection_server.html#a6eee6d5cdf91750a355fd8f03e908053">ConnectionServer</a>
+</li>
+<li>ConnectionAccepted()
+: <a class="el" href="class_connection_accepted.html#a1764240f1a87658e1fe09791c3974cce">ConnectionAccepted</a>
+</li>
+<li>ConnectionPending()
+: <a class="el" href="class_connection_pending.html#a32c81837080d25959b00bc87cba0a1ec">ConnectionPending</a>
+</li>
+<li>ConnectionServer()
+: <a class="el" href="class_connection_server.html#ae14d567252dfc76267b472b4f25e885e">ConnectionServer</a>
+</li>
 </ul>
 
 
@@ -164,6 +188,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>del_item()
 : <a class="el" href="class_array.html#a298b0c967be0537583d753e984b5c8a8">Array&lt; T &gt;</a>
+</li>
+<li>drop_accepted_connection()
+: <a class="el" href="class_server_connections.html#a23e30383da12ab997759b162917bba71">ServerConnections</a>
+</li>
+<li>drop_pending_connection()
+: <a class="el" href="class_server_connections.html#a8bf6d5024dadc3cba62b6ee698b7db6c">ServerConnections</a>
 </li>
 </ul>
 
@@ -179,7 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_array.html#a9ddf1f8ee3569bdd11cef33141585d79">Array&lt; T &gt;</a>
 </li>
 <li>forward_dist()
-: <a class="el" href="class_circular_buffer.html#a3a808a9b21f103b9c9fec40be4eefb86">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320">CircularBuffer</a>
 </li>
 </ul>
 
@@ -188,21 +218,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>get()
 : <a class="el" href="class_messages.html#abd3ed2ec867047c4986eb33506e6133d">Messages</a>
 </li>
+<li>get_accepted_socks_fd_set()
+: <a class="el" href="class_server_connections.html#a733691761dd1b2729f8a1537910c7224">ServerConnections</a>
+</li>
 <li>get_data()
 : <a class="el" href="classpio__string.html#a9842f10a7044bad535a05c4db3926c2c">pio_string</a>
 </li>
 <li>get_double()
-: <a class="el" href="class_hash.html#a5949c5d318f8f2376de8af435a9d82d3">Hash</a>
+: <a class="el" href="class_hash_holder.html#aed0538cc9b91f480c73d1139c954f055">HashHolder</a>
+, <a class="el" href="class_hash.html#a5949c5d318f8f2376de8af435a9d82d3">Hash</a>
 , <a class="el" href="class_database.html#a17ba509b5e2aedebb7b791bc3bb3201f">Database</a>
-, <a class="el" href="class_hash_holder.html#aed0538cc9b91f480c73d1139c954f055">HashHolder</a>
 </li>
 <li>get_find_ref()
 : <a class="el" href="class_array.html#a00cf17af426633d75b9103d5620e1612">Array&lt; T &gt;</a>
 </li>
 <li>get_int()
-: <a class="el" href="class_hash.html#a573e07025e60ff99dfb2135275589f11">Hash</a>
+: <a class="el" href="class_hash_holder.html#a578e3f3b2e2ce14a6d3f818d0d5b39de">HashHolder</a>
+, <a class="el" href="class_hash.html#a573e07025e60ff99dfb2135275589f11">Hash</a>
 , <a class="el" href="class_database.html#adb0a2dc17a361c52db2454f13d80c75e">Database</a>
-, <a class="el" href="class_hash_holder.html#a578e3f3b2e2ce14a6d3f818d0d5b39de">HashHolder</a>
+</li>
+<li>get_ipv4_socket()
+: <a class="el" href="class_server_network.html#affc79d016aaa7817421ae86449dee2b4">ServerNetwork</a>
+</li>
+<li>get_ipv6_socket()
+: <a class="el" href="class_server_network.html#a71cce1d1be887969f9c2e6b9285ab330">ServerNetwork</a>
+</li>
+<li>get_listen_socks_fd_set()
+: <a class="el" href="class_server_connections.html#ad897838b6275290c88af8f0380835053">ServerConnections</a>
+</li>
+<li>get_pending_connection()
+: <a class="el" href="class_server_connections.html#a3e50dbc8580a012415296ef748cb65af">ServerConnections</a>
+</li>
+<li>get_pending_socks_fd_set()
+: <a class="el" href="class_server_connections.html#a98c087e2d9075ce1e82134da1b372191">ServerConnections</a>
 </li>
 <li>get_text()
 : <a class="el" href="class_database.html#acdd45530020083da8bff5cba01beecaa">Database</a>
@@ -227,13 +275,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classpio__string.html#a905b209a99863931ea5511c5755fb452">pio_string</a>
 </li>
 <li>is_eof()
-: <a class="el" href="class_circular_buffer.html#ac6e527f12e8a2a4fe1962c2f60c06013">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#ad022f7b94497e12c8e7e06b5ba054e78">CircularBuffer</a>
 </li>
 <li>is_full()
-: <a class="el" href="class_circular_buffer.html#a45d4bda288630e7e86f849cd74dd9d48">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a3eb15de19beffcba3b91f88e18806b6f">CircularBuffer</a>
 </li>
 <li>is_peek_eof()
-: <a class="el" href="class_circular_buffer.html#a8e675100b2fe596e989e4b47f9c8f22d">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a6255661bf59c5b599bac080a31a9d3bf">CircularBuffer</a>
 </li>
 <li>isDone()
 : <a class="el" href="class_database.html#ab0a1d1538a25bfa00c6352a252b12266">Database</a>
@@ -268,7 +316,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classpio__string.html#a22cee63eb6600e417145545ca2c9a62b">pio_string</a>
 </li>
 <li>operator[]()
-: <a class="el" href="class_array.html#a69261a311adc661f7c6aff81c69af5db">Array&lt; T &gt;</a>
+: <a class="el" href="class_server_connections.html#aa7b21b257b6936178ff6d8b8fc7f427c">ServerConnections</a>
+, <a class="el" href="class_array.html#a69261a311adc661f7c6aff81c69af5db">Array&lt; T &gt;</a>
 , <a class="el" href="classpio__string.html#a584b489a98436663fdcca068ad98e3b7">pio_string</a>
 </li>
 </ul>
@@ -276,10 +325,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>peek()
-: <a class="el" href="class_circular_buffer.html#a1e6fb6cc305617ddb8b9976f7463e9d3">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a861dd2e8a609116ec7f213e05b302396">CircularBuffer</a>
 </li>
 <li>peek_str()
-: <a class="el" href="class_circular_buffer.html#a14df1b70c7a91754b740c9319c144dc2">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#a95dea59c42854fe93c89e10e81ad8754">CircularBuffer</a>
 </li>
 <li>pio_string()
 : <a class="el" href="classpio__string.html#a9bd0f5f40db3f65faf17078584dfc7c0">pio_string</a>
@@ -295,14 +344,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>read()
-: <a class="el" href="class_circular_buffer.html#a29747e1057928c45f8440a94bc3419c6">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#ac1bc1275ed3143d6d366e78e9ce6b5a6">CircularBuffer</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>Server()
+: <a class="el" href="class_server.html#ad5ec9462b520e59f7ea831e157ee5e59">Server</a>
+</li>
+<li>ServerConnections()
+: <a class="el" href="class_server_connections.html#a8fd1890b5ca4a16d69663753c803847b">ServerConnections</a>
+</li>
+<li>ServerNetwork()
+: <a class="el" href="class_server_network.html#a83cc9897480a010f2ca25462200971a8">ServerNetwork</a>
+</li>
 <li>set()
 : <a class="el" href="classpio__string.html#a6a2457875ad0f25690c79a880bcaf5c2">pio_string</a>
+</li>
+<li>setup()
+: <a class="el" href="class_connection_server.html#a91a020b1d704d12323e9e426ef41e7a4">ConnectionServer</a>
+</li>
+<li>setup_server_on_address_port()
+: <a class="el" href="class_server_network.html#a9eca99887cceeac8c1a5d14a2815a9fd">ServerNetwork</a>
+</li>
+<li>setup_server_on_ipv4_address_port()
+: <a class="el" href="class_server_network.html#a20a75f4f055098a3f06085b9d93ea38c">ServerNetwork</a>
+</li>
+<li>setup_server_on_ipv6_address_port()
+: <a class="el" href="class_server_network.html#a1cdaa15608c0767c8adf3f225c5e597f">ServerNetwork</a>
 </li>
 <li>size()
 : <a class="el" href="class_array.html#aa1bdb396081a4900d33e7d36b86cc8ef">Array&lt; T &gt;</a>
@@ -330,7 +400,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classpio__string.html#ad09edd9237813908fe56b3f740dcba25">pio_string</a>
 </li>
 <li>write()
-: <a class="el" href="class_circular_buffer.html#a669d0e8b8c6d5fc1550e90975811430c">CircularBuffer&lt; T &gt;</a>
+: <a class="el" href="class_circular_buffer.html#aea7019da5417a7edc67065dba0c11591">CircularBuffer</a>
 </li>
 </ul>
 
@@ -339,11 +409,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>~Array()
 : <a class="el" href="class_array.html#aab89a85b1ddb86864096acdcc0db439e">Array&lt; T &gt;</a>
 </li>
+<li>~Connection()
+: <a class="el" href="class_connection.html#a2e4352edf667bea83001569e9da8a24d">Connection</a>
+</li>
+<li>~ConnectionServer()
+: <a class="el" href="class_connection_server.html#a192747bca21b92a6dfba380d83ae5e96">ConnectionServer</a>
+</li>
 <li>~Database()
 : <a class="el" href="class_database.html#a84d399a2ad58d69daab9b05330e1316d">Database</a>
 </li>
 <li>~pio_string()
 : <a class="el" href="classpio__string.html#ab87758253574fb2bcb0da52809e71d8d">pio_string</a>
+</li>
+<li>~Server()
+: <a class="el" href="class_server.html#a4b3aa2579cb1c8cd1d069582c14d0fa6">Server</a>
+</li>
+<li>~ServerConnections()
+: <a class="el" href="class_server_connections.html#a237f6210a793b829ec465ffcbb933383">ServerConnections</a>
+</li>
+<li>~ServerNetwork()
+: <a class="el" href="class_server_network.html#a492e063c7ef70ec220ebf4a2e55feded">ServerNetwork</a>
 </li>
 </ul>
 </div>
@@ -361,7 +446,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat May 28 2011 21:59:18 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun May 29 2011 11:44:01 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

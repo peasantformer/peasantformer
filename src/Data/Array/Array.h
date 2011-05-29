@@ -7,7 +7,6 @@
 #include <map>
 
 /// Array container.
-
 template <class T>
 class Array {
 	private:

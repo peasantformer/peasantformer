@@ -1,7 +1,7 @@
 all: native docs
 
-docs: $(shell find src build-native -type f) docs/doxygen-config
-	doxygen docs/doxygen-config
+docs: $(shell find src -type f) docs/doxygen-config
+	doxygen docs/doxygen-config 
 
 native: 
 	cd build-native; cmake .; make;
