@@ -17,95 +17,129 @@ class PString {
 		size_t cstr_len;           ///< length of cstr
 		size_t wstr_len;           ///< length of wstr
 	private:
-		/// Converts widechar data to internal text representation
-		void widechar_to_data(
-			const wchar_t *text, ///< [in] widechar input string
-			int length = -1      ///< [in] Length of wchar data
-		);
+		
+		/// Converts widechar data to internal text representation.
+		///
+		/// \param [in] text is widechar input string
+		/// \param [in] length is Length of wchar data
+		void widechar_to_data(const wchar_t *text,int length = -1);
+		
 		/// Converts internal text representation to widechar and store
 		/// it in wstr.
+		///
 		void data_to_widechar();
+		
 		/// Initializes things that a same for different constructors.
+		///
 		void init();
 	public:
+		
 		/// Dummy constructor.
+		/// 
 		PString();
+		
 		/// Widechar constructor.
-		PString(
-			const wchar_t *source, ///< [in] widechar source data
-			int length = -1        ///< [in] optional length of the string
-		);
+		///
+		/// \param [in] source is widechar 
+		/// \param [in] length is optional length of the string
+		PString(const wchar_t *source, int length = -1);
+		
 		/// C-string constructor.
-		PString(
-			const char *source, ///< [in] C source data
-			int length = -1     ///< [in] optional length of the string
-		);
+		///
+		/// \param [in] source is C source data
+		/// \param [in] length is optional length of the string
+		PString(const char *source, int length = -1);
+		
 		/// Unsgined C-sring constructor.
-		PString(
-			const unsigned char *source, ///< [in] C unsigned source data
-			int length = -1              ///< [in] optional length of the string
-		);
+		///
+		/// \param [in] source is C unsgined string
+		/// \param [in] length is optional length of the sring
+		PString(const unsigned char *source, int length = -1);
+		
 		/// Destructor
+		///
 		~PString();
 	public:
+		
 		/// Asignment operator
+		///
+		/// \param [in] r is right-hand expression
 		/// @return PString refference
-		PString & operator=(
-			PString const &r ///< [in] right-hand expression
-		);
+		PString & operator=(PString const &r);
+		
 		/// Subscripting operator
+		/// 
+		/// \param [in] i is index
 		/// @return wchar refference
-		wchar_t & operator[](
-			size_t i ///< [in] index
-		);
+		wchar_t & operator[](size_t i);
 	public:
+		
 		/// Get raw internal data representation.
+		///
 		/// @return internal data vector
 		std::vector<wchar_t> get_raw_data() const;
+	
 		/// String appending
+		///
+		///
 		void append(
 			const PString &r ///< [in] right-hand expression
 		);
+		
 		/// Length of the text stored in the PString
+		///
 		/// @return size_t length
 		size_t length();
+		
+		/// C-string representation of PString.
+		///
 		/// @return C-string representation of data
 		const char *c_str();
+		
+		/// Widechar representation of PString.
+		///
 		/// @return widechar representation of data
 		const wchar_t *w_str();
+		
 		/// Wipes PString
+		///
 		void clear();
+		
 		/// Filters string using given predicate function
-		void filter(
-			bool (*predicate)(wchar_t) ///< [in] predicate function
-		);
+		///
+		/// \param [in] predicate is predicate function
+		void filter(bool (*predicate)(wchar_t));
+		
 		/// Drops characters from left as long as predicate function
-		/// returns true..
-		void dropwhile_left(
-			bool (*predicate)(wchar_t) ///< [in] predicate function
-		);
+		/// returns true.
+		///
+		/// \param [in] predicate is predicate function
+		void dropwhile_left(bool (*predicate)(wchar_t));
+		
 		/// Drops characters from right as long as predicate function
-		/// returns true..
-		void dropwhile_right(
-			bool (*predicate)(wchar_t) ///< [in] predicate function
-		);
+		/// returns true.
+		///
+		/// \param [in] predicate is predicate function
+		void dropwhile_right(bool (*predicate)(wchar_t));
+		
 		/// Shortname for filter(iswcntrl)
+		///
 		void filter_control();
 		
 };
 
-/// Comparison less-then operator
+/// Comparison less-then operator.
+///
+/// \param [in] l is left string
+/// \param [in] r is right string
 /// @return bool
-bool operator<(
-	PString const& l, ///< [in] left string
-	PString const& r  ///< [in] right string
-);
+bool operator<(PString const& l, PString const& r);
 
 /// Concatetipn operator.
+///
+/// \param [in] l is left string
+/// \param [in] r is right string
 /// @return new string
-PString operator+ (
-	PString const& l, ///< [out] string append to
-	PString const& r  ///< [in] string append from
-);
+PString operator+(PString const& l, PString const& r);
 
 #endif

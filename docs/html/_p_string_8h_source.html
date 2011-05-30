@@ -78,67 +78,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00017"></a><a class="code" href="class_p_string.html#a1f5b6f19ac7b0faa304b881b3b5edeca">00017</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_p_string.html#a1f5b6f19ac7b0faa304b881b3b5edeca" title="length of cstr">cstr_len</a>;           
 <a name="l00018"></a><a class="code" href="class_p_string.html#aaad697e408f791ace425f9501b66562b">00018</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_p_string.html#aaad697e408f791ace425f9501b66562b" title="length of wstr">wstr_len</a>;           
 <a name="l00019"></a>00019     <span class="keyword">private</span>:
-<a name="l00021"></a>00021         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a3a5b775ae7475d564287601f7397be3d" title="Converts widechar data to internal text representation.">widechar_to_data</a>(
-<a name="l00022"></a>00022             <span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *text, 
-<a name="l00023"></a>00023             <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1      
-<a name="l00024"></a>00024         );
-<a name="l00027"></a>00027         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a220a4833c481d41c0d75685bcd03d025">data_to_widechar</a>();
-<a name="l00029"></a>00029         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a5a63119a0284b1c4422fdcbdb1861fa5" title="Initializes things that a same for different constructors.">init</a>();
-<a name="l00030"></a>00030     <span class="keyword">public</span>:
-<a name="l00032"></a>00032         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752" title="Dummy constructor.">PString</a>();
-<a name="l00034"></a>00034         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752" title="Dummy constructor.">PString</a>(
-<a name="l00035"></a>00035             <span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source, 
-<a name="l00036"></a>00036             <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1        
-<a name="l00037"></a>00037         );
-<a name="l00039"></a>00039         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752" title="Dummy constructor.">PString</a>(
-<a name="l00040"></a>00040             <span class="keyword">const</span> <span class="keywordtype">char</span> *source, 
-<a name="l00041"></a>00041             <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1     
-<a name="l00042"></a>00042         );
-<a name="l00044"></a>00044         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752" title="Dummy constructor.">PString</a>(
-<a name="l00045"></a>00045             <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *source, 
-<a name="l00046"></a>00046             <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1              
-<a name="l00047"></a>00047         );
-<a name="l00049"></a>00049         <a class="code" href="class_p_string.html#a1940f60bd6fd0e839d8070d3f03adc9b" title="Destructor.">~PString</a>();
-<a name="l00050"></a>00050     <span class="keyword">public</span>:
-<a name="l00053"></a>00053         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> &amp; <a class="code" href="class_p_string.html#a46a26d00e68ff3e372337c8dfddf69d9">operator=</a>(
-<a name="l00054"></a>00054             <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span> &amp;r 
-<a name="l00055"></a>00055         );
-<a name="l00058"></a>00058         <span class="keywordtype">wchar_t</span> &amp; <a class="code" href="class_p_string.html#ad4be6e47ac1df908d1e1e47c5cb34584">operator[]</a>(
-<a name="l00059"></a>00059             <span class="keywordtype">size_t</span> i 
-<a name="l00060"></a>00060         );
-<a name="l00061"></a>00061     <span class="keyword">public</span>:
-<a name="l00064"></a>00064         std::vector&lt;wchar_t&gt; <a class="code" href="class_p_string.html#a0e9b6aec4b1d43339142c087b4690302">get_raw_data</a>() <span class="keyword">const</span>;
-<a name="l00066"></a>00066         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a293102819083255dc8b7b41ab9c7ecfe" title="String appending.">append</a>(
-<a name="l00067"></a>00067             <span class="keyword">const</span> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> &amp;r 
-<a name="l00068"></a>00068         );
-<a name="l00071"></a>00071         <span class="keywordtype">size_t</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a>();
-<a name="l00073"></a>00073         <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345">c_str</a>();
-<a name="l00075"></a>00075         <span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *<a class="code" href="class_p_string.html#a38b5fe722018efc87f8d84174d7c3167">w_str</a>();
-<a name="l00077"></a>00077         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#ad265cbb52fff518b8979bd401afa3c44" title="Wipes PString.">clear</a>();
-<a name="l00079"></a>00079         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a1c132206f088ecefe05100a17e779c19" title="Filters string using given predicate function.">filter</a>(
-<a name="l00080"></a>00080             <span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>) 
-<a name="l00081"></a>00081         );
-<a name="l00084"></a>00084         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a807de8009a3ce6dd5f000546f6bbaa9c">dropwhile_left</a>(
-<a name="l00085"></a>00085             <span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>) 
-<a name="l00086"></a>00086         );
-<a name="l00089"></a>00089         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a70635d2e0c6c67c61dbb85627b54fac8">dropwhile_right</a>(
-<a name="l00090"></a>00090             <span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>) 
-<a name="l00091"></a>00091         );
-<a name="l00093"></a>00093         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a09196f31bbcfe434e7ef0c40b3f259f9" title="Shortname for filter(iswcntrl)">filter_control</a>();
-<a name="l00094"></a>00094         
-<a name="l00095"></a>00095 };
-<a name="l00096"></a>00096 
-<a name="l00099"></a>00099 <span class="keywordtype">bool</span> <a class="code" href="_p_string_8h.html#a1e07207f4d0d494b4e6765ad0c4bd577">operator&lt;</a>(
-<a name="l00100"></a>00100     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; l, 
-<a name="l00101"></a>00101     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; r  
-<a name="l00102"></a>00102 );
-<a name="l00103"></a>00103 
-<a name="l00106"></a>00106 <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="_p_string_8h.html#ae01b9367f46666b04d1f3497ee524cc3">operator+ </a>(
-<a name="l00107"></a>00107     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; l, 
-<a name="l00108"></a>00108     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; r  
-<a name="l00109"></a>00109 );
-<a name="l00110"></a>00110 
-<a name="l00111"></a>00111 <span class="preprocessor">#endif</span>
+<a name="l00020"></a>00020         
+<a name="l00025"></a>00025         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a3a5b775ae7475d564287601f7397be3d">widechar_to_data</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *text,<span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1);
+<a name="l00026"></a>00026         
+<a name="l00030"></a>00030         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a220a4833c481d41c0d75685bcd03d025">data_to_widechar</a>();
+<a name="l00031"></a>00031         
+<a name="l00034"></a>00034         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a5a63119a0284b1c4422fdcbdb1861fa5">init</a>();
+<a name="l00035"></a>00035     <span class="keyword">public</span>:
+<a name="l00036"></a>00036         
+<a name="l00039"></a>00039         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752">PString</a>();
+<a name="l00040"></a>00040         
+<a name="l00045"></a>00045         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752">PString</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source, <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1);
+<a name="l00046"></a>00046         
+<a name="l00051"></a>00051         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752">PString</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *source, <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1);
+<a name="l00052"></a>00052         
+<a name="l00057"></a>00057         <a class="code" href="class_p_string.html#ac78298459363d33a7a4c4953008a9752">PString</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *source, <span class="keywordtype">int</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a> = -1);
+<a name="l00058"></a>00058         
+<a name="l00061"></a>00061         <a class="code" href="class_p_string.html#a1940f60bd6fd0e839d8070d3f03adc9b">~PString</a>();
+<a name="l00062"></a>00062     <span class="keyword">public</span>:
+<a name="l00063"></a>00063         
+<a name="l00068"></a>00068         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> &amp; <a class="code" href="class_p_string.html#a46a26d00e68ff3e372337c8dfddf69d9">operator=</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span> &amp;r);
+<a name="l00069"></a>00069         
+<a name="l00074"></a>00074         <span class="keywordtype">wchar_t</span> &amp; <a class="code" href="class_p_string.html#ad4be6e47ac1df908d1e1e47c5cb34584">operator[]</a>(<span class="keywordtype">size_t</span> i);
+<a name="l00075"></a>00075     <span class="keyword">public</span>:
+<a name="l00076"></a>00076         
+<a name="l00080"></a>00080         std::vector&lt;wchar_t&gt; <a class="code" href="class_p_string.html#a0e9b6aec4b1d43339142c087b4690302">get_raw_data</a>() <span class="keyword">const</span>;
+<a name="l00081"></a>00081     
+<a name="l00085"></a>00085         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a293102819083255dc8b7b41ab9c7ecfe">append</a>(
+<a name="l00086"></a>00086             <span class="keyword">const</span> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> &amp;r 
+<a name="l00087"></a>00087         );
+<a name="l00088"></a>00088         
+<a name="l00092"></a>00092         <span class="keywordtype">size_t</span> <a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32">length</a>();
+<a name="l00093"></a>00093         
+<a name="l00097"></a>00097         <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345">c_str</a>();
+<a name="l00098"></a>00098         
+<a name="l00102"></a>00102         <span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *<a class="code" href="class_p_string.html#a38b5fe722018efc87f8d84174d7c3167">w_str</a>();
+<a name="l00103"></a>00103         
+<a name="l00106"></a>00106         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#ad265cbb52fff518b8979bd401afa3c44">clear</a>();
+<a name="l00107"></a>00107         
+<a name="l00111"></a>00111         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a1c132206f088ecefe05100a17e779c19">filter</a>(<span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>));
+<a name="l00112"></a>00112         
+<a name="l00117"></a>00117         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a807de8009a3ce6dd5f000546f6bbaa9c">dropwhile_left</a>(<span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>));
+<a name="l00118"></a>00118         
+<a name="l00123"></a>00123         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a70635d2e0c6c67c61dbb85627b54fac8">dropwhile_right</a>(<span class="keywordtype">bool</span> (*predicate)(<span class="keywordtype">wchar_t</span>));
+<a name="l00124"></a>00124         
+<a name="l00127"></a>00127         <span class="keywordtype">void</span> <a class="code" href="class_p_string.html#a09196f31bbcfe434e7ef0c40b3f259f9">filter_control</a>();
+<a name="l00128"></a>00128         
+<a name="l00129"></a>00129 };
+<a name="l00130"></a>00130 
+<a name="l00136"></a>00136 <span class="keywordtype">bool</span> <a class="code" href="_p_string_8h.html#a1e07207f4d0d494b4e6765ad0c4bd577">operator&lt;</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; l, <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; r);
+<a name="l00137"></a>00137 
+<a name="l00143"></a>00143 <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="_p_string_8h.html#ae01b9367f46666b04d1f3497ee524cc3">operator+</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; l, <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">const</span>&amp; r);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -155,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 14:58:13 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 16:38:46 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>
