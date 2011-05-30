@@ -81,10 +81,8 @@ class PString {
 	
 		/// String appending
 		///
-		///
-		void append(
-			const PString &r ///< [in] right-hand expression
-		);
+		/// \param [in] r is right-hand expression
+		void append(const PString &r);
 		
 		/// Length of the text stored in the PString
 		///
