@@ -55,12 +55,9 @@ PString::PString(const char *source, int length) {
 	delete[] wcs;
 }
 
-PString::PString(const unsigned char *source, int length) {
+PString::PString(const PString &r) {
 	init();
-	wchar_t *wcs = NULL;
-	pioh_mbtowc(&wcs,(char*)source,length);
-	widechar_to_data(wcs,length);
-	delete[] wcs;
+	data = r.data;
 }
 
 PString::~PString() {
@@ -117,6 +114,10 @@ void PString::clear() {
 	data.clear();
 }
 
+void PString::resize(size_t size) {
+	data.resize(size);
+}
+
 void PString::filter(bool (*predicate)(wchar_t)) {
 	for (size_t i=0; i < data.size(); i++) {
 		if ((*predicate)(data[i])) {
@@ -139,4 +140,14 @@ void PString::dropwhile_right(bool (*predicate)(wchar_t)) {
 
 void PString::filter_control() {
 	filter((bool(*)(wchar_t))iswcntrl);
+}
+
+bool operator<(PString const& l, PString const& r) {
+	return l.get_raw_data() < r.get_raw_data();
+}
+
+PString operator+(PString const& l, PString const& r) {
+	PString pstr(l);
+	pstr.append(r);
+	return pstr;
 }

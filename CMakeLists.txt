@@ -19,8 +19,11 @@ add_library(data-pstring             STATIC ../src/Data/PString/PString.cpp)
 target_link_libraries(data-pstring
 	proto-plainiohighlevel
 )
-#add_library(data-hash               STATIC ../src/Data/Hash/Hash.cpp)
-#add_library(data-circus             STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
+add_library(data-hash               STATIC ../src/Data/Hash/Hash.cpp)
+target_link_libraries(data-hash
+	data-pstring
+)
+add_library(data-circus             STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
 #target_link_libraries(data-circus proto-plainiohighlevel)
 #add_library(data-connection         STATIC ../src/Data/Connection/Connection.cpp)
 #target_link_libraries(data-connection 
@@ -123,7 +126,9 @@ set(server_lib
 #	proto-plainiohighlevel
 #	proto-networkhighlevel
 #	proto-database
-	data-pstring
+	data-circus
+	data-hash
+	
 )
 
 if (WIN32)

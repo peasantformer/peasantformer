@@ -125,18 +125,18 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>bind to specified addres and port </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
+<p>Bind to specified addres and port.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">hostname</td><td>addres (hostname) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>port </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">af</td><td>address family </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>socket type </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hostname</td><td>is address hostname to bind on </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>is port to bind on </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">af</td><td>is address family </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>is socket type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>is address literal output buffer </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00059">59</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -166,15 +166,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>het addres literal from addrinfo </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
+<p>Get addres literal from addrinfo.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>addrinfo struct </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal string buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>is addrinfo structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>is addres literal string buffer </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00019">19</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -194,13 +194,14 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>in address </dd></dl>
+<p>Simple wrapper returning in_addr.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">sa</td><td>sockaddr struct </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sa</td><td>is sockaddr struct </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>in address </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00012">12</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -230,15 +231,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>get sockaddr storage literal </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
+<p>Get sockaddr storage literal.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>sockaddr_storage struct </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>addres literal string buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">res</td><td>is sockaddr_storage struct </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">address_literal</td><td>is addres_literal string buffer </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00027">27</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -268,15 +269,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>iterate addrinfo till get some sane addrinfo struct </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
+<p>Iterate addrinfo till get some sane addrinfo struct.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>adrinfo struct </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">res</td><td>resulting addrinfo struct </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">info</td><td>is addrinfo struct </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">res</td><td>is resulting addrinfo struct </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00031">31</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -318,16 +319,16 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>socket send formatted string wrapper </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>count of sent bytes </dd></dl>
+<p>Socket send formatted string wrapper.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket file descriptor </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">bufflen</td><td>length of sending buffer </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fmt</td><td>format string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>is socket file descriptor </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bufflen</td><td>is maximum length of sending string buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fmt</td><td>is sprintf-format string </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>count of sent bytes </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00079">79</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -357,15 +358,15 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>socket send string wrapper </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>coutn of sent bytes </dd></dl>
+<p>Socket send string wrapper.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>socket file descriptor </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buf</td><td>string to send </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>is socket file descriptor </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">buf</td><td>is string to send </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>coutn of sent bytes </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00076">76</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -407,17 +408,17 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>hints setup helper function </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
+<p>Hints setup helper function.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">hints</td><td>hints structure to set </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">family</td><td>address family </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>socket type </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>flags </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">hints</td><td>is hints structure to set </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">family</td><td>is address family </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">socktype</td><td>is socket type </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>is hints flags </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>non-zero on error </dd></dl>
 
 <p>Definition at line <a class="el" href="_network_high_level_8cpp_source.html#l00005">5</a> of file <a class="el" href="_network_high_level_8cpp_source.html">NetworkHighLevel.cpp</a>.</p>
 
@@ -429,7 +430,7 @@ Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -438,7 +439,7 @@ Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 16:38:46 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 20:59:00 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

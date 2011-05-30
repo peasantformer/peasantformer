@@ -67,6 +67,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 &#160;<ul>
+<li>buffsize
+: <a class="el" href="class_circular_bufffer.html#aeaf0551d1f1d0886e5405cf92005d60e">CircularBufffer</a>
+</li>
 <li>cstr
 : <a class="el" href="class_p_string.html#a2bac4b4d94ba9b579e1a5b563fd8d405">PString</a>
 </li>
@@ -74,10 +77,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_p_string.html#a1f5b6f19ac7b0faa304b881b3b5edeca">PString</a>
 </li>
 <li>data
-: <a class="el" href="class_p_string.html#acc42ca87e6b858836fd0bbb0ed82c67d">PString</a>
+: <a class="el" href="class_circular_bufffer.html#a2fee96e8246eb281157f28e1ff9b0ab0">CircularBufffer</a>
+, <a class="el" href="class_p_string.html#acc42ca87e6b858836fd0bbb0ed82c67d">PString</a>
+, <a class="el" href="class_hash.html#ac0f5708dd1226b067db984f7f7f6e978">Hash&lt; T &gt;</a>
+</li>
+<li>fill
+: <a class="el" href="class_circular_bufffer.html#a6b5e19717f0072fabde9ba943ae27ccc">CircularBufffer</a>
 </li>
 <li>messages
 : <a class="el" href="class_messages.html#acaedbc0ffae8c475638795d65fb41874">Messages</a>
+</li>
+<li>overflow_strategy
+: <a class="el" href="class_circular_bufffer.html#a676186f966f4bad61387a85979ef2c87">CircularBufffer</a>
+</li>
+<li>peek_fill
+: <a class="el" href="class_circular_bufffer.html#a8b7cd1e4df7ec69a36a5b61c39552df2">CircularBufffer</a>
+</li>
+<li>ptr
+: <a class="el" href="class_circular_bufffer.html#a0ecb8fc85551179b37fa1e74a20c2051">CircularBufffer</a>
+</li>
+<li>ptr_begin
+: <a class="el" href="class_circular_bufffer.html#add2ddc346484601c8d36e41e4c15fce4">CircularBufffer</a>
+</li>
+<li>ptr_end
+: <a class="el" href="class_circular_bufffer.html#ab4a0e8356e72420b4653c6c8362e2d36">CircularBufffer</a>
+</li>
+<li>type
+: <a class="el" href="class_hash_holder.html#a94da56935209e1a0ac0f6a970a05bc82">HashHolder</a>
+</li>
+<li>value_double
+: <a class="el" href="class_hash_holder.html#aa5cc52e0d7ad933b3e6cea1213e55e1f">HashHolder</a>
+</li>
+<li>value_int
+: <a class="el" href="class_hash_holder.html#aa7e0330d2a1216ffda508c4bdf40d1d2">HashHolder</a>
+</li>
+<li>value_string
+: <a class="el" href="class_hash_holder.html#a8ad5775c8dda890aba5f6b9644c8107d">HashHolder</a>
 </li>
 <li>wstr
 : <a class="el" href="class_p_string.html#a677c3c68005f6f5ffdfadfb172acb8be">PString</a>
@@ -92,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -101,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 16:38:46 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 20:59:00 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

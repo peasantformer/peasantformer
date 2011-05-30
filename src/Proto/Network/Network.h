@@ -13,21 +13,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
-/// inplementatuon of inet_ntop6 for windows.
-/// @return INET6_ADDRSTRLEN sized string
-const char *inet_ntop6(
-	struct in6_addr *r, ///< [in] in6_addr structure
-	char *buf,  ///< [out] buffer where to write resulting string
-	socklen_t size  ///< [in] size of in6_addr
-);
-/// inplementatuon of inet_ntop for windows.
-/// @return INET[6]_ADDRSTRLEN sized string
-const char * inet_ntop(
-	int family, ///< [in] addres famoly - ipv4 or ipv6
-	const void *addr, ///< [in] addr structure
-	char *buf, ///< [out]  bufer where to write resulting string
-	socklen_t size ///< [in] size of addr structure
-);
+#include <Proto/Network/NetworkWin32.h>
 
 #else
 
@@ -39,94 +25,107 @@ const char * inet_ntop(
 
 #endif	
 
-/// initialize network for current program
+/// Initialize network for current program.
+///
 /// @return 0, at the moment in all cases
 int pn_init();
-/// getaddrinfo wrapper
-/// @return regular errno code
-int pn_getaddrinfo(
-	const char *node, ///< [in] node to use
-	const char *service, ///< [in] service to use
-	const struct addrinfo *hints, ///< [in] hints to use
-	struct addrinfo **res ///< [out] result
-);
-/// freeaddrinfo wrapper
-void pn_freeaddrinfo(
-	struct addrinfo *res ///< [in,out] ddrinfo destination
-);
 
-/// inet_ntop wrapper
+/// Getaddrinfo() wrapper.
+///
+/// \param [in] node to use
+/// \param [in] service to use
+/// \param [in] hints to use
+/// \param [out] res is resulting addrinfo struct pointer
+/// @return regular errno code
+int pn_getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res);
+
+/// Freeaddrinfo() wrapper.
+///
+/// \param [in,out] res is addrinfo destination
+void pn_freeaddrinfo(struct addrinfo *res);
+
+/// Inet_ntop() wrapper.
+///
+/// \param [in] af is address family
+/// \param [in] src is address to convert
+/// \param [out] dst destination buffer
+/// \param [in] size is size of af structure 
 /// @return INET[6]_ADDRSTRLEN-sized string representation of address
-const char * pn_inet_ntop(
-	int af, ///< [in] address family
-	const void *src, ///< [in] address to convert
-	char *dst, ///< [out] output char buffer
-	socklen_t size ///< [in] size of addr strcuture
-);
-/// socket() wrapper
-/// @return regular errno code
-int pn_socket(
-	int domain, ///< [in] domain
-	int type, ///< [in] type
-	int protocol ///< [in] protocol
-);
-/// connect wrapper
-/// @return regular errno code
-int pn_connect(
-	int sockfd, ///< [in] socket connect to
-	const struct sockaddr *addr, ///< [in] addr struct
-	socklen_t addrlen ///< [in] addr struct length
-);
-/// listen wrapper
-/// @return regular errno code
-int pn_listen(
-	int sockfd, ///< [in] socket to listen 
-	int backlog ///< [in] number of pending connections
-);
-/// bind wrapper
-/// @return regular errno code
-int pn_bind(
-	int sockfd, ///< [in] socket to bind
-	const struct sockaddr *addr, ///< [in] addr struct
-	socklen_t addrlen ///< [in] addr struct length
-);
-/// accept wrapper
-/// @return regular errno code
-int pn_accept(
-	int fd, ///< [in] socket to accept
-	struct sockaddr *addr, ///< [in] addr struct
-	socklen_t *addrlen ///< [in] addr struct length
-);
-/// select wrapper
-/// @return regular errno code
-int pn_select(
-	int nfds, ///< [out] maximum of fds + 1
-	fd_set *readfds, ///< [in,out] read fds
-	fd_set *writefds, ///< [in,out] write fds
-	fd_set *exceptfds, ///< [in,out] error fds
-	struct timeval *time ///< [in,out] timeout
-);
-/// checks if socket is valid
-/// @return non-zero if true
-int pn_socket_invalid(
-	int fd ///< [in] socket to check
-);
-/// setsocketopt wrapper
-/// @return regular errno code
-int pn_setsockopt(
-	int fd, ///< [in] socket fd
-	int level, ///< [in] API level
-	int optname, ///< [in] option to set
-	const void * optval, ///< [in] value for option
-	socklen_t len ///< [in] option length
-);
-/// close fd wrapper
-/// @return regular errno code
-int pn_close(
-	int fd ///< [in] file descriptor to close
-);
+const char * pn_inet_ntop(int af, const void *src, char *dst, socklen_t size);
 
-/// deinitialize network for current program
+/// Socket() wrapper.
+///
+/// \param [in] domain to use
+/// \param [in] type of socket
+/// \param [in] protocol to use
+/// @return regular errno code
+int pn_socket(int domain, int type, int protocol);
+
+/// Connect() wrapper.
+//
+/// \param [in] sockfd is socket connect to
+/// \param [in] addr is addr struct
+/// \param [in] addrlen is addr struct length
+/// @return regular errno code
+int pn_connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+/// Listen() wrapper
+///
+/// \param [in] sockfd is socket file descriptor to listen
+/// \param [in] backlog is number of pending connections
+/// @return regular errno code
+int pn_listen(int sockfd,int backlog);
+
+/// Bind() wrapper.
+///
+/// \param [in] sockfd is socket file descriptor to bind on
+/// \param [in] addr struct to use
+/// \param [in] addrlen is length of addr struct
+/// @return regular errno code
+int pn_bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+/// Accept() wrapper.
+///
+/// \param [in] fd is socket to accept
+/// \param [in] addr is addr struct
+/// \param [in] addrlen is addr struct length
+/// @return regular errno code
+int pn_accept(int fd, struct sockaddr *addr, socklen_t *addrlen);
+
+/// Select() wrapper.
+///
+/// \param [in] nfds 	 maximum of fds + 1
+/// \param [in,out] readfds is fd_set of reading sockets
+/// \param [in,out] writefds is fd_set of writing sockets
+/// \param [in,out] exceptfds is fd_set of exceptioned sockets
+/// \param [in,out] time is timeout for select()
+/// @return regular errno code
+int pn_select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,struct timeval *time);
+
+/// Checks if socket is valid.
+///
+/// \param [in] fd is socket file descriptor to check
+/// @return non-zero if true
+int pn_socket_invalid(int fd);
+
+/// Setsocketopt() wrapper.
+///
+/// \param [in] fd is socket fd
+/// \param [in] level is API level
+/// \param [in] optname is option to set
+/// \param [in] optval is value to set
+/// \param [in] len is length of option value
+/// @return regular errno code
+int pn_setsockopt(int fd, int level, int optname, const void * optval, socklen_t len);
+
+/// Close() fd wrapper.
+///
+/// \param [in] fd is fd to close
+/// @return regular errno code
+int pn_close(int fd);
+
+/// Deinitialize network for current program.
+///
 /// @return 0, at the moment in all cases
 int pn_quit();
 

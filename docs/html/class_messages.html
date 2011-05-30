@@ -77,7 +77,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a536fe388f621f84363fa71eaae7b576d">Messages</a> (Pstring filename)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs <a class="el" href="class_messages.html" title="Messages class.">Messages</a> class from filename with plaintext messages.  <a href="#a536fe388f621f84363fa71eaae7b576d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a55f9eb5f7c492becc71b5acdc419ad24">get</a> (Pstring id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#ad7f3c2a79400a327708a81a86bd50350">length</a> (Pstring id)</td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
@@ -105,11 +104,10 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
       </table>
 </div>
 <div class="memdoc">
-
-<p>Constructs <a class="el" href="class_messages.html" title="Messages class.">Messages</a> class from filename with plaintext messages. </p>
+<p>Constructs <a class="el" href="class_messages.html" title="Messages class.">Messages</a> class from filename with plaintext messages</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>filepath </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>is filepath </td></tr>
   </table>
   </dd>
 </dl>
@@ -133,13 +131,14 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>string with specified message id </dd></dl>
+<p>Get string with given id</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>message id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>is message id </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string with specified message id </dd></dl>
 
 <p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00037">37</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
 
@@ -159,13 +158,14 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>length of message with specified message id </dd></dl>
+<p>Get length of the message with specified id</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>message id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">id</td><td>is message id </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>length of message with specified message id </dd></dl>
 
 <p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00040">40</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
 
@@ -181,7 +181,7 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -190,7 +190,7 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 16:38:46 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 20:59:00 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

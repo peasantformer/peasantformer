@@ -58,6 +58,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <h1>src/Data/PString/PString.cpp File Reference</h1>  </div>
 </div>
@@ -66,17 +68,98 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <p><a href="_p_string_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_string_8cpp.html#a1e07207f4d0d494b4e6765ad0c4bd577">operator&lt;</a> (<a class="el" href="class_p_string.html">PString</a> const &amp;l, <a class="el" href="class_p_string.html">PString</a> const &amp;r)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_p_string_8cpp.html#ae01b9367f46666b04d1f3497ee524cc3">operator+</a> (<a class="el" href="class_p_string.html">PString</a> const &amp;l, <a class="el" href="class_p_string.html">PString</a> const &amp;r)</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock">
 <p>Definition in file <a class="el" href="_p_string_8cpp_source.html">PString.cpp</a>.</p>
-</div></div>
+</div><hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ae01b9367f46666b04d1f3497ee524cc3"></a><!-- doxytag: member="PString.cpp::operator+" ref="ae01b9367f46666b04d1f3497ee524cc3" args="(PString const &amp;l, PString const &amp;r)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_p_string.html">PString</a> operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a> const &amp;&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a> const &amp;&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Concatetipn operator.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>is left string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>is right string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>new string </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_string_8cpp_source.html#l00149">149</a> of file <a class="el" href="_p_string_8cpp_source.html">PString.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e07207f4d0d494b4e6765ad0c4bd577"></a><!-- doxytag: member="PString.cpp::operator&lt;" ref="a1e07207f4d0d494b4e6765ad0c4bd577" args="(PString const &amp;l, PString const &amp;r)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a> const &amp;&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a> const &amp;&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Comparison less-then operator.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>is left string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">r</td><td>is right string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+<p>Definition at line <a class="el" href="_p_string_8cpp_source.html#l00145">145</a> of file <a class="el" href="_p_string_8cpp_source.html">PString.cpp</a>.</p>
+
+</div>
+</div>
+</div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -85,7 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 16:38:46 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon May 30 2011 20:59:00 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

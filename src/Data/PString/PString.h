@@ -1,5 +1,5 @@
-#ifndef PEASANTFORMER_Data_CircularBuffer
-#define PEASANTFORMER_Data_CircularBuffer
+#ifndef PEASANTFORMER_Data_PString
+#define PEASANTFORMER_Data_PString
 
 /// @file
 
@@ -50,14 +50,12 @@ class PString {
 		/// \param [in] length is optional length of the string
 		PString(const char *source, int length = -1);
 		
-		/// Unsgined C-sring constructor.
+		/// Copy constructor
 		///
-		/// \param [in] source is C unsgined string
-		/// \param [in] length is optional length of the sring
-		PString(const unsigned char *source, int length = -1);
+		/// \param [in] r is a source PString
+		PString(const PString &r);
 		
 		/// Destructor
-		///
 		~PString();
 	public:
 		
@@ -100,8 +98,12 @@ class PString {
 		const wchar_t *w_str();
 		
 		/// Wipes PString
-		///
 		void clear();
+		
+		/// Resizes PString.
+		///
+		/// \param [in] size of desired buffer size
+		void resize(size_t size);
 		
 		/// Filters string using given predicate function
 		///
@@ -121,7 +123,6 @@ class PString {
 		void dropwhile_right(bool (*predicate)(wchar_t));
 		
 		/// Shortname for filter(iswcntrl)
-		///
 		void filter_control();
 		
 };
