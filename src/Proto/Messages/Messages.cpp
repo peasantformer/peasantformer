@@ -2,7 +2,7 @@
 
 /// @file
 
-Messages::Messages(pio_string filename) {
+Messages::Messages(Pstring filename) {
 	FILE *fh;
 	fh = fopen(filename.c_str(),"r");
 	
@@ -22,13 +22,11 @@ Messages::Messages(pio_string filename) {
 			msg[i++] = ch;
 		}
 		msg[i] = '\0';
-		pio_string pio_num(num);
-		pio_string pio_msg(msg);
-		pio_string pio_resulting_message = pio_num + " ";
-		pio_resulting_message = pio_resulting_message + pio_msg;
 		
-		this->messages[pio_string(id)] = pio_resulting_message;
-		this->messages[pio_num] = pio_string(id);
+		
+		
+		this->messages[Pstring(id)] = Pstring(num); + " " + Pstring(msg);
+		this->messages[pio_num] = Pstring(id);
 		for (int i=0; i < 1024; i++) {
 			id[i] = '\0';
 			msg[i] = '\0';
@@ -36,9 +34,9 @@ Messages::Messages(pio_string filename) {
 	}
 	fclose(fh);
 }
-const char *Messages::get(pio_string id)  {
+const char *Messages::get(Pstring id)  {
 	return this->messages[id].c_str();
 }
-size_t Messages::length(pio_string id)  {
+size_t Messages::length(Pstring id)  {
 	return this->messages[id].length();
 }

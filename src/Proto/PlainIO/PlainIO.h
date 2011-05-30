@@ -19,14 +19,14 @@ void pio_init();
 
 /// Convert system's multibyte string to widechar string
 /// @return number of converted chars
-size_t utf8stowcs(
+size_t pio_mbstowcs(
 	wchar_t *dest, ///< [out] destination widechar_t buffer
 	const char *source,///< [in] source char* buffer
 	size_t length ///< [in] length of char* buffer
 );
 /// Convert widechar string to system's multibyte string
 /// @return number of converted bytes
-size_t wcstoutf8s(
+size_t pio_wcstombs(
 	char *dest, ///< [out] destination char* buffer
 	const wchar_t *source, ///< [in] source widechar_t buffer
 	size_t length ///< [in] length of widechar_t buffer
