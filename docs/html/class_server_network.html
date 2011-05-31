@@ -80,8 +80,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a83cc9897480a010f2ca25462200971a8">ServerNetwork</a> (Server *srvr)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a83cc9897480a010f2ca25462200971a8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a7919790e799c7f522b60c8dbe3f7b71b">ServerNetwork</a> (<a class="el" href="class_server_engine.html">ServerEngine</a> *srvr)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a7919790e799c7f522b60c8dbe3f7b71b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a492e063c7ef70ec220ebf4a2e55feded"></a><!-- doxytag: member="ServerNetwork::~ServerNetwork" ref="a492e063c7ef70ec220ebf4a2e55feded" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a492e063c7ef70ec220ebf4a2e55feded">~ServerNetwork</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br/></td></tr>
@@ -99,8 +99,8 @@ Private Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Setups server on ipv6 address and port.  <a href="#a2c097242fed164d30f402e73b022241f"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a808595c6953da19db24bf393240fdcd3"></a><!-- doxytag: member="ServerNetwork::engine" ref="a808595c6953da19db24bf393240fdcd3" args="" -->
-Server *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3">engine</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6c4e77d2f92088df2051f57f4074ec8"></a><!-- doxytag: member="ServerNetwork::engine" ref="af6c4e77d2f92088df2051f57f4074ec8" args="" -->
+<a class="el" href="class_server_engine.html">ServerEngine</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#af6c4e77d2f92088df2051f57f4074ec8">engine</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">istance of server engine <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad99bee7e108cd1534aba83f60f50c5b6"></a><!-- doxytag: member="ServerNetwork::ipv4_listen_socket" ref="ad99bee7e108cd1534aba83f60f50c5b6" args="" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_network.html#ad99bee7e108cd1534aba83f60f50c5b6">ipv4_listen_socket</a></td></tr>
@@ -120,14 +120,14 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>Definition at line <a class="el" href="_server_network_8h_source.html#l00013">13</a> of file <a class="el" href="_server_network_8h_source.html">ServerNetwork.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a83cc9897480a010f2ca25462200971a8"></a><!-- doxytag: member="ServerNetwork::ServerNetwork" ref="a83cc9897480a010f2ca25462200971a8" args="(Server *srvr)" -->
+<a class="anchor" id="a7919790e799c7f522b60c8dbe3f7b71b"></a><!-- doxytag: member="ServerNetwork::ServerNetwork" ref="a7919790e799c7f522b60c8dbe3f7b71b" args="(ServerEngine *srvr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ServerNetwork::ServerNetwork </td>
           <td>(</td>
-          <td class="paramtype">Server *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_server_engine.html">ServerEngine</a> *&#160;</td>
           <td class="paramname"><em>srvr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -325,7 +325,7 @@ char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 14:48:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 15:24:36 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

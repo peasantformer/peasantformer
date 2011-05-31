@@ -75,7 +75,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00011"></a>00011 
 <a name="l00013"></a><a class="code" href="class_server_network.html">00013</a> <span class="keyword">class </span><a class="code" href="class_server_network.html" title="Networking class.">ServerNetwork</a> {
 <a name="l00014"></a>00014     <span class="keyword">private</span>:
-<a name="l00015"></a><a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3">00015</a>         Server *<a class="code" href="class_server_network.html#a808595c6953da19db24bf393240fdcd3" title="istance of server engine">engine</a>; 
+<a name="l00015"></a><a class="code" href="class_server_network.html#af6c4e77d2f92088df2051f57f4074ec8">00015</a>         <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *<a class="code" href="class_server_network.html#af6c4e77d2f92088df2051f57f4074ec8" title="istance of server engine">engine</a>; 
 <a name="l00016"></a>00016     
 <a name="l00017"></a><a class="code" href="class_server_network.html#ad99bee7e108cd1534aba83f60f50c5b6">00017</a>         <span class="keywordtype">int</span> <a class="code" href="class_server_network.html#ad99bee7e108cd1534aba83f60f50c5b6" title="ipv4 listening socket">ipv4_listen_socket</a>; 
 <a name="l00018"></a><a class="code" href="class_server_network.html#a0301005d3fa500812019f887c7cda122">00018</a>         <span class="keywordtype">int</span> <a class="code" href="class_server_network.html#a0301005d3fa500812019f887c7cda122" title="ipv6 listening socket">ipv6_listen_socket</a>; 
@@ -88,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00035"></a>00035         <span class="keywordtype">int</span> <a class="code" href="class_server_network.html#a2c097242fed164d30f402e73b022241f" title="Setups server on ipv6 address and port.">setup_ipv6_listener</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> address, <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> port);
 <a name="l00036"></a>00036     <span class="keyword">public</span>:
 <a name="l00037"></a>00037         
-<a name="l00041"></a>00041         <a class="code" href="class_server_network.html#a83cc9897480a010f2ca25462200971a8" title="Default constructor.">ServerNetwork</a>(Server *srvr);
+<a name="l00041"></a>00041         <a class="code" href="class_server_network.html#a7919790e799c7f522b60c8dbe3f7b71b" title="Default constructor.">ServerNetwork</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr);
 <a name="l00042"></a>00042         
 <a name="l00044"></a>00044         <a class="code" href="class_server_network.html#a492e063c7ef70ec220ebf4a2e55feded" title="Default destructor.">~ServerNetwork</a>();
 <a name="l00045"></a>00045     <span class="keyword">public</span>:
@@ -117,7 +117,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 14:48:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 15:24:36 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -14,7 +14,7 @@ class ServerConnections;
 /// Connection managing class
 class ServerConnections {
 	private:
-		Server *engine; ///< Server class instance
+		ServerEngine *engine; ///< Server class instance
 		
 		std::map<int,ConnectionPending> pending_connections;   ///< pending connections list
 		std::map<int,ConnectionAccepted> accepted_connections; ///< accepted connections list
@@ -33,7 +33,7 @@ class ServerConnections {
 		/// Constructor
 		///
 		/// \param [in] srvr is Server instance
-		ServerConnections(Server *srvr);
+		ServerConnections(ServerEngine *srvr);
 		
 		/// Destructor
 		~ServerConnections();

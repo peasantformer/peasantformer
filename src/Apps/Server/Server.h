@@ -3,7 +3,7 @@
 
 /// @file
 
-class Server;
+class ServerEngine;
 
 #include <Apps/Server/ServerNetwork/ServerNetwork.h>
 #include <Apps/Server/ServerConnections/ServerConnections.h>
@@ -14,6 +14,11 @@ class Server;
 /// Server engine class
 class ServerEngine {
 	private:
+	public:
+		/// Constructor
+		ServerEngine();
+		/// Destructor
+		~ServerEngine();
 	public:
 		ServerNetwork *network;         ///< networking class
 		ServerConnections *connections; ///< connections class

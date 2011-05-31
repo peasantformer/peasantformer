@@ -75,13 +75,13 @@ This is the complete list of members for <a class="el" href="class_server_connec
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a552d7910eea62e0d784f78eb97b9e78b">add_pending_connection</a>(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a23e30383da12ab997759b162917bba71">drop_accepted_connection</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a8bf6d5024dadc3cba62b6ee698b7db6c">drop_pending_connection</a>(int sockfd)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a486faf5fa6207dd908265756f5eee4a5">engine</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#aecf9b6e847c713ca1a2bdd4780dacaec">get_accepted_connection</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a8ba229059629c9a406d9d34ac989f048">engine</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#aa68739b2abc8c68371a34490d9789176">get_accepted_connection</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a04e7fce9aa5bd031ad871e4e8e1b4d5c">get_accepted_socks</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a3334ad689329f7b080cb293144e67dc1">get_accepted_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a40ac50a272166b7f8a269b74b8d13943">get_listen_socks</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a7c45a5e2714f904f71756265273f1e84">get_listen_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a842dbe21c3779007e48683314212d92c">get_pending_connection</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a3e50dbc8580a012415296ef748cb65af">get_pending_connection</a>(int i)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a34ad6680e701db52ba3e6f0974d94e6b">get_pending_socks</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a5bd51b2892a45913e56bd6e1f1151864">get_pending_socks_max</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a58b9e80cc6f435d100d7b93fabec2563">listen_socks</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
@@ -89,7 +89,7 @@ This is the complete list of members for <a class="el" href="class_server_connec
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a2c6c70295c9133089063b11e310ba044">pending_connections</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#ab542351d6c74ff26a0ac2e46cdd4a4d0">pending_socks</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a686c072c472ba2383fcfb8a3004597b4">pending_socks_max</a></td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td><code> [private]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_server_connections.html#a8fd1890b5ca4a16d69663753c803847b">ServerConnections</a>(Server *srvr)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_server_connections.html#aeee9f34addc858bede50111809d007ef">ServerConnections</a>(ServerEngine *srvr)</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_server_connections.html#a237f6210a793b829ec465ffcbb933383">~ServerConnections</a>()</td><td><a class="el" href="class_server_connections.html">ServerConnections</a></td><td></td></tr>
 </table></div>
 <!--- window showing the filter options -->
@@ -106,7 +106,7 @@ This is the complete list of members for <a class="el" href="class_server_connec
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 14:48:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 15:24:36 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

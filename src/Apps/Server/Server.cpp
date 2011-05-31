@@ -2,6 +2,11 @@
 
 /// @file
 
+ServerEngine::ServerEngine() {
+	network = new ServerNetwork(this);
+	//connections = new ServerConnections(this);
+};
+
 /// Main function.
 ///
 /// \param [in] argc is a number of arguments

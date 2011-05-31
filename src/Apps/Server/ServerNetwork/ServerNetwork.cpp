@@ -21,7 +21,7 @@ int ServerNetwork::setup_ipv6_listener(PString address, PString port) {
 	return 0;
 }
 
-ServerNetwork::ServerNetwork(Server *srvr) {
+ServerNetwork::ServerNetwork(ServerEngine *srvr) {
 	engine = srvr;
 	
 	ipv4_listen_socket = -1;

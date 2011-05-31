@@ -79,8 +79,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a8fd1890b5ca4a16d69663753c803847b">ServerConnections</a> (Server *srvr)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a8fd1890b5ca4a16d69663753c803847b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#aeee9f34addc858bede50111809d007ef">ServerConnections</a> (<a class="el" href="class_server_engine.html">ServerEngine</a> *srvr)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aeee9f34addc858bede50111809d007ef"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a237f6210a793b829ec465ffcbb933383"></a><!-- doxytag: member="ServerConnections::~ServerConnections" ref="a237f6210a793b829ec465ffcbb933383" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a237f6210a793b829ec465ffcbb933383">~ServerConnections</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
@@ -94,10 +94,10 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drops pending connection.  <a href="#a8bf6d5024dadc3cba62b6ee698b7db6c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a23e30383da12ab997759b162917bba71">drop_accepted_connection</a> (int sockfd)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Drops accepted connection.  <a href="#a23e30383da12ab997759b162917bba71"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connection_accepted.html">ConnectionAccepted</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#aecf9b6e847c713ca1a2bdd4780dacaec">get_accepted_connection</a> (int i)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns accepted connection with given id.  <a href="#aecf9b6e847c713ca1a2bdd4780dacaec"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connection_pending.html">ConnectionPending</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a842dbe21c3779007e48683314212d92c">get_pending_connection</a> (int i)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns pending connection with given id.  <a href="#a842dbe21c3779007e48683314212d92c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connection_accepted.html">ConnectionAccepted</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#aa68739b2abc8c68371a34490d9789176">get_accepted_connection</a> (int i)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns accepted connection with given id.  <a href="#aa68739b2abc8c68371a34490d9789176"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connection_pending.html">ConnectionPending</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a3e50dbc8580a012415296ef748cb65af">get_pending_connection</a> (int i)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns pending connection with given id.  <a href="#a3e50dbc8580a012415296ef748cb65af"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">fd_set&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a04e7fce9aa5bd031ad871e4e8e1b4d5c">get_accepted_socks</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns accepted socks list.  <a href="#a04e7fce9aa5bd031ad871e4e8e1b4d5c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">fd_set&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a34ad6680e701db52ba3e6f0974d94e6b">get_pending_socks</a> ()</td></tr>
@@ -112,8 +112,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns maximum of accepted socks list.  <a href="#a3334ad689329f7b080cb293144e67dc1"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a486faf5fa6207dd908265756f5eee4a5"></a><!-- doxytag: member="ServerConnections::engine" ref="a486faf5fa6207dd908265756f5eee4a5" args="" -->
-Server *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a486faf5fa6207dd908265756f5eee4a5">engine</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ba229059629c9a406d9d34ac989f048"></a><!-- doxytag: member="ServerConnections::engine" ref="a8ba229059629c9a406d9d34ac989f048" args="" -->
+<a class="el" href="class_server_engine.html">ServerEngine</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a8ba229059629c9a406d9d34ac989f048">engine</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Server class instance. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c6c70295c9133089063b11e310ba044"></a><!-- doxytag: member="ServerConnections::pending_connections" ref="a2c6c70295c9133089063b11e310ba044" args="" -->
 std::map&lt; int, <a class="el" href="class_connection_pending.html">ConnectionPending</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_server_connections.html#a2c6c70295c9133089063b11e310ba044">pending_connections</a></td></tr>
@@ -145,14 +145,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Definition at line <a class="el" href="_server_connections_8h_source.html#l00015">15</a> of file <a class="el" href="_server_connections_8h_source.html">ServerConnections.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8fd1890b5ca4a16d69663753c803847b"></a><!-- doxytag: member="ServerConnections::ServerConnections" ref="a8fd1890b5ca4a16d69663753c803847b" args="(Server *srvr)" -->
+<a class="anchor" id="aeee9f34addc858bede50111809d007ef"></a><!-- doxytag: member="ServerConnections::ServerConnections" ref="aeee9f34addc858bede50111809d007ef" args="(ServerEngine *srvr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ServerConnections::ServerConnections </td>
           <td>(</td>
-          <td class="paramtype">Server *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_server_engine.html">ServerEngine</a> *&#160;</td>
           <td class="paramname"><em>srvr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -167,6 +167,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00005">5</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -194,6 +196,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00033">33</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ac43d1d5f2d500d867fac174f41da32e3"></a><!-- doxytag: member="ServerConnections::add_listen_socket" ref="ac43d1d5f2d500d867fac174f41da32e3" args="(int sockfd)" -->
@@ -218,6 +222,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00018">18</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -262,6 +268,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00025">25</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a23e30383da12ab997759b162917bba71"></a><!-- doxytag: member="ServerConnections::drop_accepted_connection" ref="a23e30383da12ab997759b162917bba71" args="(int sockfd)" -->
@@ -286,6 +294,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00048">48</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -312,14 +322,16 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00043">43</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="aecf9b6e847c713ca1a2bdd4780dacaec"></a><!-- doxytag: member="ServerConnections::get_accepted_connection" ref="aecf9b6e847c713ca1a2bdd4780dacaec" args="(int i)" -->
+<a class="anchor" id="aa68739b2abc8c68371a34490d9789176"></a><!-- doxytag: member="ServerConnections::get_accepted_connection" ref="aa68739b2abc8c68371a34490d9789176" args="(int i)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_connection_accepted.html">ConnectionAccepted</a>&amp; ServerConnections::get_accepted_connection </td>
+          <td class="memname"><a class="el" href="class_connection_accepted.html">ConnectionAccepted</a> &amp; ServerConnections::get_accepted_connection </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -337,6 +349,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_connection_accepted.html" title="Pending connection class.">ConnectionAccepted</a> refference </dd></dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00053">53</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -357,6 +371,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Returns accepted socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>fd_set socket list </dd></dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00061">61</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a3334ad689329f7b080cb293144e67dc1"></a><!-- doxytag: member="ServerConnections::get_accepted_socks_max" ref="a3334ad689329f7b080cb293144e67dc1" args="()" -->
@@ -375,6 +391,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Returns maximum of accepted socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>maximum of sockslist </dd></dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00081">81</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -395,6 +413,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Returns listen socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>fd_set socket list </dd></dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00069">69</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a7c45a5e2714f904f71756265273f1e84"></a><!-- doxytag: member="ServerConnections::get_listen_socks_max" ref="a7c45a5e2714f904f71756265273f1e84" args="()" -->
@@ -414,14 +434,16 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Returns maximum of listen socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>maximum of sockslist </dd></dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00073">73</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a842dbe21c3779007e48683314212d92c"></a><!-- doxytag: member="ServerConnections::get_pending_connection" ref="a842dbe21c3779007e48683314212d92c" args="(int i)" -->
+<a class="anchor" id="a3e50dbc8580a012415296ef748cb65af"></a><!-- doxytag: member="ServerConnections::get_pending_connection" ref="a3e50dbc8580a012415296ef748cb65af" args="(int i)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_connection_pending.html">ConnectionPending</a>&amp; ServerConnections::get_pending_connection </td>
+          <td class="memname"><a class="el" href="class_connection_pending.html">ConnectionPending</a> &amp; ServerConnections::get_pending_connection </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -439,6 +461,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_connection_pending.html" title="Pending connection class.">ConnectionPending</a> refference </dd></dl>
+
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00057">57</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
 
 </div>
 </div>
@@ -459,6 +483,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Returns pending socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>fd_set socket list </dd></dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00065">65</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a5bd51b2892a45913e56bd6e1f1151864"></a><!-- doxytag: member="ServerConnections::get_pending_socks_max" ref="a5bd51b2892a45913e56bd6e1f1151864" args="()" -->
@@ -478,10 +504,13 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Returns maximum of pending socks list. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>maximum of sockslist </dd></dl>
 
+<p>Definition at line <a class="el" href="_server_connections_8cpp_source.html#l00077">77</a> of file <a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a>.</p>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/Apps/Server/ServerConnections/<a class="el" href="_server_connections_8h_source.html">ServerConnections.h</a></li>
+<li>src/Apps/Server/ServerConnections/<a class="el" href="_server_connections_8cpp_source.html">ServerConnections.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -498,7 +527,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 14:48:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue May 31 2011 15:24:36 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -12,7 +12,7 @@ class ServerNetwork;
 /// Networking class
 class ServerNetwork {
 	private:
-		Server *engine; ///< istance of server engine
+		ServerEngine *engine; ///< istance of server engine
 	
 		int ipv4_listen_socket; ///< ipv4 listening socket
 		int ipv6_listen_socket; ///< ipv6 listening socket
@@ -38,7 +38,7 @@ class ServerNetwork {
 		/// Default constructor
 		///
 		/// \param [in] srvr is an istance of server class
-		ServerNetwork(Server *srvr);
+		ServerNetwork(ServerEngine *srvr);
 		
 		/// Default destructor
 		~ServerNetwork();
