@@ -36,6 +36,9 @@ void PString::init() {
 	wstr_len = 0;
 }
 
+bool PString::iswnull(wchar_t ch) {
+	return (ch == '\0');
+}
 
 
 PString::PString() {
@@ -105,6 +108,11 @@ const char *PString::c_str() {
 	return cstr;
 }
 
+size_t PString::c_str_length() {
+	c_str();
+	return cstr_len;
+}
+
 const wchar_t *PString::w_str() {
 	data_to_widechar();
 	return wstr;
@@ -140,6 +148,10 @@ void PString::dropwhile_right(bool (*predicate)(wchar_t)) {
 
 void PString::filter_control() {
 	filter((bool(*)(wchar_t))iswcntrl);
+}
+
+void PString::trim_right() {
+	dropwhile_right((bool(*)(wchar_t))iswcntrl);
 }
 
 bool operator<(PString const& l, PString const& r) {

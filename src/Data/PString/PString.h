@@ -26,12 +26,17 @@ class PString {
 		
 		/// Converts internal text representation to widechar and store
 		/// it in wstr.
-		///
 		void data_to_widechar();
 		
 		/// Initializes things that a same for different constructors.
-		///
 		void init();
+		
+		/// Simple function that chekcks if it's widechar parameter is
+		/// '\0' and returns false if not.
+		///
+		/// \param [in] ch is character to test
+		/// @return boolean
+		bool iswnull(wchar_t ch);
 	public:
 		
 		/// Dummy constructor.
@@ -92,6 +97,11 @@ class PString {
 		/// @return C-string representation of data
 		const char *c_str();
 		
+		/// Length of C string
+		///
+		/// @return C-string length
+		size_t c_str_length();
+		
 		/// Widechar representation of PString.
 		///
 		/// @return widechar representation of data
@@ -124,6 +134,10 @@ class PString {
 		
 		/// Shortname for filter(iswcntrl)
 		void filter_control();
+		
+		/// Shorhand for defining own if-w-null function and then
+		/// applying it to dropwhile_right.
+		void trim_right();
 		
 };
 

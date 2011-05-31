@@ -9,13 +9,13 @@ size_t pioh_mbtowc(wchar_t **dest, const char *source, int length) {
 	if (length < 0) {
 		length = strlen(source);
 		realsource = new char[length+1];
-		strncpy(realsource,source,length);
+		strncpy(realsource,source,length+1);
 	} else {
 		realsource = new char[length+1];
-		strncpy(realsource,source,length);
+		strncpy(realsource,source,length+1);
 	}
 	realsource[length] = '\0';
-	
+
 	size_t buffsize = 0;
 	buffsize = pio_mbstowcs(NULL,realsource,0);
 	

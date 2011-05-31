@@ -8,8 +8,14 @@
 /// \param [in] argv is an argument list
 /// @return always zero.
 int main(int argc, char **argv) {
-	CircularBufffer cbuf(4);
-	cbuf.write("abcde");
-	cbuf.dump();
+	pio_init();
+	pn_init();
+	//printf("%s\n",PString("яфы").c_str());
+	//CircularBufffer cbuf(4);
+	//cbuf.write("1");
+	//cbuf.dump();
+	//cbuf.disable_overflow();	
+	//printf("%d\n",cbuf.read(5).length());
+	//ConnectionPending pend;
 	return 0;
 }

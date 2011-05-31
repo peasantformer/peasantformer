@@ -6,13 +6,13 @@
 #include <Data/PString/PString.h>
 
 /// Circular buffer implementation
-class CircularBufffer {
+class CircularBuffer {
 	private:
 		PString data;     ///< Buffer data
 		size_t buffsize;  ///< Buffer size
 		size_t ptr_begin; ///< Buffer start
 		size_t ptr_end;   ///< Buffer end
-		size_t ptr;       ///< Buffer current pointer
+		size_t peek_ptr;  ///< Peek pointer
 		size_t fill;      ///< Fill count of the buffer
 		size_t peek_fill; ///< Peek fill count of the buffer
 		bool overflow_strategy; ///< Determines the overflow strategy;
@@ -24,30 +24,49 @@ class CircularBufffer {
 		/// Initialization function, contains shared to all constructors
 		/// routines.
 		void init();
+		/// Incriments buffer's fill count
+		///
+		/// \param [in,out] p is pointer to incriment
+		void incr_strict(size_t *p);
+		/// Decriments buffer's fill count
+		///
+		/// \param [in,out] p is pointer to incriment
+		void decr_strict(size_t *p);
+		/// Incriments buffer's pointer
+		///
+		/// \param [in,out] p is pointer to incriment
+		void incr(size_t *p);
+		/// Decriments buffer's pointer
+		///
+		/// \param [in,out] p is pointer to decriment
+		void decr(size_t *p);
 	public:
 		/// Dummy constructor
-		CircularBufffer();
+		CircularBuffer();
 		
 		/// Constructor with pre-defined buffer size.
 		///
 		/// \param [in] buffsize is buffer size
-		CircularBufffer(size_t buffsize);
+		CircularBuffer(size_t buffsize);
 		
 		/// Constructor with pre-defined source string.
 		///
 		/// \param [in] source is source char string
-		CircularBufffer(const char *source);
+		CircularBuffer(const char *source);
 		
 		/// Constructor with pre-defined widechar string.
 		///
 		/// \param [in] source is source widechar string
-		CircularBufffer(const wchar_t *source);
+		CircularBuffer(const wchar_t *source);
 		
 		/// Dummy destructor.
-		~CircularBufffer();
+		~CircularBuffer();
 	public:
 		/// Clears buffer contetns.
 		void clear();
+		
+		/// Sets buffer strategy to non-overflow-tolerant one
+		void disable_overflow();
 		
 		/// Returns distance from current pointer to end of the buffer.
 		///
@@ -61,38 +80,23 @@ class CircularBufffer {
 		
 		/// Writes to buffer source char string
 		///
-		/// \param [in] source PString
+		/// \param [in] src PString
 		/// \param [in] length is optional length of source string
 		/// @return length of written data
 		size_t write(PString src, int length = -1);
 
-		
-		/// Reads from a buffer single character
-		///
-		/// @return character code
-		wint_t read_ch();
-		
 		/// Reads from a buffer some string with given length
 		///
-		/// \param [out] dest is destination buffer
 		/// \param [in] length is length of the string to read
-		/// @return length of read data
-		size_t read_str(wchar_t *dest, size_t length);
-		
-		/// Peeks from a buffer single character on given offset from
-		/// current pointer position.
-		///
-		/// \param [in] offset is offset of peeking character
-		/// @return character code
-		wint_t peek_ch(size_t offset);
+		/// @return PString
+		PString read(size_t length);
 		
 		/// Peeks from a buffer some string with given length, without
 		/// removing read data from the buffer.
 		///
-		/// \param [out] dest is destination buffer
 		/// \param [in] length is length of the string to read
-		/// @return length of peeked string
-		size_t peek_str(wchar_t *dest, size_t length);
+		/// @return PString
+		PString peek(size_t length);
 		
 		/// Seeks current pointer to a speified position.
 		///
