@@ -4,7 +4,16 @@
 
 ServerEngine::ServerEngine() {
 	network = new ServerNetwork(this);
-	//connections = new ServerConnections(this);
+	connections = new ServerConnections(this);
+	
+	thread_connection = new ThreadConnection(this);
+};
+
+ServerEngine::~ServerEngine() {
+	delete network;
+	delete connections;
+	
+	delete thread_connection;
 };
 
 /// Main function.
@@ -15,12 +24,8 @@ ServerEngine::ServerEngine() {
 int main(int argc, char **argv) {
 	pio_init();
 	pn_init();
-	//printf("%s\n",PString("яфы").c_str());
-	//CircularBufffer cbuf(4);
-	//cbuf.write("1");
-	//cbuf.dump();
-	//cbuf.disable_overflow();	
-	//printf("%d\n",cbuf.read(5).length());
-	//ConnectionPending pend;
+	ServerEngine engine;
+	
+	engine.network->setup("","50600");
 	return 0;
 }

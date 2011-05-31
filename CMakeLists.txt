@@ -26,10 +26,10 @@ target_link_libraries(data-hash
 add_library(data-circus             STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
 #target_link_libraries(data-circus proto-plainiohighlevel)
 add_library(data-connection         STATIC ../src/Data/Connection/Connection.cpp)
-#target_link_libraries(data-connection 
+target_link_libraries(data-connection 
 #	proto-networkhighlevel
-#	data-circus
-#)
+	data-circus
+)
 add_library(data-connectionPending  STATIC ../src/Data/Connection/ConnectionPending.cpp)
 #target_link_libraries(data-connectionPending
 #	data-connection
@@ -116,18 +116,21 @@ target_link_libraries(server-network
 #add_library(server-world             STATIC ../src/Apps/Server/World/World.cpp)
 #target_link_libraries(server-world data-circus)	# we don't really need that :P
 add_library(server-connections       STATIC ../src/Apps/Server/ServerConnections/ServerConnections.cpp)
-#target_link_libraries(server-connections
-#	data-connection
-#	data-connectionPending
-#	data-connectionAccepted
-#)
-#add_library(server-connectionServer      STATIC ../src/Apps/Server/ConnectionServer/ConnectionServer.cpp)
+target_link_libraries(server-connections
+	data-connection
+	data-connectionPending
+	data-connectionAccepted
+)
+add_library(server-thread-connection      STATIC ../src/Apps/Server/ThreadConnection/ThreadConnection.cpp)
 #add_library(server-loginServer           STATIC ../src/Apps/Server/LoginServer/LoginServer.cpp)
 #add_library(server-worldInteractorServer STATIC ../src/Apps/Server/WorldInteractorServer/WorldInteractorServer.cpp)
 #add_library(server-protocol          STATIC ../src/Apps/Server/Protocol/Protocol.cpp)
 
 set(server_lib
 	server-network
+	server-connections
+	
+	server-thread-connection
 #	server-connectionServer
 #	server-loginServer
 #	server-worldInteractorServer
