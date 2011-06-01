@@ -6,7 +6,6 @@
 class ThreadConnection;
 
 #include <pthread.h>
-
 #include <Apps/Server/Server.h>
 
 /// Connection handler thread
@@ -34,7 +33,7 @@ class ThreadConnection {
 	public:
 	
 		/// Sets up connection thread
-		void setup();
+		pthread_t setup();
 		
 		/// Desetups connection thread
 		void desetup();

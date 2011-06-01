@@ -3,6 +3,8 @@
 
 /// @file
 
+#include <string.h>
+
 #include <Data/CircularBuffer/CircularBuffer.h>
 #include <Proto/PlainIO/PlainIO.h>
 #include <Proto/Network/NetworkHighLevel.h>

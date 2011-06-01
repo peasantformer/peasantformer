@@ -45,6 +45,12 @@ ServerNetwork::~ServerNetwork() {
 }
 
 void ServerNetwork::setup(PString address, PString port) {
+#ifndef IPV6_V6ONLY
+	setup_ipv4_listener(address,port);
+#else
+	printf("[ipv4] Your system supports dula-ip stack. Seperate ipv4 socket is not needed\n");
+#endif
+	setup_ipv6_listener(address,port);
 }
 
 int ServerNetwork::get_ipv4_socket() {
