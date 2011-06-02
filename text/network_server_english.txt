@@ -6,4 +6,5 @@ wrong_auth			OP000004	Wrong authentification data
 successful_auth		OP000005	Authentification was successful
 login_successful	OP000006	You are logged in
 invalid_query		OP000007	Invalid request "%s"
+server_shutdown		OP000008	Server is shutting down
 last_message		OP999999	Last Message

@@ -79,16 +79,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a536fe388f621f84363fa71eaae7b576d">Messages</a> (Pstring filename)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs <a class="el" href="class_messages.html" title="Messages class.">Messages</a> class from filename with plaintext messages.  <a href="#a536fe388f621f84363fa71eaae7b576d"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a55f9eb5f7c492becc71b5acdc419ad24">get</a> (Pstring id)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string with given id.  <a href="#a55f9eb5f7c492becc71b5acdc419ad24"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#ad7f3c2a79400a327708a81a86bd50350">length</a> (Pstring id)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get length of the message with specified id.  <a href="#ad7f3c2a79400a327708a81a86bd50350"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a1ad1b9826a45f9fc2874a341920839c9">Messages</a> (<a class="el" href="class_p_string.html">PString</a> filename)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs <a class="el" href="class_messages.html" title="Messages class.">Messages</a> class from filename with plaintext messages.  <a href="#a1ad1b9826a45f9fc2874a341920839c9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#ac7775436db25b887f9d92ce11329b5be">get</a> (<a class="el" href="class_p_string.html">PString</a> id)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string with given id.  <a href="#ac7775436db25b887f9d92ce11329b5be"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#ab2efad70d2f19a51304bd80c60e0ee6f">length</a> (<a class="el" href="class_p_string.html">PString</a> id)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get length of the message with specified id.  <a href="#ab2efad70d2f19a51304bd80c60e0ee6f"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acaedbc0ffae8c475638795d65fb41874"></a><!-- doxytag: member="Messages::messages" ref="acaedbc0ffae8c475638795d65fb41874" args="" -->
-std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#acaedbc0ffae8c475638795d65fb41874">messages</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54bcbdd940b47cdd0068b123ac1bf69f"></a><!-- doxytag: member="Messages::messages" ref="a54bcbdd940b47cdd0068b123ac1bf69f" args="" -->
+std::map&lt; <a class="el" href="class_p_string.html">PString</a>, <a class="el" href="class_p_string.html">PString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_messages.html#a54bcbdd940b47cdd0068b123ac1bf69f">messages</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">messages data <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
@@ -96,14 +96,14 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 
 <p>Definition at line <a class="el" href="_messages_8h_source.html#l00010">10</a> of file <a class="el" href="_messages_8h_source.html">Messages.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a536fe388f621f84363fa71eaae7b576d"></a><!-- doxytag: member="Messages::Messages" ref="a536fe388f621f84363fa71eaae7b576d" args="(Pstring filename)" -->
+<a class="anchor" id="a1ad1b9826a45f9fc2874a341920839c9"></a><!-- doxytag: member="Messages::Messages" ref="a1ad1b9826a45f9fc2874a341920839c9" args="(PString filename)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Messages::Messages </td>
           <td>(</td>
-          <td class="paramtype">Pstring&#160;</td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a>&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
           <td></td>
         </tr>
@@ -124,14 +124,14 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a55f9eb5f7c492becc71b5acdc419ad24"></a><!-- doxytag: member="Messages::get" ref="a55f9eb5f7c492becc71b5acdc419ad24" args="(Pstring id)" -->
+<a class="anchor" id="ac7775436db25b887f9d92ce11329b5be"></a><!-- doxytag: member="Messages::get" ref="ac7775436db25b887f9d92ce11329b5be" args="(PString id)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">const char * Messages::get </td>
           <td>(</td>
-          <td class="paramtype">Pstring&#160;</td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a>&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
           <td></td>
         </tr>
@@ -148,18 +148,18 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string with specified message id </dd></dl>
 
-<p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00037">37</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00036">36</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad7f3c2a79400a327708a81a86bd50350"></a><!-- doxytag: member="Messages::length" ref="ad7f3c2a79400a327708a81a86bd50350" args="(Pstring id)" -->
+<a class="anchor" id="ab2efad70d2f19a51304bd80c60e0ee6f"></a><!-- doxytag: member="Messages::length" ref="ab2efad70d2f19a51304bd80c60e0ee6f" args="(PString id)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">size_t Messages::length </td>
           <td>(</td>
-          <td class="paramtype">Pstring&#160;</td>
+          <td class="paramtype"><a class="el" href="class_p_string.html">PString</a>&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
           <td></td>
         </tr>
@@ -176,7 +176,7 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>length of message with specified message id </dd></dl>
 
-<p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00040">40</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_messages_8cpp_source.html#l00039">39</a> of file <a class="el" href="_messages_8cpp_source.html">Messages.cpp</a>.</p>
 
 </div>
 </div>
@@ -199,7 +199,7 @@ std::map&lt; Pstring, Pstring &gt;&#160;</td><td class="memItemRight" valign="bo
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 1 2011 18:54:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

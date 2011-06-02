@@ -11,6 +11,7 @@ class ThreadAdminInput;
 #include <Apps/Server/Server.h>
 #include <Proto/Network/NetworkHighLevel.h>
 
+/// Handles admin input from stdin
 class ThreadAdminInput {
 	private:
 		ServerEngine *engine; ///< Instance of ServerEngine

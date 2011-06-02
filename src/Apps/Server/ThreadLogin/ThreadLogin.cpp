@@ -31,14 +31,19 @@ void *ThreadLogin::thread_login_worker(void *data) {
 		for (int i=0; i <= real_fds_max; i++) {
 			if (!FD_ISSET(i,&real_fds)) continue;
 			ConnectionPending &pconn = self->engine->connections->get_pending_connection(i);
-			char buf[1024];
-			int raw_bytes;
-			pconn.raw_bytes = recv(i,buf,1024,0);
+			pconn.raw_bytes = recv(i,pconn.raw_buffer,self->engine->get_buffsize()-1,0);
 			if (pconn.raw_bytes <= 0) {
 				printf("[%s] Pending connection terminated\n",self->engine->connections->get_pending_connection(i).address_literal);
 				self->engine->connections->drop_pending_connection(i);
 				pn_close(i);
 			} else {
+				pconn.raw_buffer[pconn.raw_bytes] = '\0';
+				pconn.parse_init();
+				if (pconn.opcode == 0) {
+					pconn.plain_buffer.filter_control();
+					pnh_send_fstr(i,self->engine->get_buffsize(),self->engine->nmsgs->get("invalid_query"),pconn.plain_buffer.c_str());
+					continue;
+				}
 			}
 		}
 		

@@ -81,3 +81,22 @@ int ServerConnections::get_pending_socks_max() {
 int ServerConnections::get_accepted_socks_max() {
 	return accepted_socks_max;
 }
+
+void ServerConnections::disconnect_all() {
+	for (int i=0; i <= listen_socks_max; i++) {
+		if (!FD_ISSET(i,&listen_socks)) continue;
+		pn_close(i);
+	}
+	PString shutdown_message = engine->nmsgs->get("server_shutdown");
+
+	for (int i=0; i <= pending_socks_max; i++) {
+		if (!FD_ISSET(i,&pending_socks)) continue;
+		pnh_send_str(i,shutdown_message.c_str());
+		pn_close(i);
+	}
+	for (int i=0; i <= accepted_socks_max; i++) {
+		if (!FD_ISSET(i,&accepted_socks)) continue;
+		pnh_send_str(i,shutdown_message.c_str());
+		pn_close(i);
+	}
+}

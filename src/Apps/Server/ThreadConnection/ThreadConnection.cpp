@@ -32,8 +32,9 @@ void *ThreadConnection::thread_connection_worker(void *data) {
 			if (!FD_ISSET(i,&read_fds)) continue;
 			addrlen = sizeof(remote_addr);
 			remote_sock = pn_accept(i,(struct sockaddr *)&remote_addr,&addrlen);
-			self->engine->connections->add_pending_connection(remote_sock,remote_addr,1024);
+			self->engine->connections->add_pending_connection(remote_sock,remote_addr,self->engine->get_buffsize());
 			printf("[%s] Incoming connection. Pending...\n",self->engine->connections->get_pending_connection(remote_sock).address_literal);
+			pnh_send_str(remote_sock,self->engine->nmsgs->get("hello_kitty"));
 		}
 		
 	}

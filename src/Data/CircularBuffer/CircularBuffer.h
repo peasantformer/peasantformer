@@ -91,12 +91,22 @@ class CircularBuffer {
 		/// @return PString
 		PString read(size_t length);
 		
+		/// Reads single character from the bufer
+		///
+		/// @return wide-char code
+		wint_t read_ch();
+		
 		/// Peeks from a buffer some string with given length, without
 		/// removing read data from the buffer.
 		///
 		/// \param [in] length is length of the string to read
 		/// @return PString
 		PString peek(size_t length);
+		
+		/// Peeks single character from the bufer
+		///
+		/// @return wide-char code
+		wint_t peek_ch();
 		
 		/// Seeks current pointer to a speified position.
 		///

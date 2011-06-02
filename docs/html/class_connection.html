@@ -100,6 +100,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_connection.html">Connection</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a2984e432e4a9cce455fef621c606836e">operator=</a> (<a class="el" href="class_connection.html">Connection</a> const &amp;r)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Asignment operator.  <a href="#a2984e432e4a9cce455fef621c606836e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a06764921c502a3290cd283df9e0d4815">parse_init</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses raw buffer initialy.  <a href="#a06764921c502a3290cd283df9e0d4815"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affb5b6c8650e2c244ab4719fe281a548"></a><!-- doxytag: member="Connection::sockfd" ref="affb5b6c8650e2c244ab4719fe281a548" args="" -->
@@ -111,8 +113,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3fc51f9c1668a26665953ac0b44aadc"></a><!-- doxytag: member="Connection::raw_buffer" ref="af3fc51f9c1668a26665953ac0b44aadc" args="" -->
 char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc">raw_buffer</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">raw buffer <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a142daea480a79bf59fa667358dc303"></a><!-- doxytag: member="Connection::plain_buffer" ref="a3a142daea480a79bf59fa667358dc303" args="" -->
-wchar_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a3a142daea480a79bf59fa667358dc303">plain_buffer</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58b6699455ba86ebf71800c9df87c709"></a><!-- doxytag: member="Connection::plain_buffer" ref="a58b6699455ba86ebf71800c9df87c709" args="" -->
+<a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709">plain_buffer</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">plain buffer <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5b31b1f97f7ebccf764f999c87bae0f"></a><!-- doxytag: member="Connection::circus" ref="aa5b31b1f97f7ebccf764f999c87bae0f" args="" -->
 <a class="el" href="class_circular_buffer.html">CircularBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f">circus</a></td></tr>
@@ -138,7 +140,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Generic connection class. </p>
 
-<p>Definition at line <a class="el" href="_connection_8h_source.html#l00013">13</a> of file <a class="el" href="_connection_8h_source.html">Connection.h</a>.</p>
+<p>Definition at line <a class="el" href="_connection_8h_source.html#l00014">14</a> of file <a class="el" href="_connection_8h_source.html">Connection.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab89ffc92f20c7f4efc44d98980de99cf"></a><!-- doxytag: member="Connection::Connection" ref="ab89ffc92f20c7f4efc44d98980de99cf" args="(int sockfd, struct sockaddr_storage remote_addr, size_t buffsize)" -->
 <div class="memitem">
@@ -181,7 +183,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00017">17</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00016">16</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
 
 </div>
 </div>
@@ -210,7 +212,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_connection.html" title="Generic connection class.">Connection</a> refference </dd></dl>
 
-<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00034">34</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00032">32</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a06764921c502a3290cd283df9e0d4815"></a><!-- doxytag: member="Connection::parse_init" ref="a06764921c502a3290cd283df9e0d4815" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Connection::parse_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Parses raw buffer initialy. </p>
+<p>Stream seekd to opcode and opcode parsed in numerical form into opcode variable. </p>
+
+<p>Definition at line <a class="el" href="_connection_8cpp_source.html#l00047">47</a> of file <a class="el" href="_connection_8cpp_source.html">Connection.cpp</a>.</p>
 
 </div>
 </div>
@@ -233,7 +256,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 1 2011 18:54:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

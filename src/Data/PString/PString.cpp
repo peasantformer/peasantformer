@@ -141,8 +141,9 @@ void PString::dropwhile_left(bool (*predicate)(wchar_t)) {
 }
 
 void PString::dropwhile_right(bool (*predicate)(wchar_t)) {
-	for (size_t i=data.size()-1; i >= 0 && (*predicate)(data[i]); i--) {
-		data.erase(data.begin()+i);
+	if (data.size() < 2) return;
+	for (int i=data.size()-1; i >= 0; i--) {
+		if ((*predicate)(data[i])) data.erase(data.begin()+i);
 	}
 }
 
@@ -162,4 +163,12 @@ PString operator+(PString const& l, PString const& r) {
 	PString pstr(l);
 	pstr.append(r);
 	return pstr;
+}
+
+bool operator==(PString const& l, PString const& r) {
+	return l.get_raw_data() == r.get_raw_data();
+}
+
+bool operator!=(PString const& l, PString const& r) {
+	return l.get_raw_data() != r.get_raw_data();
 }

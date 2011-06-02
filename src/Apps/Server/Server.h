@@ -15,6 +15,7 @@ class ServerEngine;
 #include <Apps/Server/ThreadAdminInput/ThreadAdminInput.h>
 
 
+#include <Proto/Messages/Messages.h>
 #include <Proto/Network/Network.h>
 #include <Proto/PlainIO/PlainIO.h>
 #include <Data/PString/PString.h>
@@ -41,6 +42,8 @@ class ServerEngine {
 		ThreadConnection *thread_connection;  ///< connection handler thread
 		ThreadLogin      *thread_login;       ///< login handler thread
 		ThreadAdminInput *thread_admin_input; ///< admin input handler thread
+		
+		Messages *nmsgs; ///< Network essages 
 };
 
 

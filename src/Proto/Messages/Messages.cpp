@@ -2,7 +2,7 @@
 
 /// @file
 
-Messages::Messages(Pstring filename) {
+Messages::Messages(PString filename) {
 	FILE *fh;
 	fh = fopen(filename.c_str(),"r");
 	
@@ -10,7 +10,7 @@ Messages::Messages(Pstring filename) {
 	wchar_t id[1024] = {0};
 	wchar_t msg[1024] = {0};
 	wchar_t num[7] = {0};
-	while ((ret = fwscanf(fh,L"%1024l[a-z_] %6lc ",id,num)) > 0) {
+	while ((ret = fwscanf(fh,L"%1024l[a-z_] OP%6lc ",id,num)) > 0) {
 		int i = 0;
 		wint_t ch = '\0';
 		while (ch != WEOF && ch != '\n') {
@@ -24,9 +24,8 @@ Messages::Messages(Pstring filename) {
 		msg[i] = '\0';
 		
 		
-		
-		this->messages[Pstring(id)] = Pstring(num); + " " + Pstring(msg);
-		this->messages[pio_num] = Pstring(id);
+		this->messages[PString(id)] = "OP" + PString(num) + " " + PString(msg);
+		this->messages[PString(num)] = PString(id);
 		for (int i=0; i < 1024; i++) {
 			id[i] = '\0';
 			msg[i] = '\0';
@@ -34,9 +33,9 @@ Messages::Messages(Pstring filename) {
 	}
 	fclose(fh);
 }
-const char *Messages::get(Pstring id)  {
+const char *Messages::get(PString id)  {
 	return this->messages[id].c_str();
 }
-size_t Messages::length(Pstring id)  {
+size_t Messages::length(PString id)  {
 	return this->messages[id].length();
 }

@@ -155,4 +155,18 @@ bool operator<(PString const& l, PString const& r);
 /// @return new string
 PString operator+(PString const& l, PString const& r);
 
+/// EQ-comaparator
+///
+/// \param [in] l is left string
+/// \param [in] r is right string
+/// @return bool
+bool operator==(PString const& l, PString const& r);
+
+/// NEQ-comaparator
+///
+/// \param [in] l is left string
+/// \param [in] r is right string
+/// @return bool
+bool operator!=(PString const& l, PString const& r);
+
 #endif

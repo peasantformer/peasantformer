@@ -107,6 +107,9 @@ class ServerConnections {
 		///
 		/// @return maximum of sockslist
 		int get_accepted_socks_max();
+		
+		/// Closes all open connections
+		void disconnect_all();
 };
 
 #endif

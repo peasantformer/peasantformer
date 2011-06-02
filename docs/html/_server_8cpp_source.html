@@ -78,56 +78,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00014"></a>00014     
 <a name="l00015"></a>00015     <a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a> = <span class="keyword">new</span> <a class="code" href="class_thread_connection.html" title="Connection handler thread.">ThreadConnection</a>(<span class="keyword">this</span>);
 <a name="l00016"></a>00016     <a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a> = <span class="keyword">new</span> <a class="code" href="class_thread_login.html" title="Connection handler thread.">ThreadLogin</a>(<span class="keyword">this</span>);
-<a name="l00017"></a>00017     <a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a> = <span class="keyword">new</span> <a class="code" href="class_thread_admin_input.html">ThreadAdminInput</a>(<span class="keyword">this</span>);
-<a name="l00018"></a>00018 }
-<a name="l00019"></a>00019 
-<a name="l00020"></a><a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f">00020</a> <a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f" title="Destructor.">ServerEngine::~ServerEngine</a>() {
-<a name="l00021"></a>00021     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>;
-<a name="l00022"></a>00022     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc" title="connections class">connections</a>;
-<a name="l00023"></a>00023     
-<a name="l00024"></a>00024     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>;
-<a name="l00025"></a>00025     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>;
-<a name="l00026"></a>00026     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>;
-<a name="l00027"></a>00027 }
-<a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *engine;
-<a name="l00030"></a>00030 
-<a name="l00031"></a>00031 <span class="keywordtype">void</span> sigint_handler(<span class="keywordtype">int</span> sig) {
-<a name="l00032"></a>00032     printf(<span class="stringliteral">&quot;Interrupt caught.\n&quot;</span>);
-<a name="l00033"></a>00033     engine-&gt;<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>-&gt;<a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254" title="Desetups connection thread.">desetup</a>();
-<a name="l00034"></a>00034     engine-&gt;<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>-&gt;<a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">desetup</a>();
-<a name="l00035"></a>00035     engine-&gt;<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>-&gt;<a class="code" href="class_thread_admin_input.html#af7ecf5afca051e1e66d80e6eb951b9c1" title="Desetups admin input thread.">desetup</a>();
-<a name="l00036"></a>00036     <span class="comment">//exit(1);</span>
-<a name="l00037"></a>00037 }
-<a name="l00038"></a>00038 
-<a name="l00044"></a><a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00044</a> <span class="keywordtype">int</span> <a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main function.">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv) {
-<a name="l00045"></a>00045 <span class="preprocessor">#ifdef _WIN32</span>
-<a name="l00046"></a>00046 <span class="preprocessor"></span>    pthread_win32_process_attach_np();
-<a name="l00047"></a>00047 <span class="preprocessor">#endif</span>
-<a name="l00048"></a>00048 <span class="preprocessor"></span>    
-<a name="l00049"></a>00049     <a class="code" href="_plain_i_o_8h.html#a57d833dd4f6d86ac4e83ee13e5c6a9e4" title="Initialize terminal for unicode Input/Output.">pio_init</a>();
-<a name="l00050"></a>00050     <a class="code" href="_network_8cpp.html#a6b9f59476dba2e7bbd15de5a1a1c94e7" title="Initialize network for current program.">pn_init</a>();
-<a name="l00051"></a>00051     
-<a name="l00052"></a>00052     engine = <span class="keyword">new</span> <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a>;
-<a name="l00053"></a>00053     
-<a name="l00054"></a>00054     signal(SIGINT, &amp;sigint_handler);
-<a name="l00055"></a>00055     printf(<span class="stringliteral">&quot;[INFO] To interrupt the server use ^C^D sequence.\n&quot;</span>);
-<a name="l00056"></a>00056     
-<a name="l00057"></a>00057     engine-&gt;<a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>-&gt;<a class="code" href="class_server_network.html#a62da9122059b78800ef33f9939e6d752" title="Sets up listening server on given address and port.">setup</a>(<span class="stringliteral">&quot;&quot;</span>,<span class="stringliteral">&quot;50600&quot;</span>);
-<a name="l00058"></a>00058     pthread_t thread_connection_t = engine-&gt;<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>-&gt;<a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79" title="Sets up connection thread.">setup</a>();
-<a name="l00059"></a>00059     pthread_t thread_login_t = engine-&gt;<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>-&gt;<a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">setup</a>();
-<a name="l00060"></a>00060     pthread_t thread_admin_input_t =  engine-&gt;<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>-&gt;<a class="code" href="class_thread_admin_input.html#ad6f6e8e715497f6def8ef180fb8e9d8e" title="Sets up admin input thread.">setup</a>();
+<a name="l00017"></a>00017     <a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a> = <span class="keyword">new</span> <a class="code" href="class_thread_admin_input.html" title="Handles admin input from stdin.">ThreadAdminInput</a>(<span class="keyword">this</span>);
+<a name="l00018"></a>00018     
+<a name="l00019"></a>00019     <a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a> = <span class="keyword">new</span> <a class="code" href="class_messages.html" title="Messages class.">Messages</a>(<span class="stringliteral">&quot;text/network_server_english.txt&quot;</span>);
+<a name="l00020"></a>00020 }
+<a name="l00021"></a>00021 
+<a name="l00022"></a><a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f">00022</a> <a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f" title="Destructor.">ServerEngine::~ServerEngine</a>() {
+<a name="l00023"></a>00023     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>;
+<a name="l00024"></a>00024     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc" title="connections class">connections</a>;
+<a name="l00025"></a>00025     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a>;
+<a name="l00026"></a>00026     
+<a name="l00027"></a>00027     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>;
+<a name="l00028"></a>00028     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>;
+<a name="l00029"></a>00029     <span class="keyword">delete</span> <a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>;
+<a name="l00030"></a>00030 }
+<a name="l00031"></a>00031 
+<a name="l00032"></a><a class="code" href="_server_8cpp.html#a9f5a226326a290a4c21010c29cf911ab">00032</a> <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *<a class="code" href="_server_8cpp.html#a9f5a226326a290a4c21010c29cf911ab" title="ServerEngine instance.">engine</a>; 
+<a name="l00033"></a>00033 
+<a name="l00037"></a><a class="code" href="_server_8cpp.html#a258e3b580e688a0cf46e4258525aeaf1">00037</a> <span class="keywordtype">void</span> <a class="code" href="_server_8cpp.html#a258e3b580e688a0cf46e4258525aeaf1" title="Interuption signal handler.">sigint_handler</a>(<span class="keywordtype">int</span> sig) {
+<a name="l00038"></a>00038     printf(<span class="stringliteral">&quot;Interrupt caught.\n&quot;</span>);
+<a name="l00039"></a>00039     engine-&gt;<a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc" title="connections class">connections</a>-&gt;<a class="code" href="class_server_connections.html#aba8ed78abf58b35b032d9fd1243d004c" title="Closes all open connections.">disconnect_all</a>();
+<a name="l00040"></a>00040         
+<a name="l00041"></a>00041     engine-&gt;<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>-&gt;<a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254" title="Desetups connection thread.">desetup</a>();
+<a name="l00042"></a>00042     engine-&gt;<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>-&gt;<a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">desetup</a>();
+<a name="l00043"></a>00043     engine-&gt;<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>-&gt;<a class="code" href="class_thread_admin_input.html#af7ecf5afca051e1e66d80e6eb951b9c1" title="Desetups admin input thread.">desetup</a>();
+<a name="l00044"></a>00044     <span class="comment">//exit(1);</span>
+<a name="l00045"></a>00045 }
+<a name="l00046"></a>00046 
+<a name="l00052"></a><a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">00052</a> <span class="keywordtype">int</span> <a class="code" href="_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="Main function.">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv) {
+<a name="l00053"></a>00053 <span class="preprocessor">#ifdef _WIN32</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span>    pthread_win32_process_attach_np();
+<a name="l00055"></a>00055 <span class="preprocessor">#endif</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>    
+<a name="l00057"></a>00057     <a class="code" href="_plain_i_o_8h.html#a57d833dd4f6d86ac4e83ee13e5c6a9e4" title="Initialize terminal for unicode Input/Output.">pio_init</a>();
+<a name="l00058"></a>00058     <a class="code" href="_network_8cpp.html#a6b9f59476dba2e7bbd15de5a1a1c94e7" title="Initialize network for current program.">pn_init</a>();
+<a name="l00059"></a>00059     
+<a name="l00060"></a>00060     engine = <span class="keyword">new</span> <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a>;
 <a name="l00061"></a>00061     
-<a name="l00062"></a>00062     pthread_join(thread_connection_t,NULL);
-<a name="l00063"></a>00063     pthread_join(thread_login_t,NULL);
-<a name="l00064"></a>00064     pthread_join(thread_admin_input_t,NULL);
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066     <span class="keyword">delete</span> engine;
-<a name="l00067"></a>00067 <span class="preprocessor">#ifdef _WIN32</span>
-<a name="l00068"></a>00068 <span class="preprocessor"></span>    pthread_win32_process_detach_np();
-<a name="l00069"></a>00069 <span class="preprocessor">#endif</span>
-<a name="l00070"></a>00070 <span class="preprocessor"></span>    <span class="keywordflow">return</span> 0;
-<a name="l00071"></a>00071 }
+<a name="l00062"></a>00062     signal(SIGINT, &amp;<a class="code" href="_server_8cpp.html#a258e3b580e688a0cf46e4258525aeaf1" title="Interuption signal handler.">sigint_handler</a>);
+<a name="l00063"></a>00063     
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065     printf(<span class="stringliteral">&quot;[INFO] To interrupt the server correctly use ^D^C sequence.\n&quot;</span>);
+<a name="l00066"></a>00066     printf(<span class="stringliteral">&quot;[INFO] ^D is needed to stop AdminInput thread from reading stdin\n&quot;</span>);
+<a name="l00067"></a>00067     printf(<span class="stringliteral">&quot;[INFO] ^C is needed to actually interrupt rest of the server\n&quot;</span>);
+<a name="l00068"></a>00068     <span class="comment">//printf(&quot;\n&quot;);</span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     engine-&gt;<a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>-&gt;<a class="code" href="class_server_network.html#a62da9122059b78800ef33f9939e6d752" title="Sets up listening server on given address and port.">setup</a>(<span class="stringliteral">&quot;&quot;</span>,<span class="stringliteral">&quot;50600&quot;</span>);
+<a name="l00071"></a>00071     
+<a name="l00072"></a>00072     pthread_t thread_connection_t = engine-&gt;<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>-&gt;<a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79" title="Sets up connection thread.">setup</a>();
+<a name="l00073"></a>00073     pthread_t thread_login_t = engine-&gt;<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>-&gt;<a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">setup</a>();
+<a name="l00074"></a>00074     pthread_t thread_admin_input_t =  engine-&gt;<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>-&gt;<a class="code" href="class_thread_admin_input.html#ad6f6e8e715497f6def8ef180fb8e9d8e" title="Sets up admin input thread.">setup</a>();
+<a name="l00075"></a>00075     
+<a name="l00076"></a>00076     pthread_join(thread_connection_t,NULL);
+<a name="l00077"></a>00077     pthread_join(thread_login_t,NULL);
+<a name="l00078"></a>00078     pthread_join(thread_admin_input_t,NULL);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     <span class="keyword">delete</span> <a class="code" href="_server_8cpp.html#a9f5a226326a290a4c21010c29cf911ab" title="ServerEngine instance.">engine</a>;
+<a name="l00081"></a>00081 <span class="preprocessor">#ifdef _WIN32</span>
+<a name="l00082"></a>00082 <span class="preprocessor"></span>    pthread_win32_process_detach_np();
+<a name="l00083"></a>00083 <span class="preprocessor">#endif</span>
+<a name="l00084"></a>00084 <span class="preprocessor"></span>    <span class="keywordflow">return</span> 0;
+<a name="l00085"></a>00085 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -144,7 +155,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 1 2011 18:54:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

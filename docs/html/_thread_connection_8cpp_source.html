@@ -96,38 +96,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00032"></a>00032             <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;read_fds)) <span class="keywordflow">continue</span>;
 <a name="l00033"></a>00033             addrlen = <span class="keyword">sizeof</span>(remote_addr);
 <a name="l00034"></a>00034             remote_sock = <a class="code" href="_network_8cpp.html#a83d17211f8d0b542855d334834771ac5" title="Accept() wrapper.">pn_accept</a>(i,(<span class="keyword">struct</span> sockaddr *)&amp;remote_addr,&amp;addrlen);
-<a name="l00035"></a>00035             <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;add_pending_connection(remote_sock,remote_addr,1024);
+<a name="l00035"></a>00035             <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;add_pending_connection(remote_sock,remote_addr,self-&gt;engine-&gt;get_buffsize());
 <a name="l00036"></a>00036             printf(<span class="stringliteral">&quot;[%s] Incoming connection. Pending...\n&quot;</span>,self-&gt;engine-&gt;connections-&gt;get_pending_connection(remote_sock).address_literal);
-<a name="l00037"></a>00037         }
-<a name="l00038"></a>00038         
-<a name="l00039"></a>00039     }
-<a name="l00040"></a>00040     printf(<span class="stringliteral">&quot;[INFO] Connection thread shuted down\n&quot;</span>);
-<a name="l00041"></a>00041     pthread_exit(NULL);
-<a name="l00042"></a>00042     <span class="keywordflow">return</span> NULL;
-<a name="l00043"></a>00043 }
-<a name="l00044"></a>00044 
-<a name="l00045"></a><a class="code" href="class_thread_connection.html#a4c55ddd8a3bb63f361e21384eb01f410">00045</a> <a class="code" href="class_thread_connection.html#a4c55ddd8a3bb63f361e21384eb01f410" title="Constructor.">ThreadConnection::ThreadConnection</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr) {
-<a name="l00046"></a>00046     <a class="code" href="class_thread_connection.html#ac486c016612ff6e3b92e3ff0fb621eab" title="Instance of ServerEngine.">engine</a> = srvr;
-<a name="l00047"></a>00047     <a class="code" href="class_thread_connection.html#a00fe75ac79f96cb99ca2ff42ac579926" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">false</span>;
-<a name="l00048"></a>00048 }
-<a name="l00049"></a>00049 
-<a name="l00050"></a><a class="code" href="class_thread_connection.html#a1157d7d80e26904cea255eeba4541669">00050</a> <a class="code" href="class_thread_connection.html#a1157d7d80e26904cea255eeba4541669" title="Destructor.">ThreadConnection::~ThreadConnection</a>() {
-<a name="l00051"></a>00051 
-<a name="l00052"></a>00052 }
-<a name="l00053"></a>00053 
-<a name="l00054"></a><a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79">00054</a> pthread_t <a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79" title="Sets up connection thread.">ThreadConnection::setup</a>() {
-<a name="l00055"></a>00055     pthread_attr_t attr;
-<a name="l00056"></a>00056     pthread_attr_init(&amp;attr);
-<a name="l00057"></a>00057     pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_JOINABLE);
-<a name="l00058"></a>00058     pthread_create(&amp;<a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>, &amp;attr, <a class="code" href="class_thread_connection.html#adfb46623ff237086e27e10c6de35a64d" title="Thread connection worker.">thread_connection_worker</a>,<span class="keyword">this</span>);
-<a name="l00059"></a>00059     pthread_attr_destroy(&amp;attr);
-<a name="l00060"></a>00060     <span class="keywordflow">return</span> <a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>;
-<a name="l00061"></a>00061 }
-<a name="l00062"></a>00062 
-<a name="l00063"></a><a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254">00063</a> <span class="keywordtype">void</span> <a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254" title="Desetups connection thread.">ThreadConnection::desetup</a>() {
-<a name="l00064"></a>00064     <a class="code" href="class_thread_connection.html#a00fe75ac79f96cb99ca2ff42ac579926" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">true</span>;
-<a name="l00065"></a>00065     pthread_join(<a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>,NULL);
-<a name="l00066"></a>00066 }
+<a name="l00037"></a>00037             <a class="code" href="_network_high_level_8cpp.html#a9e72c682cfa19fbc061fe9f6e3fb13aa" title="Socket send string wrapper.">pnh_send_str</a>(remote_sock,self-&gt;engine-&gt;nmsgs-&gt;get(<span class="stringliteral">&quot;hello_kitty&quot;</span>));
+<a name="l00038"></a>00038         }
+<a name="l00039"></a>00039         
+<a name="l00040"></a>00040     }
+<a name="l00041"></a>00041     printf(<span class="stringliteral">&quot;[INFO] Connection thread shuted down\n&quot;</span>);
+<a name="l00042"></a>00042     pthread_exit(NULL);
+<a name="l00043"></a>00043     <span class="keywordflow">return</span> NULL;
+<a name="l00044"></a>00044 }
+<a name="l00045"></a>00045 
+<a name="l00046"></a><a class="code" href="class_thread_connection.html#a4c55ddd8a3bb63f361e21384eb01f410">00046</a> <a class="code" href="class_thread_connection.html#a4c55ddd8a3bb63f361e21384eb01f410" title="Constructor.">ThreadConnection::ThreadConnection</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr) {
+<a name="l00047"></a>00047     <a class="code" href="class_thread_connection.html#ac486c016612ff6e3b92e3ff0fb621eab" title="Instance of ServerEngine.">engine</a> = srvr;
+<a name="l00048"></a>00048     <a class="code" href="class_thread_connection.html#a00fe75ac79f96cb99ca2ff42ac579926" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">false</span>;
+<a name="l00049"></a>00049 }
+<a name="l00050"></a>00050 
+<a name="l00051"></a><a class="code" href="class_thread_connection.html#a1157d7d80e26904cea255eeba4541669">00051</a> <a class="code" href="class_thread_connection.html#a1157d7d80e26904cea255eeba4541669" title="Destructor.">ThreadConnection::~ThreadConnection</a>() {
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 }
+<a name="l00054"></a>00054 
+<a name="l00055"></a><a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79">00055</a> pthread_t <a class="code" href="class_thread_connection.html#a13a2182822d8693476cfbce0cb21bc79" title="Sets up connection thread.">ThreadConnection::setup</a>() {
+<a name="l00056"></a>00056     pthread_attr_t attr;
+<a name="l00057"></a>00057     pthread_attr_init(&amp;attr);
+<a name="l00058"></a>00058     pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_JOINABLE);
+<a name="l00059"></a>00059     pthread_create(&amp;<a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>, &amp;attr, <a class="code" href="class_thread_connection.html#adfb46623ff237086e27e10c6de35a64d" title="Thread connection worker.">thread_connection_worker</a>,<span class="keyword">this</span>);
+<a name="l00060"></a>00060     pthread_attr_destroy(&amp;attr);
+<a name="l00061"></a>00061     <span class="keywordflow">return</span> <a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>;
+<a name="l00062"></a>00062 }
+<a name="l00063"></a>00063 
+<a name="l00064"></a><a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254">00064</a> <span class="keywordtype">void</span> <a class="code" href="class_thread_connection.html#a8af364ab0a6785a3162527fc6357c254" title="Desetups connection thread.">ThreadConnection::desetup</a>() {
+<a name="l00065"></a>00065     <a class="code" href="class_thread_connection.html#a00fe75ac79f96cb99ca2ff42ac579926" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">true</span>;
+<a name="l00066"></a>00066     pthread_join(<a class="code" href="class_thread_connection.html#af205dd0b86be67118a5174d03bc58bd4" title="thread id">thread_id</a>,NULL);
+<a name="l00067"></a>00067 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -144,7 +145,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 1 2011 18:54:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

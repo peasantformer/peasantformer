@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <Data/CircularBuffer/CircularBuffer.h>
+#include <Data/PString/PString.h>
 #include <Proto/PlainIO/PlainIO.h>
 #include <Proto/Network/NetworkHighLevel.h>
 
@@ -15,7 +16,7 @@ class Connection {
 		int sockfd;                             ///< socket fd
 		size_t buffsize;                        ///< buffers size
 		char *raw_buffer;                       ///< raw buffer
-		wchar_t *plain_buffer;                  ///< plain buffer
+		PString plain_buffer;                   ///< plain buffer
 		CircularBuffer *circus;                 ///< circular buffer
 		struct sockaddr_storage remote_addr;    ///< remote addr struct
 		char address_literal[INET6_ADDRSTRLEN]; ///< remote addr literal value
@@ -40,11 +41,18 @@ class Connection {
 		virtual ~Connection();
 	public:
 		
-		/// Asignment operator
+		/// Asignment operator.
 		///
 		/// \param [in] r is right-hand expression
 		/// @return Connection refference
 		Connection & operator=(Connection const &r);
+	public:
+	
+		/// Parses raw buffer initialy.
+		///
+		/// Stream seekd to opcode and opcode parsed in numerical form
+		/// into opcode variable.
+		void parse_init();
 };
 
 #endif

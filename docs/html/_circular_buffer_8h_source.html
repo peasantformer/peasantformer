@@ -112,20 +112,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00087"></a>00087 
 <a name="l00092"></a>00092         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00" title="Reads from a buffer some string with given length.">read</a>(<span class="keywordtype">size_t</span> length);
 <a name="l00093"></a>00093         
-<a name="l00099"></a>00099         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(<span class="keywordtype">size_t</span> length);
-<a name="l00100"></a>00100         
-<a name="l00104"></a>00104         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(<span class="keywordtype">int</span> offset);
+<a name="l00097"></a>00097         wint_t <a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
+<a name="l00098"></a>00098         
+<a name="l00104"></a>00104         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(<span class="keywordtype">size_t</span> length);
 <a name="l00105"></a>00105         
-<a name="l00109"></a>00109         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">is_eof</a>();
+<a name="l00109"></a>00109         wint_t <a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">peek_ch</a>();
 <a name="l00110"></a>00110         
-<a name="l00114"></a>00114         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>();
+<a name="l00114"></a>00114         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(<span class="keywordtype">int</span> offset);
 <a name="l00115"></a>00115         
-<a name="l00119"></a>00119         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">is_full</a>();
+<a name="l00119"></a>00119         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">is_eof</a>();
 <a name="l00120"></a>00120         
-<a name="l00122"></a>00122         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">dump</a>();
-<a name="l00123"></a>00123 };
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125 <span class="preprocessor">#endif</span>
+<a name="l00124"></a>00124         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>();
+<a name="l00125"></a>00125         
+<a name="l00129"></a>00129         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">is_full</a>();
+<a name="l00130"></a>00130         
+<a name="l00132"></a>00132         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">dump</a>();
+<a name="l00133"></a>00133 };
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -142,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 1 2011 18:54:16 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

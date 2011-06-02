@@ -115,6 +115,15 @@ PString CircularBuffer::read(size_t length) {
 	return result;
 }
 
+wint_t CircularBuffer::read_ch() {
+	if (ptr_end == ptr_begin && fill == 0 && overflow_strategy == false)
+		return -1;
+	wint_t result = data[ptr_begin];
+	incr(&ptr_begin);
+	decr_strict(&fill);
+	return result;
+}
+
 PString CircularBuffer::peek(size_t length) {
 	peek_ptr = ptr_begin;
 	peek_fill = fill;
@@ -132,7 +141,16 @@ PString CircularBuffer::peek(size_t length) {
 	return result;
 }
 
-
+wint_t CircularBuffer::peek_ch() {
+	peek_ptr = ptr_begin;
+	peek_fill = fill;
+	if (ptr_end == peek_ptr && peek_fill == 0 && overflow_strategy == false)
+		return -1;
+	wint_t result = data[peek_ptr];
+	incr(&peek_ptr);
+	decr_strict(&peek_fill);
+	return result;
+}
 
 
 void CircularBuffer::seek(int offset) {

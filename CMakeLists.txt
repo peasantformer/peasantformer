@@ -15,14 +15,8 @@ include_directories(
 ########################################################################
 
 project(Data)
-add_library(data-pstring             STATIC ../src/Data/PString/PString.cpp)
-target_link_libraries(data-pstring
-	proto-plainiohighlevel
-)
+add_library(data-pstring            STATIC ../src/Data/PString/PString.cpp)
 add_library(data-hash               STATIC ../src/Data/Hash/Hash.cpp)
-target_link_libraries(data-hash
-	data-pstring
-)
 add_library(data-circus             STATIC ../src/Data/CircularBuffer/CircularBuffer.cpp)
 add_library(data-connection         STATIC ../src/Data/Connection/Connection.cpp)
 target_link_libraries(data-connection 
@@ -53,10 +47,6 @@ if (WIN32)
 endif (WIN32)
 
 
-add_library(proto-networkhighlevel STATIC ../src/Proto/Network/NetworkHighLevel.cpp)
-target_link_libraries(proto-networkhighlevel proto-network)
-
-
 set(plainio_src
 	../src/Proto/PlainIO/PlainIO.cpp
 )
@@ -71,9 +61,6 @@ elseif (UNIX)
 endif (WIN32)
 add_library(proto-plainio          STATIC ${plainio_src})
 #
-add_library(proto-plainiohighlevel STATIC ../src/Proto/PlainIO/PlainIOHighLevel.cpp)
-target_link_libraries(proto-plainiohighlevel proto-plainio)
-
 add_library(proto-database-sqlite  STATIC ../src/Proto/Database/DatabaseSqlite.cpp)
 set(proto-database-sqlite_libs
 	data-pstring
@@ -95,20 +82,24 @@ add_library(proto-database         STATIC ../src/Proto/Database/Database.cpp)
 target_link_libraries(proto-database
 	proto-database-sqlite
 )
+add_library(proto-plainiohighlevel STATIC ../src/Proto/PlainIO/PlainIOHighLevel.cpp)
+target_link_libraries(proto-plainiohighlevel proto-plainio)
+
+add_library(proto-networkhighlevel STATIC ../src/Proto/Network/NetworkHighLevel.cpp)
+target_link_libraries(proto-networkhighlevel proto-network)
+add_library(proto-messages         STATIC ../src/Proto/Messages/Messages.cpp)
 
 ########################################################################
 
 project(Server)
 add_library(server-network           STATIC ../src/Apps/Server/ServerNetwork/ServerNetwork.cpp)
-target_link_libraries(server-network
-	proto-networkhighlevel
-)
 add_library(server-connections       STATIC ../src/Apps/Server/ServerConnections/ServerConnections.cpp)
 target_link_libraries(server-connections
 	data-connection
 	data-connectionPending
 	data-connectionAccepted
 )
+
 add_library(server-thread-connection      STATIC ../src/Apps/Server/ThreadConnection/ThreadConnection.cpp)
 add_library(server-thread-login           STATIC ../src/Apps/Server/ThreadLogin/ThreadLogin.cpp)
 add_library(server-thread-adminInput      STATIC ../src/Apps/Server/ThreadAdminInput/ThreadAdminInput.cpp)
@@ -123,7 +114,11 @@ set(server_lib
 
 	data-pstring	
 
+	proto-messages
+	proto-plainio
+	proto-plainiohighlevel
 	proto-network
+	proto-networkhighlevel
 )
 
 if (WIN32)
