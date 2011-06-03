@@ -1,0 +1,10 @@
+Even for correctly terminated server valgrind yields
+
+###############################################################################
+==4937==    still reachable: 56 bytes in 1 blocks
+###############################################################################
+
+This is known bug in pthrads, appearing whenever pthread_exit() is used.
+But don't worry -- it is only 56 bytes for whole program, no matter how 
+many times pthread_exit() were called.
+
