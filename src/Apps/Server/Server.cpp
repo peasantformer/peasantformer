@@ -7,10 +7,11 @@ size_t ServerEngine::get_buffsize() {
 }
 
 ServerEngine::ServerEngine() {
-	buffsize = 1024;
+	buffsize = 10;
 	
 	network = new ServerNetwork(this);
 	connections = new ServerConnections(this);
+	db = new ServerDatabase(this);
 	
 	thread_connection = new ThreadConnection(this);
 	thread_login = new ThreadLogin(this);
@@ -23,6 +24,7 @@ ServerEngine::~ServerEngine() {
 	delete network;
 	delete connections;
 	delete nmsgs;
+	delete db;
 	
 	delete thread_connection;
 	delete thread_login;

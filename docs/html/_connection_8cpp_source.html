@@ -111,43 +111,75 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00046"></a>00046 
 <a name="l00047"></a><a class="code" href="class_connection.html#a06764921c502a3290cd283df9e0d4815">00047</a> <span class="keywordtype">void</span> <a class="code" href="class_connection.html#a06764921c502a3290cd283df9e0d4815" title="Parses raw buffer initialy.">Connection::parse_init</a>() {
 <a name="l00048"></a>00048     this-&gt;<a class="code" href="class_connection.html#a4bfcf484760f2f19b20ae35d1f507a2b" title="last opcode">opcode</a> = 0;
-<a name="l00049"></a>00049     <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a46a1f89db3fd5675af570393f78023c3" title="Writes to buffer source char string.">write</a>(<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>);
-<a name="l00050"></a>00050     <span class="comment">//printf(&quot;%s\n&quot;,circus-&gt;peek(10).c_str());</span>
-<a name="l00051"></a>00051     <span class="comment">//circus-&gt;dump();</span>
-<a name="l00052"></a>00052     <span class="keywordtype">bool</span> valid = <span class="keyword">false</span>;
-<a name="l00053"></a>00053     <span class="keywordflow">while</span> (valid == <span class="keyword">false</span>) {
-<a name="l00054"></a>00054         <span class="keywordflow">while</span> (<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(2) != <span class="stringliteral">&quot;OP&quot;</span> &amp;&amp; !<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>())
-<a name="l00055"></a>00055             <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
-<a name="l00056"></a>00056         <span class="keywordflow">if</span> (<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>()) {
-<a name="l00057"></a>00057             <a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>);
-<a name="l00058"></a>00058             <a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>[0] = <span class="charliteral">&#39;\0&#39;</span>;
-<a name="l00059"></a>00059             <span class="keywordflow">return</span>;
-<a name="l00060"></a>00060         }
-<a name="l00061"></a>00061         <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00" title="Reads from a buffer some string with given length.">read</a>(2);
-<a name="l00062"></a>00062         <span class="keywordtype">bool</span> alldigits = <span class="keyword">true</span>;
-<a name="l00063"></a>00063         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> p = <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(6);
-<a name="l00064"></a>00064         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0;i&lt;6;i++) {
-<a name="l00065"></a>00065             printf(<span class="stringliteral">&quot;%d\n&quot;</span>,iswdigit(p[i]));
-<a name="l00066"></a>00066             alldigits = alldigits &amp;&amp; iswdigit(p[i]);
-<a name="l00067"></a>00067             <span class="keywordflow">if</span> (!alldigits) <span class="keywordflow">break</span>;
-<a name="l00068"></a>00068         }
-<a name="l00069"></a>00069         <span class="keywordflow">if</span> (alldigits) <span class="keywordflow">break</span>;
-<a name="l00070"></a>00070     }
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072     swscanf(<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00" title="Reads from a buffer some string with given length.">read</a>(6).<a class="code" href="class_p_string.html#a38b5fe722018efc87f8d84174d7c3167" title="Widechar representation of PString.">w_str</a>(),L<span class="stringliteral">&quot;%d&quot;</span>,&amp;<a class="code" href="class_connection.html#a4bfcf484760f2f19b20ae35d1f507a2b" title="last opcode">opcode</a>);
-<a name="l00073"></a>00073     <span class="keywordflow">while</span>(iswspace(<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">peek_ch</a>()) &amp;&amp; !<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>())
-<a name="l00074"></a>00074         <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
-<a name="l00075"></a>00075     <span class="keywordtype">int</span> i=0;
-<a name="l00076"></a>00076     <span class="keywordflow">while</span>(<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">peek_ch</a>() != L<span class="charliteral">&#39;\n&#39;</span> &amp;&amp; !<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>())
-<a name="l00077"></a>00077         <a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>[i++] = <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
-<a name="l00078"></a>00078 
-<a name="l00079"></a>00079     <a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>[i] = L<span class="charliteral">&#39;\0&#39;</span>;
-<a name="l00080"></a>00080     <a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>[0] = <span class="charliteral">&#39;\0&#39;</span>;
-<a name="l00081"></a>00081 
-<a name="l00082"></a>00082     
-<a name="l00083"></a>00083     <span class="comment">//printf(&quot;%d &gt;%s&lt;\n&quot;,opcode,plain_buffer.c_str());</span>
-<a name="l00084"></a>00084     <span class="comment">//circus-&gt;clear();</span>
-<a name="l00085"></a>00085 }
+<a name="l00049"></a>00049     <span class="comment">//circus-&gt;dump();</span>
+<a name="l00050"></a>00050     <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a08c5653896a8f983da6c0f112aded97c" title="Writes to buffer source char string.">write</a>(<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>);
+<a name="l00051"></a>00051     <a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>);
+<a name="l00052"></a>00052     <a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>[0] = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00053"></a>00053     <span class="keywordflow">while</span> (<span class="keyword">true</span>) {
+<a name="l00054"></a>00054         <span class="comment">//int i=2;</span>
+<a name="l00055"></a>00055         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> res;
+<a name="l00056"></a>00056         <span class="comment">//circus-&gt;scroll(1);</span>
+<a name="l00057"></a>00057         <span class="keywordflow">while</span> ((res = <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a7be736f82b7fe0dcd787790f350083a7" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(2)) != <span class="stringliteral">&quot;O&quot;</span> &amp;&amp; !<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>()) {
+<a name="l00058"></a>00058             <span class="comment">//printf(&quot;&gt;&gt; %s\n&quot;,res.c_str());</span>
+<a name="l00059"></a>00059             <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(-1);
+<a name="l00060"></a>00060             <span class="comment">//circus-&gt;scroll(1);</span>
+<a name="l00061"></a>00061         }
+<a name="l00062"></a>00062         <span class="comment">//printf(&quot;&gt;&gt; %s\n&quot;,res.c_str());</span>
+<a name="l00063"></a>00063         <span class="keywordflow">if</span> (<a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>()) {
+<a name="l00064"></a>00064             <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(-1);
+<a name="l00065"></a>00065             <a class="code" href="class_connection.html#aa5b31b1f97f7ebccf764f999c87bae0f" title="circular buffer">circus</a>-&gt;<a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">dump</a>();
+<a name="l00066"></a>00066             <span class="comment">//circus-&gt;scroll(i);</span>
+<a name="l00067"></a>00067             <span class="comment">//circus-&gt;reset_peek();</span>
+<a name="l00068"></a>00068             <span class="comment">//circus-&gt;dump();</span>
+<a name="l00069"></a>00069             <span class="keywordflow">return</span>;
+<a name="l00070"></a>00070         }
+<a name="l00071"></a>00071         <span class="comment">//circus-&gt;dump();</span>
+<a name="l00072"></a>00072         <span class="comment">//printf(&quot;%s\n&quot;,circus-&gt;read(6).c_str());</span>
+<a name="l00073"></a>00073         <span class="keywordflow">break</span>;
+<a name="l00074"></a>00074     }
+<a name="l00075"></a>00075     <span class="comment">/*</span>
+<a name="l00076"></a>00076 <span class="comment">    </span>
+<a name="l00077"></a>00077 <span class="comment">    //printf(&quot;%s\n&quot;,circus-&gt;peek(10).c_str());</span>
+<a name="l00078"></a>00078 <span class="comment">    bool valid = false;</span>
+<a name="l00079"></a>00079 <span class="comment">    while (valid == false) {</span>
+<a name="l00080"></a>00080 <span class="comment">        while (circus-&gt;peek(2) != &quot;OP&quot; &amp;&amp; !circus-&gt;is_peek_eof())</span>
+<a name="l00081"></a>00081 <span class="comment">            circus-&gt;read_ch();</span>
+<a name="l00082"></a>00082 <span class="comment">        if (circus-&gt;is_peek_eof()) {</span>
+<a name="l00083"></a>00083 <span class="comment">            return;</span>
+<a name="l00084"></a>00084 <span class="comment">        }</span>
+<a name="l00085"></a>00085 <span class="comment">        circus-&gt;read(2);</span>
+<a name="l00086"></a>00086 <span class="comment">        bool alldigits = true;</span>
+<a name="l00087"></a>00087 <span class="comment">        PString p = circus-&gt;peek(6);</span>
+<a name="l00088"></a>00088 <span class="comment">        for (int i=0;i&lt;6;i++) {</span>
+<a name="l00089"></a>00089 <span class="comment">            alldigits = alldigits &amp;&amp; iswdigit(p[i]);</span>
+<a name="l00090"></a>00090 <span class="comment">            if (!alldigits) break;</span>
+<a name="l00091"></a>00091 <span class="comment">        }</span>
+<a name="l00092"></a>00092 <span class="comment">        if (alldigits) break;</span>
+<a name="l00093"></a>00093 <span class="comment">    }</span>
+<a name="l00094"></a>00094 <span class="comment">    swscanf(circus-&gt;read(6).w_str(),L&quot;%d&quot;,&amp;opcode);</span>
+<a name="l00095"></a>00095 <span class="comment">    printf(&quot;%d\n&quot;,opcode);</span>
+<a name="l00096"></a>00096 <span class="comment">    while(iswspace(circus-&gt;peek_ch()) &amp;&amp; !circus-&gt;is_peek_eof())</span>
+<a name="l00097"></a>00097 <span class="comment">        circus-&gt;read_ch();</span>
+<a name="l00098"></a>00098 <span class="comment">    */</span>
+<a name="l00099"></a>00099     <span class="comment">/*</span>
+<a name="l00100"></a>00100 <span class="comment">    while(iswspace(circus-&gt;peek_ch()) &amp;&amp; !circus-&gt;is_peek_eof())</span>
+<a name="l00101"></a>00101 <span class="comment">        circus-&gt;read_ch();</span>
+<a name="l00102"></a>00102 <span class="comment">    int i=0;</span>
+<a name="l00103"></a>00103 <span class="comment">    while(circus-&gt;peek_ch() != L&#39;\n&#39; &amp;&amp; !circus-&gt;is_peek_eof()) {</span>
+<a name="l00104"></a>00104 <span class="comment">        printf(&quot;!! %s\n&quot;,plain_buffer.c_str());</span>
+<a name="l00105"></a>00105 <span class="comment">        plain_buffer[i++] = circus-&gt;read_ch();</span>
+<a name="l00106"></a>00106 <span class="comment">    }</span>
+<a name="l00107"></a>00107 <span class="comment">        </span>
+<a name="l00108"></a>00108 <span class="comment">    //circus-&gt;dump();</span>
+<a name="l00109"></a>00109 <span class="comment"></span>
+<a name="l00110"></a>00110 <span class="comment">    //plain_buffer[i] = L&#39;\0&#39;;</span>
+<a name="l00111"></a>00111 <span class="comment">    //raw_buffer[0] = &#39;\0&#39;;</span>
+<a name="l00112"></a>00112 <span class="comment"></span>
+<a name="l00113"></a>00113 <span class="comment">    </span>
+<a name="l00114"></a>00114 <span class="comment">    //printf(&quot;%d &gt;%s&lt;\n&quot;,opcode,plain_buffer.c_str());</span>
+<a name="l00115"></a>00115 <span class="comment">    //circus-&gt;clear();</span>
+<a name="l00116"></a>00116 <span class="comment">    */</span>
+<a name="l00117"></a>00117 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -164,7 +196,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

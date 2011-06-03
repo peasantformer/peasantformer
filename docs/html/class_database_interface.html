@@ -107,6 +107,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3554fb34c202d12d1dd3359cbf2daa9d"></a><!-- doxytag: member="DatabaseInterface::disconnect" ref="a3554fb34c202d12d1dd3359cbf2daa9d" args="()=0" -->
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_interface.html#a3554fb34c202d12d1dd3359cbf2daa9d">disconnect</a> ()=0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect from database. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_hash.html">Hash</a>&lt; <a class="el" href="class_p_string.html">PString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_interface.html#a4f6acd76839c02fab96d0f37c173e882">get_results</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets all results from current row.  <a href="#a4f6acd76839c02fab96d0f37c173e882"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="class_p_string.html">PString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_interface.html#a98a1e5a00ede6590cfc7ec3b3c9fc3d2">get_columns</a> ()=0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get column names.  <a href="#a98a1e5a00ede6590cfc7ec3b3c9fc3d2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_database_interface_8h.html#acbc7f4b656dcd70a0ffad3ce9011aaf9">DatabaseColumnType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_interface.html#a554d0bb4e2c5d0df76e40910e693c02b">get_type</a> (<a class="el" href="class_p_string.html">PString</a> column)=0</td></tr>
@@ -363,6 +365,27 @@ std::map&lt; <a class="el" href="class_p_string.html">PString</a>, <br class="ty
 
 </div>
 </div>
+<a class="anchor" id="a4f6acd76839c02fab96d0f37c173e882"></a><!-- doxytag: member="DatabaseInterface::get_results" ref="a4f6acd76839c02fab96d0f37c173e882" args="()=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_hash.html">Hash</a>&lt;<a class="el" href="class_p_string.html">PString</a>&gt; DatabaseInterface::get_results </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Gets all results from current row. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>results hash </dd></dl>
+
+<p>Implemented in <a class="el" href="class_database_sqlite3.html#add527b66210abf1f0412b3355e695252">DatabaseSqlite3</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1d21260f52ca36580408adab379d177f"></a><!-- doxytag: member="DatabaseInterface::get_string" ref="a1d21260f52ca36580408adab379d177f" args="(PString column)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -506,7 +529,7 @@ std::map&lt; <a class="el" href="class_p_string.html">PString</a>, <br class="ty
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

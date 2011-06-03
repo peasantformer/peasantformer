@@ -80,66 +80,81 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00016"></a>00016     
 <a name="l00017"></a>00017     <span class="keywordtype">int</span> real_fds_max;
 <a name="l00018"></a>00018     
-<a name="l00019"></a>00019     
+<a name="l00019"></a>00019     <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *msgs = <span class="keyword">self</span>-&gt;engine-&gt;nmsgs;
 <a name="l00020"></a>00020     
-<a name="l00021"></a>00021     printf(<span class="stringliteral">&quot;[INFO] Login thread fired up\n&quot;</span>);
-<a name="l00022"></a>00022     
-<a name="l00023"></a>00023     <span class="keywordflow">while</span> (self-&gt;time_to_exit == <span class="keyword">false</span>) {
-<a name="l00024"></a>00024         real_fds_max = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_socks_max();  
-<a name="l00025"></a>00025         real_fds = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_socks();
-<a name="l00026"></a>00026         read_fds = real_fds;
-<a name="l00027"></a>00027         timeout.tv_sec = 0;
-<a name="l00028"></a>00028         timeout.tv_usec = 1000 * 1000;
-<a name="l00029"></a>00029         <a class="code" href="_network_8cpp.html#a0291e4febc38654fb6eec5c5c9664301" title="Select() wrapper.">pn_select</a>(real_fds_max+1,&amp;read_fds,NULL,NULL,&amp;timeout);
-<a name="l00030"></a>00030         
-<a name="l00031"></a>00031         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt;= real_fds_max; i++) {
-<a name="l00032"></a>00032             <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;real_fds)) <span class="keywordflow">continue</span>;
-<a name="l00033"></a>00033             <a class="code" href="class_connection_pending.html" title="Pending connection class.">ConnectionPending</a> &amp;pconn = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_connection(i);
-<a name="l00034"></a>00034             pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a> = recv(i,pconn.<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>,self-&gt;engine-&gt;get_buffsize()-1,0);
-<a name="l00035"></a>00035             <span class="keywordflow">if</span> (pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a> &lt;= 0) {
-<a name="l00036"></a>00036                 printf(<span class="stringliteral">&quot;[%s] Pending connection terminated\n&quot;</span>,self-&gt;engine-&gt;connections-&gt;get_pending_connection(i).address_literal);
-<a name="l00037"></a>00037                 <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;drop_pending_connection(i);
-<a name="l00038"></a>00038                 <a class="code" href="_network_8h.html#ab811947045c2c95578dc1b16d78f858d" title="Close() fd wrapper.">pn_close</a>(i);
-<a name="l00039"></a>00039             } <span class="keywordflow">else</span> {
-<a name="l00040"></a>00040                 pconn.<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>[pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a>] = <span class="charliteral">&#39;\0&#39;</span>;
-<a name="l00041"></a>00041                 pconn.<a class="code" href="class_connection.html#a06764921c502a3290cd283df9e0d4815" title="Parses raw buffer initialy.">parse_init</a>();
-<a name="l00042"></a>00042                 <span class="keywordflow">if</span> (pconn.<a class="code" href="class_connection.html#a4bfcf484760f2f19b20ae35d1f507a2b" title="last opcode">opcode</a> == 0) {
-<a name="l00043"></a>00043                     pconn.<a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>.<a class="code" href="class_p_string.html#a09196f31bbcfe434e7ef0c40b3f259f9" title="Shortname for filter(iswcntrl)">filter_control</a>();
-<a name="l00044"></a>00044                     <a class="code" href="_network_high_level_8cpp.html#af609ef4a5612f5cba2945f457cf6981f" title="Socket send formatted string wrapper.">pnh_send_fstr</a>(i,self-&gt;engine-&gt;get_buffsize(),<span class="keyword">self</span>-&gt;engine-&gt;nmsgs-&gt;get(<span class="stringliteral">&quot;invalid_query&quot;</span>),pconn.<a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>.<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>());
-<a name="l00045"></a>00045                     <span class="keywordflow">continue</span>;
-<a name="l00046"></a>00046                 }
-<a name="l00047"></a>00047             }
-<a name="l00048"></a>00048         }
-<a name="l00049"></a>00049         
-<a name="l00050"></a>00050     }
-<a name="l00051"></a>00051     
-<a name="l00052"></a>00052     printf(<span class="stringliteral">&quot;[INFO] Login thread shuted down\n&quot;</span>);
-<a name="l00053"></a>00053     pthread_exit(NULL);
-<a name="l00054"></a>00054     <span class="keywordflow">return</span> NULL;
-<a name="l00055"></a>00055 }
-<a name="l00056"></a>00056 
-<a name="l00057"></a><a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901">00057</a> <a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901" title="Constructor.">ThreadLogin::ThreadLogin</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr) {
-<a name="l00058"></a>00058     <a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f" title="Instance of ServerEngine.">engine</a> = srvr;
-<a name="l00059"></a>00059     <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">false</span>;
-<a name="l00060"></a>00060 }
-<a name="l00061"></a>00061 
-<a name="l00062"></a><a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c">00062</a> <a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c" title="Destructor.">ThreadLogin::~ThreadLogin</a>() {
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 }
-<a name="l00065"></a>00065 
-<a name="l00066"></a><a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025">00066</a> pthread_t <a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">ThreadLogin::setup</a>() {
-<a name="l00067"></a>00067     pthread_attr_t attr;
-<a name="l00068"></a>00068     pthread_attr_init(&amp;attr);
-<a name="l00069"></a>00069     pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_JOINABLE);
-<a name="l00070"></a>00070     pthread_create(&amp;<a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>, &amp;attr, <a class="code" href="class_thread_login.html#ae35fca709b515f7d82448eb13ab3609c" title="Thread connection worker.">thread_login_worker</a>,<span class="keyword">this</span>);
-<a name="l00071"></a>00071     pthread_attr_destroy(&amp;attr);
-<a name="l00072"></a>00072     <span class="keywordflow">return</span> <a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>;
-<a name="l00073"></a>00073 }
-<a name="l00074"></a>00074 
-<a name="l00075"></a><a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58">00075</a> <span class="keywordtype">void</span> <a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">ThreadLogin::desetup</a>() {
-<a name="l00076"></a>00076     <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">true</span>;
-<a name="l00077"></a>00077     pthread_join(<a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>,NULL);
-<a name="l00078"></a>00078 }
+<a name="l00021"></a>00021     
+<a name="l00022"></a>00022     printf(<span class="stringliteral">&quot;[INFO] Login thread fired up\n&quot;</span>);
+<a name="l00023"></a>00023     
+<a name="l00024"></a>00024     <span class="keywordflow">while</span> (self-&gt;time_to_exit == <span class="keyword">false</span>) {
+<a name="l00025"></a>00025         real_fds_max = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_socks_max();  
+<a name="l00026"></a>00026         real_fds = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_socks();
+<a name="l00027"></a>00027         read_fds = real_fds;
+<a name="l00028"></a>00028         timeout.tv_sec = 0;
+<a name="l00029"></a>00029         timeout.tv_usec = 1000 * 1000;
+<a name="l00030"></a>00030         <a class="code" href="_network_8cpp.html#a0291e4febc38654fb6eec5c5c9664301" title="Select() wrapper.">pn_select</a>(real_fds_max+1,&amp;read_fds,NULL,NULL,&amp;timeout);
+<a name="l00031"></a>00031         
+<a name="l00032"></a>00032         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt;= real_fds_max; i++) {
+<a name="l00033"></a>00033             <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;real_fds)) <span class="keywordflow">continue</span>;
+<a name="l00034"></a>00034             <a class="code" href="class_connection_pending.html" title="Pending connection class.">ConnectionPending</a> &amp;pconn = <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;get_pending_connection(i);
+<a name="l00035"></a>00035             pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a> = recv(i,pconn.<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>,self-&gt;engine-&gt;get_buffsize()-1,0);
+<a name="l00036"></a>00036             <span class="keywordflow">if</span> (pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a> &lt;= 0) {
+<a name="l00037"></a>00037                 printf(<span class="stringliteral">&quot;[%s] Pending connection terminated\n&quot;</span>,self-&gt;engine-&gt;connections-&gt;get_pending_connection(i).address_literal);
+<a name="l00038"></a>00038                 <span class="keyword">self</span>-&gt;engine-&gt;connections-&gt;drop_pending_connection(i);
+<a name="l00039"></a>00039                 <a class="code" href="_network_8h.html#ab811947045c2c95578dc1b16d78f858d" title="Close() fd wrapper.">pn_close</a>(i);
+<a name="l00040"></a>00040             } <span class="keywordflow">else</span> {
+<a name="l00041"></a>00041                 pconn.<a class="code" href="class_connection.html#af3fc51f9c1668a26665953ac0b44aadc" title="raw buffer">raw_buffer</a>[pconn.<a class="code" href="class_connection.html#a6a5548fd077e1b721ad32f9f3f818927" title="raw bytes read">raw_bytes</a>] = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00042"></a>00042                 pconn.<a class="code" href="class_connection.html#a06764921c502a3290cd283df9e0d4815" title="Parses raw buffer initialy.">parse_init</a>();
+<a name="l00043"></a>00043                 
+<a name="l00044"></a>00044                 <span class="keywordflow">if</span> (pconn.<a class="code" href="class_connection.html#a4bfcf484760f2f19b20ae35d1f507a2b" title="last opcode">opcode</a> != 2) {
+<a name="l00045"></a>00045                     pconn.<a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>.<a class="code" href="class_p_string.html#a09196f31bbcfe434e7ef0c40b3f259f9" title="Shortname for filter(iswcntrl)">filter_control</a>();
+<a name="l00046"></a>00046                     <a class="code" href="_network_high_level_8cpp.html#af609ef4a5612f5cba2945f457cf6981f" title="Socket send formatted string wrapper.">pnh_send_fstr</a>(i,self-&gt;engine-&gt;get_buffsize(),msgs-&gt;<a class="code" href="class_messages.html#ae12d252f21cd9f2268ee9a185b645ae4" title="Get string with given id.">get</a>(<span class="stringliteral">&quot;invalid_query&quot;</span>).<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>(),pconn.<a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>.<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>());
+<a name="l00047"></a>00047                     <span class="keywordflow">continue</span>;
+<a name="l00048"></a>00048                 }
+<a name="l00049"></a>00049                 <span class="keywordtype">wchar_t</span> nw_login[33] = {0};
+<a name="l00050"></a>00050                 <span class="keywordtype">wchar_t</span> nw_password_hash[33] = {0};
+<a name="l00051"></a>00051                 swscanf(pconn.<a class="code" href="class_connection.html#a58b6699455ba86ebf71800c9df87c709" title="plain buffer">plain_buffer</a>.<a class="code" href="class_p_string.html#a38b5fe722018efc87f8d84174d7c3167" title="Widechar representation of PString.">w_str</a>(),msgs-&gt;<a class="code" href="class_messages.html#ae12d252f21cd9f2268ee9a185b645ae4" title="Get string with given id.">get</a>(<span class="stringliteral">&quot;login_message&quot;</span>).<a class="code" href="class_p_string.html#a38b5fe722018efc87f8d84174d7c3167" title="Widechar representation of PString.">w_str</a>(),nw_password_hash,nw_login);
+<a name="l00052"></a>00052                 std::vector&lt; Hash&lt;PString&gt; &gt; auth_data = <span class="keyword">self</span>-&gt;engine-&gt;db-&gt;db_users_lookup_user(nw_login,nw_password_hash);
+<a name="l00053"></a>00053                 <span class="keywordflow">if</span> (auth_data.size() != 1) {
+<a name="l00054"></a>00054                     <a class="code" href="_network_high_level_8cpp.html#a9e72c682cfa19fbc061fe9f6e3fb13aa" title="Socket send string wrapper.">pnh_send_str</a>(i,msgs-&gt;<a class="code" href="class_messages.html#a2169d4401df88f2e884515ab6fe9be90" title="Get number for string id.">get_num</a>(<span class="stringliteral">&quot;wrong_auth&quot;</span>).<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>());
+<a name="l00055"></a>00055                     <span class="keywordflow">if</span> (auth_data.size() &gt; 1) {
+<a name="l00056"></a>00056                         printf(msgs-&gt;<a class="code" href="class_messages.html#ae12d252f21cd9f2268ee9a185b645ae4" title="Get string with given id.">get</a>(<span class="stringliteral">&quot;auth_duplicate&quot;</span>).<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>(),<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(nw_login).<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>());
+<a name="l00057"></a>00057                     }
+<a name="l00058"></a>00058                     <span class="keywordflow">continue</span>;
+<a name="l00059"></a>00059                 }
+<a name="l00060"></a>00060                 
+<a name="l00061"></a>00061                 <a class="code" href="_network_high_level_8cpp.html#a9e72c682cfa19fbc061fe9f6e3fb13aa" title="Socket send string wrapper.">pnh_send_str</a>(i,msgs-&gt;<a class="code" href="class_messages.html#a2169d4401df88f2e884515ab6fe9be90" title="Get number for string id.">get_num</a>(<span class="stringliteral">&quot;successful_auth&quot;</span>).<a class="code" href="class_p_string.html#a256beba35bcbb58e28112d271cbaf345" title="C-string representation of PString.">c_str</a>());
+<a name="l00062"></a>00062             }
+<a name="l00063"></a>00063         }
+<a name="l00064"></a>00064         
+<a name="l00065"></a>00065     }
+<a name="l00066"></a>00066     
+<a name="l00067"></a>00067     printf(<span class="stringliteral">&quot;[INFO] Login thread shuted down\n&quot;</span>);
+<a name="l00068"></a>00068     pthread_exit(NULL);
+<a name="l00069"></a>00069     <span class="keywordflow">return</span> NULL;
+<a name="l00070"></a>00070 }
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901">00072</a> <a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901" title="Constructor.">ThreadLogin::ThreadLogin</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr) {
+<a name="l00073"></a>00073     <a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f" title="Instance of ServerEngine.">engine</a> = srvr;
+<a name="l00074"></a>00074     <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">false</span>;
+<a name="l00075"></a>00075 }
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c">00077</a> <a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c" title="Destructor.">ThreadLogin::~ThreadLogin</a>() {
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 }
+<a name="l00080"></a>00080 
+<a name="l00081"></a><a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025">00081</a> pthread_t <a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">ThreadLogin::setup</a>() {
+<a name="l00082"></a>00082     pthread_attr_t attr;
+<a name="l00083"></a>00083     pthread_attr_init(&amp;attr);
+<a name="l00084"></a>00084     pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_JOINABLE);
+<a name="l00085"></a>00085     pthread_create(&amp;<a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>, &amp;attr, <a class="code" href="class_thread_login.html#ae35fca709b515f7d82448eb13ab3609c" title="Thread connection worker.">thread_login_worker</a>,<span class="keyword">this</span>);
+<a name="l00086"></a>00086     pthread_attr_destroy(&amp;attr);
+<a name="l00087"></a>00087     <span class="keywordflow">return</span> <a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>;
+<a name="l00088"></a>00088 }
+<a name="l00089"></a>00089 
+<a name="l00090"></a><a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58">00090</a> <span class="keywordtype">void</span> <a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">ThreadLogin::desetup</a>() {
+<a name="l00091"></a>00091     <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a> = <span class="keyword">true</span>;
+<a name="l00092"></a>00092     pthread_join(<a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>,NULL);
+<a name="l00093"></a>00093 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -156,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

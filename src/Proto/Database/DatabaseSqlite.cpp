@@ -75,6 +75,11 @@ void DatabaseSqlite3::disconnect() {
 	retcode = sqlite3_close(dbhandle);
 	dbhandle = NULL;
 }
+
+Hash<PString> DatabaseSqlite3::get_results() {
+	return results;
+}
+
 std::vector<PString> DatabaseSqlite3::get_columns() {
 	return columns;
 }

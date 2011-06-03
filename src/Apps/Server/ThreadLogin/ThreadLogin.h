@@ -7,6 +7,7 @@ class ThreadLogin;
 
 #include <pthread.h>
 #include <Apps/Server/Server.h>
+#include <Data/Hash/Hash.h>
 
 /// Connection handler thread
 class ThreadLogin {

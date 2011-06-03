@@ -72,64 +72,74 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00009"></a><a class="code" href="class_circular_buffer.html">00009</a> <span class="keyword">class </span><a class="code" href="class_circular_buffer.html" title="Circular buffer implementation.">CircularBuffer</a> {
 <a name="l00010"></a>00010     <span class="keyword">private</span>:
 <a name="l00011"></a><a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457">00011</a>         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>;     
-<a name="l00012"></a><a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9">00012</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>;  
-<a name="l00013"></a><a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c">00013</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>; 
-<a name="l00014"></a><a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee">00014</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a>;   
-<a name="l00015"></a><a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf">00015</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>;  
-<a name="l00016"></a><a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa">00016</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>;      
-<a name="l00017"></a><a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141">00017</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a>; 
-<a name="l00018"></a><a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e">00018</a>         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a>; 
-<a name="l00019"></a>00019 
+<a name="l00012"></a><a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986">00012</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>;  
+<a name="l00013"></a><a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4">00013</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>; 
+<a name="l00014"></a><a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690">00014</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>;   
+<a name="l00015"></a><a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff">00015</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a>; 
+<a name="l00016"></a><a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27">00016</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>;  
+<a name="l00017"></a><a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8">00017</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>;      
+<a name="l00018"></a><a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5">00018</a>         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>; 
+<a name="l00019"></a><a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e">00019</a>         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a>; 
 <a name="l00020"></a>00020 
 <a name="l00021"></a>00021 
 <a name="l00022"></a>00022 
-<a name="l00023"></a>00023     <span class="keyword">private</span>:
-<a name="l00026"></a>00026         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00030"></a>00030         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ab6531aabad02d76d5b124bc88a7e89ef" title="Incriments buffer&amp;#39;s fill count.">incr_strict</a>(<span class="keywordtype">size_t</span> *p);
-<a name="l00034"></a>00034         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(<span class="keywordtype">size_t</span> *p);
-<a name="l00038"></a>00038         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(<span class="keywordtype">size_t</span> *p);
-<a name="l00042"></a>00042         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a9a312801a7dc5085d4ad3008b052af34" title="Decriments buffer&amp;#39;s pointer.">decr</a>(<span class="keywordtype">size_t</span> *p);
-<a name="l00043"></a>00043     <span class="keyword">public</span>:
-<a name="l00045"></a>00045         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>();
-<a name="l00046"></a>00046         
-<a name="l00050"></a>00050         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>);
-<a name="l00051"></a>00051         
-<a name="l00055"></a>00055         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *source);
-<a name="l00056"></a>00056         
-<a name="l00060"></a>00060         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source);
-<a name="l00061"></a>00061         
-<a name="l00063"></a>00063         <a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91" title="Dummy destructor.">~CircularBuffer</a>();
-<a name="l00064"></a>00064     <span class="keyword">public</span>:
-<a name="l00066"></a>00066         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384" title="Clears buffer contetns.">clear</a>();
-<a name="l00067"></a>00067         
-<a name="l00069"></a>00069         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619" title="Sets buffer strategy to non-overflow-tolerant one.">disable_overflow</a>();
-<a name="l00070"></a>00070         
-<a name="l00074"></a>00074         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320" title="Returns distance from current pointer to end of the buffer.">forward_dist</a>();
-<a name="l00075"></a>00075         
-<a name="l00079"></a>00079         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f" title="Returns distance from current pointer to begining of the buffer.">backward_dist</a>();
-<a name="l00080"></a>00080         
-<a name="l00086"></a>00086         <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a46a1f89db3fd5675af570393f78023c3" title="Writes to buffer source char string.">write</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> src, <span class="keywordtype">int</span> length = -1);
-<a name="l00087"></a>00087 
-<a name="l00092"></a>00092         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00" title="Reads from a buffer some string with given length.">read</a>(<span class="keywordtype">size_t</span> length);
-<a name="l00093"></a>00093         
-<a name="l00097"></a>00097         wint_t <a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
-<a name="l00098"></a>00098         
-<a name="l00104"></a>00104         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(<span class="keywordtype">size_t</span> length);
-<a name="l00105"></a>00105         
-<a name="l00109"></a>00109         wint_t <a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">peek_ch</a>();
-<a name="l00110"></a>00110         
-<a name="l00114"></a>00114         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(<span class="keywordtype">int</span> offset);
-<a name="l00115"></a>00115         
-<a name="l00119"></a>00119         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">is_eof</a>();
-<a name="l00120"></a>00120         
-<a name="l00124"></a>00124         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>();
-<a name="l00125"></a>00125         
-<a name="l00129"></a>00129         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">is_full</a>();
-<a name="l00130"></a>00130         
-<a name="l00132"></a>00132         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">dump</a>();
-<a name="l00133"></a>00133 };
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135 <span class="preprocessor">#endif</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024     <span class="keyword">private</span>:
+<a name="l00027"></a>00027         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00031"></a>00031         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4" title="Incriments buffer&amp;#39;s fill count.">incr_strict</a>(<span class="keywordtype">int</span> *p);
+<a name="l00035"></a>00035         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(<span class="keywordtype">int</span> *p);
+<a name="l00039"></a>00039         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(<span class="keywordtype">int</span> *p);
+<a name="l00043"></a>00043         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc" title="Decriments buffer&amp;#39;s pointer.">decr</a>(<span class="keywordtype">int</span> *p);
+<a name="l00044"></a>00044     <span class="keyword">public</span>:
+<a name="l00046"></a>00046         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>();
+<a name="l00047"></a>00047         
+<a name="l00051"></a>00051         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>);
+<a name="l00052"></a>00052         
+<a name="l00056"></a>00056         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *source);
+<a name="l00057"></a>00057         
+<a name="l00061"></a>00061         <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source);
+<a name="l00062"></a>00062         
+<a name="l00064"></a>00064         <a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91" title="Dummy destructor.">~CircularBuffer</a>();
+<a name="l00065"></a>00065     <span class="keyword">public</span>:
+<a name="l00067"></a>00067         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384" title="Clears buffer contetns.">clear</a>();
+<a name="l00068"></a>00068         
+<a name="l00070"></a>00070         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619" title="Sets buffer strategy to non-overflow-tolerant one.">disable_overflow</a>();
+<a name="l00071"></a>00071         
+<a name="l00075"></a>00075         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#ad268deedfe770fa4efab1cc30a5fc7cb" title="Returns distance from current pointer to end of the buffer.">forward_dist</a>();
+<a name="l00076"></a>00076         
+<a name="l00080"></a>00080         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a493d4d3d530ce2dd4700a953b95d6df1" title="Returns distance from current pointer to begining of the buffer.">backward_dist</a>();
+<a name="l00081"></a>00081         
+<a name="l00087"></a>00087         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a08c5653896a8f983da6c0f112aded97c" title="Writes to buffer source char string.">write</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> src, <span class="keywordtype">int</span> length = -1);
+<a name="l00088"></a>00088 
+<a name="l00093"></a>00093         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a0ea4ef105317e6d8e91aa55c1ce157a1" title="Reads from a buffer some string with given length.">read</a>(<span class="keywordtype">int</span> length);
+<a name="l00094"></a>00094         
+<a name="l00098"></a>00098         wint_t <a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">read_ch</a>();
+<a name="l00099"></a>00099         
+<a name="l00105"></a>00105         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a7be736f82b7fe0dcd787790f350083a7" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">peek</a>(<span class="keywordtype">int</span> length);
+<a name="l00106"></a>00106         
+<a name="l00110"></a>00110         wint_t <a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">peek_ch</a>();
+<a name="l00111"></a>00111         
+<a name="l00115"></a>00115         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">seek</a>(<span class="keywordtype">int</span> offset);
+<a name="l00116"></a>00116         
+<a name="l00120"></a>00120         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">is_eof</a>();
+<a name="l00121"></a>00121         
+<a name="l00125"></a>00125         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">is_peek_eof</a>();
+<a name="l00126"></a>00126         
+<a name="l00128"></a>00128         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a27c13c520ab7d9d8f3d3516c5ffdab6c" title="Resets peek pointer.">reset_peek</a>();
+<a name="l00129"></a>00129         
+<a name="l00133"></a>00133         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a943eee7e2a1e5c4185fba409c8518137" title="Scroll buffer by given amount of chars.">scroll</a>(<span class="keywordtype">int</span> amount);
+<a name="l00134"></a>00134         
+<a name="l00136"></a>00136         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a5ba3a4f8bdb838647a59d22b45e576ea" title="Scroll buffer to peek position.">scroll_to_peek</a>();
+<a name="l00137"></a>00137         
+<a name="l00141"></a>00141         <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">is_full</a>();
+<a name="l00142"></a>00142         
+<a name="l00143"></a>00143         
+<a name="l00147"></a>00147         <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#ae0f4a39df51222c2009c4cfa351665e8" title="Returns fill count.">get_fill</a>();
+<a name="l00148"></a>00148         
+<a name="l00150"></a>00150         <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">dump</a>();
+<a name="l00151"></a>00151 };
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -146,7 +156,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

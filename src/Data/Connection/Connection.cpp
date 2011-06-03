@@ -46,16 +46,40 @@ Connection & Connection::operator=(Connection const &r) {
 
 void Connection::parse_init() {
 	this->opcode = 0;
-	circus->write(raw_buffer);
-	//printf("%s\n",circus->peek(10).c_str());
 	//circus->dump();
+	circus->write(raw_buffer);
+	plain_buffer = PString(raw_buffer);
+	raw_buffer[0] = '\0';
+	while (true) {
+		//int i=2;
+		PString res;
+		//circus->scroll(1);
+		while ((res = circus->peek(2)) != "O" && !circus->is_peek_eof()) {
+			//printf(">> %s\n",res.c_str());
+			circus->seek(-1);
+			//circus->scroll(1);
+		}
+		//printf(">> %s\n",res.c_str());
+		if (circus->is_peek_eof()) {
+			circus->seek(-1);
+			circus->dump();
+			//circus->scroll(i);
+			//circus->reset_peek();
+			//circus->dump();
+			return;
+		}
+		//circus->dump();
+		//printf("%s\n",circus->read(6).c_str());
+		break;
+	}
+	/*
+	
+	//printf("%s\n",circus->peek(10).c_str());
 	bool valid = false;
 	while (valid == false) {
 		while (circus->peek(2) != "OP" && !circus->is_peek_eof())
 			circus->read_ch();
 		if (circus->is_peek_eof()) {
-			plain_buffer = PString(raw_buffer);
-			raw_buffer[0] = '\0';
 			return;
 		}
 		circus->read(2);
@@ -67,18 +91,27 @@ void Connection::parse_init() {
 		}
 		if (alldigits) break;
 	}
-
 	swscanf(circus->read(6).w_str(),L"%d",&opcode);
+	printf("%d\n",opcode);
+	while(iswspace(circus->peek_ch()) && !circus->is_peek_eof())
+		circus->read_ch();
+	*/
+	/*
 	while(iswspace(circus->peek_ch()) && !circus->is_peek_eof())
 		circus->read_ch();
 	int i=0;
-	while(circus->peek_ch() != L'\n' && !circus->is_peek_eof())
+	while(circus->peek_ch() != L'\n' && !circus->is_peek_eof()) {
+		printf("!! %s\n",plain_buffer.c_str());
 		plain_buffer[i++] = circus->read_ch();
+	}
+		
+	//circus->dump();
 
-	plain_buffer[i] = L'\0';
-	raw_buffer[0] = '\0';
+	//plain_buffer[i] = L'\0';
+	//raw_buffer[0] = '\0';
 
 	
 	//printf("%d >%s<\n",opcode,plain_buffer.c_str());
 	//circus->clear();
+	*/
 }

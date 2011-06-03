@@ -47,6 +47,11 @@ class DatabaseInterface {
 		/// Disconnect from database.
 		virtual void disconnect() = 0;
 		
+		/// Gets all results from current row
+		///
+		/// @return results hash
+		virtual Hash<PString> get_results() = 0;
+		
 		/// Get column names
 		///
 		/// @return vector of column names

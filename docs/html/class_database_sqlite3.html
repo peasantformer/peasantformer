@@ -110,6 +110,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b47451ccc4dca74692bbcff6924d381"></a><!-- doxytag: member="DatabaseSqlite3::disconnect" ref="a6b47451ccc4dca74692bbcff6924d381" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_sqlite3.html#a6b47451ccc4dca74692bbcff6924d381">disconnect</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect from database. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_hash.html">Hash</a>&lt; <a class="el" href="class_p_string.html">PString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_sqlite3.html#add527b66210abf1f0412b3355e695252">get_results</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets all results from current row.  <a href="#add527b66210abf1f0412b3355e695252"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_p_string.html">PString</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_sqlite3.html#ab3a307fa1ff1a15bb054fc8ac044399b">get_columns</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get column names.  <a href="#ab3a307fa1ff1a15bb054fc8ac044399b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="_database_interface_8h.html#acbc7f4b656dcd70a0ffad3ce9011aaf9">DatabaseColumnType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_database_sqlite3.html#aaadf404870e79acf43d02ca1d1545643">get_type</a> (<a class="el" href="class_p_string.html">PString</a> column)</td></tr>
@@ -219,7 +221,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a1afd66c8d59c44698734cf30af94c80f">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00096">96</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00101">101</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -259,7 +261,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a8ebaf547ed782862c8a6a02dabf7cebe">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00093">93</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00098">98</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +301,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#afb081fcf7bfc604d18ab5c97a7a7831e">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00099">99</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00104">104</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -351,7 +353,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a98a1e5a00ede6590cfc7ec3b3c9fc3d2">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00078">78</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00083">83</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +383,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#af82bf0e64f94bf0d5ff166f3964c1502">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00087">87</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00092">92</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -411,7 +413,30 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a5c50a2512c9f6329e956356defe3ef6a">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00084">84</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00089">89</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add527b66210abf1f0412b3355e695252"></a><!-- doxytag: member="DatabaseSqlite3::get_results" ref="add527b66210abf1f0412b3355e695252" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_hash.html">Hash</a>&lt; <a class="el" href="class_p_string.html">PString</a> &gt; DatabaseSqlite3::get_results </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Gets all results from current row. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>results hash </dd></dl>
+
+<p>Implements <a class="el" href="class_database_interface.html#a4f6acd76839c02fab96d0f37c173e882">DatabaseInterface</a>.</p>
+
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00079">79</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -441,7 +466,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a1d21260f52ca36580408adab379d177f">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00090">90</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00095">95</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -471,7 +496,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#a554d0bb4e2c5d0df76e40910e693c02b">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00081">81</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00086">86</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -494,7 +519,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#abc10372b4be65b19b1af851f8c46ebff">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00102">102</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00107">107</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -517,7 +542,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>Implements <a class="el" href="class_database_interface.html#abe3408dad20468f62b596c0b464a3b70">DatabaseInterface</a>.</p>
 
-<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00105">105</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_database_sqlite_8cpp_source.html#l00110">110</a> of file <a class="el" href="_database_sqlite_8cpp_source.html">DatabaseSqlite.cpp</a>.</p>
 
 </div>
 </div>
@@ -569,7 +594,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

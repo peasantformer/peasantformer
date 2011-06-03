@@ -9,6 +9,7 @@ class ServerEngine;
 
 #include <Apps/Server/ServerNetwork/ServerNetwork.h>
 #include <Apps/Server/ServerConnections/ServerConnections.h>
+#include <Apps/Server/ServerDatabase/ServerDatabase.h>
 
 #include <Apps/Server/ThreadConnection/ThreadConnection.h>
 #include <Apps/Server/ThreadLogin/ThreadLogin.h>
@@ -16,6 +17,7 @@ class ServerEngine;
 
 
 #include <Proto/Messages/Messages.h>
+#include <Proto/Database/Database.h>
 #include <Proto/Network/Network.h>
 #include <Proto/PlainIO/PlainIO.h>
 #include <Data/PString/PString.h>
@@ -44,6 +46,8 @@ class ServerEngine {
 		ThreadAdminInput *thread_admin_input; ///< admin input handler thread
 		
 		Messages *nmsgs; ///< Network essages 
+		
+		ServerDatabase *db; ///< Database routines
 };
 
 

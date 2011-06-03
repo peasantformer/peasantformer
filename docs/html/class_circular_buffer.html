@@ -83,8 +83,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c5de0e610bb50bac684f4707e23431c"></a><!-- doxytag: member="CircularBuffer::CircularBuffer" ref="a8c5de0e610bb50bac684f4707e23431c" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c">CircularBuffer</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy constructor. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a783a30aeae646e20f2fa3d8a293e78d1">CircularBuffer</a> (size_t <a class="el" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9">buffsize</a>)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with pre-defined buffer size.  <a href="#a783a30aeae646e20f2fa3d8a293e78d1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a41b459bad0e93c57e6b3205d579287d8">CircularBuffer</a> (int <a class="el" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986">buffsize</a>)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with pre-defined buffer size.  <a href="#a41b459bad0e93c57e6b3205d579287d8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a7d1d58615e1e1cb5c2ce15ca1773304a">CircularBuffer</a> (const char *source)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with pre-defined source string.  <a href="#a7d1d58615e1e1cb5c2ce15ca1773304a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a0df8eebc9063c368a627381064098e3c">CircularBuffer</a> (const wchar_t *source)</td></tr>
@@ -98,18 +98,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acef7febfa7a796f9b6a1c0662f8b5619"></a><!-- doxytag: member="CircularBuffer::disable_overflow" ref="acef7febfa7a796f9b6a1c0662f8b5619" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619">disable_overflow</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets buffer strategy to non-overflow-tolerant one. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320">forward_dist</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns distance from current pointer to end of the buffer.  <a href="#a54d47e125f885cdaa1acc6e8f481f320"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f">backward_dist</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns distance from current pointer to begining of the buffer.  <a href="#a4b59dec006c7f04f6594070cc8c9398f"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a46a1f89db3fd5675af570393f78023c3">write</a> (<a class="el" href="class_p_string.html">PString</a> src, int length=-1)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to buffer source char string.  <a href="#a46a1f89db3fd5675af570393f78023c3"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00">read</a> (size_t length)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from a buffer some string with given length.  <a href="#a7641057589b20ff5c93700c04ec85c00"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ad268deedfe770fa4efab1cc30a5fc7cb">forward_dist</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns distance from current pointer to end of the buffer.  <a href="#ad268deedfe770fa4efab1cc30a5fc7cb"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a493d4d3d530ce2dd4700a953b95d6df1">backward_dist</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns distance from current pointer to begining of the buffer.  <a href="#a493d4d3d530ce2dd4700a953b95d6df1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a08c5653896a8f983da6c0f112aded97c">write</a> (<a class="el" href="class_p_string.html">PString</a> src, int length=-1)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to buffer source char string.  <a href="#a08c5653896a8f983da6c0f112aded97c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a0ea4ef105317e6d8e91aa55c1ce157a1">read</a> (int length)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from a buffer some string with given length.  <a href="#a0ea4ef105317e6d8e91aa55c1ce157a1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">wint_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f">read_ch</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads single character from the bufer.  <a href="#ad47e1a792ba0a21b56d9afd7ad81681f"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4">peek</a> (size_t length)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Peeks from a buffer some string with given length, without removing read data from the buffer.  <a href="#a4001b959bba30772c752a329ae93f5f4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a7be736f82b7fe0dcd787790f350083a7">peek</a> (int length)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Peeks from a buffer some string with given length, without removing read data from the buffer.  <a href="#a7be736f82b7fe0dcd787790f350083a7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">wint_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794">peek_ch</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Peeks single character from the bufer.  <a href="#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e">seek</a> (int offset)</td></tr>
@@ -118,8 +118,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if end of buffer were reached by any of read* operations.  <a href="#a8c4f1e854f4f6734a6430e19caaad142"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc">is_peek_eof</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if end of buffer were reached by any of peek* operations.  <a href="#a0a7d99e2451235168216e3c92ee4f9fc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27c13c520ab7d9d8f3d3516c5ffdab6c"></a><!-- doxytag: member="CircularBuffer::reset_peek" ref="a27c13c520ab7d9d8f3d3516c5ffdab6c" args="()" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a27c13c520ab7d9d8f3d3516c5ffdab6c">reset_peek</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets peek pointer. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a943eee7e2a1e5c4185fba409c8518137">scroll</a> (int amount)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Scroll buffer by given amount of chars.  <a href="#a943eee7e2a1e5c4185fba409c8518137"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ba3a4f8bdb838647a59d22b45e576ea"></a><!-- doxytag: member="CircularBuffer::scroll_to_peek" ref="a5ba3a4f8bdb838647a59d22b45e576ea" args="()" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a5ba3a4f8bdb838647a59d22b45e576ea">scroll_to_peek</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Scroll buffer to peek position. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5">is_full</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if buffer is full.  <a href="#a900d5feb1fa07aa155698090d18136e5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ae0f4a39df51222c2009c4cfa351665e8">get_fill</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns fill count.  <a href="#ae0f4a39df51222c2009c4cfa351665e8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ec8c9053e0fd72ee81e9278b422216c"></a><!-- doxytag: member="CircularBuffer::dump" ref="a1ec8c9053e0fd72ee81e9278b422216c" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c">dump</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps buffer contetns on the screen. Useful for debuging. <br/></td></tr>
@@ -127,36 +137,39 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452">init</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization function, contains shared to all constructors routines.  <a href="#aafa0dfb2794c4c839b7e6cb8c78e4452"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ab6531aabad02d76d5b124bc88a7e89ef">incr_strict</a> (size_t *p)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Incriments buffer's fill count.  <a href="#ab6531aabad02d76d5b124bc88a7e89ef"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66">decr_strict</a> (size_t *p)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Decriments buffer's fill count.  <a href="#a0b4e76c66db1982d2a9e86620c833f66"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9">incr</a> (size_t *p)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Incriments buffer's pointer.  <a href="#a40afe902589147553e5a50be907e78a9"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a9a312801a7dc5085d4ad3008b052af34">decr</a> (size_t *p)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Decriments buffer's pointer.  <a href="#a9a312801a7dc5085d4ad3008b052af34"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4">incr_strict</a> (int *p)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Incriments buffer's fill count.  <a href="#a10f6abe3dd0323ccb8460a9ffb72a4f4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18">decr_strict</a> (int *p)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Decriments buffer's fill count.  <a href="#ac469e4ffaaafc8f1f36037b92fcd8d18"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264">incr</a> (int *p)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Incriments buffer's pointer.  <a href="#a7c93cd302231ea69c3b28a7338e61264"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc">decr</a> (int *p)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Decriments buffer's pointer.  <a href="#a6d8725b5e51407e2bc5d276b819d70bc"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0eced3186ca40c6979236d905033457"></a><!-- doxytag: member="CircularBuffer::data" ref="aa0eced3186ca40c6979236d905033457" args="" -->
 <a class="el" href="class_p_string.html">PString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457">data</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer data. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affbba897ac6891584cd41ff791a81de9"></a><!-- doxytag: member="CircularBuffer::buffsize" ref="affbba897ac6891584cd41ff791a81de9" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9">buffsize</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19f1c648bed60ecbc4fba908f75eb986"></a><!-- doxytag: member="CircularBuffer::buffsize" ref="a19f1c648bed60ecbc4fba908f75eb986" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986">buffsize</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer size. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a454e58b0dbba63a4c03786392a4f3c9c"></a><!-- doxytag: member="CircularBuffer::ptr_begin" ref="a454e58b0dbba63a4c03786392a4f3c9c" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c">ptr_begin</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af61fa68a8a2ef57ad53c8373100ca2e4"></a><!-- doxytag: member="CircularBuffer::ptr_begin" ref="af61fa68a8a2ef57ad53c8373100ca2e4" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4">ptr_begin</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer start. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a82f394ff3c3bef0aebdf55175fc561ee"></a><!-- doxytag: member="CircularBuffer::ptr_end" ref="a82f394ff3c3bef0aebdf55175fc561ee" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee">ptr_end</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1342218648efa9dcd05393985bcb7690"></a><!-- doxytag: member="CircularBuffer::ptr_end" ref="a1342218648efa9dcd05393985bcb7690" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690">ptr_end</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer end. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace8387d86302c86e93f269186ea4f4cf"></a><!-- doxytag: member="CircularBuffer::peek_ptr" ref="ace8387d86302c86e93f269186ea4f4cf" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf">peek_ptr</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acce49c5ff017cb626a633a592f4e6cff"></a><!-- doxytag: member="CircularBuffer::write_ptr" ref="acce49c5ff017cb626a633a592f4e6cff" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff">write_ptr</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer write pointer. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af856e9244694406816f1d1bfe26dcf27"></a><!-- doxytag: member="CircularBuffer::peek_ptr" ref="af856e9244694406816f1d1bfe26dcf27" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27">peek_ptr</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Peek pointer. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad31ea5ff9d98d3757cfb90513a892faa"></a><!-- doxytag: member="CircularBuffer::fill" ref="ad31ea5ff9d98d3757cfb90513a892faa" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa">fill</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af63d8a381efa67d8dc14787f389b35e8"></a><!-- doxytag: member="CircularBuffer::fill" ref="af63d8a381efa67d8dc14787f389b35e8" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8">fill</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill count of the buffer. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a075bd8531684bc936ee9011608272141"></a><!-- doxytag: member="CircularBuffer::peek_fill" ref="a075bd8531684bc936ee9011608272141" args="" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141">peek_fill</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91a390a3259749dc3c3c8d1293014da5"></a><!-- doxytag: member="CircularBuffer::peek_fill" ref="a91a390a3259749dc3c3c8d1293014da5" args="" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5">peek_fill</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Peek fill count of the buffer. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e">overflow_strategy</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; if false - writing will be interrupted on overflow.  <a href="#a3caa2002c6f75a7e81841ed4b581748e"></a><br/></td></tr>
@@ -166,14 +179,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 <p>Definition at line <a class="el" href="_circular_buffer_8h_source.html#l00009">9</a> of file <a class="el" href="_circular_buffer_8h_source.html">CircularBuffer.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a783a30aeae646e20f2fa3d8a293e78d1"></a><!-- doxytag: member="CircularBuffer::CircularBuffer" ref="a783a30aeae646e20f2fa3d8a293e78d1" args="(size_t buffsize)" -->
+<a class="anchor" id="a41b459bad0e93c57e6b3205d579287d8"></a><!-- doxytag: member="CircularBuffer::CircularBuffer" ref="a41b459bad0e93c57e6b3205d579287d8" args="(int buffsize)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">CircularBuffer::CircularBuffer </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>buffsize</em></td><td>)</td>
           <td></td>
         </tr>
@@ -189,7 +202,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00035">35</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00036">36</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -216,7 +229,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00041">41</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00042">42</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -243,17 +256,17 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00047">47</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00048">48</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a4b59dec006c7f04f6594070cc8c9398f"></a><!-- doxytag: member="CircularBuffer::backward_dist" ref="a4b59dec006c7f04f6594070cc8c9398f" args="()" -->
+<a class="anchor" id="a493d4d3d530ce2dd4700a953b95d6df1"></a><!-- doxytag: member="CircularBuffer::backward_dist" ref="a493d4d3d530ce2dd4700a953b95d6df1" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t CircularBuffer::backward_dist </td>
+          <td class="memname">int CircularBuffer::backward_dist </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -265,18 +278,18 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Returns distance from current pointer to begining of the buffer. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>distance </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00080">80</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00081">81</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9a312801a7dc5085d4ad3008b052af34"></a><!-- doxytag: member="CircularBuffer::decr" ref="a9a312801a7dc5085d4ad3008b052af34" args="(size_t *p)" -->
+<a class="anchor" id="a6d8725b5e51407e2bc5d276b819d70bc"></a><!-- doxytag: member="CircularBuffer::decr" ref="a6d8725b5e51407e2bc5d276b819d70bc" args="(int *p)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CircularBuffer::decr </td>
           <td>(</td>
-          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramtype">int *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
@@ -296,14 +309,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 </div>
 </div>
-<a class="anchor" id="a0b4e76c66db1982d2a9e86620c833f66"></a><!-- doxytag: member="CircularBuffer::decr_strict" ref="a0b4e76c66db1982d2a9e86620c833f66" args="(size_t *p)" -->
+<a class="anchor" id="ac469e4ffaaafc8f1f36037b92fcd8d18"></a><!-- doxytag: member="CircularBuffer::decr_strict" ref="ac469e4ffaaafc8f1f36037b92fcd8d18" args="(int *p)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CircularBuffer::decr_strict </td>
           <td>(</td>
-          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramtype">int *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
@@ -323,12 +336,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 </div>
 </div>
-<a class="anchor" id="a54d47e125f885cdaa1acc6e8f481f320"></a><!-- doxytag: member="CircularBuffer::forward_dist" ref="a54d47e125f885cdaa1acc6e8f481f320" args="()" -->
+<a class="anchor" id="ad268deedfe770fa4efab1cc30a5fc7cb"></a><!-- doxytag: member="CircularBuffer::forward_dist" ref="ad268deedfe770fa4efab1cc30a5fc7cb" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t CircularBuffer::forward_dist </td>
+          <td class="memname">int CircularBuffer::forward_dist </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -340,18 +353,39 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Returns distance from current pointer to end of the buffer. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>distance </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00070">70</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00071">71</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a40afe902589147553e5a50be907e78a9"></a><!-- doxytag: member="CircularBuffer::incr" ref="a40afe902589147553e5a50be907e78a9" args="(size_t *p)" -->
+<a class="anchor" id="ae0f4a39df51222c2009c4cfa351665e8"></a><!-- doxytag: member="CircularBuffer::get_fill" ref="ae0f4a39df51222c2009c4cfa351665e8" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CircularBuffer::get_fill </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns fill count. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>fill count </dd></dl>
+
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00210">210</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c93cd302231ea69c3b28a7338e61264"></a><!-- doxytag: member="CircularBuffer::incr" ref="a7c93cd302231ea69c3b28a7338e61264" args="(int *p)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CircularBuffer::incr </td>
           <td>(</td>
-          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramtype">int *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
@@ -371,14 +405,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 </div>
 </div>
-<a class="anchor" id="ab6531aabad02d76d5b124bc88a7e89ef"></a><!-- doxytag: member="CircularBuffer::incr_strict" ref="ab6531aabad02d76d5b124bc88a7e89ef" args="(size_t *p)" -->
+<a class="anchor" id="a10f6abe3dd0323ccb8460a9ffb72a4f4"></a><!-- doxytag: member="CircularBuffer::incr_strict" ref="a10f6abe3dd0323ccb8460a9ffb72a4f4" args="(int *p)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CircularBuffer::incr_strict </td>
           <td>(</td>
-          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramtype">int *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td><code> [private]</code></td>
         </tr>
@@ -435,7 +469,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Checks if end of buffer were reached by any of read* operations. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>boolean </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00170">170</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00197">197</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +490,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Checks if buffer is full. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>boolean </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00178">178</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00205">205</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -477,18 +511,18 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Checks if end of buffer were reached by any of peek* operations. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>boolean </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00174">174</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00201">201</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4001b959bba30772c752a329ae93f5f4"></a><!-- doxytag: member="CircularBuffer::peek" ref="a4001b959bba30772c752a329ae93f5f4" args="(size_t length)" -->
+<a class="anchor" id="a7be736f82b7fe0dcd787790f350083a7"></a><!-- doxytag: member="CircularBuffer::peek" ref="a7be736f82b7fe0dcd787790f350083a7" args="(int length)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_p_string.html">PString</a> CircularBuffer::peek </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>length</em></td><td>)</td>
           <td></td>
         </tr>
@@ -505,7 +539,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_p_string.html" title="Unicode-aware string class.">PString</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00127">127</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00130">130</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -526,18 +560,18 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Peeks single character from the bufer. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>wide-char code </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00144">144</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00149">149</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7641057589b20ff5c93700c04ec85c00"></a><!-- doxytag: member="CircularBuffer::read" ref="a7641057589b20ff5c93700c04ec85c00" args="(size_t length)" -->
+<a class="anchor" id="a0ea4ef105317e6d8e91aa55c1ce157a1"></a><!-- doxytag: member="CircularBuffer::read" ref="a0ea4ef105317e6d8e91aa55c1ce157a1" args="(int length)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_p_string.html">PString</a> CircularBuffer::read </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>length</em></td><td>)</td>
           <td></td>
         </tr>
@@ -554,7 +588,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_p_string.html" title="Unicode-aware string class.">PString</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00103">103</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00106">106</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -575,7 +609,34 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <p>Reads single character from the bufer. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>wide-char code </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00118">118</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00121">121</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a943eee7e2a1e5c4185fba409c8518137"></a><!-- doxytag: member="CircularBuffer::scroll" ref="a943eee7e2a1e5c4185fba409c8518137" args="(int amount)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CircularBuffer::scroll </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>amount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Scroll buffer by given amount of chars. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">amount</td><td>is given amount of characters to scroll. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00165">165</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -602,16 +663,16 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00156">156</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00180">180</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a46a1f89db3fd5675af570393f78023c3"></a><!-- doxytag: member="CircularBuffer::write" ref="a46a1f89db3fd5675af570393f78023c3" args="(PString src, int length=&#45;1)" -->
+<a class="anchor" id="a08c5653896a8f983da6c0f112aded97c"></a><!-- doxytag: member="CircularBuffer::write" ref="a08c5653896a8f983da6c0f112aded97c" args="(PString src, int length=&#45;1)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t CircularBuffer::write </td>
+          <td class="memname">int CircularBuffer::write </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_p_string.html">PString</a>&#160;</td>
           <td class="paramname"><em>src</em>, </td>
@@ -641,7 +702,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>length of written data </dd></dl>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00084">84</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8cpp_source.html#l00085">85</a> of file <a class="el" href="_circular_buffer_8cpp_source.html">CircularBuffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -659,7 +720,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 <p>Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; if false - writing will be interrupted on overflow. </p>
 
-<p>Definition at line <a class="el" href="_circular_buffer_8h_source.html#l00018">18</a> of file <a class="el" href="_circular_buffer_8h_source.html">CircularBuffer.h</a>.</p>
+<p>Definition at line <a class="el" href="_circular_buffer_8h_source.html#l00019">19</a> of file <a class="el" href="_circular_buffer_8h_source.html">CircularBuffer.h</a>.</p>
 
 </div>
 </div>
@@ -682,7 +743,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

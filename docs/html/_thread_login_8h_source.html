@@ -71,28 +71,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00007"></a>00007 
 <a name="l00008"></a>00008 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
 <a name="l00009"></a>00009 <span class="preprocessor">#include &lt;Apps/Server/Server.h&gt;</span>
-<a name="l00010"></a>00010 
-<a name="l00012"></a><a class="code" href="class_thread_login.html">00012</a> <span class="keyword">class </span><a class="code" href="class_thread_login.html" title="Connection handler thread.">ThreadLogin</a> {
-<a name="l00013"></a>00013     <span class="keyword">private</span>:
-<a name="l00014"></a><a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f">00014</a>         <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *<a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f" title="Instance of ServerEngine.">engine</a>; 
-<a name="l00015"></a><a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b">00015</a>         pthread_t <a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>;  
-<a name="l00016"></a><a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476">00016</a>         <span class="keywordtype">bool</span> <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a>;    
-<a name="l00017"></a>00017     <span class="keyword">private</span>:
-<a name="l00018"></a>00018         
-<a name="l00023"></a>00023         <span class="keyword">static</span> <span class="keywordtype">void</span> *<a class="code" href="class_thread_login.html#ae35fca709b515f7d82448eb13ab3609c" title="Thread connection worker.">thread_login_worker</a>(<span class="keywordtype">void</span> *data);
-<a name="l00024"></a>00024     <span class="keyword">public</span>:
-<a name="l00025"></a>00025     
-<a name="l00029"></a>00029         <a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901" title="Constructor.">ThreadLogin</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr);
-<a name="l00030"></a>00030         
-<a name="l00032"></a>00032         <a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c" title="Destructor.">~ThreadLogin</a>();
-<a name="l00033"></a>00033     <span class="keyword">public</span>:
-<a name="l00034"></a>00034     
-<a name="l00036"></a>00036         pthread_t <a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">setup</a>();
-<a name="l00037"></a>00037         
-<a name="l00039"></a>00039         <span class="keywordtype">void</span> <a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">desetup</a>();
-<a name="l00040"></a>00040 };
-<a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="preprocessor">#endif</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;Data/Hash/Hash.h&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00013"></a><a class="code" href="class_thread_login.html">00013</a> <span class="keyword">class </span><a class="code" href="class_thread_login.html" title="Connection handler thread.">ThreadLogin</a> {
+<a name="l00014"></a>00014     <span class="keyword">private</span>:
+<a name="l00015"></a><a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f">00015</a>         <a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *<a class="code" href="class_thread_login.html#aecf8acc1d8b58606c8ab36a0f7531a7f" title="Instance of ServerEngine.">engine</a>; 
+<a name="l00016"></a><a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b">00016</a>         pthread_t <a class="code" href="class_thread_login.html#a5b280fd5ea3285af2e855759f5dd334b" title="thread id">thread_id</a>;  
+<a name="l00017"></a><a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476">00017</a>         <span class="keywordtype">bool</span> <a class="code" href="class_thread_login.html#acfab59045e82cb96152ff3d81374a476" title="if time to stop connection thread">time_to_exit</a>;    
+<a name="l00018"></a>00018     <span class="keyword">private</span>:
+<a name="l00019"></a>00019         
+<a name="l00024"></a>00024         <span class="keyword">static</span> <span class="keywordtype">void</span> *<a class="code" href="class_thread_login.html#ae35fca709b515f7d82448eb13ab3609c" title="Thread connection worker.">thread_login_worker</a>(<span class="keywordtype">void</span> *data);
+<a name="l00025"></a>00025     <span class="keyword">public</span>:
+<a name="l00026"></a>00026     
+<a name="l00030"></a>00030         <a class="code" href="class_thread_login.html#a0bdab8bdc51cd8884eed652203843901" title="Constructor.">ThreadLogin</a>(<a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> *srvr);
+<a name="l00031"></a>00031         
+<a name="l00033"></a>00033         <a class="code" href="class_thread_login.html#aff8de9493aebc6c47bf27815ec5c7b4c" title="Destructor.">~ThreadLogin</a>();
+<a name="l00034"></a>00034     <span class="keyword">public</span>:
+<a name="l00035"></a>00035     
+<a name="l00037"></a>00037         pthread_t <a class="code" href="class_thread_login.html#a8410242a566e6f6d5bb275de13f28025" title="Sets up connection thread.">setup</a>();
+<a name="l00038"></a>00038         
+<a name="l00040"></a>00040         <span class="keywordtype">void</span> <a class="code" href="class_thread_login.html#ab765cb6cf5340a117a17195f9c71bd58" title="Desetups connection thread.">desetup</a>();
+<a name="l00041"></a>00041 };
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -109,7 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

@@ -9,12 +9,13 @@
 class CircularBuffer {
 	private:
 		PString data;     ///< Buffer data
-		size_t buffsize;  ///< Buffer size
-		size_t ptr_begin; ///< Buffer start
-		size_t ptr_end;   ///< Buffer end
-		size_t peek_ptr;  ///< Peek pointer
-		size_t fill;      ///< Fill count of the buffer
-		size_t peek_fill; ///< Peek fill count of the buffer
+		int buffsize;  ///< Buffer size
+		int ptr_begin; ///< Buffer start
+		int ptr_end;   ///< Buffer end
+		int write_ptr; ///< Buffer write pointer
+		int peek_ptr;  ///< Peek pointer
+		int fill;      ///< Fill count of the buffer
+		int peek_fill; ///< Peek fill count of the buffer
 		bool overflow_strategy; ///< Determines the overflow strategy;
 		                        ///< that means if it is true - buffer
 		                        ///< will be overwriten on overflow;
@@ -27,19 +28,19 @@ class CircularBuffer {
 		/// Incriments buffer's fill count
 		///
 		/// \param [in,out] p is pointer to incriment
-		void incr_strict(size_t *p);
+		void incr_strict(int *p);
 		/// Decriments buffer's fill count
 		///
 		/// \param [in,out] p is pointer to incriment
-		void decr_strict(size_t *p);
+		void decr_strict(int *p);
 		/// Incriments buffer's pointer
 		///
 		/// \param [in,out] p is pointer to incriment
-		void incr(size_t *p);
+		void incr(int *p);
 		/// Decriments buffer's pointer
 		///
 		/// \param [in,out] p is pointer to decriment
-		void decr(size_t *p);
+		void decr(int *p);
 	public:
 		/// Dummy constructor
 		CircularBuffer();
@@ -47,7 +48,7 @@ class CircularBuffer {
 		/// Constructor with pre-defined buffer size.
 		///
 		/// \param [in] buffsize is buffer size
-		CircularBuffer(size_t buffsize);
+		CircularBuffer(int buffsize);
 		
 		/// Constructor with pre-defined source string.
 		///
@@ -71,25 +72,25 @@ class CircularBuffer {
 		/// Returns distance from current pointer to end of the buffer.
 		///
 		/// @return distance
-		size_t forward_dist();
+		int forward_dist();
 		
 		/// Returns distance from current pointer to begining of the buffer.
 		///
 		/// @return distance
-		size_t backward_dist();
+		int backward_dist();
 		
 		/// Writes to buffer source char string
 		///
 		/// \param [in] src PString
 		/// \param [in] length is optional length of source string
 		/// @return length of written data
-		size_t write(PString src, int length = -1);
+		int write(PString src, int length = -1);
 
 		/// Reads from a buffer some string with given length
 		///
 		/// \param [in] length is length of the string to read
 		/// @return PString
-		PString read(size_t length);
+		PString read(int length);
 		
 		/// Reads single character from the bufer
 		///
@@ -101,7 +102,7 @@ class CircularBuffer {
 		///
 		/// \param [in] length is length of the string to read
 		/// @return PString
-		PString peek(size_t length);
+		PString peek(int length);
 		
 		/// Peeks single character from the bufer
 		///
@@ -123,10 +124,27 @@ class CircularBuffer {
 		/// @return boolean
 		bool is_peek_eof();
 		
+		/// Resets peek pointer
+		void reset_peek();
+		
+		/// Scroll buffer by given amount of chars
+		///
+		/// \param [in] amount is given amount of characters to scroll.
+		void scroll(int amount);
+		
+		/// Scroll buffer to peek position
+		void scroll_to_peek();
+		
 		/// Checks if buffer is full.
 		///
 		/// @return boolean
 		bool is_full();
+		
+		
+		/// Returns fill count
+		///
+		/// @return fill count
+		int get_fill();
 		
 		/// Dumps buffer contetns on the screen. Useful for debuging.
 		void dump();

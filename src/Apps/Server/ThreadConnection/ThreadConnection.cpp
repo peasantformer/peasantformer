@@ -18,7 +18,7 @@ void *ThreadConnection::thread_connection_worker(void *data) {
 	int real_fds_max;
 	int remote_sock;
 	
-	
+	Messages *msgs = self->engine->nmsgs;	
 	
 	printf("[INFO] Connection thread fired up\n");
 	while (self->time_to_exit == false) {
@@ -27,6 +27,7 @@ void *ThreadConnection::thread_connection_worker(void *data) {
 		read_fds = real_fds;
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 1000 * 1000;
+
 		pn_select(real_fds_max+1,&read_fds,NULL,NULL,&timeout);
 		for (int i=0; i <= real_fds_max; i++) {
 			if (!FD_ISSET(i,&read_fds)) continue;
@@ -34,7 +35,7 @@ void *ThreadConnection::thread_connection_worker(void *data) {
 			remote_sock = pn_accept(i,(struct sockaddr *)&remote_addr,&addrlen);
 			self->engine->connections->add_pending_connection(remote_sock,remote_addr,self->engine->get_buffsize());
 			printf("[%s] Incoming connection. Pending...\n",self->engine->connections->get_pending_connection(remote_sock).address_literal);
-			pnh_send_str(remote_sock,self->engine->nmsgs->get("hello_kitty"));
+			pnh_send_str(remote_sock,msgs->get_num("hello_kitty").c_str());
 		}
 		
 	}

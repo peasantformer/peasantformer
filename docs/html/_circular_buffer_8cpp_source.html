@@ -67,197 +67,230 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00002"></a>00002 
 <a name="l00004"></a>00004 
 <a name="l00005"></a><a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452">00005</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">CircularBuffer::init</a>() {
-<a name="l00006"></a>00006     <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a> = <a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> = <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a> = 0;
-<a name="l00007"></a>00007     <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> = 0;
+<a name="l00006"></a>00006     <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a> = <a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> = <a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a> = <a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a> = 0;
+<a name="l00007"></a>00007     <a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> = 0;
 <a name="l00008"></a>00008     <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> = <span class="keyword">true</span>;
 <a name="l00009"></a>00009 }
 <a name="l00010"></a>00010 
-<a name="l00011"></a><a class="code" href="class_circular_buffer.html#ab6531aabad02d76d5b124bc88a7e89ef">00011</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ab6531aabad02d76d5b124bc88a7e89ef" title="Incriments buffer&amp;#39;s fill count.">CircularBuffer::incr_strict</a>(<span class="keywordtype">size_t</span> *p) {
+<a name="l00011"></a><a class="code" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4">00011</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4" title="Incriments buffer&amp;#39;s fill count.">CircularBuffer::incr_strict</a>(<span class="keywordtype">int</span> *p) {
 <a name="l00012"></a>00012     (*p)++;
-<a name="l00013"></a>00013     <span class="keywordflow">if</span> ((*p) &gt; <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>) *p = 1;
+<a name="l00013"></a>00013     <span class="keywordflow">if</span> ((*p) &gt; <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>) (*p) = 1;
 <a name="l00014"></a>00014 }
 <a name="l00015"></a>00015 
-<a name="l00016"></a><a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66">00016</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">CircularBuffer::decr_strict</a>(<span class="keywordtype">size_t</span> *p) {
+<a name="l00016"></a><a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18">00016</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">CircularBuffer::decr_strict</a>(<span class="keywordtype">int</span> *p) {
 <a name="l00017"></a>00017     <span class="keywordflow">if</span> ((*p) &gt; 0) (*p)--;
 <a name="l00018"></a>00018 }
 <a name="l00019"></a>00019 
 <a name="l00020"></a>00020 
-<a name="l00021"></a><a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9">00021</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">CircularBuffer::incr</a>(<span class="keywordtype">size_t</span> *p) {
+<a name="l00021"></a><a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264">00021</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">CircularBuffer::incr</a>(<span class="keywordtype">int</span> *p) {
 <a name="l00022"></a>00022     (*p)++;
-<a name="l00023"></a>00023     <span class="keywordflow">if</span> ((*p) &gt;= <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>) *p = 0;
+<a name="l00023"></a>00023     <span class="keywordflow">if</span> ((*p) &gt;= <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>) (*p) = 0;
 <a name="l00024"></a>00024 }
 <a name="l00025"></a>00025 
-<a name="l00026"></a><a class="code" href="class_circular_buffer.html#a9a312801a7dc5085d4ad3008b052af34">00026</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a9a312801a7dc5085d4ad3008b052af34" title="Decriments buffer&amp;#39;s pointer.">CircularBuffer::decr</a>(<span class="keywordtype">size_t</span> *p) {
+<a name="l00026"></a><a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc">00026</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc" title="Decriments buffer&amp;#39;s pointer.">CircularBuffer::decr</a>(<span class="keywordtype">int</span> *p) {
 <a name="l00027"></a>00027     (*p)--;
-<a name="l00028"></a>00028     <span class="keywordflow">if</span> ((*p) &lt; 0) *p = <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a> - 1;
-<a name="l00029"></a>00029 }
-<a name="l00030"></a>00030 
-<a name="l00031"></a><a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c">00031</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>() {
-<a name="l00032"></a>00032     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00033"></a>00033 }
-<a name="l00034"></a>00034 
-<a name="l00035"></a><a class="code" href="class_circular_buffer.html#a783a30aeae646e20f2fa3d8a293e78d1">00035</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keywordtype">size_t</span> buffsize) {
-<a name="l00036"></a>00036     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00037"></a>00037     this-&gt;buffsize = <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>;
-<a name="l00038"></a>00038     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(buffsize);
-<a name="l00039"></a>00039 }
-<a name="l00040"></a>00040 
-<a name="l00041"></a><a class="code" href="class_circular_buffer.html#a7d1d58615e1e1cb5c2ce15ca1773304a">00041</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *source) {
-<a name="l00042"></a>00042     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00043"></a>00043     <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a> = strlen(source);
-<a name="l00044"></a>00044     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(source);
-<a name="l00045"></a>00045 }
-<a name="l00046"></a>00046 
-<a name="l00047"></a><a class="code" href="class_circular_buffer.html#a0df8eebc9063c368a627381064098e3c">00047</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source) {
-<a name="l00048"></a>00048     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00049"></a>00049     <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a> = wcslen(source);
-<a name="l00050"></a>00050     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(source);
-<a name="l00051"></a>00051 }
-<a name="l00052"></a>00052 
-<a name="l00053"></a><a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91">00053</a> <a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91" title="Dummy destructor.">CircularBuffer::~CircularBuffer</a>() {
-<a name="l00054"></a>00054 }
-<a name="l00055"></a>00055 
+<a name="l00028"></a>00028     <span class="keywordflow">if</span> ((*p) &lt; 0) (*p) = (<a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a> - 1);
+<a name="l00029"></a>00029     printf(<span class="stringliteral">&quot;|||| %d\n&quot;</span>,*p);
+<a name="l00030"></a>00030 }
+<a name="l00031"></a>00031 
+<a name="l00032"></a><a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c">00032</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>() {
+<a name="l00033"></a>00033     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00034"></a>00034 }
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="class_circular_buffer.html#a41b459bad0e93c57e6b3205d579287d8">00036</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keywordtype">int</span> buffsize) {
+<a name="l00037"></a>00037     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00038"></a>00038     this-&gt;buffsize = <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>;
+<a name="l00039"></a>00039     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(buffsize);
+<a name="l00040"></a>00040 }
+<a name="l00041"></a>00041 
+<a name="l00042"></a><a class="code" href="class_circular_buffer.html#a7d1d58615e1e1cb5c2ce15ca1773304a">00042</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *source) {
+<a name="l00043"></a>00043     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00044"></a>00044     <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a> = strlen(source);
+<a name="l00045"></a>00045     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(source);
+<a name="l00046"></a>00046 }
+<a name="l00047"></a>00047 
+<a name="l00048"></a><a class="code" href="class_circular_buffer.html#a0df8eebc9063c368a627381064098e3c">00048</a> <a class="code" href="class_circular_buffer.html#a8c5de0e610bb50bac684f4707e23431c" title="Dummy constructor.">CircularBuffer::CircularBuffer</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span> *source) {
+<a name="l00049"></a>00049     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00050"></a>00050     <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a> = wcslen(source);
+<a name="l00051"></a>00051     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a> = <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(source);
+<a name="l00052"></a>00052 }
+<a name="l00053"></a>00053 
+<a name="l00054"></a><a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91">00054</a> <a class="code" href="class_circular_buffer.html#a916f9506cf86010056d189b51fd72c91" title="Dummy destructor.">CircularBuffer::~CircularBuffer</a>() {
+<a name="l00055"></a>00055 }
 <a name="l00056"></a>00056 
 <a name="l00057"></a>00057 
 <a name="l00058"></a>00058 
-<a name="l00059"></a><a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384">00059</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384" title="Clears buffer contetns.">CircularBuffer::clear</a>() {
-<a name="l00060"></a>00060     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>.<a class="code" href="class_p_string.html#ad265cbb52fff518b8979bd401afa3c44" title="Wipes PString.">clear</a>();
-<a name="l00061"></a>00061     <span class="keywordtype">bool</span> strategy = <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a>;
-<a name="l00062"></a>00062     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
-<a name="l00063"></a>00063     <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> = strategy;
-<a name="l00064"></a>00064 }
-<a name="l00065"></a>00065 
-<a name="l00066"></a><a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619">00066</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619" title="Sets buffer strategy to non-overflow-tolerant one.">CircularBuffer::disable_overflow</a>() {
-<a name="l00067"></a>00067     <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> = <span class="keyword">false</span>;
-<a name="l00068"></a>00068 }
-<a name="l00069"></a>00069 
-<a name="l00070"></a><a class="code" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320">00070</a> <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320" title="Returns distance from current pointer to end of the buffer.">CircularBuffer::forward_dist</a>() {
-<a name="l00071"></a>00071     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> &gt; <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>) {
-<a name="l00072"></a>00072         <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> - <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>;
-<a name="l00073"></a>00073     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">true</span>) {
-<a name="l00074"></a>00074         <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a> - <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>) + (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a>);
-<a name="l00075"></a>00075     } <span class="keywordflow">else</span> {
-<a name="l00076"></a>00076         <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>;
-<a name="l00077"></a>00077     }
-<a name="l00078"></a>00078 }
-<a name="l00079"></a>00079 
-<a name="l00080"></a><a class="code" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f">00080</a> <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f" title="Returns distance from current pointer to begining of the buffer.">CircularBuffer::backward_dist</a>() {
-<a name="l00081"></a>00081     <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a> - <a class="code" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320" title="Returns distance from current pointer to end of the buffer.">forward_dist</a>();
-<a name="l00082"></a>00082 }
-<a name="l00083"></a>00083 
-<a name="l00084"></a><a class="code" href="class_circular_buffer.html#a46a1f89db3fd5675af570393f78023c3">00084</a> <span class="keywordtype">size_t</span> <a class="code" href="class_circular_buffer.html#a46a1f89db3fd5675af570393f78023c3" title="Writes to buffer source char string.">CircularBuffer::write</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> src, <span class="keywordtype">int</span> length) {
-<a name="l00085"></a>00085     <span class="keywordtype">size_t</span> len = 0;
-<a name="l00086"></a>00086     <span class="keywordflow">if</span> (length &lt; 0) {
-<a name="l00087"></a>00087         len = src.<a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32" title="Length of the text stored in the PString.">length</a>();
-<a name="l00088"></a>00088     } <span class="keywordflow">else</span> {
-<a name="l00089"></a>00089         len = length;
-<a name="l00090"></a>00090     }
-<a name="l00091"></a>00091     <span class="keywordtype">size_t</span> i;
-<a name="l00092"></a>00092     <span class="keywordflow">for</span> (i=0; i &lt; len; i++) {
-<a name="l00093"></a>00093         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> &gt; 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
-<a name="l00094"></a>00094             <span class="keywordflow">break</span>;
-<a name="l00095"></a>00095         <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a>] = src[i];
-<a name="l00096"></a>00096         <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a>);
-<a name="l00097"></a>00097         <a class="code" href="class_circular_buffer.html#ab6531aabad02d76d5b124bc88a7e89ef" title="Incriments buffer&amp;#39;s fill count.">incr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>);
-<a name="l00098"></a>00098     }
-<a name="l00099"></a>00099     <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>;
-<a name="l00100"></a>00100     <span class="keywordflow">return</span> i;
-<a name="l00101"></a>00101 }
-<a name="l00102"></a>00102 
-<a name="l00103"></a><a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00">00103</a> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a7641057589b20ff5c93700c04ec85c00" title="Reads from a buffer some string with given length.">CircularBuffer::read</a>(<span class="keywordtype">size_t</span> length) {
-<a name="l00104"></a>00104     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> result;
-<a name="l00105"></a>00105     result.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(length);
-<a name="l00106"></a>00106     
-<a name="l00107"></a>00107     <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0; i &lt; length; i++) {
-<a name="l00108"></a>00108         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
-<a name="l00109"></a>00109             <span class="keywordflow">break</span>;
-<a name="l00110"></a>00110         result[i] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>];
-<a name="l00111"></a>00111         <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>);
-<a name="l00112"></a>00112         <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>);
-<a name="l00113"></a>00113     }
-<a name="l00114"></a>00114     result.<a class="code" href="class_p_string.html#a5ed3c4f4dffa6f78b2014f84eb72b6a2" title="Shorhand for defining own if-w-null function and then applying it to dropwhile_right.">trim_right</a>();
-<a name="l00115"></a>00115     <span class="keywordflow">return</span> result;
-<a name="l00116"></a>00116 }
-<a name="l00117"></a>00117 
-<a name="l00118"></a><a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f">00118</a> wint_t <a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">CircularBuffer::read_ch</a>() {
-<a name="l00119"></a>00119     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
-<a name="l00120"></a>00120         <span class="keywordflow">return</span> -1;
-<a name="l00121"></a>00121     wint_t result = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>];
-<a name="l00122"></a>00122     <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>);
-<a name="l00123"></a>00123     <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>);
-<a name="l00124"></a>00124     <span class="keywordflow">return</span> result;
-<a name="l00125"></a>00125 }
-<a name="l00126"></a>00126 
-<a name="l00127"></a><a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4">00127</a> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a4001b959bba30772c752a329ae93f5f4" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">CircularBuffer::peek</a>(<span class="keywordtype">size_t</span> length) {
-<a name="l00128"></a>00128     <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a> = <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>;
-<a name="l00129"></a>00129     <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>;
-<a name="l00130"></a>00130     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> result;
-<a name="l00131"></a>00131     result.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(length);
-<a name="l00132"></a>00132     
-<a name="l00133"></a>00133     <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0; i &lt; length; i++) {
-<a name="l00134"></a>00134         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
-<a name="l00135"></a>00135             <span class="keywordflow">break</span>;
-<a name="l00136"></a>00136         result[i] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>];
-<a name="l00137"></a>00137         <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>);
-<a name="l00138"></a>00138         <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a>);
-<a name="l00139"></a>00139     }
-<a name="l00140"></a>00140     result.<a class="code" href="class_p_string.html#a5ed3c4f4dffa6f78b2014f84eb72b6a2" title="Shorhand for defining own if-w-null function and then applying it to dropwhile_right.">trim_right</a>();
-<a name="l00141"></a>00141     <span class="keywordflow">return</span> result;
-<a name="l00142"></a>00142 }
-<a name="l00143"></a>00143 
-<a name="l00144"></a><a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794">00144</a> wint_t <a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">CircularBuffer::peek_ch</a>() {
-<a name="l00145"></a>00145     <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a> = <a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>;
-<a name="l00146"></a>00146     <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>;
-<a name="l00147"></a>00147     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
-<a name="l00148"></a>00148         <span class="keywordflow">return</span> -1;
-<a name="l00149"></a>00149     wint_t result = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>];
-<a name="l00150"></a>00150     <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>);
-<a name="l00151"></a>00151     <a class="code" href="class_circular_buffer.html#a0b4e76c66db1982d2a9e86620c833f66" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a>);
-<a name="l00152"></a>00152     <span class="keywordflow">return</span> result;
-<a name="l00153"></a>00153 }
-<a name="l00154"></a>00154 
-<a name="l00155"></a>00155 
-<a name="l00156"></a><a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e">00156</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">CircularBuffer::seek</a>(<span class="keywordtype">int</span> offset) {
-<a name="l00157"></a>00157     <span class="keywordflow">while</span> (offset &gt; 0) {
-<a name="l00158"></a>00158         <a class="code" href="class_circular_buffer.html#a9a312801a7dc5085d4ad3008b052af34" title="Decriments buffer&amp;#39;s pointer.">decr</a>(&amp;<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>);
-<a name="l00159"></a>00159         offset--;
-<a name="l00160"></a>00160     }
-<a name="l00161"></a>00161     <span class="keywordflow">while</span> (offset &lt; 0) {
-<a name="l00162"></a>00162         <a class="code" href="class_circular_buffer.html#a40afe902589147553e5a50be907e78a9" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>);
-<a name="l00163"></a>00163         offset++;
-<a name="l00164"></a>00164     }
-<a name="l00165"></a>00165 }
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167 
-<a name="l00168"></a>00168 
-<a name="l00169"></a>00169 
-<a name="l00170"></a><a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142">00170</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">CircularBuffer::is_eof</a>() {
-<a name="l00171"></a>00171     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> == 0);
-<a name="l00172"></a>00172 }
-<a name="l00173"></a>00173 
-<a name="l00174"></a><a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc">00174</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">CircularBuffer::is_peek_eof</a>() {
-<a name="l00175"></a>00175     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#a075bd8531684bc936ee9011608272141" title="Peek fill count of the buffer.">peek_fill</a> == 0);
-<a name="l00176"></a>00176 }
-<a name="l00177"></a>00177 
-<a name="l00178"></a><a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5">00178</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">CircularBuffer::is_full</a>() {
-<a name="l00179"></a>00179     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a> == <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>);
-<a name="l00180"></a>00180 }
-<a name="l00181"></a>00181 
-<a name="l00182"></a>00182 
-<a name="l00183"></a><a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c">00183</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">CircularBuffer::dump</a>() {
-<a name="l00184"></a>00184     <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i=0; i &lt; <a class="code" href="class_circular_buffer.html#affbba897ac6891584cd41ff791a81de9" title="Buffer size.">buffsize</a>; i++) {
-<a name="l00185"></a>00185         <span class="keywordtype">char</span> str[2];
-<a name="l00186"></a>00186         str[0] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[i];
-<a name="l00187"></a>00187         str[1] = <span class="charliteral">&#39;\0&#39;</span>;
-<a name="l00188"></a>00188         
-<a name="l00189"></a>00189         printf(<span class="stringliteral">&quot;#%03d [%s] &quot;</span>,(<span class="keywordtype">int</span>)i,<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(str).c_str());
-<a name="l00190"></a>00190         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#ace8387d86302c86e93f269186ea4f4cf" title="Peek pointer.">peek_ptr</a>) printf(<span class="stringliteral">&quot;peek &quot;</span>);
-<a name="l00191"></a>00191         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#a454e58b0dbba63a4c03786392a4f3c9c" title="Buffer start.">ptr_begin</a>) printf(<span class="stringliteral">&quot;begin &quot;</span>);
-<a name="l00192"></a>00192         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#a82f394ff3c3bef0aebdf55175fc561ee" title="Buffer end.">ptr_end</a>) printf(<span class="stringliteral">&quot;end &quot;</span>);
-<a name="l00193"></a>00193         printf(<span class="stringliteral">&quot;\n&quot;</span>);
-<a name="l00194"></a>00194     }
-<a name="l00195"></a>00195     printf(<span class="stringliteral">&quot;fill: %d, buffsize: %d, fdist: %d, bdit: %d\n&quot;</span>,(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#ad31ea5ff9d98d3757cfb90513a892faa" title="Fill count of the buffer.">fill</a>,(<span class="keywordtype">int</span>)buffsize,(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#a54d47e125f885cdaa1acc6e8f481f320" title="Returns distance from current pointer to end of the buffer.">forward_dist</a>(),(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#a4b59dec006c7f04f6594070cc8c9398f" title="Returns distance from current pointer to begining of the buffer.">backward_dist</a>());
-<a name="l00196"></a>00196 }
+<a name="l00059"></a>00059 
+<a name="l00060"></a><a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384">00060</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#ae3acd33319508f7499654995ec7f0384" title="Clears buffer contetns.">CircularBuffer::clear</a>() {
+<a name="l00061"></a>00061     <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>.<a class="code" href="class_p_string.html#ad265cbb52fff518b8979bd401afa3c44" title="Wipes PString.">clear</a>();
+<a name="l00062"></a>00062     <span class="keywordtype">bool</span> strategy = <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a>;
+<a name="l00063"></a>00063     <a class="code" href="class_circular_buffer.html#aafa0dfb2794c4c839b7e6cb8c78e4452" title="Initialization function, contains shared to all constructors routines.">init</a>();
+<a name="l00064"></a>00064     <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> = strategy;
+<a name="l00065"></a>00065 }
+<a name="l00066"></a>00066 
+<a name="l00067"></a><a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619">00067</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#acef7febfa7a796f9b6a1c0662f8b5619" title="Sets buffer strategy to non-overflow-tolerant one.">CircularBuffer::disable_overflow</a>() {
+<a name="l00068"></a>00068     <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> = <span class="keyword">false</span>;
+<a name="l00069"></a>00069 }
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="class_circular_buffer.html#ad268deedfe770fa4efab1cc30a5fc7cb">00071</a> <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#ad268deedfe770fa4efab1cc30a5fc7cb" title="Returns distance from current pointer to end of the buffer.">CircularBuffer::forward_dist</a>() {
+<a name="l00072"></a>00072     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> &gt; <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>) {
+<a name="l00073"></a>00073         <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> - <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>;
+<a name="l00074"></a>00074     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">true</span>) {
+<a name="l00075"></a>00075         <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a> - <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>) + (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>);
+<a name="l00076"></a>00076     } <span class="keywordflow">else</span> {
+<a name="l00077"></a>00077         <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>;
+<a name="l00078"></a>00078     }
+<a name="l00079"></a>00079 }
+<a name="l00080"></a>00080 
+<a name="l00081"></a><a class="code" href="class_circular_buffer.html#a493d4d3d530ce2dd4700a953b95d6df1">00081</a> <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a493d4d3d530ce2dd4700a953b95d6df1" title="Returns distance from current pointer to begining of the buffer.">CircularBuffer::backward_dist</a>() {
+<a name="l00082"></a>00082     <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a> - <a class="code" href="class_circular_buffer.html#ad268deedfe770fa4efab1cc30a5fc7cb" title="Returns distance from current pointer to end of the buffer.">forward_dist</a>();
+<a name="l00083"></a>00083 }
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="class_circular_buffer.html#a08c5653896a8f983da6c0f112aded97c">00085</a> <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#a08c5653896a8f983da6c0f112aded97c" title="Writes to buffer source char string.">CircularBuffer::write</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> src, <span class="keywordtype">int</span> length) {
+<a name="l00086"></a>00086     <span class="keywordtype">int</span> len = 0;
+<a name="l00087"></a>00087     <span class="keywordflow">if</span> (length &lt; 0) {
+<a name="l00088"></a>00088         len = src.<a class="code" href="class_p_string.html#ae5a5d848fa32b5ddfc8668408d44ed32" title="Length of the text stored in the PString.">length</a>();
+<a name="l00089"></a>00089     } <span class="keywordflow">else</span> {
+<a name="l00090"></a>00090         len = length;
+<a name="l00091"></a>00091     }
+<a name="l00092"></a>00092     <span class="keywordtype">int</span> i;
+<a name="l00093"></a>00093     <span class="keywordflow">for</span> (i=0; i &lt; len; i++) {
+<a name="l00094"></a>00094         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a> == <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> &gt; 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
+<a name="l00095"></a>00095             <span class="keywordflow">break</span>;
+<a name="l00096"></a>00096         <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a>] = src[i];
+<a name="l00097"></a>00097         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>);
+<a name="l00098"></a>00098         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a>);
+<a name="l00099"></a>00099         <a class="code" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4" title="Incriments buffer&amp;#39;s fill count.">incr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>);
+<a name="l00100"></a>00100         <a class="code" href="class_circular_buffer.html#a10f6abe3dd0323ccb8460a9ffb72a4f4" title="Incriments buffer&amp;#39;s fill count.">incr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>);
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102     <span class="comment">//peek_fill = fill;</span>
+<a name="l00103"></a>00103     <span class="keywordflow">return</span> i;
+<a name="l00104"></a>00104 }
+<a name="l00105"></a>00105 
+<a name="l00106"></a><a class="code" href="class_circular_buffer.html#a0ea4ef105317e6d8e91aa55c1ce157a1">00106</a> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a0ea4ef105317e6d8e91aa55c1ce157a1" title="Reads from a buffer some string with given length.">CircularBuffer::read</a>(<span class="keywordtype">int</span> length) {
+<a name="l00107"></a>00107     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> result;
+<a name="l00108"></a>00108     result.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(length);
+<a name="l00109"></a>00109     
+<a name="l00110"></a>00110     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt; length; i++) {
+<a name="l00111"></a>00111         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
+<a name="l00112"></a>00112             <span class="keywordflow">break</span>;
+<a name="l00113"></a>00113         result[i] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>];
+<a name="l00114"></a>00114         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>);
+<a name="l00115"></a>00115         <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>);
+<a name="l00116"></a>00116     }
+<a name="l00117"></a>00117     result.<a class="code" href="class_p_string.html#a5ed3c4f4dffa6f78b2014f84eb72b6a2" title="Shorhand for defining own if-w-null function and then applying it to dropwhile_right.">trim_right</a>();
+<a name="l00118"></a>00118     <span class="keywordflow">return</span> result;
+<a name="l00119"></a>00119 }
+<a name="l00120"></a>00120 
+<a name="l00121"></a><a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f">00121</a> wint_t <a class="code" href="class_circular_buffer.html#ad47e1a792ba0a21b56d9afd7ad81681f" title="Reads single character from the bufer.">CircularBuffer::read_ch</a>() {
+<a name="l00122"></a>00122     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
+<a name="l00123"></a>00123         <span class="keywordflow">return</span> -1;
+<a name="l00124"></a>00124     wint_t result = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>];
+<a name="l00125"></a>00125     <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>);
+<a name="l00126"></a>00126     <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>);
+<a name="l00127"></a>00127     <span class="keywordflow">return</span> result;
+<a name="l00128"></a>00128 }
+<a name="l00129"></a>00129 
+<a name="l00130"></a><a class="code" href="class_circular_buffer.html#a7be736f82b7fe0dcd787790f350083a7">00130</a> <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_circular_buffer.html#a7be736f82b7fe0dcd787790f350083a7" title="Peeks from a buffer some string with given length, without removing read data from the buffer...">CircularBuffer::peek</a>(<span class="keywordtype">int</span> length) {
+<a name="l00131"></a>00131     <span class="comment">//peek_ptr = ptr_begin;</span>
+<a name="l00132"></a>00132     <span class="comment">//peek_fill = fill;</span>
+<a name="l00133"></a>00133     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> result;
+<a name="l00134"></a>00134     result.<a class="code" href="class_p_string.html#ad52cc15816b6ddb102b3b9c47d780182" title="Resizes PString.">resize</a>(length);
+<a name="l00135"></a>00135     
+<a name="l00136"></a>00136     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt; length; i++) {
+<a name="l00137"></a>00137         printf(<span class="stringliteral">&quot;pukpukpuk %d %d %d\n&quot;</span>,<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>,<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>,<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>);
+<a name="l00138"></a>00138         <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
+<a name="l00139"></a>00139             <span class="keywordflow">break</span>;
+<a name="l00140"></a>00140         
+<a name="l00141"></a>00141         result[i] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>];
+<a name="l00142"></a>00142         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>);
+<a name="l00143"></a>00143         <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>);
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145     result.<a class="code" href="class_p_string.html#a5ed3c4f4dffa6f78b2014f84eb72b6a2" title="Shorhand for defining own if-w-null function and then applying it to dropwhile_right.">trim_right</a>();
+<a name="l00146"></a>00146     <span class="keywordflow">return</span> result;
+<a name="l00147"></a>00147 }
+<a name="l00148"></a>00148 
+<a name="l00149"></a><a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794">00149</a> wint_t <a class="code" href="class_circular_buffer.html#afeeeb1fd3e2a9cbf0ac9f7cad7b5b794" title="Peeks single character from the bufer.">CircularBuffer::peek_ch</a>() {
+<a name="l00150"></a>00150     <span class="comment">//peek_ptr = ptr_begin;</span>
+<a name="l00151"></a>00151     <span class="comment">//peek_fill = fill;</span>
+<a name="l00152"></a>00152     <span class="keywordflow">if</span> (<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a> == <a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a> &amp;&amp; <a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a> == 0 &amp;&amp; <a class="code" href="class_circular_buffer.html#a3caa2002c6f75a7e81841ed4b581748e" title="Determines the overflow strategy; that means if it is true - buffer will be overwriten on overflow; i...">overflow_strategy</a> == <span class="keyword">false</span>)
+<a name="l00153"></a>00153         <span class="keywordflow">return</span> -1;
+<a name="l00154"></a>00154     wint_t result = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>];
+<a name="l00155"></a>00155     <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>);
+<a name="l00156"></a>00156     <a class="code" href="class_circular_buffer.html#ac469e4ffaaafc8f1f36037b92fcd8d18" title="Decriments buffer&amp;#39;s fill count.">decr_strict</a>(&amp;<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>);
+<a name="l00157"></a>00157     <span class="keywordflow">return</span> result;
+<a name="l00158"></a>00158 }
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="class_circular_buffer.html#a27c13c520ab7d9d8f3d3516c5ffdab6c">00160</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a27c13c520ab7d9d8f3d3516c5ffdab6c" title="Resets peek pointer.">CircularBuffer::reset_peek</a>() {
+<a name="l00161"></a>00161     <a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a> = <a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>;
+<a name="l00162"></a>00162     <a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a> = <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>;
+<a name="l00163"></a>00163 }
+<a name="l00164"></a>00164 
+<a name="l00165"></a><a class="code" href="class_circular_buffer.html#a943eee7e2a1e5c4185fba409c8518137">00165</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a943eee7e2a1e5c4185fba409c8518137" title="Scroll buffer by given amount of chars.">CircularBuffer::scroll</a>(<span class="keywordtype">int</span> amount) {
+<a name="l00166"></a>00166     <span class="keywordflow">while</span> (amount &gt; 0) {
+<a name="l00167"></a>00167         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>);
+<a name="l00168"></a>00168 <span class="comment">//      incr(&amp;ptr_end);</span>
+<a name="l00169"></a>00169 <span class="comment">//      if (is_full()) incr(&amp;ptr_end);</span>
+<a name="l00170"></a>00170         amount--;
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172     <span class="keywordflow">while</span> (amount &lt; 0) {
+<a name="l00173"></a>00173         <a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc" title="Decriments buffer&amp;#39;s pointer.">decr</a>(&amp;<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>);
+<a name="l00174"></a>00174         <a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc" title="Decriments buffer&amp;#39;s pointer.">decr</a>(&amp;<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>);
+<a name="l00175"></a>00175         amount++;
+<a name="l00176"></a>00176     }
+<a name="l00177"></a>00177     <span class="comment">//reset_peek();</span>
+<a name="l00178"></a>00178 }
+<a name="l00179"></a>00179 
+<a name="l00180"></a><a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e">00180</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#aaf85efcc64c219d123aa469ef668781e" title="Seeks current pointer to a speified position.">CircularBuffer::seek</a>(<span class="keywordtype">int</span> offset) {
+<a name="l00181"></a>00181     <span class="keywordflow">while</span> (offset &gt; 0) {
+<a name="l00182"></a>00182         <a class="code" href="class_circular_buffer.html#a7c93cd302231ea69c3b28a7338e61264" title="Incriments buffer&amp;#39;s pointer.">incr</a>(&amp;<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>);
+<a name="l00183"></a>00183         offset--;
+<a name="l00184"></a>00184     }
+<a name="l00185"></a>00185     <span class="keywordflow">while</span> (offset &lt; 0) {
+<a name="l00186"></a>00186         <span class="comment">//printf(&quot;before: %d\n&quot;,peek_ptr);</span>
+<a name="l00187"></a>00187         <a class="code" href="class_circular_buffer.html#a6d8725b5e51407e2bc5d276b819d70bc" title="Decriments buffer&amp;#39;s pointer.">decr</a>(&amp;<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>);
+<a name="l00188"></a>00188         <span class="comment">//printf(&quot;after: %d\n&quot;,peek_ptr);</span>
+<a name="l00189"></a>00189         
+<a name="l00190"></a>00190         offset++;
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192 }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196 
+<a name="l00197"></a><a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142">00197</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a8c4f1e854f4f6734a6430e19caaad142" title="Checks if end of buffer were reached by any of read* operations.">CircularBuffer::is_eof</a>() {
+<a name="l00198"></a>00198     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> == 0);
+<a name="l00199"></a>00199 }
+<a name="l00200"></a>00200 
+<a name="l00201"></a><a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc">00201</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a0a7d99e2451235168216e3c92ee4f9fc" title="Checks if end of buffer were reached by any of peek* operations.">CircularBuffer::is_peek_eof</a>() {
+<a name="l00202"></a>00202     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a> == 0);
+<a name="l00203"></a>00203 }
+<a name="l00204"></a>00204 
+<a name="l00205"></a><a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5">00205</a> <span class="keywordtype">bool</span> <a class="code" href="class_circular_buffer.html#a900d5feb1fa07aa155698090d18136e5" title="Checks if buffer is full.">CircularBuffer::is_full</a>() {
+<a name="l00206"></a>00206     <span class="keywordflow">return</span> (<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a> == <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>);
+<a name="l00207"></a>00207 }
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209 
+<a name="l00210"></a><a class="code" href="class_circular_buffer.html#ae0f4a39df51222c2009c4cfa351665e8">00210</a> <span class="keywordtype">int</span> <a class="code" href="class_circular_buffer.html#ae0f4a39df51222c2009c4cfa351665e8" title="Returns fill count.">CircularBuffer::get_fill</a>() {
+<a name="l00211"></a>00211     <span class="keywordflow">return</span> <a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>;
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 
+<a name="l00215"></a><a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c">00215</a> <span class="keywordtype">void</span> <a class="code" href="class_circular_buffer.html#a1ec8c9053e0fd72ee81e9278b422216c" title="Dumps buffer contetns on the screen. Useful for debuging.">CircularBuffer::dump</a>() {
+<a name="l00216"></a>00216     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt; <a class="code" href="class_circular_buffer.html#a19f1c648bed60ecbc4fba908f75eb986" title="Buffer size.">buffsize</a>; i++) {
+<a name="l00217"></a>00217         <span class="keywordtype">char</span> str[2];
+<a name="l00218"></a>00218         str[0] = <a class="code" href="class_circular_buffer.html#aa0eced3186ca40c6979236d905033457" title="Buffer data.">data</a>[i];
+<a name="l00219"></a>00219         str[1] = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00220"></a>00220         
+<a name="l00221"></a>00221         printf(<span class="stringliteral">&quot;#%03d [%s] &quot;</span>,(<span class="keywordtype">int</span>)i,<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a>(str).c_str());
+<a name="l00222"></a>00222         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#acce49c5ff017cb626a633a592f4e6cff" title="Buffer write pointer.">write_ptr</a>) printf(<span class="stringliteral">&quot;write &quot;</span>);
+<a name="l00223"></a>00223         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>) printf(<span class="stringliteral">&quot;peek &quot;</span>);
+<a name="l00224"></a>00224         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#af61fa68a8a2ef57ad53c8373100ca2e4" title="Buffer start.">ptr_begin</a>) printf(<span class="stringliteral">&quot;begin &quot;</span>);
+<a name="l00225"></a>00225         <span class="keywordflow">if</span> (i==<a class="code" href="class_circular_buffer.html#a1342218648efa9dcd05393985bcb7690" title="Buffer end.">ptr_end</a>) printf(<span class="stringliteral">&quot;end &quot;</span>);
+<a name="l00226"></a>00226         printf(<span class="stringliteral">&quot;\n&quot;</span>);
+<a name="l00227"></a>00227     }
+<a name="l00228"></a>00228     printf(<span class="stringliteral">&quot;fill: %d, buffsize: %d, peek fill: %d, peek ptr: %d\n&quot;</span>,(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#af63d8a381efa67d8dc14787f389b35e8" title="Fill count of the buffer.">fill</a>,(<span class="keywordtype">int</span>)buffsize,(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#a91a390a3259749dc3c3c8d1293014da5" title="Peek fill count of the buffer.">peek_fill</a>,(<span class="keywordtype">int</span>)<a class="code" href="class_circular_buffer.html#af856e9244694406816f1d1bfe26dcf27" title="Peek pointer.">peek_ptr</a>);
+<a name="l00229"></a>00229 }
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -274,7 +307,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

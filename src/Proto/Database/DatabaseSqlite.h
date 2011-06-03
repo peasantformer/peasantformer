@@ -36,6 +36,7 @@ class DatabaseSqlite3 : public DatabaseInterface {
 		void step();
 		void finalize();
 		void disconnect();
+		Hash<PString> get_results();
 		std::vector<PString> get_columns();
 		DatabaseColumnType get_type(PString column);
 		int get_int(PString column);

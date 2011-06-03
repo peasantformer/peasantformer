@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00087"></a>00087         <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;<a class="code" href="class_server_connections.html#a58b9e80cc6f435d100d7b93fabec2563" title="listen socks list">listen_socks</a>)) <span class="keywordflow">continue</span>;
 <a name="l00088"></a>00088         <a class="code" href="_network_8h.html#ab811947045c2c95578dc1b16d78f858d" title="Close() fd wrapper.">pn_close</a>(i);
 <a name="l00089"></a>00089     }
-<a name="l00090"></a>00090     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> shutdown_message = <a class="code" href="class_server_connections.html#a8ba229059629c9a406d9d34ac989f048" title="Server class instance.">engine</a>-&gt;<a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a>-&gt;<a class="code" href="class_messages.html#ac7775436db25b887f9d92ce11329b5be" title="Get string with given id.">get</a>(<span class="stringliteral">&quot;server_shutdown&quot;</span>);
+<a name="l00090"></a>00090     <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> shutdown_message = <a class="code" href="class_server_connections.html#a8ba229059629c9a406d9d34ac989f048" title="Server class instance.">engine</a>-&gt;<a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a>-&gt;<a class="code" href="class_messages.html#ae12d252f21cd9f2268ee9a185b645ae4" title="Get string with given id.">get</a>(<span class="stringliteral">&quot;server_shutdown&quot;</span>);
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i &lt;= <a class="code" href="class_server_connections.html#a686c072c472ba2383fcfb8a3004597b4" title="maximum of pending socks">pending_socks_max</a>; i++) {
 <a name="l00093"></a>00093         <span class="keywordflow">if</span> (!FD_ISSET(i,&amp;<a class="code" href="class_server_connections.html#ab542351d6c74ff26a0ac2e46cdd4a4d0" title="pending socks list">pending_socks</a>)) <span class="keywordflow">continue</span>;
@@ -180,7 +180,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

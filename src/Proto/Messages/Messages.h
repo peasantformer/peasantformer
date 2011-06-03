@@ -10,6 +10,8 @@
 class Messages {
 	private:
 		std::map<PString,PString> messages; ///< messages data
+		std::map<PString,PString> numbers;  ///< numbers data
+		std::map<PString,PString> ids;      ///< reverse-lookup ids
 	public:
 		
 		/// Constructs Messages class from filename with plaintext messages
@@ -22,7 +24,13 @@ class Messages {
 		///
 		/// \param [in] id is message id
 		/// @return string with specified message id
-		const char *get(PString id);
+		PString get(PString id);
+		
+		/// Get number for string id
+		///
+		/// \param [in] id is message id
+		/// @return string with number of specified id
+		PString get_num(PString id);
 		
 		/// Get length of the message with specified id
 		///

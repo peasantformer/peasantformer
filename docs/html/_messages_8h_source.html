@@ -73,17 +73,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00010"></a><a class="code" href="class_messages.html">00010</a> <span class="keyword">class </span><a class="code" href="class_messages.html" title="Messages class.">Messages</a> {
 <a name="l00011"></a>00011     <span class="keyword">private</span>:
 <a name="l00012"></a><a class="code" href="class_messages.html#a54bcbdd940b47cdd0068b123ac1bf69f">00012</a>         std::map&lt;PString,PString&gt; <a class="code" href="class_messages.html#a54bcbdd940b47cdd0068b123ac1bf69f" title="messages data">messages</a>; 
-<a name="l00013"></a>00013     <span class="keyword">public</span>:
-<a name="l00014"></a>00014         
-<a name="l00018"></a>00018         <a class="code" href="class_messages.html#a1ad1b9826a45f9fc2874a341920839c9" title="Constructs Messages class from filename with plaintext messages.">Messages</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> filename); 
-<a name="l00019"></a>00019     <span class="keyword">public</span>:
-<a name="l00020"></a>00020         
-<a name="l00025"></a>00025         <span class="keyword">const</span> <span class="keywordtype">char</span> *<span class="keyword">get</span>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> id);
-<a name="l00026"></a>00026         
-<a name="l00031"></a>00031         <span class="keywordtype">size_t</span> <a class="code" href="class_messages.html#ab2efad70d2f19a51304bd80c60e0ee6f" title="Get length of the message with specified id.">length</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keywordtype">id</span>);
-<a name="l00032"></a>00032 };
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034 <span class="preprocessor">#endif</span>
+<a name="l00013"></a><a class="code" href="class_messages.html#aaee17ee0bafb6198b938dce967562cdc">00013</a>         std::map&lt;PString,PString&gt; <a class="code" href="class_messages.html#aaee17ee0bafb6198b938dce967562cdc" title="numbers data">numbers</a>;  
+<a name="l00014"></a><a class="code" href="class_messages.html#adf2277d8555464c79974571103376930">00014</a>         std::map&lt;PString,PString&gt; <a class="code" href="class_messages.html#adf2277d8555464c79974571103376930" title="reverse-lookup ids">ids</a>;      
+<a name="l00015"></a>00015     <span class="keyword">public</span>:
+<a name="l00016"></a>00016         
+<a name="l00020"></a>00020         <a class="code" href="class_messages.html#a1ad1b9826a45f9fc2874a341920839c9" title="Constructs Messages class from filename with plaintext messages.">Messages</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> filename); 
+<a name="l00021"></a>00021     <span class="keyword">public</span>:
+<a name="l00022"></a>00022         
+<a name="l00027"></a>00027         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keyword">get</span>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> id);
+<a name="l00028"></a>00028         
+<a name="l00033"></a>00033         <a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <a class="code" href="class_messages.html#a2169d4401df88f2e884515ab6fe9be90" title="Get number for string id.">get_num</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keywordtype">id</span>);
+<a name="l00034"></a>00034         
+<a name="l00039"></a>00039         <span class="keywordtype">size_t</span> <a class="code" href="class_messages.html#ab2efad70d2f19a51304bd80c60e0ee6f" title="Get length of the message with specified id.">length</a>(<a class="code" href="class_p_string.html" title="Unicode-aware string class.">PString</a> <span class="keywordtype">id</span>);
+<a name="l00040"></a>00040 };
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -100,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>

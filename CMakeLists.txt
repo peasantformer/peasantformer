@@ -92,6 +92,7 @@ add_library(proto-messages         STATIC ../src/Proto/Messages/Messages.cpp)
 ########################################################################
 
 project(Server)
+add_library(server-database          STATIC ../src/Apps/Server/ServerDatabase/ServerDatabase.cpp)
 add_library(server-network           STATIC ../src/Apps/Server/ServerNetwork/ServerNetwork.cpp)
 add_library(server-connections       STATIC ../src/Apps/Server/ServerConnections/ServerConnections.cpp)
 target_link_libraries(server-connections
@@ -106,19 +107,22 @@ add_library(server-thread-adminInput      STATIC ../src/Apps/Server/ThreadAdminI
 
 set(server_lib
 	server-network
+	server-database	
 	server-connections
 
 	server-thread-connection
 	server-thread-login
 	server-thread-adminInput
 
-	data-pstring	
+	data-pstring
+	data-hash
 
 	proto-messages
 	proto-plainio
 	proto-plainiohighlevel
 	proto-network
 	proto-networkhighlevel
+	proto-database
 )
 
 if (WIN32)

@@ -16,6 +16,7 @@ void *ThreadLogin::thread_login_worker(void *data) {
 	
 	int real_fds_max;
 	
+	Messages *msgs = self->engine->nmsgs;
 	
 	
 	printf("[INFO] Login thread fired up\n");
@@ -39,11 +40,25 @@ void *ThreadLogin::thread_login_worker(void *data) {
 			} else {
 				pconn.raw_buffer[pconn.raw_bytes] = '\0';
 				pconn.parse_init();
-				if (pconn.opcode == 0) {
+				
+				if (pconn.opcode != 2) {
 					pconn.plain_buffer.filter_control();
-					pnh_send_fstr(i,self->engine->get_buffsize(),self->engine->nmsgs->get("invalid_query"),pconn.plain_buffer.c_str());
+					pnh_send_fstr(i,self->engine->get_buffsize(),msgs->get("invalid_query").c_str(),pconn.plain_buffer.c_str());
 					continue;
 				}
+				wchar_t nw_login[33] = {0};
+				wchar_t nw_password_hash[33] = {0};
+				swscanf(pconn.plain_buffer.w_str(),msgs->get("login_message").w_str(),nw_password_hash,nw_login);
+				std::vector< Hash<PString> > auth_data = self->engine->db->db_users_lookup_user(nw_login,nw_password_hash);
+				if (auth_data.size() != 1) {
+					pnh_send_str(i,msgs->get_num("wrong_auth").c_str());
+					if (auth_data.size() > 1) {
+						printf(msgs->get("auth_duplicate").c_str(),PString(nw_login).c_str());
+					}
+					continue;
+				}
+				
+				pnh_send_str(i,msgs->get_num("successful_auth").c_str());
 			}
 		}
 		

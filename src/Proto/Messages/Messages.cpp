@@ -23,9 +23,12 @@ Messages::Messages(PString filename) {
 		}
 		msg[i] = '\0';
 		
+		PString psid(id);
+		PString nsid(num);
+		messages[psid] = PString(msg);
+		numbers[psid] = nsid;
+		ids[nsid] = psid;
 		
-		this->messages[PString(id)] = "OP" + PString(num) + " " + PString(msg);
-		this->messages[PString(num)] = PString(id);
 		for (int i=0; i < 1024; i++) {
 			id[i] = '\0';
 			msg[i] = '\0';
@@ -33,9 +36,11 @@ Messages::Messages(PString filename) {
 	}
 	fclose(fh);
 }
-const char *Messages::get(PString id)  {
-	return this->messages[id].c_str();
+PString Messages::get(PString id)  {
+	return messages[id];
 }
-size_t Messages::length(PString id)  {
-	return this->messages[id].length();
+
+PString Messages::get_num(PString id) {
+	return "OP" + numbers[id] + " " + messages[id];
 }
+

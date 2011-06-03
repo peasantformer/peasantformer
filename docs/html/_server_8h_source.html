@@ -73,39 +73,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00009"></a>00009 
 <a name="l00010"></a>00010 <span class="preprocessor">#include &lt;Apps/Server/ServerNetwork/ServerNetwork.h&gt;</span>
 <a name="l00011"></a>00011 <span class="preprocessor">#include &lt;Apps/Server/ServerConnections/ServerConnections.h&gt;</span>
-<a name="l00012"></a>00012 
-<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;Apps/Server/ThreadConnection/ThreadConnection.h&gt;</span>
-<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;Apps/Server/ThreadLogin/ThreadLogin.h&gt;</span>
-<a name="l00015"></a>00015 <span class="preprocessor">#include &lt;Apps/Server/ThreadAdminInput/ThreadAdminInput.h&gt;</span>
-<a name="l00016"></a>00016 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;Apps/Server/ServerDatabase/ServerDatabase.h&gt;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;Apps/Server/ThreadConnection/ThreadConnection.h&gt;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &lt;Apps/Server/ThreadLogin/ThreadLogin.h&gt;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &lt;Apps/Server/ThreadAdminInput/ThreadAdminInput.h&gt;</span>
 <a name="l00017"></a>00017 
-<a name="l00018"></a>00018 <span class="preprocessor">#include &lt;Proto/Messages/Messages.h&gt;</span>
-<a name="l00019"></a>00019 <span class="preprocessor">#include &lt;Proto/Network/Network.h&gt;</span>
-<a name="l00020"></a>00020 <span class="preprocessor">#include &lt;Proto/PlainIO/PlainIO.h&gt;</span>
-<a name="l00021"></a>00021 <span class="preprocessor">#include &lt;Data/PString/PString.h&gt;</span>
-<a name="l00022"></a>00022 
-<a name="l00024"></a><a class="code" href="class_server_engine.html">00024</a> <span class="keyword">class </span><a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> {
-<a name="l00025"></a>00025     <span class="keyword">private</span>: 
-<a name="l00026"></a><a class="code" href="class_server_engine.html#a84edc56fe0b28613ffada44e52b90d5a">00026</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_server_engine.html#a84edc56fe0b28613ffada44e52b90d5a" title="size of all buffers used for cliet-servr communications; in bytes">buffsize</a>; 
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028     <span class="keyword">public</span>:
-<a name="l00032"></a>00032         <span class="keywordtype">size_t</span> <a class="code" href="class_server_engine.html#a560f355f254f179e36f42f0a8d4241a0" title="Gets buffers size.">get_buffsize</a>();
-<a name="l00033"></a>00033     <span class="keyword">public</span>:
-<a name="l00035"></a>00035         <a class="code" href="class_server_engine.html#a02bd1093c93180ca5e4bb8d14ed9addb" title="Constructor.">ServerEngine</a>();
-<a name="l00037"></a>00037         <a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f" title="Destructor.">~ServerEngine</a>();
-<a name="l00038"></a>00038     <span class="keyword">public</span>:
-<a name="l00039"></a><a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387">00039</a>         <a class="code" href="class_server_network.html" title="Networking class.">ServerNetwork</a> *<a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>;         
-<a name="l00040"></a><a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc">00040</a>         <a class="code" href="class_server_connections.html" title="Connection managing class.">ServerConnections</a> *<a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc" title="connections class">connections</a>; 
-<a name="l00041"></a>00041         
-<a name="l00042"></a><a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83">00042</a>         <a class="code" href="class_thread_connection.html" title="Connection handler thread.">ThreadConnection</a> *<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>;  
-<a name="l00043"></a><a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa">00043</a>         <a class="code" href="class_thread_login.html" title="Connection handler thread.">ThreadLogin</a>      *<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>;       
-<a name="l00044"></a><a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7">00044</a>         <a class="code" href="class_thread_admin_input.html" title="Handles admin input from stdin.">ThreadAdminInput</a> *<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>; 
-<a name="l00045"></a>00045         
-<a name="l00046"></a><a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c">00046</a>         <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *<a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a>; 
-<a name="l00047"></a>00047 };
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 
-<a name="l00050"></a>00050 <span class="preprocessor">#endif</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="preprocessor">#include &lt;Proto/Messages/Messages.h&gt;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &lt;Proto/Database/Database.h&gt;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &lt;Proto/Network/Network.h&gt;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &lt;Proto/PlainIO/PlainIO.h&gt;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &lt;Data/PString/PString.h&gt;</span>
+<a name="l00024"></a>00024 
+<a name="l00026"></a><a class="code" href="class_server_engine.html">00026</a> <span class="keyword">class </span><a class="code" href="class_server_engine.html" title="Server engine class.">ServerEngine</a> {
+<a name="l00027"></a>00027     <span class="keyword">private</span>: 
+<a name="l00028"></a><a class="code" href="class_server_engine.html#a84edc56fe0b28613ffada44e52b90d5a">00028</a>         <span class="keywordtype">size_t</span> <a class="code" href="class_server_engine.html#a84edc56fe0b28613ffada44e52b90d5a" title="size of all buffers used for cliet-servr communications; in bytes">buffsize</a>; 
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     <span class="keyword">public</span>:
+<a name="l00034"></a>00034         <span class="keywordtype">size_t</span> <a class="code" href="class_server_engine.html#a560f355f254f179e36f42f0a8d4241a0" title="Gets buffers size.">get_buffsize</a>();
+<a name="l00035"></a>00035     <span class="keyword">public</span>:
+<a name="l00037"></a>00037         <a class="code" href="class_server_engine.html#a02bd1093c93180ca5e4bb8d14ed9addb" title="Constructor.">ServerEngine</a>();
+<a name="l00039"></a>00039         <a class="code" href="class_server_engine.html#a68b6437ab37a4c518dcce1621483120f" title="Destructor.">~ServerEngine</a>();
+<a name="l00040"></a>00040     <span class="keyword">public</span>:
+<a name="l00041"></a><a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387">00041</a>         <a class="code" href="class_server_network.html" title="Networking class.">ServerNetwork</a> *<a class="code" href="class_server_engine.html#a6576ee7720fccd479f8773e7a007d387" title="networking class">network</a>;         
+<a name="l00042"></a><a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc">00042</a>         <a class="code" href="class_server_connections.html" title="Connection managing class.">ServerConnections</a> *<a class="code" href="class_server_engine.html#a12fe1223aae231a154553128124879bc" title="connections class">connections</a>; 
+<a name="l00043"></a>00043         
+<a name="l00044"></a><a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83">00044</a>         <a class="code" href="class_thread_connection.html" title="Connection handler thread.">ThreadConnection</a> *<a class="code" href="class_server_engine.html#ae37734d9de3cb20bfa8fe0a6b69a7c83" title="connection handler thread">thread_connection</a>;  
+<a name="l00045"></a><a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa">00045</a>         <a class="code" href="class_thread_login.html" title="Connection handler thread.">ThreadLogin</a>      *<a class="code" href="class_server_engine.html#ac7f0b2d8e657326a25d01f432c9251fa" title="login handler thread">thread_login</a>;       
+<a name="l00046"></a><a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7">00046</a>         <a class="code" href="class_thread_admin_input.html" title="Handles admin input from stdin.">ThreadAdminInput</a> *<a class="code" href="class_server_engine.html#ac138fa0d4d6ae5efd6e701c7782185e7" title="admin input handler thread">thread_admin_input</a>; 
+<a name="l00047"></a>00047         
+<a name="l00048"></a><a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c">00048</a>         <a class="code" href="class_messages.html" title="Messages class.">Messages</a> *<a class="code" href="class_server_engine.html#a07c97211c0831c0484f00e570d3b308c" title="Network essages.">nmsgs</a>; 
+<a name="l00049"></a>00049         
+<a name="l00050"></a><a class="code" href="class_server_engine.html#a317c1a3a7bcdee0d65f1e0fd02b762f4">00050</a>         <a class="code" href="class_server_database.html" title="Databae interaction class.">ServerDatabase</a> *<a class="code" href="class_server_engine.html#a317c1a3a7bcdee0d65f1e0fd02b762f4" title="Database routines.">db</a>; 
+<a name="l00051"></a>00051 };
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -122,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jun 2 2011 07:53:57 for Peasantformer by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 4 2011 00:36:27 for Peasantformer by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.3 </small></address>
 </body>
