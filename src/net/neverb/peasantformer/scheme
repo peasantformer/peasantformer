@@ -1,0 +1,15 @@
+
+
+                                          CLIENTS
+                                             |     
+REMOTE CLIENT          PHYSICAL   EVALUATOR  |   PHYSICAL
+             \                 \          \  |  /     
+              CLIENTDISPATCHER--MODULES    TASKS--IMPULSE
+             /                 /     \      /   
+     RENDERER          EVALUATOR      ENGINE     TEXTURE/ANIMATION SLICES
+                                     /      \   /
+               JOINT--MATERIAL--OBJECTS    UNITS
+                     /         /   |            \
+                FORCE    VISUAL    |             PIXELS/METRES 
+                                   |
+                              CONTROLLABLE 

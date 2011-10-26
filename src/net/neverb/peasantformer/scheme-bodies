@@ -1,0 +1,12 @@
+                                AbstratCompoundBody
+                                          |
+                                          v
+                               AbstractMaterialBody
+                              /                    \
+                             /                      \
+                            /                        \
+                           /                          \
+                          /                            \
+              AbstractBody                              AbstractMaterial
+             /   \                                         /   \
+AbstractShape     AbstractPosition          AbstractFixture     AbstractTexture

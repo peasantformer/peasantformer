@@ -1,0 +1,62 @@
+World{
+    name = "World name";
+    Compounds {
+        Compound {
+            name = "Compound name";
+
+            Forces {
+                LinearForce {
+                    name = "Force name";
+                    body = "Circle name/id";
+                    position = [0,0];
+                    amount = [0,-9.8];
+                }
+            }
+            Joints {
+                DistanceJoint {
+                    name = "Joint name";
+                    bodyA = "Circle name/id";
+                    localAnchorA = [0,0];
+
+                    bodyB = "Polygon name/id";
+                    localAnchorB = [0,0];
+
+                    frequencyHz = 60;
+                    dampingRatio = 0.7;
+                    length = 10m;
+                }
+            }
+            Objects {
+                Circle {
+                    name = "Circle name/id";
+                    position = [5,5];
+                    angle = 0;
+
+                    density = 1.0;
+                    friction = 0.3;
+                    restitution = 0.2;
+
+                    texture = "[1.0f,90,60,90]";
+
+                    radius = 1.0f;
+                }
+                Polygon {
+                    name = "Polygon name/id";
+                    position = [1,2];
+                    angle = 30;
+
+                    density = 1.0;
+                    friction = 0.3;
+                    restitution = 0.2;
+
+                    texture = "Texture name/id";
+
+                    shape = [[
+                        [0,0],
+                        [1,0],
+                        [1,1],
+                        [0,1]
+                        ]];
+                }
+            }
+        }}}
