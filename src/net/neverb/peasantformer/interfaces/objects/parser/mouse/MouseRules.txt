@@ -4,46 +4,62 @@
     Group    = Literal Lcurly PropertyList Rcurly {group};
     PropertyList = (Property / Group)* {propertylist};
     Property = Literal Equals (
-          Number
+          NumberDimension
         / QuotedString
         / Point
         / Point2DArray
+        / Color
+        / IDArray
     ) Space SemiColon {property};
 
-    Lcurly = "{" Space ;
-    Rcurly = "}" Space ;
-
-    Equals    = "=" Space ;
-    SemiColon = ";" Space ;
 
     PointNDArray = Lbracket PointNDElem (Comma PointNDElem)* Rbracket ;
     PointNDElem  = PointNDArray / Point ;
 
     Point2DArray = Lbracket PointArray (Comma PointArray)* Rbracket {point2d} ;
     PointArray   = Lbracket Point (Comma Point)* Rbracket {point1d} ;
-    Point = Lbracket Number Comma Number Rbracket  {point} ;
+    Point = Lbrace NumberDimension Comma NumberDimension Rbrace {point} ;
 
+    IDArray = Lbracket ID (Comma ID)* Rbracket {idarray};
 
-    Lbracket = "[" Space ;
-    Comma    = "," Space ;
-    Rbracket = "]" Space ;
+    ID = NumberPositive Space {id} ;
 
+    Color = "#" ColorARGB Space {color} ;
 
-    Number = NumberRules Space {number} ;
-    NumberRules = "-"?  Digit+ ("." Digit+)? [fmpr]?;
+    ColorARGB = HexDigit HexDigit
+                HexDigit HexDigit
+                HexDigit HexDigit
+               (HexDigit HexDigit)? ;
+
+    Lcurly    = "{" Space ;
+    Rcurly    = "}" Space ;
+    Lbrace    = "(" Space ;
+    Rbrace    = ")" Space ;
+    Lbracket  = "[" Space ;
+    Rbracket  = "]" Space ;
+    Equals    = "=" Space ;
+    SemiColon = ";" Space ;
+    Comma     = "," Space ;
+
+    NumberDimension = NumberFloat [fmpr]? Space {number} ;
+    NumberFloat = NumberInt ("." NumberPositive)? ;
+    NumberPositive = Digit+ ;
+    NumberInt = "-"?  Digit+ ;
 
     QuotedString   = "\"" UnquotedString "\"" Space {string};
     UnquotedString = Characters ("\\\"" Characters)*;
-    Characters     = ^["\\]* ;
+    Characters     = _*+ (&"\\\"" / &"\"") ;
 
     Literal      = LiteralFirst LiteralRest* Space ;
     LiteralRest  = Letter / Digit / Separators ;
     LiteralFirst = Letter ;
 
-    Separators = [-_] ;
-    Digit   = [0-9] ;
-    Letter  = [a-z] / [A-Z] ;
-    Space   = ([ \r\n\t] / Comment)*;
-    Comment = ("//" / "#") _++ EOL ;
+    Separators = [-_.] ;
+    Digit    = [0-9] ;
+    HexDigit = [0-9] / [a-f] / [A-F] ;
+    Letter   = [a-z] / [A-Z] ;
+    Space    = ([ \r\n\t] / Comment / BlockComment)*;
+    Comment  = "//" _++ EOL ;
+    BlockComment = "/*" _*+ "*/";
     EOL = "\n" / EOT ;
     EOT = !_ ;

@@ -29,13 +29,26 @@ package net.neverb.peasantformer;
 
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
+import mouse.runtime.SourceFile;
+import mouse.runtime.SourceString;
+import net.neverb.peasantformer.interfaces.objects.parser.WorldParser;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.AbstractCollection;
 
 public class PeasantFormer extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        WorldParser abc = new WorldParser(this);
+        abc.parse();
+
 
         /*
         AbcParser parser = Parboiled.createParser(AbcParser.class);

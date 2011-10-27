@@ -8,13 +8,18 @@ DOXYGEN=doxygen
 
 all: ant-compile
 
-debug: ant-clean ant-compile doxy-clean doxy-docs install run
+debug: ant-clean ant-compile test
 
-install:
-	$(ADB) -s $(DEVICE)  install -r $(APK)
+test: run logcat
 
 run:
+	$(ADB) -s $(DEVICE) install -r $(APK)
+#	sleep 1
 	$(ADB) -s $(DEVICE) shell am start -a $(INTENT) -n $(ACTIVITY)
+
+logcat:
+	$(ADB) -s $(DEVICE) logcat | ./colorify
+	$(ADB) -s $(DEVICE) logcat -c
 
 clean: ant-clean doxy-clean
 
@@ -22,6 +27,7 @@ ant-clean:
 	$(ANT) clean
 
 ant-compile:
+	$(MAKE) -C src/net/neverb/peasantformer/interfaces/objects/parser/mouse
 	$(ANT) debug
 
 doxy-docs:

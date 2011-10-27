@@ -27,10 +27,51 @@
 
 package net.neverb.peasantformer.interfaces.objects.parser;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
+import mouse.runtime.Source;
+import mouse.runtime.SourceString;
+import net.neverb.peasantformer.interfaces.objects.parser.mouse.MouseParser;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Author: Alexander Tumin
  * Created: 2011-10-25 17:16
  */
 public class WorldParser {
+    protected MouseParser parser;
+    protected Source src;
+    public WorldParser(Context c) {
+        AssetManager assetManager = c.getAssets();
+        StringBuilder file = new StringBuilder();
+        try {
+            InputStream abcs  = assetManager.open("inputData");
+            int ch;
+            while ((ch = abcs.read()) != -1) {
+                file.append((char)ch);
+            }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        parser = new MouseParser();
+        src = new SourceString(file.toString());
+     }
+
+    public void parse() {
+        if (!src.created()) return;
+        boolean ok = parser.parse(src);
+        if (ok) {
+            Log.d("Abc",parser.semantics().getResult() + "");
+        } else {
+
+            Log.d("Config Parser","Unabel to parse config");
+            Log.d("Config Parser",parser.semantics().trace + " << ");
+
+        }
+    }
 }

@@ -27,9 +27,9 @@
 
 package net.neverb.peasantformer.interfaces.objects.parser.mouse;
 
+import android.graphics.Color;
 import mouse.runtime.SemanticsBase;
-import net.neverb.peasantformer.interfaces.objects.parser.nodes.RootNode;
-import net.neverb.peasantformer.interfaces.objects.parser.nodes.primitive.*;
+import net.neverb.peasantformer.interfaces.objects.parser.nodes.*;
 import net.neverb.peasantformer.util.dimensions.PointU;
 import net.neverb.peasantformer.util.dimensions.Units;
 
@@ -40,11 +40,16 @@ import java.util.LinkedList;
  * Created: 2011-10-25 17:06
  */
 public class MouseParserSymantics extends SemanticsBase {
+    protected GroupNode resultRootNode;
+
+
     protected enum HelperDataType {
         NUMBER,
+        IDARRAY,
         POINT,
         STRING,
-        ARRAY,
+        POINTARRAY,
+        COLOR,
         GROUP
     }
     protected abstract class HelperDataHolder {
@@ -85,16 +90,43 @@ public class MouseParserSymantics extends SemanticsBase {
             return HelperDataType.POINT;
         }
     }
-    protected class HelperDataHolderArray extends HelperDataHolder {
-        protected final PointU[][] data;
 
-        public HelperDataHolderArray(PointU[][] data) {
+    protected class HelperDataHolderColor extends HelperDataHolder {
+        public final int data;
+
+        public HelperDataHolderColor(int data) {
             this.data = data;
         }
 
         @Override
         public HelperDataType getType() {
-            return HelperDataType.ARRAY;
+            return HelperDataType.COLOR;
+        }
+    }
+
+    protected class HelperDataHolderIDArray extends HelperDataHolder {
+        protected final int[] data;
+
+        public HelperDataHolderIDArray(int[] data) {
+            this.data = data;
+        }
+
+        @Override
+        public HelperDataType getType() {
+            return HelperDataType.IDARRAY;
+        }
+    }
+
+    protected class HelperDataHolderPointArray extends HelperDataHolder {
+        protected final PointU[][] data;
+
+        public HelperDataHolderPointArray(PointU[][] data) {
+            this.data = data;
+        }
+
+        @Override
+        public HelperDataType getType() {
+            return HelperDataType.POINTARRAY;
         }
     }
 
@@ -108,6 +140,18 @@ public class MouseParserSymantics extends SemanticsBase {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     void string() {
         HelperDataHolderString string = new HelperDataHolderString(
                 rhs(1).text().replaceAll("\\\\\"","\"")
@@ -116,7 +160,6 @@ public class MouseParserSymantics extends SemanticsBase {
     }
 
     void number() {
-        System.out.println(rhs(0).text());
         HelperDataHolderNumber number = new HelperDataHolderNumber(
                 Units.parseUnit(rhs(0).text())
         );
@@ -131,6 +174,25 @@ public class MouseParserSymantics extends SemanticsBase {
         lhs().put(point);
     }
 
+
+    void color() {
+        int c = Color.parseColor("#" + rhs(1).text());
+        HelperDataHolderColor color = new HelperDataHolderColor(c);
+        lhs().put(color);
+    }
+
+    void id() {
+        lhs().put(new Integer(rhs(0).text()));
+    }
+
+    void idarray() {
+        int[] array = new int[(rhsSize()-1)/2];
+        int n = 0;
+        for (int i = 1; i < rhsSize()-1; i+=2) {
+            array[n] = (Integer) rhs(i).get();
+        }
+        lhs().put(new HelperDataHolderIDArray(array));
+    }
 
     void point1d() {
         PointU[] points = new PointU[(rhsSize()-1)/2];
@@ -147,7 +209,7 @@ public class MouseParserSymantics extends SemanticsBase {
         for (int i = 1; i < rhsSize()-1; i+=2) {
             points[n++] = (PointU[]) rhs(i).get();
         }
-        HelperDataHolderArray array = new HelperDataHolderArray(points);
+        HelperDataHolderPointArray array = new HelperDataHolderPointArray(points);
         lhs().put(array);
 
     }
@@ -159,19 +221,27 @@ public class MouseParserSymantics extends SemanticsBase {
         switch (holder.getType()) {
             case NUMBER:
                 HelperDataHolderNumber number = (HelperDataHolderNumber) holder;
-                lhs().put(new NumberNode(name,number.data));
+                lhs().put(new NumberNode(name, number.data));
                 break;
             case POINT:
                 HelperDataHolderPoint point = (HelperDataHolderPoint) holder;
-                lhs().put(new PointNode(name,point.data));
+                lhs().put(new PointNode(name, point.data));
                 break;
             case STRING:
                 HelperDataHolderString string = (HelperDataHolderString) holder;
-                lhs().put(new StringNode(name,string.data));
+                lhs().put(new StringNode(name, string.data));
                 break;
-            case ARRAY:
-                HelperDataHolderArray array = (HelperDataHolderArray) holder;
-                lhs().put(new PointArrayNode(name,array.data));
+            case POINTARRAY:
+                HelperDataHolderPointArray array = (HelperDataHolderPointArray) holder;
+                lhs().put(new PointArrayNode(name, array.data));
+                break;
+            case COLOR:
+                HelperDataHolderColor color = (HelperDataHolderColor) holder;
+                lhs().put(new ColorNode(name, color.data));
+                break;
+            case IDARRAY:
+                HelperDataHolderIDArray idarray = (HelperDataHolderIDArray) holder;
+                lhs().put(new IDArrayNode(name,idarray.data));
                 break;
             case GROUP:
                 /* do nothing */
@@ -197,8 +267,10 @@ public class MouseParserSymantics extends SemanticsBase {
     }
 
     void config() {
-        for (int i = 0; i < rhsSize(); i++) {
-            System.out.println("group: " + rhs(i).text().trim() + " | " + rhs(i).get());
-        }
+        this.resultRootNode = (GroupNode) rhs(1).get();
+    }
+
+    public GroupNode getResult() {
+        return resultRootNode;
     }
 }

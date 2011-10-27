@@ -1,0 +1,155 @@
+/*
+  comments are:
+  // comment
+  # comment
+  this C-style block.
+  
+  This is a sample config file. Syntax is like following:
+
+  Group {
+      property1 = 123;      // integer
+      
+      property2 = 456.0f;   // float
+      
+      property3 = "value3"; // string
+      
+      property4 = (1m,3m);  // Point. exact syntax is (x,y),
+                            // where x and y are dimensional values (see below)
+      
+      SubGroup {            // subgroup
+          property5 = [1,2,3,4,5,6,7];                     // 1D array of ids
+	  property6 = [[(1,2),(3,4),(5,6)][(9,10,23,45)]]; // 2D array of points
+      }
+
+      Dimensional value are the values expressing geometry of object in the world.
+      They are basicly float, like 1.0f or 1 or 1.0 ; but have a few modifiers:
+      m   - metre
+      p   - pixel
+      f,r - raw float
+
+      they are used as follows:
+      1.0m -- one metre
+      256p -- 256 pixels
+      1249 -- unspecified unit implies metre. 1249 metres.
+      999f -- 999 float "raw" units. don't use that
+              if you are unsure of what you're doing
+      
+  }
+ */
+
+
+World {
+    name = "Physical sandbox";
+    gravity = (0,-9.8m);
+    
+    Objects {
+	Polygon.Box {
+	    id = 1000;
+	    position = (2m,2m);
+	    angle = 0;
+
+	    density     = 1.0;
+	    friction    = 0.3;
+	    restitution = 0.2;
+
+	    texture = #ff5050;
+
+	    width  = 1m;
+	    height = 1m;
+	}
+    }
+    
+    Groups {
+	Group {
+	    name = "SadEmoSquare group";
+	    objectIDs = [1];
+	}
+    }
+    
+    /*
+    Compounds {
+	Compound {
+	    name = "Sad emo square";
+	    Shapes {
+		ShapeBox {
+		    position = [2,2];
+		    angle = 0;
+
+		    density = 1.0;
+		    friction = 0.3;
+		    restitution = 0.2;
+
+		    texture = #ff5050;
+
+		    size = [1m,1m];
+		}
+	    }
+	}
+    }
+    */
+/*
+    Compounds {
+        Compound {
+            name = "Compound name";
+
+            Forces {
+
+                LinearForce {
+                    name = "Force name";
+                    body = "Circle name/id";
+                    position = [0,0];
+                    amount = [0,-9.8];
+                }
+
+            }
+            Joints {
+                DistanceJoint {
+                    name = "Joint name";
+                    bodyA = "Circle name/id";
+                    localAnchorA = [0,0];
+
+                    bodyB = "Polygon name/id";
+                    localAnchorB = [0,0];
+
+                    frequencyHz = 60;
+                    dampingRatio = 0.7;
+                    length = 10m;
+                }
+            }
+            Objects {
+                Circle {
+                    name = "Circle name/id";
+                    position = [5,5];
+                    angle = 0;
+
+                    density = 1.0;
+                    friction = 0.3;
+                    restitution = 0.2;
+
+                    texture = "[1.0f,90,60,90]";
+
+                    radius = 1.0f;
+                }
+                Polygon {
+                    name = "Polygon name/id";
+                    position = [1,2];
+                    angle = 30;
+
+                    density = 1.0;
+                    friction = 0.3;
+                    restitution = 0.2;
+
+                    texture = "Texture name/id";
+
+                    shape = [[
+                        [0,0],
+                        [1,0],
+                        [1,1],
+                        [0,1]
+                        ]];
+                }
+            }
+        }
+    }
+*/
+}

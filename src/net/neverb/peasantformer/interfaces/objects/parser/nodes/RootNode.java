@@ -42,6 +42,8 @@ public abstract class RootNode {
         STRING,
         POINT,
         POINTARRAY,
+        IDARRAY,
+        COLOR,
         GROUP
     }
 
@@ -67,4 +69,5 @@ public abstract class RootNode {
     }
 
     public abstract Type getType();
+    public abstract Object getData();
 }
