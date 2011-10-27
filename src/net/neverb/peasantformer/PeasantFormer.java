@@ -29,16 +29,8 @@ package net.neverb.peasantformer;
 
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.util.Log;
-import mouse.runtime.SourceFile;
-import mouse.runtime.SourceString;
-import net.neverb.peasantformer.interfaces.objects.parser.WorldParser;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.AbstractCollection;
+import net.neverb.peasantformer.sceneparser.WorldParser;
 
 public class PeasantFormer extends Activity {
 
@@ -51,9 +43,9 @@ public class PeasantFormer extends Activity {
 
 
         /*
-        AbcParser parser = Parboiled.createParser(AbcParser.class);
+        AbcParser sceneparser = Parboiled.createParser(AbcParser.class);
 
-        ParsingResult<?> result = new RecoveringParseRunner(parser.S()).run(input);
+        ParsingResult<?> result = new RecoveringParseRunner(sceneparser.S()).run(input);
 
         Log.d(">>",input + " = " + result.parseTreeRoot.getLabel());
         Log.d(">>", ParseTreeUtils.printNodeTree(result));
