@@ -1,5 +1,5 @@
 
-    Config = Space Group EOT {config};
+    Config = Space Group EOT {config}  ~{recover} ;
 
     Group    = Literal Lcurly PropertyList Rcurly {group};
     PropertyList = (Property / Group)* {propertylist};
@@ -31,15 +31,15 @@
                 HexDigit HexDigit
                (HexDigit HexDigit)? ;
 
-    Lcurly    = "{" Space ;
-    Rcurly    = "}" Space ;
-    Lbrace    = "(" Space ;
-    Rbrace    = ")" Space ;
-    Lbracket  = "[" Space ;
-    Rbracket  = "]" Space ;
-    Equals    = "=" Space ;
-    SemiColon = ";" Space ;
-    Comma     = "," Space ;
+    Lcurly    = "{" Space <{>;
+    Rcurly    = "}" Space <}>;
+    Lbrace    = "(" Space <(>;
+    Rbrace    = ")" Space <)>;
+    Lbracket  = "[" Space <[>;
+    Rbracket  = "]" Space <]>;
+    Equals    = "=" Space <=>;
+    SemiColon = ";" Space <;>;
+    Comma     = "," Space <,>;
 
     NumberDimension = NumberFloat [fmpr]? Space {number} ;
     NumberFloat = NumberInt ("." NumberPositive)? ;
@@ -50,7 +50,7 @@
     UnquotedString = Characters ("\\\"" Characters)*;
     Characters     = _*+ (&"\\\"" / &"\"") ;
 
-    Literal      = LiteralFirst LiteralRest* Space ;
+    Literal      = LiteralFirst LiteralRest* Space;
     LiteralRest  = Letter / Digit / Separators ;
     LiteralFirst = Letter ;
 
@@ -58,8 +58,9 @@
     Digit    = [0-9] ;
     HexDigit = [0-9] / [a-f] / [A-F] ;
     Letter   = [a-z] / [A-Z] ;
-    Space    = ([ \r\n\t] / Comment / BlockComment)*;
-    Comment  = "//" _++ EOL ;
-    BlockComment = "/*" _*+ "*/";
-    EOL = "\n" / EOT ;
+    Space    = (Blank / Comment / BlockComment)* ;
+    Blank    = [ \r\n\t] <Blank Character>;
+    Comment  = "//" _++ EOL <Comment>;
+    BlockComment = "/*" _*+ "*/" <Comment>;
+    EOL = "\n" / EOT <EOL>;
     EOT = !_ ;

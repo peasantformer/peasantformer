@@ -40,7 +40,7 @@
 
 
 World {
-    name = "Physical sandbox";
+    name = "Physical Playground";
     gravity = (0,-9.8m);
     
     Objects {

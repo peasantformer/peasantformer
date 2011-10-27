@@ -36,6 +36,12 @@ import java.util.List;
  * Created: 2011-10-26 13:10
  */
 public class GroupNode extends RootNode {
+    public class NoSuchNodeException extends Exception {
+
+        public NoSuchNodeException(String s) {
+            super(s);
+        }
+    }
     protected HashMap<String,RootNode> childs =
             new HashMap<String, RootNode>();
 
@@ -77,8 +83,12 @@ public class GroupNode extends RootNode {
     public Collection<RootNode> getChilds() {
         return childs.values();
     }
-    public RootNode getChild(String name) {
-        return childs.get(name);
+    public RootNode getChild(String name) throws NoSuchNodeException {
+        RootNode child = childs.get(name);
+        if (child == null) throw new NoSuchNodeException(
+                "No such node " + name + " in group " + getName()
+        );
+        return child;
     }
 
     @Override

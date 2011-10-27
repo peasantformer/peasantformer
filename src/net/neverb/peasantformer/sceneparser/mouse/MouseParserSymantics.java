@@ -41,6 +41,7 @@ import java.util.LinkedList;
  */
 public class MouseParserSymantics extends SemanticsBase {
     protected GroupNode resultRootNode;
+    protected LinkedList<String> errors;
 
 
     protected enum HelperDataType {
@@ -272,5 +273,19 @@ public class MouseParserSymantics extends SemanticsBase {
 
     public GroupNode getResult() {
         return resultRootNode;
+    }
+
+
+    public void setErrors(LinkedList<String> errors) {
+        this.errors = errors;
+    }
+
+
+
+
+
+    void recover() {
+        errors.add("Lexer: " + lhs().errMsg().replace("\n",""));
+        lhs().errClear();
     }
 }

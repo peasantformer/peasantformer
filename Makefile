@@ -15,11 +15,11 @@ test: run logcat
 run:
 	$(ADB) -s $(DEVICE) install -r $(APK)
 #	sleep 1
+#	$(ADB) -s $(DEVICE) logcat -c
 	$(ADB) -s $(DEVICE) shell am start -a $(INTENT) -n $(ACTIVITY)
 
 logcat:
-	$(ADB) -s $(DEVICE) logcat | ./colorify
-	$(ADB) -s $(DEVICE) logcat -c
+	$(ADB) -s $(DEVICE) logcat -s "ABAKA" | ./colorify
 
 clean: ant-clean doxy-clean
 
@@ -27,7 +27,7 @@ ant-clean:
 	$(ANT) clean
 
 ant-compile:
-	$(MAKE) -C src/net/neverb/peasantformer/interfaces/objects/parser/mouse
+	$(MAKE) -C src/net/neverb/peasantformer/sceneparser/mouse
 	$(ANT) debug
 
 doxy-docs:

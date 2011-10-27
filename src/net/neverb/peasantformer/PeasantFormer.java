@@ -30,7 +30,10 @@ package net.neverb.peasantformer;
 
 import android.app.Activity;
 import android.os.Bundle;
-import net.neverb.peasantformer.sceneparser.WorldParser;
+import android.util.Log;
+import net.neverb.peasantformer.definitions.GenericWorldDef;
+import net.neverb.peasantformer.sceneparser.ConfigLexer;
+import net.neverb.peasantformer.sceneparser.ConfigParser;
 
 public class PeasantFormer extends Activity {
 
@@ -38,8 +41,15 @@ public class PeasantFormer extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        WorldParser abc = new WorldParser(this);
-        abc.parse();
+        ConfigParser parser = new ConfigParser(this);
+        GenericWorldDef wdef = parser.parse();
+        if (parser.errors.size() > 0) {
+            for (String s : parser.errors) {
+                Log.d("ABAKA",s);
+            }
+        } else {
+            Log.d("ABAKA","Parser succeded");
+        }
 
 
         /*
